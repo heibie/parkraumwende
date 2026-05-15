@@ -528,12 +528,14 @@ async function initUebersicht() {
     const typ     = (r['Typ'] || '').trim();
     if (!typ || typ.startsWith('http')) return;
 
-    const name    = (r['Name'] || '–').trim();
-    const bew     = (r['Bewirtschaftungsart'] || '').trim();
-    const quelle  = (r['Quelle'] || '').trim();
-    const adresse = [r['Straße'], r['Hausnummer']].filter(Boolean).join(' ').trim();
-    const plaetze = r['Plätze'] || '';
-    const color   = typColor(typ);
+    const name       = (r['Name'] || '–').trim();
+    const bew        = (r['Bewirtschaftungsart'] || '').trim();
+    const quelle     = (r['Quelle'] || '').trim();
+    const immo       = (r['Immobilientyp'] || '').trim();
+    const dauerparken = String(r['Dauerparken'] || '').trim().toLowerCase() === 'ja';
+    const adresse    = [r['Straße'], r['Hausnummer']].filter(Boolean).join(' ').trim();
+    const plaetze    = r['Plätze'] || '';
+    const color      = typColor(typ);
 
     const marker = L.circleMarker([lat, lon], {
       radius: 5, fillColor: color, color: '#fff', weight: 1, fillOpacity: 0.85,
@@ -544,11 +546,13 @@ async function initUebersicht() {
       typ,
       adresse,
       bew,
+      immo ? `Immobilie: ${immo}` : '',
+      dauerparken ? 'Dauerparken: Ja' : '',
       plaetze ? `${plaetze} Stellplätze` : '',
       quelle ? `Quelle: ${quelle}` : '',
     ].filter(Boolean).join('<br>'));
 
-    allMarkers.push({ marker, typ, bew, quelle });
+    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken });
   });
 
   buildFilters();
@@ -557,26 +561,30 @@ async function initUebersicht() {
 
 // ── Filter-Sidebar aufbauen ──────────────────
 
-const activeFilters = { typ: new Set(), bew: new Set(), quelle: new Set() };
+const activeFilters = { typ: new Set(), bew: new Set(), quelle: new Set(), immo: new Set() };
+let filterDauerparken = false;
 
 function buildFilters() {
-  const counts = { typ: {}, bew: {}, quelle: {} };
-  allMarkers.forEach(({ typ, bew, quelle }) => {
+  const counts = { typ: {}, bew: {}, quelle: {}, immo: {} };
+  allMarkers.forEach(({ typ, bew, quelle, immo }) => {
     counts.typ[typ]       = (counts.typ[typ]       || 0) + 1;
     counts.bew[bew]       = (counts.bew[bew]       || 0) + 1;
     counts.quelle[quelle] = (counts.quelle[quelle] || 0) + 1;
+    if (immo) counts.immo[immo] = (counts.immo[immo] || 0) + 1;
   });
 
-  // alle aktiv vorbelegen
   Object.keys(counts.typ).forEach(v => activeFilters.typ.add(v));
   Object.keys(counts.bew).forEach(v => activeFilters.bew.add(v));
   Object.keys(counts.quelle).forEach(v => activeFilters.quelle.add(v));
+  Object.keys(counts.immo).forEach(v => activeFilters.immo.add(v));
 
   const el = document.getElementById('filter-body');
   el.innerHTML = '';
-  el.appendChild(buildGroup('Typ',               'typ',    counts.typ,    true));
-  el.appendChild(buildGroup('Bewirtschaftung',   'bew',    counts.bew,    false));
-  el.appendChild(buildGroup('Quelle',            'quelle', counts.quelle, false));
+  el.appendChild(buildGroup('Typ',             'typ',    counts.typ,    true));
+  el.appendChild(buildGroup('Bewirtschaftung', 'bew',    counts.bew,    false));
+  el.appendChild(buildGroup('Immobilientyp',   'immo',   counts.immo,   false));
+  el.appendChild(buildGroup('Quelle',          'quelle', counts.quelle, false));
+  el.appendChild(buildDauerparken());
 }
 
 function buildGroup(title, key, counts, withDots) {
@@ -612,13 +620,36 @@ function buildGroup(title, key, counts, withDots) {
   return div;
 }
 
+function buildDauerparken() {
+  const cnt = allMarkers.filter(m => m.dauerparken).length;
+  const div = document.createElement('div');
+  div.className = 'filter-group';
+  div.innerHTML = `
+    <div class="filter-group-header">
+      <span class="filter-group-title">Dauerparken</span>
+    </div>
+    <div class="filter-options">
+      <label class="filter-option">
+        <input type="checkbox" id="cb-dauerparken" onchange="onDauerparkenChange()">
+        <span class="filter-option-label">Nur mit Dauerparken</span>
+        <span class="filter-option-count">${cnt}</span>
+      </label>
+    </div>`;
+  return div;
+}
+
+function onDauerparkenChange() {
+  filterDauerparken = document.getElementById('cb-dauerparken').checked;
+  applyFilters();
+}
+
 function setAll(key, checked) {
   document.querySelectorAll(`input[data-key="${key}"]`).forEach(cb => { cb.checked = checked; });
   onFilterChange();
 }
 
 function onFilterChange() {
-  ['typ', 'bew', 'quelle'].forEach(key => {
+  ['typ', 'bew', 'quelle', 'immo'].forEach(key => {
     activeFilters[key].clear();
     document.querySelectorAll(`input[data-key="${key}"]:checked`).forEach(cb => {
       activeFilters[key].add(cb.dataset.val);
@@ -629,10 +660,13 @@ function onFilterChange() {
 
 function applyFilters() {
   let visible = 0;
-  allMarkers.forEach(({ marker, typ, bew, quelle }) => {
+  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken }) => {
+    const immoOk = !immo || activeFilters.immo.has(immo);
     const show = activeFilters.typ.has(typ)
               && activeFilters.bew.has(bew)
-              && activeFilters.quelle.has(quelle);
+              && activeFilters.quelle.has(quelle)
+              && immoOk
+              && (!filterDauerparken || dauerparken);
     if (show) { marker.addTo(mapUebersicht); visible++; }
     else       { marker.remove(); }
   });

@@ -246,6 +246,7 @@
     .leaflet-container.add-mode { cursor: crosshair !important; }
     .leaflet-container.add-mode .add-mode-banner { display: block; }
     .poi-selected { border-color: #fff !important; border-width: 2.5px !important; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000, 0 3px 8px rgba(0,0,0,0.45) !important; transform: scale(1.35); }
+    .poi-inactive { opacity: 0.35; filter: grayscale(0.7); }
 
     /* Detail Panel */
     .uebersicht-layout.detail-open {
@@ -785,17 +786,17 @@ async function loadCsv(url, delimiter) {
 // ══════════════════════════════════════════════
 
 const TYP_COLORS = {
-  'Parkhaus':               '#2c2fdf',
-  'Tiefgarage':             '#1550b5',
-  'Tiefgarage (Wohnanlage)':'#7c3aed',
-  'Stellplatz':             '#d4620a',
-  'Außenstellplatz':        '#b45309',
+  'Parkhaus':               '#2563eb',
+  'Tiefgarage':             '#0891b2',
+  'Tiefgarage (Wohnanlage)':'#9333ea',
+  'Stellplatz':             '#ea580c',
+  'Außenstellplatz':        '#ca8a04',
 };
 function typColor(typ) { return TYP_COLORS[typ] || '#62707c'; }
 
-function makeMarkerIcon(color, plaetze, frei, selected = false) {
+function makeMarkerIcon(color, plaetze, frei, selected = false, inactive = false) {
   const n    = parseInt(plaetze) || 0;
-  const cls  = (frei ? ' poi-frei' : '') + (selected ? ' poi-selected' : '');
+  const cls  = (frei && !inactive ? ' poi-frei' : '') + (selected ? ' poi-selected' : '') + (inactive ? ' poi-inactive' : '');
   if (n > 0) {
     const w = n >= 1000 ? 36 : n >= 100 ? 30 : 26;
     return L.divIcon({
@@ -851,6 +852,8 @@ async function initUebersicht() {
     const immo        = (r['Immobilientyp'] || '').split(',').map(s => s.trim()).filter(Boolean);
     const dauerparken    = String(r['Dauerparken']     || '').trim().toLowerCase() === 'ja';
     const parkplatzFrei  = String(r['Parkplatz frei'] || '').trim().toLowerCase() === 'ja';
+    const aktiv          = String(r['Aktiv']           || '').trim().toLowerCase() !== 'nein';
+    const inactive       = quelle === 'Anzeige' && !aktiv;
     const color          = typColor(typ);
 
     const d = {
@@ -872,15 +875,16 @@ async function initUebersicht() {
       url2:         (r['URL 2']          || '').trim(),
       kontakt:      (r['Kontakt']        || '').trim(),
       bemerkung:    (r['Bemerkung']      || '').trim(),
+      aktiv, inactive,
     };
 
     const marker = L.marker([lat, lon], {
-      icon: makeMarkerIcon(color, d.plaetze, parkplatzFrei),
+      icon: makeMarkerIcon(color, d.plaetze, parkplatzFrei, false, inactive),
     }).addTo(mapUebersicht);
 
     marker.on('click', (e) => { L.DomEvent.stopPropagation(e); showDetail(d, marker); });
 
-    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei });
+    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive });
   });
 
   mapUebersicht.on('click', (e) => {
@@ -926,7 +930,7 @@ let _correctionD  = null;
 
 function _restoreSelected() {
   if (_selMarker && _selD) {
-    _selMarker.setIcon(makeMarkerIcon(_selD.color, _selD.plaetze, _selD.parkplatzFrei, false));
+    _selMarker.setIcon(makeMarkerIcon(_selD.color, _selD.plaetze, _selD.parkplatzFrei, false, _selD.inactive));
     _selMarker.setZIndexOffset(0);
   }
 }
@@ -938,7 +942,7 @@ function esc(s) {
 function showDetail(d, marker) {
   _restoreSelected();
   if (marker) {
-    marker.setIcon(makeMarkerIcon(d.color, d.plaetze, d.parkplatzFrei, true));
+    marker.setIcon(makeMarkerIcon(d.color, d.plaetze, d.parkplatzFrei, true, d.inactive));
     marker.setZIndexOffset(500);
     _selMarker = marker;
     _selD      = d;

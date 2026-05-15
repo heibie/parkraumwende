@@ -246,7 +246,7 @@
     .leaflet-container.add-mode { cursor: crosshair !important; }
     .leaflet-container.add-mode .add-mode-banner { display: block; }
     .poi-selected { border-color: #fff !important; border-width: 2.5px !important; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000, 0 3px 8px rgba(0,0,0,0.45) !important; transform: scale(1.35); }
-    .poi-inactive { opacity: 0.35; filter: grayscale(0.7); }
+    .poi-inactive { opacity: 0.55; }
 
     /* Detail Panel */
     .uebersicht-layout.detail-open {
@@ -796,19 +796,20 @@ function typColor(typ) { return TYP_COLORS[typ] || '#62707c'; }
 
 function makeMarkerIcon(color, plaetze, frei, selected = false, inactive = false) {
   const n    = parseInt(plaetze) || 0;
+  const effectiveColor = inactive ? '#94a3b8' : color;
   const cls  = (frei && !inactive ? ' poi-frei' : '') + (selected ? ' poi-selected' : '') + (inactive ? ' poi-inactive' : '');
   if (n > 0) {
     const w = n >= 1000 ? 36 : n >= 100 ? 30 : 26;
     return L.divIcon({
       className: '',
-      html: `<div class="poi-marker poi-num${cls}" style="background:${color}">${n}</div>`,
+      html: `<div class="poi-marker poi-num${cls}" style="background:${effectiveColor}">${n}</div>`,
       iconSize: [w, 17],
       iconAnchor: [w / 2, 8],
     });
   }
   return L.divIcon({
     className: '',
-    html: `<div class="poi-marker poi-dot${cls}" style="background:${color}"></div>`,
+    html: `<div class="poi-marker poi-dot${cls}" style="background:${effectiveColor}"></div>`,
     iconSize: [9, 9],
     iconAnchor: [4, 4],
   });

@@ -11,6 +11,6 @@ $cfg = [
         // Fine-grained Personal Access Token mit Contents: Read+Write auf dieses Repo
         'token' => 'github_pat_DEIN_TOKEN_HIER',
         // GitHub-Repo im Format owner/repo
-        'repo'  => 'heibie/data.parkraumwende.de',
+        'repo'  => 'heibie/parkraumwende',
     ],
 ];

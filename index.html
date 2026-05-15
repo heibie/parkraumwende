@@ -12,106 +12,314 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #f5f5f0;
-      color: #1a1a1a;
+    :root {
+      --primary:   #2c2fdf;
+      --primary-d: #2124b8;
+      --bg:        #f5f5f5;
+      --surface:   #ffffff;
+      --text:      #272c30;
+      --text-dim:  #62707c;
+      --border:    #dde1e5;
+      --green:     #1e8a3e;
+      --orange:    #d4620a;
+      --red:       #c0392b;
+      --header-h:  52px;
+      --nav-h:     42px;
+      --stats-h:   56px;
     }
 
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+
+    /* ── Header ── */
     header {
-      background: #1a3c2e;
+      background: var(--primary);
       color: #fff;
-      padding: 16px 24px;
+      height: var(--header-h);
+      padding: 0 24px;
       display: flex;
-      align-items: baseline;
+      align-items: center;
       gap: 16px;
+      flex-shrink: 0;
     }
-    header h1 { font-size: 1.2rem; font-weight: 600; }
-    header p  { font-size: 0.85rem; opacity: 0.7; }
+    header h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+    header p  { font-size: 0.8rem; opacity: 0.65; }
 
-    .stats-bar {
-      background: #fff;
-      border-bottom: 1px solid #e0e0d8;
-      padding: 12px 24px;
+    /* ── Navigation ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      height: var(--nav-h);
       display: flex;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    .stat { display: flex; flex-direction: column; }
-    .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; color: #666; }
-    .stat-value { font-size: 1.4rem; font-weight: 700; }
-    .stat-value.frei   { color: #2d7d46; }
-    .stat-value.belegt { color: #c0392b; }
-    .stat-value.pct    { color: #1a3c2e; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
+      padding: 0 24px;
       gap: 0;
-      height: calc(100vh - 110px);
+    }
+    .nav-tab {
+      height: 100%;
+      padding: 0 20px;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: none;
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: color .12s, border-color .12s;
+    }
+    .nav-tab:hover { color: var(--text); }
+    .nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+
+    /* ── Sections ── */
+    .section { display: none; }
+    .section.active { display: flex; flex-direction: column; }
+    .section-body {
+      flex: 1;
+      height: calc(100vh - var(--header-h) - var(--nav-h));
+      overflow: hidden;
     }
 
-    .panel {
+    /* ── Stats bar (Innenstadt) ── */
+    .stats-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      flex-shrink: 0;
+    }
+    .stat {
       display: flex;
       flex-direction: column;
-      border-right: 1px solid #e0e0d8;
+      padding: 10px 24px 10px 0;
+      border-right: 1px solid var(--border);
+      margin-right: 24px;
     }
-    .panel:last-child { border-right: none; }
+    .stat:last-child { border-right: none; margin-right: 0; margin-left: auto; padding-right: 0; }
+    .stat-label { font-size: 0.67rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-dim); font-weight: 500; margin-bottom: 1px; }
+    .stat-value { font-size: 1.4rem; font-weight: 700; line-height: 1.1; }
+    .stat-value.frei   { color: var(--green); }
+    .stat-value.belegt { color: var(--red); }
+    .stat-value.pct    { color: var(--primary); }
 
+    /* ── Innenstadt layout ── */
+    .innenstadt-body {
+      display: grid;
+      grid-template-columns: 1fr 370px;
+      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--stats-h));
+      overflow: hidden;
+    }
+    .map-panel { display: flex; flex-direction: column; border-right: 1px solid var(--border); }
     .panel-header {
-      background: #fff;
-      border-bottom: 1px solid #e0e0d8;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      flex-shrink: 0;
+    }
+    #map-innenstadt { flex: 1; }
+
+    /* ── Parkhaus-Kacheln ── */
+    .tiles-panel { display: flex; flex-direction: column; overflow: hidden; }
+    .tiles-scroll { overflow-y: auto; flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 5px; }
+
+    .ph-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 9px 11px;
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 0 9px;
+      align-items: center;
+      cursor: pointer;
+      transition: border-color .12s;
+    }
+    .ph-tile:hover { border-color: var(--primary); }
+    .ph-badge {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 0.63rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 3px 2px;
+    }
+    .ph-info { min-width: 0; }
+    .ph-name { font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ph-sub  { font-size: 0.68rem; color: var(--text-dim); margin-top: 1px; }
+    .ph-status { text-align: right; flex-shrink: 0; }
+    .ph-frei { font-size: 1.05rem; font-weight: 700; line-height: 1; }
+    .ph-frei.gruen  { color: var(--green); }
+    .ph-frei.orange { color: var(--orange); }
+    .ph-frei.rot    { color: var(--red); }
+    .ph-frei.grau   { color: #aaa; }
+    .ph-pct { font-size: 0.67rem; color: var(--text-dim); margin-top: 2px; }
+    .ph-bar-wrap { grid-column: 1/-1; height: 3px; background: var(--border); margin-top: 7px; }
+    .ph-bar { height: 100%; }
+    .ph-inaktiv { opacity: 0.4; }
+
+    /* ── Übersicht (parkraummap) ── */
+    .uebersicht-body {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      height: calc(100vh - var(--header-h) - var(--nav-h));
+    }
+    #map-uebersicht { width: 100%; height: 100%; }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .sidebar-header h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .sidebar-header p  { font-size: 0.78rem; color: var(--text-dim); line-height: 1.4; }
+
+    .btn-submit {
+      display: block;
+      width: 100%;
+      margin-top: 12px;
+      padding: 9px 16px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background .12s;
+    }
+    .btn-submit:hover { background: var(--primary-d); }
+
+    .map-legend {
       padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--text-dim); }
+    .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    .map-count { padding: 8px 16px; font-size: 0.75rem; color: var(--text-dim); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+
+    /* ── Einreichungs-Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-shrink: 0;
     }
-    .panel-header h2 { font-size: 0.9rem; font-weight: 600; color: #333; }
+    .modal-header h3 { font-size: 0.95rem; font-weight: 700; }
+    .modal-close { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; line-height: 1; padding: 0 4px; }
+    .modal-body { padding: 18px; }
 
-    .panel-controls {
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font: inherit;
+      font-size: 0.85rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .12s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--primary); }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .coords-field {
       display: flex;
-      gap: 6px;
+      gap: 8px;
+      align-items: center;
     }
-    .panel-controls button {
-      font-size: 0.75rem;
-      padding: 3px 10px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      background: #fff;
-      cursor: pointer;
-      color: #444;
+    .coords-field input { flex: 1; }
+    .coords-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 4px; }
+
+    #submit-map-pick {
+      height: 180px;
+      border: 1px solid var(--border);
+      margin-top: 8px;
+      cursor: crosshair;
     }
-    .panel-controls button.active {
-      background: #1a3c2e;
+    .pick-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 4px; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background: var(--primary);
       color: #fff;
-      border-color: #1a3c2e;
+      border: none;
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background .12s;
     }
+    .btn-primary:hover { background: var(--primary-d); }
+    .btn-primary:disabled { background: #aaa; cursor: default; }
 
-    #map {
-      flex: 1;
-    }
+    .form-msg { padding: 10px; font-size: 0.82rem; margin-top: 10px; }
+    .form-msg.ok    { background: #e8f5ec; color: #1e5c30; border: 1px solid #b5d9bf; }
+    .form-msg.error { background: #fce8e6; color: #8b1a14; border: 1px solid #f0b0ab; }
 
-    .chart-wrap {
-      flex: 1;
-      padding: 16px;
-      position: relative;
-    }
-
-    .loading {
+    /* ── Statistiken ── */
+    .stats-section-body {
+      height: calc(100vh - var(--header-h) - var(--nav-h));
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100%;
-      color: #888;
+      color: var(--text-dim);
       font-size: 0.9rem;
     }
 
-    @media (max-width: 768px) {
-      .grid { grid-template-columns: 1fr; height: auto; }
-      #map  { height: 50vh; }
-      .chart-wrap { height: 50vh; }
-      .panel { border-right: none; border-bottom: 1px solid #e0e0d8; }
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .uebersicht-body  { grid-template-columns: 1fr; grid-template-rows: 55vh 1fr; }
+      .innenstadt-body  { grid-template-columns: 1fr; grid-template-rows: 50vh 1fr; }
+      .sidebar, .tiles-panel { height: 45vh; border-left: none; border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 600px) {
+      header p { display: none; }
+      .nav-tab { padding: 0 12px; font-size: 0.8rem; }
     }
   </style>
 </head>
@@ -119,158 +327,409 @@
 
 <header>
   <h1>Parkraumwende München – Daten</h1>
-  <p>Auslastung der Innenstadtparkhäuser</p>
+  <p>Auslastung &amp; Parkraumkarte</p>
 </header>
 
-<div class="stats-bar">
-  <div class="stat">
-    <span class="stat-label">Freie Plätze</span>
-    <span class="stat-value frei" id="stat-frei">–</span>
-  </div>
-  <div class="stat">
-    <span class="stat-label">Belegte Plätze</span>
-    <span class="stat-value belegt" id="stat-belegt">–</span>
-  </div>
-  <div class="stat">
-    <span class="stat-label">Auslastung</span>
-    <span class="stat-value pct" id="stat-pct">–</span>
-  </div>
-  <div class="stat">
-    <span class="stat-label">Parkhäuser aktiv</span>
-    <span class="stat-value" id="stat-count">–</span>
-  </div>
-  <div class="stat" style="margin-left:auto">
-    <span class="stat-label">Datenstand</span>
-    <span class="stat-value" style="font-size:0.95rem;font-weight:400" id="stat-ts">–</span>
+<nav>
+  <button class="nav-tab active" onclick="showTab('uebersicht')">Übersicht</button>
+  <button class="nav-tab"        onclick="showTab('innenstadt')">Innenstadt</button>
+  <button class="nav-tab"        onclick="showTab('statistiken')">Statistiken</button>
+</nav>
+
+<!-- ═══════════════ ÜBERSICHT ═══════════════ -->
+<div class="section active" id="sec-uebersicht">
+  <div class="section-body uebersicht-body">
+
+    <div id="map-uebersicht"></div>
+
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>Parkraumkarte München</h2>
+        <p>Erfasste Parkplätze, Parkhäuser und Tiefgaragen aus OpenData und Community-Beiträgen.</p>
+        <button class="btn-submit" onclick="openModal()">+ Eintrag einreichen</button>
+      </div>
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2c2fdf"></div> Parkhaus</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1e8a3e"></div> P&amp;R</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#62707c"></div> Sonstige</div>
+      </div>
+      <div class="map-count" id="map-count">Lade Daten…</div>
+    </div>
+
   </div>
 </div>
 
-<div class="grid">
-
-  <!-- Karte -->
-  <div class="panel">
-    <div class="panel-header">
-      <h2>Parkhäuser Innenstadt</h2>
+<!-- ═══════════════ INNENSTADT ═══════════════ -->
+<div class="section" id="sec-innenstadt">
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-label">Freie Plätze</span>
+      <span class="stat-value frei" id="stat-frei">–</span>
     </div>
-    <div id="map"></div>
+    <div class="stat">
+      <span class="stat-label">Belegte Plätze</span>
+      <span class="stat-value belegt" id="stat-belegt">–</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Auslastung</span>
+      <span class="stat-value pct" id="stat-pct">–</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Aktiv</span>
+      <span class="stat-value" id="stat-count">–</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Datenstand</span>
+      <span class="stat-value" style="font-size:.85rem;font-weight:400;color:var(--text-dim)" id="stat-ts">–</span>
+    </div>
   </div>
+  <div class="innenstadt-body">
+    <div class="map-panel">
+      <div class="panel-header">Karte</div>
+      <div id="map-innenstadt"></div>
+    </div>
+    <div class="tiles-panel">
+      <div class="panel-header">Parkhäuser</div>
+      <div class="tiles-scroll" id="tiles"></div>
+    </div>
+  </div>
+</div>
 
+<!-- ═══════════════ STATISTIKEN ═══════════════ -->
+<div class="section" id="sec-statistiken">
+  <div class="stats-section-body">
+    Statistiken folgen sobald ausreichend Daten gesammelt wurden.
+  </div>
+</div>
 
+<!-- ═══════════════ EINREICHUNGS-MODAL ═══════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Eintrag einreichen</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:16px">
+        Dein Eintrag wird nach Prüfung in die Karte übernommen.
+      </p>
+
+      <div class="form-group">
+        <label>Name / Bezeichnung *</label>
+        <input type="text" id="f-name" placeholder="z.B. Tiefgarage Maxvorstadt">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Typ *</label>
+          <select id="f-typ">
+            <option value="Parkhaus">Parkhaus</option>
+            <option value="Tiefgarage">Tiefgarage</option>
+            <option value="Parkdeck">Parkdeck</option>
+            <option value="P+R">P+R</option>
+            <option value="Stellplatz">Stellplatz</option>
+            <option value="Sonstige">Sonstige</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Stellplätze (ca.)</label>
+          <input type="number" id="f-plaetze" placeholder="z.B. 200">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Straße</label>
+          <input type="text" id="f-strasse" placeholder="Musterstraße">
+        </div>
+        <div class="form-group">
+          <label>Hausnummer</label>
+          <input type="text" id="f-hausnr" placeholder="12a">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>PLZ</label>
+          <input type="text" id="f-plz" placeholder="80xxx">
+        </div>
+        <div class="form-group">
+          <label>Ort</label>
+          <input type="text" id="f-ort" placeholder="München" value="München">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Koordinaten (Klick auf Karte) *</label>
+        <div class="coords-field">
+          <input type="text" id="f-lat" placeholder="Breitengrad" readonly>
+          <input type="text" id="f-lon" placeholder="Längengrad" readonly>
+        </div>
+        <div id="submit-map-pick"></div>
+        <div class="pick-hint">Klick auf die Karte um den Standort zu markieren.</div>
+      </div>
+
+      <div class="form-group">
+        <label>URL (optional)</label>
+        <input type="url" id="f-url" placeholder="https://…">
+      </div>
+      <div class="form-group">
+        <label>Bemerkung (optional)</label>
+        <textarea id="f-bemerkung" placeholder="Zusätzliche Informationen…"></textarea>
+      </div>
+
+      <div id="form-msg"></div>
+      <button class="btn-primary" id="btn-send" onclick="submitForm()">Eintrag einreichen</button>
+    </div>
+  </div>
 </div>
 
 <script>
-// ─── Hilfsfunktionen ──────────────────────────────────────────────────────────
+// ─── Tabs ──────────────────────────────────────────────────────────────────
 
-function fmtNum(n) {
-  return n != null ? n.toLocaleString('de-DE') : '–';
-}
+const tabs = { uebersicht: false, innenstadt: false, statistiken: false };
 
-function getLastNMonths(n) {
-  const months = [];
-  const d = new Date();
-  for (let i = 0; i < n; i++) {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    months.unshift(`${y}-${m}`);
-    d.setMonth(d.getMonth() - 1);
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+
+  if (!tabs[name]) {
+    tabs[name] = true;
+    if (name === 'uebersicht')  initUebersicht();
+    if (name === 'innenstadt')  initInnenstadt();
   }
-  return months;
 }
 
-async function loadCsv(url) {
+// ─── Hilfsfunktionen ───────────────────────────────────────────────────────
+
+function fmtNum(n) { return n != null ? n.toLocaleString('de-DE') : '–'; }
+
+async function loadCsv(url, delimiter = ',') {
   try {
     const res = await fetch(url);
     if (!res.ok) return [];
     const text = await res.text();
-    const { data } = Papa.parse(text, { header: true, dynamicTyping: true, skipEmptyLines: true });
+    const { data } = Papa.parse(text, { header: true, dynamicTyping: true, skipEmptyLines: true, delimiter });
     return data;
   } catch(e) { return []; }
 }
 
-// ─── Stats Bar ────────────────────────────────────────────────────────────────
+// ─── Übersicht ─────────────────────────────────────────────────────────────
 
-async function loadStats() {
-  try {
-    const res = await fetch('data/latest.json');
-    if (!res.ok) return;
-    const json = await res.json();
-    const pct = json.kap_gesamt ? Math.round((json.belegt_gesamt / json.kap_gesamt) * 100) : null;
-    document.getElementById('stat-frei').textContent   = fmtNum(json.frei_gesamt);
-    document.getElementById('stat-belegt').textContent = fmtNum(json.belegt_gesamt);
-    document.getElementById('stat-pct').textContent    = pct != null ? `${pct} %` : '–';
-    document.getElementById('stat-ts').textContent     = json.timestamp ? json.timestamp.slice(0, 16) : '–';
-  } catch(e) {}
-}
+let mapUebersicht = null;
+let pickMap = null;
+let pickMarker = null;
 
-// ─── Karte ────────────────────────────────────────────────────────────────────
-
-function markerColor(frei, kap) {
-  if (!kap || kap === 0) return '#aaa';
-  const pctFrei = frei / kap;
-  if (pctFrei > 0.3) return '#2d7d46';
-  if (pctFrei > 0.1) return '#e67e22';
-  return '#c0392b';
-}
-
-async function initMap() {
-  const map = L.map('map').setView([48.1385, 11.568], 14);
+async function initUebersicht() {
+  mapUebersicht = L.map('map-uebersicht').setView([48.137, 11.575], 12);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap',
-    maxZoom: 19,
-  }).addTo(map);
+    attribution: '© OpenStreetMap', maxZoom: 19,
+  }).addTo(mapUebersicht);
 
-  const parkhaeuser = await loadCsv('data/parkhaeuser.csv');
+  const rows = await loadCsv('data/parkraummap.csv', ';');
+  let count = 0;
 
-  // Versuche latest.json für Live-Auslastung
-  let liveData = {};
-  try {
-    const res = await fetch('data/latest.json');
-    if (res.ok) {
-      const json = await res.json();
-      (json.parkhaeuser || []).forEach(p => { liveData[p.sn] = p; });
-      document.getElementById('stat-count').textContent =
-        (json.parkhaeuser || []).filter(p => p.aktiv).length;
-    }
-  } catch(e) {}
+  rows.forEach(r => {
+    const lat = parseFloat(r['Latitude']  || r['latitude']  || '');
+    const lon = parseFloat(r['Longitude'] || r['longitude'] || '');
+    if (!lat || !lon) return;
+    if (r['Aktiv'] && String(r['Aktiv']).toLowerCase() === 'nein') return;
 
-  parkhaeuser.forEach(ph => {
-    if (!ph.lat || !ph.lon) return;
-    const live  = liveData[ph.sn];
-    const frei  = live ? live.frei : null;
-    const kap   = live ? live.kap  : ph.kap;
-    const aktiv = live ? live.aktiv : true;
-    const color = (frei != null && aktiv) ? markerColor(frei, kap) : '#888';
-    const pct   = (frei != null && kap)   ? Math.round((1 - frei/kap) * 100) : null;
+    const typ = r['Typ'] || '';
+    const color = typ.includes('P & R') || typ.includes('P+R') ? '#1e8a3e'
+                : typ.includes('Parkhaus') || typ.includes('Tiefgarage') ? '#2c2fdf'
+                : '#62707c';
 
-    const marker = L.circleMarker([ph.lat, ph.lon], {
-      radius: 10,
-      fillColor: color,
-      color: '#fff',
-      weight: 2,
-      fillOpacity: 0.85,
-    }).addTo(map);
+    const name    = r['Name'] || '–';
+    const adresse = [r['Straße'] || r['Strasse'], r['Hausnummer']].filter(Boolean).join(' ');
+    const plaetze = r['Plätze'] || r['Plaetze'] || '';
 
-    const popupLines = [
-      `<strong>${ph.name}</strong>`,
-      `Kapazität: ${fmtNum(kap)} Plätze`,
-      frei != null ? `Frei: ${fmtNum(frei)} (${100 - pct} %)` : '',
-      frei != null ? `Auslastung: ${pct} %` : '',
-      !aktiv ? '<em>Derzeit nicht gemeldet</em>' : '',
-    ].filter(Boolean).join('<br>');
+    const marker = L.circleMarker([lat, lon], {
+      radius: 6, fillColor: color, color: '#fff', weight: 1.5, fillOpacity: 0.85,
+    }).addTo(mapUebersicht);
 
-    marker.bindPopup(popupLines);
+    marker.bindPopup([
+      `<strong>${name}</strong>`,
+      typ ? `Typ: ${typ}` : '',
+      adresse ? adresse : '',
+      plaetze ? `Stellplätze: ${plaetze}` : '',
+    ].filter(Boolean).join('<br>'));
+
+    count++;
   });
 
-  if (!Object.keys(liveData).length) {
-    document.getElementById('stat-count').textContent = parkhaeuser.length;
+  document.getElementById('map-count').textContent = `${count} Einträge geladen`;
+}
+
+// ─── Innenstadt ────────────────────────────────────────────────────────────
+
+let mapInnenstadt = null;
+
+function tileColor(frei, kap) {
+  if (frei == null || !kap) return 'grau';
+  const p = frei / kap;
+  return p > 0.3 ? 'gruen' : p > 0.1 ? 'orange' : 'rot';
+}
+const barColors = { gruen: '#1e8a3e', orange: '#d4620a', rot: '#c0392b', grau: '#ccc' };
+
+async function initInnenstadt() {
+  const [parkhaeuser, latest] = await Promise.all([
+    loadCsv('data/parkhaeuser.csv'),
+    fetch('data/latest.json').then(r => r.ok ? r.json() : null).catch(() => null),
+  ]);
+
+  const liveData = {};
+  if (latest) {
+    (latest.parkhaeuser || []).forEach(p => { liveData[String(p.sn)] = p; });
+    const pct = latest.kap_gesamt ? Math.round((latest.belegt_gesamt / latest.kap_gesamt) * 100) : null;
+    document.getElementById('stat-frei').textContent   = fmtNum(latest.frei_gesamt);
+    document.getElementById('stat-belegt').textContent = fmtNum(latest.belegt_gesamt);
+    document.getElementById('stat-pct').textContent    = pct != null ? `${pct} %` : '–';
+    document.getElementById('stat-ts').textContent     = latest.timestamp ? latest.timestamp.slice(0, 16) : '–';
+    document.getElementById('stat-count').textContent  = (latest.parkhaeuser || []).filter(p => p.aktiv).length;
+  }
+
+  mapInnenstadt = L.map('map-innenstadt').setView([48.1385, 11.568], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap', maxZoom: 19,
+  }).addTo(mapInnenstadt);
+
+  const tilesEl = document.getElementById('tiles');
+
+  parkhaeuser.forEach(ph => {
+    const live  = liveData[String(ph.sn)];
+    const frei  = live ? live.frei  : null;
+    const kap   = live ? live.kap   : ph.kap;
+    const aktiv = live ? live.aktiv : false;
+    const pct   = (frei != null && kap) ? Math.round((1 - frei / kap) * 100) : null;
+    const cls   = (frei != null && aktiv) ? tileColor(frei, kap) : 'grau';
+    const fill  = Math.min(100, Math.max(0, pct ?? 0));
+
+    const tile = document.createElement('div');
+    tile.className = 'ph-tile' + (aktiv ? '' : ' ph-inaktiv');
+    tile.innerHTML = `
+      <div class="ph-badge">${ph.ph || '–'}</div>
+      <div class="ph-info">
+        <div class="ph-name">${ph.name}</div>
+        <div class="ph-sub">${ph.adresse || ''}</div>
+      </div>
+      <div class="ph-status">
+        <div class="ph-frei ${cls}">${frei != null ? fmtNum(frei) : '–'}</div>
+        <div class="ph-pct">${pct != null ? `${pct} % belegt` : 'inaktiv'}</div>
+      </div>
+      <div class="ph-bar-wrap">
+        <div class="ph-bar" style="width:${fill}%;background:${barColors[cls]}"></div>
+      </div>`;
+    tilesEl.appendChild(tile);
+
+    if (!ph.lat || !ph.lon) return;
+    const color = (frei != null && aktiv)
+      ? (tileColor(frei, kap) === 'gruen' ? '#1e8a3e' : tileColor(frei, kap) === 'orange' ? '#d4620a' : '#c0392b')
+      : '#888';
+    const marker = L.circleMarker([ph.lat, ph.lon], {
+      radius: 9, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.9,
+    }).addTo(mapInnenstadt);
+    marker.bindPopup([
+      `<strong>${ph.name}</strong>`,
+      ph.adresse || '',
+      `Kapazität: ${fmtNum(kap)}`,
+      frei != null ? `Frei: ${fmtNum(frei)}` : '',
+      pct  != null ? `Auslastung: ${pct} %` : '',
+      !aktiv ? '<em>Nicht gemeldet</em>' : '',
+    ].filter(Boolean).join('<br>'));
+    tile.addEventListener('click', () => { mapInnenstadt.setView([ph.lat, ph.lon], 16); marker.openPopup(); });
+  });
+}
+
+// ─── Modal & Formular ──────────────────────────────────────────────────────
+
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => {
+    if (pickMap) { pickMap.invalidateSize(); return; }
+    pickMap = L.map('submit-map-pick', { zoomControl: false }).setView([48.137, 11.575], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap', maxZoom: 19,
+    }).addTo(pickMap);
+    pickMap.on('click', e => {
+      const { lat, lng } = e.latlng;
+      document.getElementById('f-lat').value = lat.toFixed(7);
+      document.getElementById('f-lon').value = lng.toFixed(7);
+      if (pickMarker) pickMarker.setLatLng([lat, lng]);
+      else pickMarker = L.marker([lat, lng]).addTo(pickMap);
+    });
+  }, 50);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('form-msg').innerHTML = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+async function submitForm() {
+  const name  = document.getElementById('f-name').value.trim();
+  const lat   = document.getElementById('f-lat').value.trim();
+  const lon   = document.getElementById('f-lon').value.trim();
+  const typ   = document.getElementById('f-typ').value;
+  const msg   = document.getElementById('form-msg');
+  const btn   = document.getElementById('btn-send');
+
+  if (!name) { showMsg('Bitte Name eingeben.', 'error'); return; }
+  if (!lat || !lon) { showMsg('Bitte Standort auf der Karte markieren.', 'error'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Wird gesendet…';
+
+  const payload = {
+    name,
+    typ,
+    lat,
+    lon,
+    strasse:   document.getElementById('f-strasse').value.trim(),
+    hausnr:    document.getElementById('f-hausnr').value.trim(),
+    plz:       document.getElementById('f-plz').value.trim(),
+    ort:       document.getElementById('f-ort').value.trim(),
+    plaetze:   document.getElementById('f-plaetze').value.trim(),
+    url:       document.getElementById('f-url').value.trim(),
+    bemerkung: document.getElementById('f-bemerkung').value.trim(),
+  };
+
+  try {
+    const res = await fetch('submit.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      showMsg('Danke! Dein Eintrag wurde eingereicht und wird geprüft.', 'ok');
+      btn.textContent = 'Gesendet ✓';
+    } else {
+      showMsg('Fehler: ' + (data.error || 'Unbekannter Fehler'), 'error');
+      btn.disabled = false;
+      btn.textContent = 'Eintrag einreichen';
+    }
+  } catch(e) {
+    showMsg('Verbindungsfehler. Bitte später nochmal versuchen.', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Eintrag einreichen';
   }
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+function showMsg(text, cls) {
+  const el = document.getElementById('form-msg');
+  el.className = 'form-msg ' + cls;
+  el.textContent = text;
+}
 
-(async () => {
-  await Promise.all([initMap(), loadStats()]);
-})();
+// ─── Init ──────────────────────────────────────────────────────────────────
+
+// Übersicht direkt laden (erster Tab)
+tabs.uebersicht = true;
+initUebersicht();
 </script>
 </body>
 </html>

@@ -1,25 +1,25 @@
-sn,name,adresse,lat,lon,kap,url
-106501,Parkhaus am Stachus,Adolf-Kolping-Str. 10,48.1381075,11.5630355,390,https://alpina-parking.com/standort/parkhaus-muenchen-stachus-alpina/
-401062,Parkgarage am Salvatorplatz,Salvatorplatz 3,48.142269,11.57519,250,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/salvatorplatz-altstadt/
-106504,City-Parkhaus Färbergraben,Färbergraben 10,48.1372976,11.571501,350,https://www.city-parkhaus-muenchen.de
-106505,Parkgarage Rieger City,Frauenstr. 38,48.1345268,11.5806805,264,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/rieger-city-isartor/
-106506,Sonnenhof-Garage,Landwehrstr. 10,48.1364089,11.5632499,85,https://www.apcoa.de/einmal-parken/standorte/muenchen/sonnenhof-garage
-106507,Tiefgarage vor der Oper,Max-Joseph-Platz 4,48.14049,11.57764,344,https://www.operngarage.de
-106508,Hertie-Parkhaus,Schützenstr. 14,48.140266759066336,11.562168070328472,504,
-106509,Parkgarage Böhringer,Baaderstr. 6,48.1330593,11.5810631,153,http://www.isarparkhaus.de
-106513,Tiefgarage Hotel ibis City,Dachauer Str. 21,48.14403,11.55952,71,
-401055,Parkhaus Schrannenhalle,Prälat-Zistl-Straße 3,48.13424935024725,11.57395181200344,147,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/schrannenhalle-viktualienmarkt/
-106521,CarPark Cristal,Schwanthalerstr. 36,48.13758,11.55911,220,
-401060,Königshof-Parking,Karlspl. 25,48.13976378884862,11.564708485019105,104,https://parkeninmuenchen.de/parkhaus-koenigshof/
-106524,Parkhaus Oberanger,Oberanger 27,48.134029,11.569986,403,https://www.contipark.de/de/parken/muenchen/tiefgarage-oberanger/
-106525,Parkhaus am Hauptbahnhof,Arnulfstr. 1,48.141043557113,11.559701929572,223,
-301220,Tiefgarage Oberpollinger,Neuhauser Str. 18,48.138771,11.56757,368,https://www.oberpollinger.de/services/
-301234,Pschorr Garage,Altheimer Eck 16,48.137325,11.570128,175,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/pschorr-garage-altstadt/
-301236,Marienplatz Großgarage,Rindermarkt 16,48.136227,11.574723,201,https://www.contipark.de/de/parken/muenchen/tiefgarage-marienplatz/
-301264,Hopfenpost Parkhaus,Hopfenstr. 6,48.143337,11.554503,230,https://www.contipark.de/de/parken/muenchen/tiefgarage-neue-hopfenpost/
-301270,Parkhaus an der Marsstraße,Hirtenstr. 14,48.142139,11.55854,526,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/marsstra%C3%9Fe-hauptbahnhof/
-301271,Tiefgarage am Hauptbahnhof,Bahnhofplatz 2,48.14076,11.56061,79,
-301272,Tiefgarage Stachus,Herzog-Wilhelm-Str. 11,48.137601,11.5667028,650,
-301277,Parkhaus Elisenhof,Luitpoldstr. 3,48.1409303,11.5625947,315,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/elisenhof-hauptbahnhof/
-401004,PH Hauptbahnhof Süd,,48.13857307282762,11.560030468152496,207,
-401010,Parkhaus am Hofbräuhaus,Hochbrückenstr. 9,48.13711490430454,11.584083168162554,412,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/hofbr%C3%A4uhaus/
+sn,ph,name,adresse,lat,lon,kap,url
+106501,P19,Parkhaus am Stachus,Adolf-Kolping-Str. 10,48.1381075,11.5630355,390,https://alpina-parking.com/standort/parkhaus-muenchen-stachus-alpina/
+401062,P3,Parkgarage am Salvatorplatz,Salvatorplatz 3,48.142269,11.57519,250,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/salvatorplatz-altstadt/
+106504,P18,City-Parkhaus Färbergraben,Färbergraben 10,48.1372976,11.571501,350,https://www.city-parkhaus-muenchen.de
+106505,P5,Parkgarage Rieger City,Frauenstr. 38,48.1345268,11.5806805,264,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/rieger-city-isartor/
+106506,P7,Sonnenhof-Garage,Landwehrstr. 10,48.1364089,11.5632499,85,https://www.apcoa.de/einmal-parken/standorte/muenchen/sonnenhof-garage
+106507,P17,Tiefgarage vor der Oper,Max-Joseph-Platz 4,48.14049,11.57764,344,https://www.operngarage.de
+106508,P21,Hertie-Parkhaus,Schützenstr. 14,48.140266759066336,11.562168070328472,504,
+106509,P22,Parkgarage Böhringer,Baaderstr. 6,48.1330593,11.5810631,153,http://www.isarparkhaus.de
+106513,P20,Tiefgarage Hotel ibis City,Dachauer Str. 21,48.14403,11.55952,71,
+401055,P6,Parkhaus Schrannenhalle,Prälat-Zistl-Straße 3,48.13424935024725,11.57395181200344,147,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/schrannenhalle-viktualienmarkt/
+106521,P23,CarPark Cristal,Schwanthalerstr. 36,48.13758,11.55911,220,
+401060,P16,Königshof-Parking,Karlspl. 25,48.13976378884862,11.564708485019105,104,https://parkeninmuenchen.de/parkhaus-koenigshof/
+106524,P14,Parkhaus Oberanger,Oberanger 27,48.134029,11.569986,403,https://www.contipark.de/de/parken/muenchen/tiefgarage-oberanger/
+106525,P11/P25,Parkhaus am Hauptbahnhof,Arnulfstr. 1,48.141043557113,11.559701929572,223,
+301220,P9,Tiefgarage Oberpollinger,Neuhauser Str. 18,48.138771,11.56757,368,https://www.oberpollinger.de/services/
+301234,P8,Pschorr Garage,Altheimer Eck 16,48.137325,11.570128,175,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/pschorr-garage-altstadt/
+301236,P4,Marienplatz Großgarage,Rindermarkt 16,48.136227,11.574723,201,https://www.contipark.de/de/parken/muenchen/tiefgarage-marienplatz/
+301264,P10,Hopfenpost Parkhaus,Hopfenstr. 6,48.143337,11.554503,230,https://www.contipark.de/de/parken/muenchen/tiefgarage-neue-hopfenpost/
+301270,P1,Parkhaus an der Marsstraße,Hirtenstr. 14,48.142139,11.55854,526,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/marsstra%C3%9Fe-hauptbahnhof/
+301271,P12,Tiefgarage am Hauptbahnhof,Bahnhofplatz 2,48.14076,11.56061,79,
+301272,P13,Tiefgarage Stachus,Herzog-Wilhelm-Str. 11,48.137601,11.5667028,650,
+301277,P2,Parkhaus Elisenhof,Luitpoldstr. 3,48.1409303,11.5625947,315,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/elisenhof-hauptbahnhof/
+401004,P24,PH Hauptbahnhof Süd,,48.13857307282762,11.560030468152496,207,
+401010,P15,Parkhaus am Hofbräuhaus,Hochbrückenstr. 9,48.13711490430454,11.584083168162554,412,https://www.q-park.de/de-de/staedte/m%C3%BCnchen/hofbr%C3%A4uhaus/

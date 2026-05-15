@@ -63,8 +63,6 @@ if ($isCorrection && !empty($changes)) {
 
 $body .= "| Feld | Wert |\n|---|---|\n";
 $body .= "| **Name** | " . $name . " |\n";
-if ($kontakt_name)   $body .= "| **Kontakt** | " . $kontakt_name . " |\n";
-if ($email)          $body .= "| **E-Mail** | " . $email . " |\n";
 $body .= "| **Typ** | " . $typ . " |\n";
 if ($bew)            $body .= "| **Bewirtschaftung** | " . $bew . " |\n";
 $body .= "| **Adresse** | " . $adresseVoll . " |\n";
@@ -106,8 +104,24 @@ $code     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
 if ($code === 201) {
-    $data = json_decode($response, true);
-    echo json_encode(['ok' => true, 'issue' => $data['number'] ?? null]);
+    $data       = json_decode($response, true);
+    $issueNum   = $data['number'] ?? null;
+    $issueUrl   = $data['html_url'] ?? '';
+
+    // Kontaktdaten privat per Mail – nicht im öffentlichen Issue
+    if ($kontakt_name || $email) {
+        $mailSubject = '=?UTF-8?B?' . base64_encode(($isCorrection ? 'Korrektur' : 'Karteneintrag') . " #$issueNum: $name") . '?=';
+        $mailBody    = ($isCorrection ? "Korrekturvorschlag" : "Neuer Karteneintrag") . " #$issueNum\n\n";
+        if ($kontakt_name) $mailBody .= "Name:   $kontakt_name\n";
+        if ($email)        $mailBody .= "E-Mail: $email\n";
+        $mailBody .= "\nParkplatz: $name\n";
+        if ($adresseVoll)  $mailBody .= "Adresse: $adresseVoll\n";
+        $mailBody .= "\nGitHub Issue: $issueUrl\n";
+        mail('heiko@bielinski.de', $mailSubject, $mailBody,
+            "From: noreply@data.parkraumwende.de\r\nContent-Type: text/plain; charset=UTF-8");
+    }
+
+    echo json_encode(['ok' => true, 'issue' => $issueNum]);
 } else {
     http_response_code(500);
     echo json_encode(['error' => 'GitHub Issue konnte nicht erstellt werden (HTTP ' . $code . ')']);

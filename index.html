@@ -621,7 +621,7 @@
       <!-- Name des Parkplatzes -->
       <div class="form-group" style="margin-bottom:20px">
         <label>Name / Bezeichnung *</label>
-        <input type="text" id="f-name" placeholder="z.B. Tiefgarage Maxvorstadt">
+        <input type="text" id="f-name" placeholder="z.B. Tiefgarage Maxvorstadt" enterkeyhint="next" autocomplete="off">
       </div>
 
       <!-- Adresse & Standort -->
@@ -630,20 +630,20 @@
         <div class="form-row-3">
           <div class="form-group">
             <label>Straße</label>
-            <input type="text" id="f-strasse" placeholder="Musterstraße">
+            <input type="text" id="f-strasse" placeholder="Musterstraße" enterkeyhint="next" autocomplete="street-address">
           </div>
           <div class="form-group">
             <label>Hausnummer</label>
-            <input type="text" id="f-hausnr" placeholder="12a">
+            <input type="text" id="f-hausnr" placeholder="12a" enterkeyhint="next" autocomplete="off">
           </div>
           <div class="form-group">
             <label>PLZ</label>
-            <input type="text" id="f-plz" placeholder="80xxx">
+            <input type="text" id="f-plz" placeholder="80xxx" enterkeyhint="next" inputmode="numeric" autocomplete="postal-code">
           </div>
         </div>
         <div class="form-group">
           <label>Ort</label>
-          <input type="text" id="f-ort" value="München">
+          <input type="text" id="f-ort" value="München" enterkeyhint="next" autocomplete="address-level2">
         </div>
         <div class="form-group">
           <label>Standort auf Karte markieren *</label>
@@ -689,11 +689,11 @@
         <div class="form-row">
           <div class="form-group">
             <label>Anzahl Stellplätze</label>
-            <input type="number" id="f-plaetze" placeholder="z.B. 200" min="1">
+            <input type="number" id="f-plaetze" placeholder="z.B. 200" min="1" enterkeyhint="next" inputmode="numeric">
           </div>
           <div class="form-group">
             <label>Davon frei</label>
-            <input type="number" id="f-frei" placeholder="z.B. 50" min="0">
+            <input type="number" id="f-frei" placeholder="z.B. 50" min="0" enterkeyhint="next" inputmode="numeric">
           </div>
         </div>
         <div class="form-group">
@@ -722,11 +722,11 @@
         <div class="form-section-title">Ihre Kontaktdaten</div>
         <div class="form-group">
           <label>Ihr Name</label>
-          <input type="text" id="f-kontakt-name" placeholder="Wird nicht veröffentlicht">
+          <input type="text" id="f-kontakt-name" placeholder="Wird nicht veröffentlicht" enterkeyhint="next" autocomplete="name">
         </div>
         <div class="form-group">
           <label>E-Mail</label>
-          <input type="email" id="f-email" placeholder="für Rückfragen (wird nicht veröffentlicht)">
+          <input type="email" id="f-email" placeholder="für Rückfragen (wird nicht veröffentlicht)" enterkeyhint="next" inputmode="email" autocomplete="email">
         </div>
       </div>
 
@@ -735,7 +735,7 @@
         <div class="form-section-title">Zusätzliche Informationen</div>
         <div class="form-group">
           <label>Bemerkung</label>
-          <textarea id="f-bemerkung" placeholder="Weitere Informationen, Hinweise, Links…"></textarea>
+          <textarea id="f-bemerkung" placeholder="Weitere Informationen, Hinweise, Links…" enterkeyhint="send"></textarea>
         </div>
       </div>
 

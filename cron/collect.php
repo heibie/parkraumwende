@@ -27,13 +27,20 @@ $githubToken = $cfg['github']['token'];
 $githubRepo  = $cfg['github']['repo'];
 $now         = date('Y-m-d H:i:s');
 $yearMonth   = date('Y-m');
+$debug       = isset($_GET['debug']);
 
 try {
     // 1. Daten scrapen
-    $data = scrape_parkhaeuser();
+    $raw  = scrape_parkhaeuser();
 
     // 2. SN 106525 zusammenfassen
-    $data = merge_sn_106525($data);
+    $data = merge_sn_106525($raw);
+
+    // Debug-Modus: Tabelle ausgeben, nichts speichern
+    if ($debug) {
+        render_debug_table($raw, $data, $now);
+        exit;
+    }
 
     // 3. Details-CSV anfügen
     $detailRows = '';
@@ -89,6 +96,72 @@ try {
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
+}
+
+function render_debug_table(array $raw, array $merged, string $now): void
+{
+    $pct = fn($frei, $kap) => $kap > 0 ? max(0, min(100, round((1 - $frei / $kap) * 100))) : 0;
+    $bar = fn($p) => str_repeat('█', (int)($p / 5)) . str_repeat('░', 20 - (int)($p / 5));
+    ?><!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Debug – Parkhaus-Scraping</title>
+<style>
+  body { font-family: monospace; background: #f5f5f0; padding: 24px; }
+  h2 { margin: 0 0 4px; font-size: 1rem; }
+  p  { color: #666; font-size: 0.8rem; margin: 0 0 16px; }
+  table { border-collapse: collapse; width: 100%; margin-bottom: 32px; }
+  th { background: #1a3c2e; color: #fff; padding: 6px 10px; text-align: left; font-size: 0.8rem; }
+  td { padding: 5px 10px; font-size: 0.85rem; border-bottom: 1px solid #ddd; }
+  tr:hover td { background: #eee; }
+  .inaktiv td { color: #aaa; }
+  .bar { color: #c0392b; letter-spacing: -1px; }
+  .num { text-align: right; }
+</style>
+</head>
+<body>
+<h2>Rohdaten von pls-muc-z.com (vor Merge)</h2>
+<p>Abgerufen: <?= htmlspecialchars($now) ?> &nbsp;·&nbsp; <?= count($raw) ?> Einträge</p>
+<table>
+  <tr><th>SN</th><th>PH</th><th>Parkhaus</th><th class="num">Frei</th><th class="num">Kap</th><th class="num">Auslastung</th><th>Balken</th><th>Aktiv</th></tr>
+  <?php foreach ($raw as $r):
+    $p = $pct($r['frei'], $r['kap']);
+  ?>
+  <tr class="<?= $r['aktiv'] ? '' : 'inaktiv' ?>">
+    <td><?= htmlspecialchars($r['sn']) ?></td>
+    <td><?= htmlspecialchars($r['ph']) ?></td>
+    <td><?= htmlspecialchars($r['parkhaus']) ?></td>
+    <td class="num"><?= $r['frei'] ?></td>
+    <td class="num"><?= $r['kap'] ?></td>
+    <td class="num"><?= $p ?> %</td>
+    <td class="bar"><?= $bar($p) ?></td>
+    <td><?= $r['aktiv'] ? '✓' : '–' ?></td>
+  </tr>
+  <?php endforeach ?>
+</table>
+
+<h2>Nach Merge (SN 106525 zusammengefasst)</h2>
+<p><?= count($merged) ?> Einträge &nbsp;·&nbsp; so werden sie gespeichert</p>
+<table>
+  <tr><th>SN</th><th>PH</th><th>Parkhaus</th><th class="num">Frei</th><th class="num">Kap</th><th class="num">Auslastung</th><th>Balken</th><th>Aktiv</th></tr>
+  <?php foreach ($merged as $r):
+    $p = $pct($r['frei'], $r['kap']);
+  ?>
+  <tr class="<?= $r['aktiv'] ? '' : 'inaktiv' ?>">
+    <td><?= htmlspecialchars($r['sn']) ?></td>
+    <td><?= htmlspecialchars($r['ph']) ?></td>
+    <td><?= htmlspecialchars($r['parkhaus']) ?></td>
+    <td class="num"><?= $r['frei'] ?></td>
+    <td class="num"><?= $r['kap'] ?></td>
+    <td class="num"><?= $p ?> %</td>
+    <td class="bar"><?= $bar($p) ?></td>
+    <td><?= $r['aktiv'] ? '✓' : '–' ?></td>
+  </tr>
+  <?php endforeach ?>
+</table>
+</body>
+</html><?php
 }
 
 // ─── Scraping ─────────────────────────────────────────────────────────────────

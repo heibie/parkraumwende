@@ -81,9 +81,15 @@ try {
         'kap_gesamt'    => $kapGes,
         'parkhaeuser'   => $data,
     ];
+    $latestJson = json_encode($latest, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+    // Direkt auf Festplatte schreiben – sofort sichtbar ohne Deploy-Umweg
+    file_put_contents(__DIR__ . '/../data/latest.json', $latestJson);
+
+    // Zusätzlich auf GitHub für Versionierung
     github_put_file(
         'data/latest.json',
-        json_encode($latest, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+        $latestJson,
         "data: latest {$now}",
         github_get_sha('data/latest.json', $githubToken, $githubRepo),
         $githubToken,

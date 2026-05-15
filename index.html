@@ -1208,7 +1208,7 @@ const markerColorMap = { gruen: '#1e8a3e', orange: '#d4620a', rot: '#c0392b', gr
 async function initInnenstadt() {
   const [parkhaeuser, latest] = await Promise.all([
     loadCsv('data/parkhaeuser.csv'),
-    fetch('data/latest.json').then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch('data/latest.json?_=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null),
   ]);
 
   const liveData = {};

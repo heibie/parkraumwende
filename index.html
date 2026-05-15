@@ -205,18 +205,16 @@ async function loadCsv(url) {
 // ─── Stats Bar ────────────────────────────────────────────────────────────────
 
 async function loadStats() {
-  // Letzte Zeile aus aktuellem Monats-Summary laden
-  const ym = getLastNMonths(1)[0];
-  const rows = await loadCsv(`data/summary/${ym}.csv`);
-  if (!rows.length) return;
-
-  const last = rows[rows.length - 1];
-  const pct = last.kap_gesamt ? Math.round((last.belegt_gesamt / last.kap_gesamt) * 100) : null;
-
-  document.getElementById('stat-frei').textContent   = fmtNum(last.frei_gesamt);
-  document.getElementById('stat-belegt').textContent = fmtNum(last.belegt_gesamt);
-  document.getElementById('stat-pct').textContent    = pct != null ? `${pct} %` : '–';
-  document.getElementById('stat-ts').textContent     = last.timestamp ? last.timestamp.slice(0, 16) : '–';
+  try {
+    const res = await fetch('data/latest.json');
+    if (!res.ok) return;
+    const json = await res.json();
+    const pct = json.kap_gesamt ? Math.round((json.belegt_gesamt / json.kap_gesamt) * 100) : null;
+    document.getElementById('stat-frei').textContent   = fmtNum(json.frei_gesamt);
+    document.getElementById('stat-belegt').textContent = fmtNum(json.belegt_gesamt);
+    document.getElementById('stat-pct').textContent    = pct != null ? `${pct} %` : '–';
+    document.getElementById('stat-ts').textContent     = json.timestamp ? json.timestamp.slice(0, 16) : '–';
+  } catch(e) {}
 }
 
 // ─── Karte ────────────────────────────────────────────────────────────────────

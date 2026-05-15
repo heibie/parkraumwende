@@ -21,14 +21,20 @@ if (!$name || !$lat || !$lon) {
 }
 
 // Felder bereinigen
-$typ      = trim($input['typ']      ?? '');
-$strasse  = trim($input['strasse']  ?? '');
-$hausnr   = trim($input['hausnr']   ?? '');
-$plz      = trim($input['plz']      ?? '');
-$ort      = trim($input['ort']      ?? 'München');
-$plaetze  = trim($input['plaetze']  ?? '');
-$url      = trim($input['url']      ?? '');
-$bemerkung = trim($input['bemerkung'] ?? '');
+$kontakt_name   = trim($input['kontakt_name']   ?? '');
+$email          = trim($input['email']          ?? '');
+$typ            = trim($input['typ']            ?? '');
+$bew            = trim($input['bew']            ?? '');
+$strasse        = trim($input['strasse']        ?? '');
+$hausnr         = trim($input['hausnr']         ?? '');
+$plz            = trim($input['plz']            ?? '');
+$ort            = trim($input['ort']            ?? 'München');
+$plaetze        = trim($input['plaetze']        ?? '');
+$freie_plaetze  = trim($input['freie_plaetze']  ?? '');
+$immotyp        = trim($input['immotyp']        ?? '');
+$dauerparken    = trim($input['dauerparken']    ?? '');
+$kurzzeitparken = trim($input['kurzzeitparken'] ?? '');
+$bemerkung      = trim($input['bemerkung']      ?? '');
 
 $adresse = trim("$strasse $hausnr");
 $adresseVoll = trim("$adresse, $plz $ort", ', ');
@@ -36,12 +42,18 @@ $adresseVoll = trim("$adresse, $plz $ort", ', ');
 $body = "## Neuer Karteneintrag\n\n";
 $body .= "| Feld | Wert |\n|---|---|\n";
 $body .= "| **Name** | " . $name . " |\n";
+if ($kontakt_name)   $body .= "| **Kontakt** | " . $kontakt_name . " |\n";
+if ($email)          $body .= "| **E-Mail** | " . $email . " |\n";
 $body .= "| **Typ** | " . $typ . " |\n";
+if ($bew)            $body .= "| **Bewirtschaftung** | " . $bew . " |\n";
 $body .= "| **Adresse** | " . $adresseVoll . " |\n";
 $body .= "| **Koordinaten** | " . $lat . ", " . $lon . " |\n";
-if ($plaetze) $body .= "| **Stellplätze** | " . $plaetze . " |\n";
-if ($url)     $body .= "| **URL** | " . $url . " |\n";
-if ($bemerkung) $body .= "\n**Bemerkung:** " . $bemerkung . "\n";
+if ($plaetze)        $body .= "| **Stellplätze** | " . $plaetze . " |\n";
+if ($freie_plaetze)  $body .= "| **Davon frei** | " . $freie_plaetze . " |\n";
+if ($immotyp)        $body .= "| **Immobilientyp** | " . $immotyp . " |\n";
+if ($dauerparken)    $body .= "| **Dauerparken** | " . $dauerparken . " |\n";
+if ($kurzzeitparken) $body .= "| **Kurzzeitparken** | " . $kurzzeitparken . " |\n";
+if ($bemerkung)      $body .= "\n**Bemerkung:** " . $bemerkung . "\n";
 $body .= "\n---\n*Eingereicht am " . date('d.m.Y H:i') . " über data.parkraumwende.de*";
 
 $issue = [

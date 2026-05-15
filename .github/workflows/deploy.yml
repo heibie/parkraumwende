@@ -17,12 +17,10 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
-          set -x
           mkdir -p ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H -p 22 w00973c8.kasserver.com >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes -v ssh-v148448@w00973c8.kasserver.com echo ok
+          ssh-keyscan -H -p 22 w00973c8.kasserver.com >> ~/.ssh/known_hosts 2>/dev/null
 
           rsync -az --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
             --exclude='.git' \

@@ -3,10 +3,400 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parkraumwende – Daten & Auswertungen</title>
+  <title>Parkraumwende München – Daten</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f5f0;
+      color: #1a1a1a;
+    }
+
+    header {
+      background: #1a3c2e;
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 600; }
+    header p  { font-size: 0.85rem; opacity: 0.7; }
+
+    .stats-bar {
+      background: #fff;
+      border-bottom: 1px solid #e0e0d8;
+      padding: 12px 24px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; color: #666; }
+    .stat-value { font-size: 1.4rem; font-weight: 700; }
+    .stat-value.frei   { color: #2d7d46; }
+    .stat-value.belegt { color: #c0392b; }
+    .stat-value.pct    { color: #1a3c2e; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      height: calc(100vh - 110px);
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #e0e0d8;
+    }
+    .panel:last-child { border-right: none; }
+
+    .panel-header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0d8;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .panel-header h2 { font-size: 0.9rem; font-weight: 600; color: #333; }
+
+    .panel-controls {
+      display: flex;
+      gap: 6px;
+    }
+    .panel-controls button {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      color: #444;
+    }
+    .panel-controls button.active {
+      background: #1a3c2e;
+      color: #fff;
+      border-color: #1a3c2e;
+    }
+
+    #map {
+      flex: 1;
+    }
+
+    .chart-wrap {
+      flex: 1;
+      padding: 16px;
+      position: relative;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; height: auto; }
+      #map  { height: 50vh; }
+      .chart-wrap { height: 50vh; }
+      .panel { border-right: none; border-bottom: 1px solid #e0e0d8; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Parkraumwende – Daten & Auswertungen</h1>
-  <p>In Arbeit.</p>
+
+<header>
+  <h1>Parkraumwende München – Daten</h1>
+  <p>Auslastung der Innenstadtparkhäuser</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-label">Freie Plätze</span>
+    <span class="stat-value frei" id="stat-frei">–</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Belegte Plätze</span>
+    <span class="stat-value belegt" id="stat-belegt">–</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Auslastung</span>
+    <span class="stat-value pct" id="stat-pct">–</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Parkhäuser aktiv</span>
+    <span class="stat-value" id="stat-count">–</span>
+  </div>
+  <div class="stat" style="margin-left:auto">
+    <span class="stat-label">Datenstand</span>
+    <span class="stat-value" style="font-size:0.95rem;font-weight:400" id="stat-ts">–</span>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- Karte -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2>Parkhäuser Innenstadt</h2>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <!-- Chart -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2>Gesamtauslastung</h2>
+      <div class="panel-controls">
+        <button onclick="setRange(7)"  class="range-btn active" data-d="7">7 Tage</button>
+        <button onclick="setRange(30)" class="range-btn" data-d="30">30 Tage</button>
+        <button onclick="setRange(0)"  class="range-btn" data-d="0">Alles</button>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── Hilfsfunktionen ──────────────────────────────────────────────────────────
+
+function fmtNum(n) {
+  return n != null ? n.toLocaleString('de-DE') : '–';
+}
+
+function getLastNMonths(n) {
+  const months = [];
+  const d = new Date();
+  for (let i = 0; i < n; i++) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    months.unshift(`${y}-${m}`);
+    d.setMonth(d.getMonth() - 1);
+  }
+  return months;
+}
+
+async function loadCsv(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const text = await res.text();
+    const { data } = Papa.parse(text, { header: true, dynamicTyping: true, skipEmptyLines: true });
+    return data;
+  } catch(e) { return []; }
+}
+
+// ─── Stats Bar ────────────────────────────────────────────────────────────────
+
+async function loadStats() {
+  // Letzte Zeile aus aktuellem Monats-Summary laden
+  const ym = getLastNMonths(1)[0];
+  const rows = await loadCsv(`data/summary/${ym}.csv`);
+  if (!rows.length) return;
+
+  const last = rows[rows.length - 1];
+  const pct = last.kap_gesamt ? Math.round((last.belegt_gesamt / last.kap_gesamt) * 100) : null;
+
+  document.getElementById('stat-frei').textContent   = fmtNum(last.frei_gesamt);
+  document.getElementById('stat-belegt').textContent = fmtNum(last.belegt_gesamt);
+  document.getElementById('stat-pct').textContent    = pct != null ? `${pct} %` : '–';
+  document.getElementById('stat-ts').textContent     = last.timestamp ? last.timestamp.slice(0, 16) : '–';
+}
+
+// ─── Karte ────────────────────────────────────────────────────────────────────
+
+function markerColor(frei, kap) {
+  if (!kap || kap === 0) return '#aaa';
+  const pctFrei = frei / kap;
+  if (pctFrei > 0.3) return '#2d7d46';
+  if (pctFrei > 0.1) return '#e67e22';
+  return '#c0392b';
+}
+
+async function initMap() {
+  const map = L.map('map').setView([48.1385, 11.568], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+    maxZoom: 19,
+  }).addTo(map);
+
+  const parkhaeuser = await loadCsv('data/parkhaeuser.csv');
+
+  // Versuche latest.json für Live-Auslastung
+  let liveData = {};
+  try {
+    const res = await fetch('data/latest.json');
+    if (res.ok) {
+      const json = await res.json();
+      (json.parkhaeuser || []).forEach(p => { liveData[p.sn] = p; });
+      document.getElementById('stat-count').textContent =
+        (json.parkhaeuser || []).filter(p => p.aktiv).length;
+    }
+  } catch(e) {}
+
+  parkhaeuser.forEach(ph => {
+    if (!ph.lat || !ph.lon) return;
+    const live  = liveData[ph.sn];
+    const frei  = live ? live.frei : null;
+    const kap   = live ? live.kap  : ph.kap;
+    const aktiv = live ? live.aktiv : true;
+    const color = (frei != null && aktiv) ? markerColor(frei, kap) : '#888';
+    const pct   = (frei != null && kap)   ? Math.round((1 - frei/kap) * 100) : null;
+
+    const marker = L.circleMarker([ph.lat, ph.lon], {
+      radius: 10,
+      fillColor: color,
+      color: '#fff',
+      weight: 2,
+      fillOpacity: 0.85,
+    }).addTo(map);
+
+    const popupLines = [
+      `<strong>${ph.name}</strong>`,
+      `Kapazität: ${fmtNum(kap)} Plätze`,
+      frei != null ? `Frei: ${fmtNum(frei)} (${100 - pct} %)` : '',
+      frei != null ? `Auslastung: ${pct} %` : '',
+      !aktiv ? '<em>Derzeit nicht gemeldet</em>' : '',
+    ].filter(Boolean).join('<br>');
+
+    marker.bindPopup(popupLines);
+  });
+
+  if (!Object.keys(liveData).length) {
+    document.getElementById('stat-count').textContent = parkhaeuser.length;
+  }
+}
+
+// ─── Chart ────────────────────────────────────────────────────────────────────
+
+let allSummaryRows = [];
+let chartInstance  = null;
+let currentRange   = 7;
+
+async function loadSummaryData() {
+  const months = getLastNMonths(6); // max. 6 Monate vorhalten
+  const rows   = [];
+  for (const ym of months) {
+    const data = await loadCsv(`data/summary/${ym}.csv`);
+    rows.push(...data);
+  }
+  // Nach Timestamp sortieren
+  rows.sort((a, b) => a.timestamp < b.timestamp ? -1 : 1);
+  allSummaryRows = rows;
+}
+
+function setRange(days) {
+  currentRange = days;
+  document.querySelectorAll('.range-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.d) === days);
+  });
+  renderChart();
+}
+
+function renderChart() {
+  let rows = allSummaryRows;
+
+  if (currentRange > 0) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - currentRange);
+    rows = rows.filter(r => new Date(r.timestamp) >= cutoff);
+  }
+
+  // Ausdünnen wenn zu viele Datenpunkte (max. 200 für Performance)
+  const step = Math.max(1, Math.floor(rows.length / 200));
+  const sampled = rows.filter((_, i) => i % step === 0);
+
+  const labels   = sampled.map(r => r.timestamp.slice(0, 16).replace('T', ' '));
+  const freiData = sampled.map(r => r.frei_gesamt);
+  const belData  = sampled.map(r => r.belegt_gesamt);
+
+  if (chartInstance) chartInstance.destroy();
+
+  const ctx = document.getElementById('chart').getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Belegte Plätze',
+          data: belData,
+          borderColor: '#c0392b',
+          backgroundColor: 'rgba(192,57,43,0.15)',
+          fill: true,
+          pointRadius: 0,
+          borderWidth: 1.5,
+          tension: 0.2,
+        },
+        {
+          label: 'Freie Plätze',
+          data: freiData,
+          borderColor: '#2d7d46',
+          backgroundColor: 'rgba(45,125,70,0.15)',
+          fill: true,
+          pointRadius: 0,
+          borderWidth: 1.5,
+          tension: 0.2,
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 10, font: { size: 12 } } },
+        tooltip: {
+          callbacks: {
+            title: ctx => ctx[0].label,
+            label: ctx => ` ${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}`,
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 8,
+            font: { size: 11 },
+            callback(val, i) { return this.getLabelForValue(val).slice(5, 16); }
+          },
+          grid: { display: false }
+        },
+        y: {
+          ticks: { font: { size: 11 }, callback: v => fmtNum(v) },
+          grid:  { color: '#e8e8e0' },
+          title: { display: true, text: 'Stellplätze', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+(async () => {
+  await Promise.all([
+    initMap(),
+    loadStats(),
+    loadSummaryData().then(() => renderChart()),
+  ]);
+})();
+</script>
 </body>
 </html>

@@ -123,15 +123,21 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 7px;
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+      padding: 5px 2px;
     }
+    .filter-group-header:hover .filter-group-title { color: var(--text); }
     .filter-group-title {
       font-size: 0.67rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: .07em;
       color: var(--text-dim);
+      transition: color .1s;
     }
+    .filter-group-right { display: flex; align-items: center; gap: 6px; }
     .filter-group-btns { display: flex; gap: 4px; }
     .filter-toggle {
       font-size: 0.65rem;
@@ -143,8 +149,18 @@
       transition: background .1s, color .1s;
     }
     .filter-toggle:hover { background: var(--bg); color: var(--text); }
+    .filter-group-arrow {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      transition: transform .15s;
+      display: inline-block;
+      width: 10px;
+      text-align: center;
+    }
+    .filter-group.open .filter-group-arrow { transform: rotate(180deg); }
 
-    .filter-options { display: flex; flex-direction: column; gap: 3px; }
+    .filter-options { display: none; flex-direction: column; gap: 3px; padding-top: 6px; padding-bottom: 4px; }
+    .filter-group.open .filter-options { display: flex; }
     .filter-option {
       display: flex;
       align-items: center;
@@ -170,6 +186,161 @@
     #map-uebersicht {
       width: 100%;
       height: 100%;
+    }
+
+    /* POI Marker */
+    .poi-marker {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+      border: 1.5px solid rgba(255,255,255,0.55);
+      cursor: pointer;
+      line-height: 1;
+      transition: transform .1s, box-shadow .1s;
+    }
+    .poi-marker:hover {
+      transform: scale(1.25);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+      z-index: 1000 !important;
+    }
+    .poi-dot  { width: 9px; height: 9px; border-radius: 50%; }
+    .poi-num  { padding: 2px 5px; white-space: nowrap; }
+    .poi-frei     { border-color: #16a34a; border-width: 2.5px; box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 0 2px rgba(22,163,74,0.35); }
+
+    /* Add-mode FAB + banner */
+    .map-fab {
+      width: 44px; height: 44px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      transition: background .15s, transform .1s;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .map-fab:hover  { background: var(--primary-d); transform: scale(1.08); }
+    .map-fab.active { background: #dc2626; }
+    .add-mode-banner {
+      position: absolute;
+      top: 12px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 1001;
+      background: rgba(0,0,0,0.72);
+      color: #fff;
+      padding: 7px 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      display: none;
+    }
+    .leaflet-container.add-mode { cursor: crosshair !important; }
+    .leaflet-container.add-mode .add-mode-banner { display: block; }
+    .poi-selected { border-color: #fff !important; border-width: 2.5px !important; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000, 0 3px 8px rgba(0,0,0,0.45) !important; transform: scale(1.35); }
+
+    /* Detail Panel */
+    .uebersicht-layout.detail-open {
+      grid-template-columns: 270px 1fr 320px;
+    }
+    .detail-panel {
+      display: none;
+      flex-direction: column;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .uebersicht-layout.detail-open .detail-panel { display: flex; }
+    .detail-head {
+      padding: 13px 14px 11px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .detail-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      color: var(--text-dim);
+      padding: 0 0 0 8px;
+      line-height: 1;
+    }
+    .detail-close:hover { color: var(--text); }
+    .detail-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 6px;
+      line-height: 1.3;
+      padding-right: 20px;
+    }
+    .detail-typ {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+    .detail-typ-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .detail-addr { font-size: 0.75rem; color: var(--text-dim); margin-top: 5px; }
+    .detail-body { overflow-y: auto; flex: 1; padding: 12px 14px 16px; }
+    .detail-section { margin-bottom: 14px; }
+    .detail-section-title {
+      font-size: 0.63rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      margin-bottom: 7px;
+    }
+    .detail-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 2px 8px;
+      font-size: 0.77rem;
+      padding: 3px 0;
+      align-items: baseline;
+    }
+    .detail-label { color: var(--text-dim); font-size: 0.7rem; }
+    .detail-value { color: var(--text); font-weight: 500; word-break: break-word; }
+    .detail-pill {
+      display: inline-block;
+      padding: 1px 7px;
+      font-size: 0.68rem;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      margin: 1px 2px 1px 0;
+    }
+    .detail-pill.ja   { border-color: #2c2fdf44; background: #2c2fdf0d; color: var(--primary); }
+    .detail-pill.frei { border-color: #16a34a55; background: #16a34a0e; color: #16a34a; font-weight: 700; }
+    .detail-link {
+      display: block;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.77rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 2px 0;
+    }
+    .detail-link:hover { text-decoration: underline; }
+    .detail-quelle {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
     }
 
     /* ══════════════════════════════════════
@@ -293,10 +464,22 @@
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
     .form-group textarea { resize: vertical; min-height: 64px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
     .coords-field { display: flex; gap: 8px; }
     .coords-field input { flex: 1; }
-    #submit-map-pick { height: 180px; border: 1px solid var(--border); margin-top: 8px; cursor: crosshair; }
+    #submit-map-pick { height: 200px; border: 1px solid var(--border); margin-top: 8px; cursor: crosshair; }
     .field-hint { font-size: 0.7rem; color: var(--text-dim); margin-top: 4px; }
+    .form-section { margin-bottom: 20px; }
+    .form-section-title {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px; margin-bottom: 12px;
+    }
+    .form-checks { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 2px; }
+    .form-check { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; cursor: pointer; }
+    .form-check input[type=checkbox] { accent-color: var(--primary); width: 14px; height: 14px; cursor: pointer; flex-shrink: 0; }
+    .form-group select[multiple] { min-height: 120px; padding: 4px; }
 
     .btn-primary { width: 100%; padding: 10px; background: var(--primary); color: #fff; border: none; font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; margin-top: 6px; transition: background .12s; }
     .btn-primary:hover { background: var(--primary-d); }
@@ -308,9 +491,14 @@
     /* ── Responsive ── */
     @media (max-width: 900px) {
       body { overflow: auto; height: auto; }
-      .uebersicht-layout { grid-template-columns: 1fr; height: auto; }
+      .uebersicht-layout,
+      .uebersicht-layout.detail-open { grid-template-columns: 1fr; height: auto; }
       .filter-sidebar { border-right: none; border-bottom: 1px solid var(--border); }
       #map-uebersicht { height: 55vh; }
+      .detail-panel,
+      .uebersicht-layout.detail-open .detail-panel {
+        display: flex; border-left: none; border-top: 1px solid var(--border); max-height: 40vh;
+      }
       .innenstadt-body { grid-template-columns: 1fr; }
       .tiles-panel { height: 45vh; }
       #map-innenstadt { height: 45vh; }
@@ -337,7 +525,7 @@
 
 <!-- ═══════════ ÜBERSICHT ═══════════ -->
 <div class="section active" id="sec-uebersicht">
-  <div class="uebersicht-layout">
+  <div class="uebersicht-layout" id="uebersicht-layout">
 
     <div class="filter-sidebar">
       <div class="filter-top">
@@ -348,6 +536,19 @@
     </div>
 
     <div id="map-uebersicht"></div>
+
+    <div class="detail-panel" id="detail-panel">
+      <div class="detail-head">
+        <button class="detail-close" onclick="closeDetail()">✕</button>
+        <div class="detail-name" id="dp-name"></div>
+        <div class="detail-typ">
+          <span class="detail-typ-dot" id="dp-dot"></span>
+          <span id="dp-typ"></span>
+        </div>
+        <div class="detail-addr" id="dp-addr"></div>
+      </div>
+      <div class="detail-body" id="dp-body"></div>
+    </div>
 
   </div>
 </div>
@@ -390,67 +591,131 @@
       <button class="modal-close" onclick="closeModal()">&times;</button>
     </div>
     <div class="modal-body">
-      <p style="font-size:.78rem;color:var(--text-dim);margin-bottom:14px">
+      <p style="font-size:.78rem;color:var(--text-dim);margin-bottom:16px">
         Dein Eintrag wird nach Prüfung in die Karte übernommen.
       </p>
-      <div class="form-group">
+
+      <!-- Name des Parkplatzes -->
+      <div class="form-group" style="margin-bottom:20px">
         <label>Name / Bezeichnung *</label>
         <input type="text" id="f-name" placeholder="z.B. Tiefgarage Maxvorstadt">
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Typ *</label>
-          <select id="f-typ">
-            <option value="Parkhaus">Parkhaus</option>
-            <option value="Tiefgarage">Tiefgarage</option>
-            <option value="Parkdeck">Parkdeck</option>
-            <option value="P+R">P+R</option>
-            <option value="Stellplatz">Stellplatz</option>
-            <option value="Sonstige">Sonstige</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Stellplätze (ca.)</label>
-          <input type="number" id="f-plaetze" placeholder="z.B. 200" min="1">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Straße</label>
-          <input type="text" id="f-strasse" placeholder="Musterstraße">
-        </div>
-        <div class="form-group">
-          <label>Hausnummer</label>
-          <input type="text" id="f-hausnr" placeholder="12a">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>PLZ</label>
-          <input type="text" id="f-plz" placeholder="80xxx">
+
+      <!-- Adresse & Standort -->
+      <div class="form-section">
+        <div class="form-section-title">Adresse &amp; Standort</div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <label>Straße</label>
+            <input type="text" id="f-strasse" placeholder="Musterstraße">
+          </div>
+          <div class="form-group">
+            <label>Hausnummer</label>
+            <input type="text" id="f-hausnr" placeholder="12a">
+          </div>
+          <div class="form-group">
+            <label>PLZ</label>
+            <input type="text" id="f-plz" placeholder="80xxx">
+          </div>
         </div>
         <div class="form-group">
           <label>Ort</label>
           <input type="text" id="f-ort" value="München">
         </div>
-      </div>
-      <div class="form-group">
-        <label>Standort auf Karte markieren *</label>
-        <div class="coords-field">
-          <input type="text" id="f-lat" placeholder="Breitengrad" readonly>
-          <input type="text" id="f-lon" placeholder="Längengrad" readonly>
+        <div class="form-group">
+          <label>Standort auf Karte markieren *</label>
+          <div class="coords-field">
+            <input type="text" id="f-lat" placeholder="Breitengrad" readonly>
+            <input type="text" id="f-lon" placeholder="Längengrad" readonly>
+          </div>
+          <div id="submit-map-pick"></div>
+          <div class="field-hint">Auf die Karte tippen setzt die Koordinaten und ermittelt die Adresse.</div>
+          <div class="field-hint" id="geocode-status" style="color:var(--primary);display:none"></div>
         </div>
-        <div id="submit-map-pick"></div>
-        <div class="field-hint">Klick auf die Karte setzt die Koordinaten.</div>
       </div>
-      <div class="form-group">
-        <label>URL (optional)</label>
-        <input type="url" id="f-url" placeholder="https://…">
+
+      <!-- Parkplatz-Details -->
+      <div class="form-section">
+        <div class="form-section-title">Parkplatz-Details</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Typ *</label>
+            <select id="f-typ">
+              <option value="Parkhaus">Parkhaus</option>
+              <option value="Tiefgarage">Tiefgarage</option>
+              <option value="Tiefgarage (Wohnanlage)">Tiefgarage (Wohnanlage)</option>
+              <option value="Stellplatz">Stellplatz</option>
+              <option value="Außenstellplatz">Außenstellplatz</option>
+              <option value="P+R">P+R</option>
+              <option value="Sonstige">Sonstige</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Bewirtschaftungsart</label>
+            <select id="f-bew">
+              <option value="">– bitte wählen –</option>
+              <option value="Privat">Privat</option>
+              <option value="kommerzielle Bewirtschaftung">Kommerziell</option>
+              <option value="Kunden / Besucherparkplatz">Kunden / Besucher</option>
+              <option value="Mitarbeiterparkplatz">Mitarbeiter</option>
+              <option value="Quartiersgarage">Quartiersgarage</option>
+              <option value="P & R Park und Ride">P&R</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Anzahl Stellplätze</label>
+            <input type="number" id="f-plaetze" placeholder="z.B. 200" min="1">
+          </div>
+          <div class="form-group">
+            <label>Davon frei</label>
+            <input type="number" id="f-frei" placeholder="z.B. 50" min="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Immobilientyp (Strg/Cmd für Mehrfachauswahl)</label>
+          <select id="f-immo" multiple>
+            <option value="Wohnen">Wohnen</option>
+            <option value="nur Parken">Nur Parken</option>
+            <option value="Einzelhandel">Einzelhandel</option>
+            <option value="Büro">Büro</option>
+            <option value="Hotel">Hotel</option>
+            <option value="Behörde">Behörde</option>
+            <option value="Sonstiges Gewerbe">Sonstiges Gewerbe</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Verfügbarkeit</label>
+          <div class="form-checks">
+            <label class="form-check"><input type="checkbox" id="f-dauerparken"> Dauerparken möglich</label>
+            <label class="form-check"><input type="checkbox" id="f-kurzzeitparken"> Kurzzeitparken möglich</label>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Bemerkung (optional)</label>
-        <textarea id="f-bemerkung" placeholder="Weitere Informationen…"></textarea>
+
+      <!-- Kontaktdaten -->
+      <div class="form-section">
+        <div class="form-section-title">Ihre Kontaktdaten</div>
+        <div class="form-group">
+          <label>Ihr Name</label>
+          <input type="text" id="f-kontakt-name" placeholder="Wird nicht veröffentlicht">
+        </div>
+        <div class="form-group">
+          <label>E-Mail</label>
+          <input type="email" id="f-email" placeholder="für Rückfragen (wird nicht veröffentlicht)">
+        </div>
       </div>
+
+      <!-- Zusätzliche Informationen -->
+      <div class="form-section">
+        <div class="form-section-title">Zusätzliche Informationen</div>
+        <div class="form-group">
+          <label>Bemerkung</label>
+          <textarea id="f-bemerkung" placeholder="Weitere Informationen, Hinweise, Links…"></textarea>
+        </div>
+      </div>
+
       <div id="form-msg"></div>
       <button class="btn-primary" id="btn-send" onclick="submitForm()">Eintrag einreichen</button>
     </div>
@@ -508,9 +773,41 @@ const TYP_COLORS = {
 };
 function typColor(typ) { return TYP_COLORS[typ] || '#62707c'; }
 
+function makeMarkerIcon(color, plaetze, frei, selected = false) {
+  const n    = parseInt(plaetze) || 0;
+  const cls  = (frei ? ' poi-frei' : '') + (selected ? ' poi-selected' : '');
+  if (n > 0) {
+    const w = n >= 1000 ? 36 : n >= 100 ? 30 : 26;
+    return L.divIcon({
+      className: '',
+      html: `<div class="poi-marker poi-num${cls}" style="background:${color}">${n}</div>`,
+      iconSize: [w, 17],
+      iconAnchor: [w / 2, 8],
+    });
+  }
+  return L.divIcon({
+    className: '',
+    html: `<div class="poi-marker poi-dot${cls}" style="background:${color}"></div>`,
+    iconSize: [9, 9],
+    iconAnchor: [4, 4],
+  });
+}
+
 let mapUebersicht = null;
-let allMarkers    = [];  // {marker, row}
+let allMarkers    = [];
 let pickMap = null, pickMarker = null;
+let addMode   = false;
+let addFabBtn = null;
+
+function toggleAddMode(on) {
+  addMode = on !== undefined ? on : !addMode;
+  if (mapUebersicht) mapUebersicht.getContainer().classList.toggle('add-mode', addMode);
+  if (addFabBtn) {
+    addFabBtn.classList.toggle('active', addMode);
+    addFabBtn.innerHTML = addMode ? '✕' : '+';
+    addFabBtn.title = addMode ? 'Abbrechen' : 'Standort auf Karte wählen';
+  }
+}
 
 async function initUebersicht() {
   mapUebersicht = L.map('map-uebersicht').setView([48.137, 11.575], 12);
@@ -528,41 +825,196 @@ async function initUebersicht() {
     const typ     = (r['Typ'] || '').trim();
     if (!typ || typ.startsWith('http')) return;
 
-    const name       = (r['Name'] || '–').trim();
-    const bew        = (r['Bewirtschaftungsart'] || '').trim();
-    const quelle     = (r['Quelle'] || '').trim();
-    const immo       = (r['Immobilientyp'] || '').trim();
-    const dauerparken = String(r['Dauerparken'] || '').trim().toLowerCase() === 'ja';
-    const adresse    = [r['Straße'], r['Hausnummer']].filter(Boolean).join(' ').trim();
-    const plaetze    = r['Plätze'] || '';
-    const color      = typColor(typ);
+    const name        = (r['Name'] || '–').trim();
+    const bew         = (r['Bewirtschaftungsart'] || '').trim();
+    const quelle      = (r['Quelle'] || '').trim();
+    const immo        = (r['Immobilientyp'] || '').split(',').map(s => s.trim()).filter(Boolean);
+    const dauerparken    = String(r['Dauerparken']     || '').trim().toLowerCase() === 'ja';
+    const parkplatzFrei  = String(r['Parkplatz frei'] || '').trim().toLowerCase() === 'ja';
+    const color          = typColor(typ);
 
-    const marker = L.circleMarker([lat, lon], {
-      radius: 5, fillColor: color, color: '#fff', weight: 1, fillOpacity: 0.85,
+    const d = {
+      name, typ, bew, quelle, immo, dauerparken, parkplatzFrei, color,
+      adresse:      [r['Straße'], r['Hausnummer']].filter(Boolean).join(' ').trim(),
+      plz:          String(r['PLZ']  ?? '').trim(),
+      ort:          (r['Ort']            || '').trim(),
+      plaetze:      (r['Plätze']         || '').toString().trim(),
+      kurzzeit:     (r['Kurzzeitparken'] || '').trim(),
+      preisStunde:  (r['Preis/Stunde']   || '').toString().trim(),
+      preisTag:     (r['Preis/Tag']      || '').toString().trim(),
+      preisMonat:   (r['Preis/Monat']    || '').toString().trim(),
+      oeffnung:     (r['Öffnungszeiten'] || '').trim(),
+      einfahrt:     (r['Einfahrtshöhe']  || '').toString().trim(),
+      url1:         (r['URL 1']          || '').trim(),
+      url2:         (r['URL 2']          || '').trim(),
+      kontakt:      (r['Kontakt']        || '').trim(),
+      bemerkung:    (r['Bemerkung']      || '').trim(),
+    };
+
+    const marker = L.marker([lat, lon], {
+      icon: makeMarkerIcon(color, d.plaetze, parkplatzFrei),
     }).addTo(mapUebersicht);
 
-    marker.bindPopup([
-      `<strong>${name}</strong>`,
-      typ,
-      adresse,
-      bew,
-      immo ? `Immobilie: ${immo}` : '',
-      dauerparken ? 'Dauerparken: Ja' : '',
-      plaetze ? `${plaetze} Stellplätze` : '',
-      quelle ? `Quelle: ${quelle}` : '',
-    ].filter(Boolean).join('<br>'));
+    marker.on('click', (e) => { L.DomEvent.stopPropagation(e); showDetail(d, marker); });
 
-    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken });
+    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei });
   });
+
+  mapUebersicht.on('click', (e) => {
+    if (addMode) {
+      toggleAddMode(false);
+      openModal(e.latlng.lat, e.latlng.lng);
+    } else {
+      closeDetail();
+    }
+  });
+
+  // FAB
+  const AddFab = L.Control.extend({
+    options: { position: 'bottomright' },
+    onAdd() {
+      const btn = L.DomUtil.create('button', 'map-fab');
+      btn.innerHTML = '+';
+      btn.title = 'Standort auf Karte wählen';
+      L.DomEvent.on(btn, 'click', (e) => { L.DomEvent.stopPropagation(e); toggleAddMode(); });
+      addFabBtn = btn;
+      return btn;
+    },
+  });
+  new AddFab().addTo(mapUebersicht);
+
+  // Banner
+  const banner = document.createElement('div');
+  banner.className = 'add-mode-banner';
+  banner.textContent = 'Auf Karte tippen um Standort zu setzen';
+  mapUebersicht.getContainer().appendChild(banner);
+
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && addMode) toggleAddMode(false); });
 
   buildFilters();
   updateCount();
 }
 
+// ── Detail Panel ─────────────────────────────
+
+let _selMarker = null;
+let _selD      = null;
+
+function _restoreSelected() {
+  if (_selMarker && _selD) {
+    _selMarker.setIcon(makeMarkerIcon(_selD.color, _selD.plaetze, _selD.parkplatzFrei, false));
+    _selMarker.setZIndexOffset(0);
+  }
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showDetail(d, marker) {
+  _restoreSelected();
+  if (marker) {
+    marker.setIcon(makeMarkerIcon(d.color, d.plaetze, d.parkplatzFrei, true));
+    marker.setZIndexOffset(500);
+    _selMarker = marker;
+    _selD      = d;
+  }
+  document.getElementById('dp-name').textContent = d.name;
+  document.getElementById('dp-dot').style.background = d.color;
+  document.getElementById('dp-typ').textContent = d.typ;
+
+  const addrParts = [d.adresse, [d.plz, d.ort].filter(Boolean).join(' ')].filter(Boolean);
+  document.getElementById('dp-addr').textContent = addrParts.join(', ');
+
+  let html = '';
+
+  // Nutzung
+  const nutzung = [];
+  if (d.bew)         nutzung.push(['Bewirtschaftung', d.bew]);
+  if (d.immo.length) nutzung.push(['Immobilientyp',   d.immo.join(', ')]);
+  if (d.plaetze)     nutzung.push(['Stellplätze',     d.plaetze]);
+  if (d.oeffnung)    nutzung.push(['Öffnungszeiten',  d.oeffnung]);
+  if (d.einfahrt)    nutzung.push(['Einfahrt max.',   d.einfahrt + ' m']);
+
+  const dpills = [];
+  dpills.push(['Dauerparkplatz frei', d.parkplatzFrei]);
+  if (d.dauerparken)   dpills.push(['Dauerparken', true]);
+  const kurz = d.kurzzeit.toLowerCase();
+  if (kurz === 'ja' || kurz === 'nein') dpills.push(['Kurzzeitparken', kurz === 'ja']);
+
+  if (nutzung.length || dpills.length) {
+    html += `<div class="detail-section"><div class="detail-section-title">Nutzung</div>`;
+    nutzung.forEach(([l, v]) => {
+      html += `<div class="detail-row"><span class="detail-label">${esc(l)}</span><span class="detail-value">${esc(v)}</span></div>`;
+    });
+    if (dpills.length) {
+      html += `<div class="detail-row"><span class="detail-label">Parken</span><span class="detail-value">`;
+      dpills.forEach(([l, ja]) => {
+        const cls = ja ? (l === 'Dauerparkplatz frei' ? ' frei' : ' ja') : '';
+        html += `<span class="detail-pill${cls}">${esc(l)}: ${ja ? 'Ja' : 'Nein'}</span>`;
+      });
+      html += `</span></div>`;
+    }
+    html += `</div>`;
+  }
+
+  // Preise
+  const preise = [];
+  if (d.preisStunde) preise.push(['Pro Stunde', d.preisStunde + ' €']);
+  if (d.preisTag)    preise.push(['Pro Tag',    d.preisTag + ' €']);
+  if (d.preisMonat)  preise.push(['Pro Monat',  d.preisMonat + ' €']);
+  if (preise.length) {
+    html += `<div class="detail-section"><div class="detail-section-title">Preise</div>`;
+    preise.forEach(([l, v]) => {
+      html += `<div class="detail-row"><span class="detail-label">${esc(l)}</span><span class="detail-value">${esc(v)}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Links
+  const links = [d.url1, d.url2].filter(Boolean);
+  if (links.length) {
+    html += `<div class="detail-section"><div class="detail-section-title">Links</div>`;
+    links.forEach(u => {
+      const label = u.replace(/^https?:\/\/(?:www\.)?/, '').replace(/\/.*$/, '');
+      html += `<a class="detail-link" href="${esc(u)}" target="_blank" rel="noopener">${esc(label)}</a>`;
+    });
+    html += `</div>`;
+  }
+
+  // Info / Meta
+  const meta = [];
+  if (d.kontakt)   meta.push(['Kontakt',   d.kontakt]);
+  if (d.bemerkung) meta.push(['Bemerkung', d.bemerkung]);
+  if (meta.length) {
+    html += `<div class="detail-section"><div class="detail-section-title">Info</div>`;
+    meta.forEach(([l, v]) => {
+      html += `<div class="detail-row"><span class="detail-label">${esc(l)}</span><span class="detail-value">${esc(v)}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Quelle (Footer)
+  if (d.quelle) {
+    html += `<div class="detail-quelle">Quelle: ${esc(d.quelle)}</div>`;
+  }
+
+  document.getElementById('dp-body').innerHTML = html;
+  document.getElementById('uebersicht-layout').classList.add('detail-open');
+}
+
+function closeDetail() {
+  _restoreSelected();
+  _selMarker = null;
+  _selD      = null;
+  document.getElementById('uebersicht-layout').classList.remove('detail-open');
+}
+
 // ── Filter-Sidebar aufbauen ──────────────────
 
 const activeFilters = { typ: new Set(), bew: new Set(), quelle: new Set(), immo: new Set() };
-let filterDauerparken = false;
+let filterDauerparken   = false;
+let filterParkplatzFrei = false;
 
 function buildFilters() {
   const counts = { typ: {}, bew: {}, quelle: {}, immo: {} };
@@ -570,7 +1022,7 @@ function buildFilters() {
     counts.typ[typ]       = (counts.typ[typ]       || 0) + 1;
     counts.bew[bew]       = (counts.bew[bew]       || 0) + 1;
     counts.quelle[quelle] = (counts.quelle[quelle] || 0) + 1;
-    if (immo) counts.immo[immo] = (counts.immo[immo] || 0) + 1;
+    immo.forEach(v => { counts.immo[v] = (counts.immo[v] || 0) + 1; });
   });
 
   Object.keys(counts.typ).forEach(v => activeFilters.typ.add(v));
@@ -580,11 +1032,15 @@ function buildFilters() {
 
   const el = document.getElementById('filter-body');
   el.innerHTML = '';
+  el.appendChild(buildDauerparken());
   el.appendChild(buildGroup('Typ',             'typ',    counts.typ,    true));
   el.appendChild(buildGroup('Bewirtschaftung', 'bew',    counts.bew,    false));
   el.appendChild(buildGroup('Immobilientyp',   'immo',   counts.immo,   false));
   el.appendChild(buildGroup('Quelle',          'quelle', counts.quelle, false));
-  el.appendChild(buildDauerparken());
+}
+
+function toggleFilterGroup(header) {
+  header.closest('.filter-group').classList.toggle('open');
 }
 
 function buildGroup(title, key, counts, withDots) {
@@ -592,11 +1048,14 @@ function buildGroup(title, key, counts, withDots) {
   const div = document.createElement('div');
   div.className = 'filter-group';
   div.innerHTML = `
-    <div class="filter-group-header">
+    <div class="filter-group-header" onclick="toggleFilterGroup(this)">
       <span class="filter-group-title">${title}</span>
-      <div class="filter-group-btns">
-        <button class="filter-toggle" onclick="setAll('${key}', true)">Alle</button>
-        <button class="filter-toggle" onclick="setAll('${key}', false)">Keine</button>
+      <div class="filter-group-right">
+        <div class="filter-group-btns">
+          <button class="filter-toggle" onclick="event.stopPropagation();setAll('${key}', true)">Alle</button>
+          <button class="filter-toggle" onclick="event.stopPropagation();setAll('${key}', false)">Keine</button>
+        </div>
+        <span class="filter-group-arrow">▾</span>
       </div>
     </div>
     <div class="filter-options" id="opts-${key}"></div>`;
@@ -621,18 +1080,25 @@ function buildGroup(title, key, counts, withDots) {
 }
 
 function buildDauerparken() {
-  const cnt = allMarkers.filter(m => m.dauerparken).length;
+  const cntD = allMarkers.filter(m => m.dauerparken).length;
+  const cntF = allMarkers.filter(m => m.parkplatzFrei).length;
   const div = document.createElement('div');
   div.className = 'filter-group';
   div.innerHTML = `
-    <div class="filter-group-header">
+    <div class="filter-group-header" onclick="toggleFilterGroup(this)">
       <span class="filter-group-title">Dauerparken</span>
+      <span class="filter-group-arrow">▾</span>
     </div>
     <div class="filter-options">
       <label class="filter-option">
         <input type="checkbox" id="cb-dauerparken" onchange="onDauerparkenChange()">
         <span class="filter-option-label">Nur mit Dauerparken</span>
-        <span class="filter-option-count">${cnt}</span>
+        <span class="filter-option-count">${cntD}</span>
+      </label>
+      <label class="filter-option">
+        <input type="checkbox" id="cb-parkplatzfrei" onchange="onParkplatzFreiChange()">
+        <span class="filter-option-label">Nur mit freiem Dauerparkplatz</span>
+        <span class="filter-option-count">${cntF}</span>
       </label>
     </div>`;
   return div;
@@ -640,6 +1106,11 @@ function buildDauerparken() {
 
 function onDauerparkenChange() {
   filterDauerparken = document.getElementById('cb-dauerparken').checked;
+  applyFilters();
+}
+
+function onParkplatzFreiChange() {
+  filterParkplatzFrei = document.getElementById('cb-parkplatzfrei').checked;
   applyFilters();
 }
 
@@ -660,13 +1131,14 @@ function onFilterChange() {
 
 function applyFilters() {
   let visible = 0;
-  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken }) => {
-    const immoOk = !immo || activeFilters.immo.has(immo);
+  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei }) => {
+    const immoOk = immo.length === 0 || immo.some(v => activeFilters.immo.has(v));
     const show = activeFilters.typ.has(typ)
               && activeFilters.bew.has(bew)
               && activeFilters.quelle.has(quelle)
               && immoOk
-              && (!filterDauerparken || dauerparken);
+              && (!filterDauerparken   || dauerparken)
+              && (!filterParkplatzFrei || parkplatzFrei);
     if (show) { marker.addTo(mapUebersicht); visible++; }
     else       { marker.remove(); }
   });
@@ -764,20 +1236,59 @@ async function initInnenstadt() {
 // MODAL & FORMULAR
 // ══════════════════════════════════════════════
 
-function openModal() {
+function setPickCoords(lat, lng) {
+  document.getElementById('f-lat').value = lat.toFixed(7);
+  document.getElementById('f-lon').value = lng.toFixed(7);
+  if (pickMarker) pickMarker.setLatLng([lat, lng]);
+  else pickMarker = L.marker([lat, lng]).addTo(pickMap);
+  reverseGeocode(lat, lng);
+}
+
+async function reverseGeocode(lat, lng) {
+  const status = document.getElementById('geocode-status');
+  status.textContent = 'Adresse wird ermittelt …';
+  status.style.display = 'block';
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`,
+      { headers: { 'Accept-Language': 'de', 'User-Agent': 'data.parkraumwende.de' } }
+    );
+    if (!res.ok) throw new Error();
+    const d = await res.json();
+    const a = d.address || {};
+    const strasse = a.road || a.pedestrian || a.footway || a.path || '';
+    const hausnr  = a.house_number || '';
+    const plz     = a.postcode || '';
+    const ort     = a.city || a.town || a.village || a.municipality || '';
+    if (strasse) document.getElementById('f-strasse').value = strasse;
+    if (hausnr)  document.getElementById('f-hausnr').value  = hausnr;
+    if (plz)     document.getElementById('f-plz').value     = plz;
+    if (ort)     document.getElementById('f-ort').value     = ort;
+    status.textContent = [strasse, hausnr, plz, ort].filter(Boolean).join(' ') || 'Adresse gefunden';
+  } catch(e) {
+    status.textContent = 'Adresse konnte nicht ermittelt werden.';
+  }
+}
+
+function openModal(lat, lng) {
   document.getElementById('modal-overlay').classList.add('open');
   setTimeout(() => {
-    if (pickMap) { pickMap.invalidateSize(); return; }
-    pickMap = L.map('submit-map-pick', { zoomControl: false }).setView([48.137, 11.575], 12);
+    if (pickMap) {
+      pickMap.invalidateSize();
+      if (lat != null) { pickMap.setView([lat, lng], 17); setPickCoords(lat, lng); }
+      return;
+    }
+    const initLat  = lat  ?? 48.137;
+    const initLng  = lng  ?? 11.575;
+    const initZoom = lat != null ? 17 : 12;
+    pickMap = L.map('submit-map-pick', { zoomControl: false }).setView([initLat, initLng], initZoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap', maxZoom: 19,
     }).addTo(pickMap);
+    if (lat != null) setPickCoords(lat, lng);
     pickMap.on('click', e => {
-      const { lat, lng } = e.latlng;
-      document.getElementById('f-lat').value = lat.toFixed(7);
-      document.getElementById('f-lon').value = lng.toFixed(7);
-      if (pickMarker) pickMarker.setLatLng([lat, lng]);
-      else pickMarker = L.marker([lat, lng]).addTo(pickMap);
+      pickMap.setView(e.latlng, Math.max(pickMap.getZoom(), 17));
+      setPickCoords(e.latlng.lat, e.latlng.lng);
     });
   }, 50);
 }
@@ -803,20 +1314,29 @@ async function submitForm() {
   btn.disabled = true;
   btn.textContent = 'Wird gesendet…';
 
+  const immo = [...document.getElementById('f-immo').selectedOptions]
+    .map(o => o.value).join(', ');
+
   try {
     const res = await fetch('submit.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name,  lat, lon,
-        typ:       document.getElementById('f-typ').value,
-        strasse:   document.getElementById('f-strasse').value.trim(),
-        hausnr:    document.getElementById('f-hausnr').value.trim(),
-        plz:       document.getElementById('f-plz').value.trim(),
-        ort:       document.getElementById('f-ort').value.trim(),
-        plaetze:   document.getElementById('f-plaetze').value.trim(),
-        url:       document.getElementById('f-url').value.trim(),
-        bemerkung: document.getElementById('f-bemerkung').value.trim(),
+        name, lat, lon,
+        kontakt_name:   document.getElementById('f-kontakt-name').value.trim(),
+        email:          document.getElementById('f-email').value.trim(),
+        typ:            document.getElementById('f-typ').value,
+        bew:            document.getElementById('f-bew').value,
+        strasse:        document.getElementById('f-strasse').value.trim(),
+        hausnr:         document.getElementById('f-hausnr').value.trim(),
+        plz:            document.getElementById('f-plz').value.trim(),
+        ort:            document.getElementById('f-ort').value.trim(),
+        plaetze:        document.getElementById('f-plaetze').value.trim(),
+        freie_plaetze:  document.getElementById('f-frei').value.trim(),
+        immotyp:        immo,
+        dauerparken:    document.getElementById('f-dauerparken').checked ? 'Ja' : 'Nein',
+        kurzzeitparken: document.getElementById('f-kurzzeitparken').checked ? 'Ja' : 'Nein',
+        bemerkung:      document.getElementById('f-bemerkung').value.trim(),
       }),
     });
     const data = await res.json();

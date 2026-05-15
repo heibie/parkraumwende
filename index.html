@@ -1371,6 +1371,28 @@ async function submitForm() {
   const immo = [...document.getElementById('f-immo').selectedOptions]
     .map(o => o.value).join(', ');
 
+  const changes = [];
+  if (_correctionD) {
+    const diff = (field, oldVal, newVal) => {
+      const o = String(oldVal ?? '').trim();
+      const n = String(newVal ?? '').trim();
+      if (o !== n) changes.push({ field, alt: o || '–', neu: n || '–' });
+    };
+    const c = _correctionD;
+    diff('Name',          c.name,                      name);
+    diff('Typ',           c.typ,                       document.getElementById('f-typ').value);
+    diff('Bewirtschaftung', c.bew,                     document.getElementById('f-bew').value);
+    diff('Straße',        c.strasse,                   document.getElementById('f-strasse').value.trim());
+    diff('Hausnummer',    c.hausnr,                    document.getElementById('f-hausnr').value.trim());
+    diff('PLZ',           c.plz,                       document.getElementById('f-plz').value.trim());
+    diff('Ort',           c.ort,                       document.getElementById('f-ort').value.trim());
+    diff('Stellplätze',   c.plaetze,                   document.getElementById('f-plaetze').value.trim());
+    diff('Immobilientyp', c.immo.join(', '),            immo);
+    diff('Dauerparken',   c.dauerparken ? 'Ja' : 'Nein', document.getElementById('f-dauerparken').checked ? 'Ja' : 'Nein');
+    diff('Kurzzeitparken', c.kurzzeit.toLowerCase() === 'ja' ? 'Ja' : 'Nein', document.getElementById('f-kurzzeitparken').checked ? 'Ja' : 'Nein');
+    diff('Koordinaten',   `${c.lat.toFixed(5)}, ${c.lon.toFixed(5)}`, `${parseFloat(lat).toFixed(5)}, ${parseFloat(lon).toFixed(5)}`);
+  }
+
   try {
     const res = await fetch('submit.php', {
       method: 'POST',
@@ -1392,6 +1414,7 @@ async function submitForm() {
         kurzzeitparken: document.getElementById('f-kurzzeitparken').checked ? 'Ja' : 'Nein',
         bemerkung:      document.getElementById('f-bemerkung').value.trim(),
         correction_of:  _correctionD ? (_correctionD.id || _correctionD.name) : '',
+        changes,
       }),
     });
     const data = await res.json();

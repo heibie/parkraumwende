@@ -36,13 +36,31 @@ $dauerparken    = trim($input['dauerparken']    ?? '');
 $kurzzeitparken = trim($input['kurzzeitparken'] ?? '');
 $bemerkung      = trim($input['bemerkung']      ?? '');
 $correction_of  = trim($input['correction_of'] ?? '');
+$changes        = $input['changes'] ?? [];
 
 $isCorrection = $correction_of !== '';
 $adresse = trim("$strasse $hausnr");
 $adresseVoll = trim("$adresse, $plz $ort", ', ');
 
-$heading = $isCorrection ? "## Korrekturvorschlag\n\n> Bezieht sich auf Eintrag: **" . $correction_of . "**\n\n" : "## Neuer Karteneintrag\n\n";
-$body  = $heading;
+$heading = $isCorrection
+    ? "## Korrekturvorschlag\n\n> Bezieht sich auf Eintrag: **" . $correction_of . "**\n\n"
+    : "## Neuer Karteneintrag\n\n";
+$body = $heading;
+
+if ($isCorrection && !empty($changes)) {
+    $body .= "### Geänderte Felder\n\n";
+    $body .= "| Feld | Vorher | Nachher |\n|---|---|---|\n";
+    foreach ($changes as $c) {
+        $field = htmlspecialchars($c['field'] ?? '');
+        $alt   = htmlspecialchars($c['alt']   ?? '–');
+        $neu   = htmlspecialchars($c['neu']   ?? '–');
+        $body .= "| **{$field}** | ~~{$alt}~~ | **{$neu}** |\n";
+    }
+    $body .= "\n### Alle Felder\n\n";
+} elseif ($isCorrection) {
+    $body .= "> Keine Felder geändert — nur Bemerkung beachten.\n\n";
+}
+
 $body .= "| Feld | Wert |\n|---|---|\n";
 $body .= "| **Name** | " . $name . " |\n";
 if ($kontakt_name)   $body .= "| **Kontakt** | " . $kontakt_name . " |\n";

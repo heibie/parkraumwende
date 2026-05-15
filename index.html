@@ -342,6 +342,23 @@
       padding-top: 10px;
       border-top: 1px solid var(--border);
     }
+    .detail-footer {
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .detail-edit-btn {
+      width: 100%;
+      padding: 7px 12px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font: inherit;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background .1s, color .1s, border-color .1s;
+    }
+    .detail-edit-btn:hover { background: var(--bg); color: var(--text); border-color: var(--text-dim); }
 
     /* ══════════════════════════════════════
        INNENSTADT
@@ -548,6 +565,9 @@
         <div class="detail-addr" id="dp-addr"></div>
       </div>
       <div class="detail-body" id="dp-body"></div>
+      <div class="detail-footer">
+        <button class="detail-edit-btn" id="dp-edit-btn">Korrektur vorschlagen</button>
+      </div>
     </div>
 
   </div>
@@ -834,7 +854,10 @@ async function initUebersicht() {
     const color          = typColor(typ);
 
     const d = {
-      name, typ, bew, quelle, immo, dauerparken, parkplatzFrei, color,
+      name, typ, bew, quelle, immo, dauerparken, parkplatzFrei, color, lat, lon,
+      id:           String(r['ID']         ?? '').trim(),
+      strasse:      String(r['Straße']     ?? '').trim(),
+      hausnr:       String(r['Hausnummer'] ?? '').trim(),
       adresse:      [r['Straße'], r['Hausnummer']].filter(Boolean).join(' ').trim(),
       plz:          String(r['PLZ']  ?? '').trim(),
       ort:          (r['Ort']            || '').trim(),
@@ -897,8 +920,9 @@ async function initUebersicht() {
 
 // ── Detail Panel ─────────────────────────────
 
-let _selMarker = null;
-let _selD      = null;
+let _selMarker    = null;
+let _selD         = null;
+let _correctionD  = null;
 
 function _restoreSelected() {
   if (_selMarker && _selD) {
@@ -1001,6 +1025,7 @@ function showDetail(d, marker) {
 
   document.getElementById('dp-body').innerHTML = html;
   document.getElementById('uebersicht-layout').classList.add('detail-open');
+  document.getElementById('dp-edit-btn').onclick = () => openCorrectionModal(d);
 }
 
 function closeDetail() {
@@ -1236,6 +1261,33 @@ async function initInnenstadt() {
 // MODAL & FORMULAR
 // ══════════════════════════════════════════════
 
+function openCorrectionModal(d) {
+  _correctionD = d;
+  document.querySelector('#modal-overlay .modal-header h3').textContent = 'Korrektur vorschlagen';
+  openModal(d.lat, d.lon);
+  prefillForm(d);
+}
+
+function prefillForm(d) {
+  document.getElementById('f-name').value    = d.name    || '';
+  document.getElementById('f-strasse').value = d.strasse || '';
+  document.getElementById('f-hausnr').value  = d.hausnr  || '';
+  document.getElementById('f-plz').value     = d.plz     || '';
+  document.getElementById('f-ort').value     = d.ort     || 'München';
+  document.getElementById('f-plaetze').value = d.plaetze || '';
+  document.getElementById('f-bemerkung').value = '';
+
+  const typSel  = document.getElementById('f-typ');
+  const bewSel  = document.getElementById('f-bew');
+  const immoSel = document.getElementById('f-immo');
+  [...typSel.options].forEach(o  => { o.selected = o.value === d.typ; });
+  [...bewSel.options].forEach(o  => { o.selected = o.value === d.bew; });
+  [...immoSel.options].forEach(o => { o.selected = d.immo.includes(o.value); });
+
+  document.getElementById('f-dauerparken').checked    = d.dauerparken;
+  document.getElementById('f-kurzzeitparken').checked = d.kurzzeit.toLowerCase() === 'ja';
+}
+
 function setPickCoords(lat, lng) {
   document.getElementById('f-lat').value = lat.toFixed(7);
   document.getElementById('f-lon').value = lng.toFixed(7);
@@ -1296,6 +1348,8 @@ function openModal(lat, lng) {
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
   document.getElementById('form-msg').innerHTML = '';
+  document.querySelector('#modal-overlay .modal-header h3').textContent = 'Eintrag einreichen';
+  _correctionD = null;
 }
 
 function closeModalOutside(e) {
@@ -1337,6 +1391,7 @@ async function submitForm() {
         dauerparken:    document.getElementById('f-dauerparken').checked ? 'Ja' : 'Nein',
         kurzzeitparken: document.getElementById('f-kurzzeitparken').checked ? 'Ja' : 'Nein',
         bemerkung:      document.getElementById('f-bemerkung').value.trim(),
+        correction_of:  _correctionD ? (_correctionD.id || _correctionD.name) : '',
       }),
     });
     const data = await res.json();

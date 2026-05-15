@@ -35,11 +35,14 @@ $immotyp        = trim($input['immotyp']        ?? '');
 $dauerparken    = trim($input['dauerparken']    ?? '');
 $kurzzeitparken = trim($input['kurzzeitparken'] ?? '');
 $bemerkung      = trim($input['bemerkung']      ?? '');
+$correction_of  = trim($input['correction_of'] ?? '');
 
+$isCorrection = $correction_of !== '';
 $adresse = trim("$strasse $hausnr");
 $adresseVoll = trim("$adresse, $plz $ort", ', ');
 
-$body = "## Neuer Karteneintrag\n\n";
+$heading = $isCorrection ? "## Korrekturvorschlag\n\n> Bezieht sich auf Eintrag: **" . $correction_of . "**\n\n" : "## Neuer Karteneintrag\n\n";
+$body  = $heading;
 $body .= "| Feld | Wert |\n|---|---|\n";
 $body .= "| **Name** | " . $name . " |\n";
 if ($kontakt_name)   $body .= "| **Kontakt** | " . $kontakt_name . " |\n";
@@ -57,9 +60,9 @@ if ($bemerkung)      $body .= "\n**Bemerkung:** " . $bemerkung . "\n";
 $body .= "\n---\n*Eingereicht am " . date('d.m.Y H:i') . " über data.parkraumwende.de*";
 
 $issue = [
-    'title'  => 'Karteneintrag: ' . $name,
+    'title'  => ($isCorrection ? 'Korrektur: ' : 'Karteneintrag: ') . $name,
     'body'   => $body,
-    'labels' => ['submission'],
+    'labels' => [$isCorrection ? 'korrektur' : 'submission'],
 ];
 
 $token = $cfg['github']['token'];

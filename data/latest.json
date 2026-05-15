@@ -1,0 +1,200 @@
+{
+    "timestamp": "2026-05-15 14:35:33",
+    "frei_gesamt": 688,
+    "belegt_gesamt": 3643,
+    "kap_gesamt": 4331,
+    "parkhaeuser": [
+        {
+            "sn": "106501",
+            "ph": "P19",
+            "parkhaus": "Parkhaus am Stachus",
+            "frei": 390,
+            "kap": 390,
+            "aktiv": false
+        },
+        {
+            "sn": "106504",
+            "ph": "P18",
+            "parkhaus": "City-Parkhaus am Färbergraben",
+            "frei": 17,
+            "kap": 350,
+            "aktiv": true
+        },
+        {
+            "sn": "106505",
+            "ph": "P5",
+            "parkhaus": "Parkgarage Rieger-City",
+            "frei": 2,
+            "kap": 350,
+            "aktiv": true
+        },
+        {
+            "sn": "106506",
+            "ph": "P7",
+            "parkhaus": "Sonnenhof Parkgarage",
+            "frei": 21,
+            "kap": 77,
+            "aktiv": false
+        },
+        {
+            "sn": "106507",
+            "ph": "P17",
+            "parkhaus": "Tiefgarage vor der Oper",
+            "frei": 0,
+            "kap": 275,
+            "aktiv": true
+        },
+        {
+            "sn": "106508",
+            "ph": "P21",
+            "parkhaus": "Hertie-Parkhaus",
+            "frei": 417,
+            "kap": 504,
+            "aktiv": false
+        },
+        {
+            "sn": "106509",
+            "ph": "P22",
+            "parkhaus": "Parkgarage Böhringer",
+            "frei": 2,
+            "kap": 150,
+            "aktiv": true
+        },
+        {
+            "sn": "106513",
+            "ph": "P20",
+            "parkhaus": "TG Hotel Ibis City",
+            "frei": 39,
+            "kap": 0,
+            "aktiv": false
+        },
+        {
+            "sn": "106521",
+            "ph": "P23",
+            "parkhaus": "Car Park Cristal",
+            "frei": 428,
+            "kap": 220,
+            "aktiv": false
+        },
+        {
+            "sn": "106524",
+            "ph": "P14",
+            "parkhaus": "Parkhaus Oberanger",
+            "frei": 8,
+            "kap": 393,
+            "aktiv": true
+        },
+        {
+            "sn": "301220",
+            "ph": "P9",
+            "parkhaus": "Tiefgarage Karstadt Oberpollinger",
+            "frei": 27,
+            "kap": 357,
+            "aktiv": true
+        },
+        {
+            "sn": "301234",
+            "ph": "P8",
+            "parkhaus": "Pschorr-Garage",
+            "frei": 8,
+            "kap": 172,
+            "aktiv": true
+        },
+        {
+            "sn": "301236",
+            "ph": "P4",
+            "parkhaus": "Marienplatz-Großgarage",
+            "frei": 161,
+            "kap": 220,
+            "aktiv": false
+        },
+        {
+            "sn": "301264",
+            "ph": "P10",
+            "parkhaus": "Parkhaus Hopfenpost",
+            "frei": 190,
+            "kap": 230,
+            "aktiv": false
+        },
+        {
+            "sn": "301270",
+            "ph": "P1",
+            "parkhaus": "Parkhaus Marsstr. 11",
+            "frei": 388,
+            "kap": 526,
+            "aktiv": true
+        },
+        {
+            "sn": "301271",
+            "ph": "P12",
+            "parkhaus": "Tiefgarage am Hauptbahnhof",
+            "frei": 0,
+            "kap": 79,
+            "aktiv": false
+        },
+        {
+            "sn": "301272",
+            "ph": "P13",
+            "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
+            "frei": 5,
+            "kap": 316,
+            "aktiv": true
+        },
+        {
+            "sn": "301277",
+            "ph": "P2",
+            "parkhaus": "Parkhaus Elisenhof",
+            "frei": 126,
+            "kap": 295,
+            "aktiv": true
+        },
+        {
+            "sn": "401004",
+            "ph": "P24",
+            "parkhaus": "PH Hauptbahnhof Süd",
+            "frei": 29,
+            "kap": 197,
+            "aktiv": true
+        },
+        {
+            "sn": "401010",
+            "ph": "P15",
+            "parkhaus": "Parkhaus am Hofbräuhaus",
+            "frei": 14,
+            "kap": 449,
+            "aktiv": true
+        },
+        {
+            "sn": "401055",
+            "ph": "P6",
+            "parkhaus": "Parkhaus Schrannenhalle",
+            "frei": 0,
+            "kap": 147,
+            "aktiv": true
+        },
+        {
+            "sn": "401060",
+            "ph": "P16",
+            "parkhaus": "Königshof-Parking",
+            "frei": 43,
+            "kap": 104,
+            "aktiv": true
+        },
+        {
+            "sn": "401062",
+            "ph": "P3",
+            "parkhaus": "Parkhaus am Salvatorplatz",
+            "frei": 19,
+            "kap": 250,
+            "aktiv": true
+        },
+        {
+            "sn": "106525",
+            "ph": "P11\/P25",
+            "parkhaus": "Parkhaus am Hauptbahnhof",
+            "frei": 0,
+            "kap": 223,
+            "aktiv": false
+        }
+    ]
+}

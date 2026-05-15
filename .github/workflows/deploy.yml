@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,13 +18,13 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H w00973c8.kasserver.com >> ~/.ssh/known_hosts
-          rsync -avz --delete \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude 'scripts' \
-            --exclude 'cron/_cfg.php' \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H -p 22 w00973c8.kasserver.com >> ~/.ssh/known_hosts 2>/dev/null
+
+          rsync -az --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='scripts' \
+            --exclude='cron/_cfg.php' \
             ./ ssh-v148448@w00973c8.kasserver.com:/www/htdocs/v148448/data.parkraumwende.de/

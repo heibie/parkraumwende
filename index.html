@@ -246,7 +246,6 @@
     .leaflet-container.add-mode { cursor: crosshair !important; }
     .leaflet-container.add-mode .add-mode-banner { display: block; }
     .poi-selected { border-color: #fff !important; border-width: 2.5px !important; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000, 0 3px 8px rgba(0,0,0,0.45) !important; transform: scale(1.35); }
-    .poi-inactive { opacity: 0.55; }
 
     /* Detail Panel */
     .uebersicht-layout.detail-open {
@@ -323,8 +322,11 @@
       color: var(--text-dim);
       margin: 1px 2px 1px 0;
     }
-    .detail-pill.ja   { border-color: #2c2fdf44; background: #2c2fdf0d; color: var(--primary); }
-    .detail-pill.frei { border-color: #16a34a55; background: #16a34a0e; color: #16a34a; font-weight: 700; }
+    .detail-pill.ja     { border-color: #2c2fdf44; background: #2c2fdf0d; color: var(--primary); }
+    .detail-pill.frei   { border-color: #16a34a55; background: #16a34a0e; color: #16a34a; font-weight: 700; }
+    .anzeige-status { font-size: 0.72rem; font-weight: 600; padding: 4px 9px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+    .anzeige-status.offline { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+    .anzeige-status.online  { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
     .detail-link {
       display: block;
       color: var(--primary);
@@ -794,22 +796,21 @@ const TYP_COLORS = {
 };
 function typColor(typ) { return TYP_COLORS[typ] || '#62707c'; }
 
-function makeMarkerIcon(color, plaetze, frei, selected = false, inactive = false) {
+function makeMarkerIcon(color, plaetze, frei, selected = false) {
   const n    = parseInt(plaetze) || 0;
-  const effectiveColor = inactive ? '#94a3b8' : color;
-  const cls  = (frei && !inactive ? ' poi-frei' : '') + (selected ? ' poi-selected' : '') + (inactive ? ' poi-inactive' : '');
+  const cls  = (frei ? ' poi-frei' : '') + (selected ? ' poi-selected' : '');
   if (n > 0) {
     const w = n >= 1000 ? 36 : n >= 100 ? 30 : 26;
     return L.divIcon({
       className: '',
-      html: `<div class="poi-marker poi-num${cls}" style="background:${effectiveColor}">${n}</div>`,
+      html: `<div class="poi-marker poi-num${cls}" style="background:${color}">${n}</div>`,
       iconSize: [w, 17],
       iconAnchor: [w / 2, 8],
     });
   }
   return L.divIcon({
     className: '',
-    html: `<div class="poi-marker poi-dot${cls}" style="background:${effectiveColor}"></div>`,
+    html: `<div class="poi-marker poi-dot${cls}" style="background:${color}"></div>`,
     iconSize: [9, 9],
     iconAnchor: [4, 4],
   });
@@ -931,7 +932,7 @@ let _correctionD  = null;
 
 function _restoreSelected() {
   if (_selMarker && _selD) {
-    _selMarker.setIcon(makeMarkerIcon(_selD.color, _selD.plaetze, _selD.parkplatzFrei, false, _selD.inactive));
+    _selMarker.setIcon(makeMarkerIcon(_selD.color, _selD.plaetze, _selD.parkplatzFrei, false));
     _selMarker.setZIndexOffset(0);
   }
 }
@@ -943,7 +944,7 @@ function esc(s) {
 function showDetail(d, marker) {
   _restoreSelected();
   if (marker) {
-    marker.setIcon(makeMarkerIcon(d.color, d.plaetze, d.parkplatzFrei, true, d.inactive));
+    marker.setIcon(makeMarkerIcon(d.color, d.plaetze, d.parkplatzFrei, true));
     marker.setZIndexOffset(500);
     _selMarker = marker;
     _selD      = d;
@@ -956,6 +957,15 @@ function showDetail(d, marker) {
   document.getElementById('dp-addr').textContent = addrParts.join(', ');
 
   let html = '';
+
+  // Anzeigen-Status
+  if (d.quelle === 'Anzeige') {
+    if (d.aktiv) {
+      html += `<span class="anzeige-status online">● Anzeige online</span>`;
+    } else {
+      html += `<span class="anzeige-status offline">● Anzeige nicht mehr verfügbar</span>`;
+    }
+  }
 
   // Nutzung
   const nutzung = [];

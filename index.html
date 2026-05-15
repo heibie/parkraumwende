@@ -483,8 +483,8 @@
     }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
     .form-group textarea { resize: vertical; min-height: 64px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .form-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
+    .form-row { display: flex; flex-direction: column; gap: 0; }
+    .form-row-3 { display: flex; flex-direction: column; gap: 0; }
     .coords-field { display: flex; gap: 8px; }
     .coords-field input { flex: 1; }
     #submit-map-pick { height: 200px; border: 1px solid var(--border); margin-top: 8px; cursor: crosshair; }
@@ -1352,7 +1352,21 @@ function openModal(lat, lng) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap', maxZoom: 19,
     }).addTo(pickMap);
-    if (lat != null) setPickCoords(lat, lng);
+    if (lat != null) {
+      setPickCoords(lat, lng);
+    } else if (navigator.geolocation) {
+      const status = document.getElementById('geocode-status');
+      status.textContent = 'Standort wird ermittelt …';
+      status.style.display = 'block';
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const { latitude, longitude } = pos.coords;
+          pickMap.setView([latitude, longitude], 17);
+          setPickCoords(latitude, longitude);
+        },
+        () => { status.textContent = 'Standort konnte nicht ermittelt werden.'; }
+      );
+    }
     pickMap.on('click', e => {
       pickMap.setView(e.latlng, Math.max(pickMap.getZoom(), 17));
       setPickCoords(e.latlng.lat, e.latlng.lng);

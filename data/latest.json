@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-16 04:02:01",
-    "frei_gesamt": 3111,
-    "belegt_gesamt": 1224,
+    "timestamp": "2026-05-16 05:02:01",
+    "frei_gesamt": 3109,
+    "belegt_gesamt": 1226,
     "kap_gesamt": 4335,
     "parkhaeuser": [
         {
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 77,
+            "frei": 76,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 215,
+            "frei": 214,
             "kap": 295,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 121,
+            "frei": 120,
             "kap": 157,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 211,
+            "frei": 212,
             "kap": 254,
             "aktiv": true
         },

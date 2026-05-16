@@ -275,7 +275,7 @@
       "encoding": "UTF-8",
       "temporalCoverage": "2010/2024",
       "sources": [
-        { "title": "Münchner Verkehrsgesellschaft (MVV) – Jahresbericht", "path": "https://www.mvv-muenchen.de" }
+        { "title": "Statistisches Amt München – Statistik Verkehr", "path": "https://stadt.muenchen.de/infos/statistik-verkehr.html" }
       ],
       "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
       "schema": {

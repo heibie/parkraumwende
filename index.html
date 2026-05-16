@@ -229,6 +229,49 @@
     }
     .map-fab:hover  { background: var(--primary-d); transform: scale(1.08); }
     .map-fab.active { background: #dc2626; }
+
+    /* ── Adresssuche ── */
+    .search-control {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+      position: relative;
+    }
+    .search-control-inner {
+      display: flex; align-items: center;
+      padding: 0 8px; height: 36px; gap: 6px;
+    }
+    .search-icon { color: var(--text-dim); font-size: 0.95rem; flex-shrink: 0; pointer-events: none; }
+    .search-input {
+      border: none; outline: none; background: none;
+      font: inherit; font-size: 0.82rem; width: 200px; color: var(--text);
+    }
+    .search-input::placeholder { color: var(--text-dim); }
+    .search-clear {
+      background: none; border: none; cursor: pointer; padding: 0;
+      color: var(--text-dim); font-size: 0.9rem; line-height: 1; display: none;
+    }
+    .search-results {
+      display: none;
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.15);
+      max-height: 220px; overflow-y: auto; z-index: 1000;
+    }
+    .search-result-item {
+      padding: 8px 12px; cursor: pointer;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: var(--bg); }
+    .search-result-main { font-size: 0.8rem; font-weight: 500; color: var(--text); }
+    .search-result-sub  { font-size: 0.72rem; color: var(--text-dim); margin-top: 1px; }
+    @media (max-width: 900px) {
+      .search-input { width: 140px; }
+    }
+
     .filter-fab {
       display: none; /* nur mobil sichtbar */
       width: 44px; height: 44px;
@@ -1026,6 +1069,40 @@ async function initUebersicht() {
   });
   new FilterFab().addTo(mapUebersicht);
 
+  // Adresssuche
+  const SearchCtrl = L.Control.extend({
+    options: { position: 'topright' },
+    onAdd(map) {
+      const wrap = L.DomUtil.create('div', 'search-control');
+      L.DomEvent.disableClickPropagation(wrap);
+      wrap.innerHTML = `
+        <div class="search-control-inner">
+          <span class="search-icon">&#128269;</span>
+          <input class="search-input" type="search" placeholder="Adresse suchen …" autocomplete="off" enterkeyhint="search">
+          <button class="search-clear" title="Löschen">&#x2715;</button>
+        </div>
+        <div class="search-results"></div>`;
+      const input   = wrap.querySelector('.search-input');
+      const clear   = wrap.querySelector('.search-clear');
+      const results = wrap.querySelector('.search-results');
+      let timer;
+      input.addEventListener('input', () => {
+        clear.style.display = input.value ? 'block' : 'none';
+        clearTimeout(timer);
+        if (input.value.trim().length < 3) { results.style.display = 'none'; return; }
+        timer = setTimeout(() => geocodeSearch(input.value.trim(), results, map), 380);
+      });
+      clear.addEventListener('click', () => {
+        input.value = ''; clear.style.display = 'none'; results.style.display = 'none'; input.focus();
+      });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { results.style.display = 'none'; input.blur(); }
+      });
+      return wrap;
+    },
+  });
+  new SearchCtrl().addTo(mapUebersicht);
+
   // Banner
   const banner = document.createElement('div');
   banner.className = 'add-mode-banner';
@@ -1036,6 +1113,36 @@ async function initUebersicht() {
 
   buildFilters();
   updateCount();
+}
+
+// ── Adresssuche ──────────────────────────────
+
+async function geocodeSearch(q, resultsEl, map) {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1&accept-language=de&countrycodes=de`;
+    const data = await fetch(url).then(r => r.json());
+    if (!data.length) {
+      resultsEl.innerHTML = '<div class="search-result-item"><span class="search-result-main">Keine Ergebnisse</span></div>';
+      resultsEl.style.display = 'block';
+      return;
+    }
+    resultsEl.innerHTML = data.map(item => {
+      const parts = item.display_name.split(', ');
+      const main  = parts.slice(0, 2).join(', ');
+      const sub   = parts.slice(2, 5).join(', ');
+      return `<div class="search-result-item" data-lat="${item.lat}" data-lon="${item.lon}">
+        <div class="search-result-main">${esc(main)}</div>
+        ${sub ? `<div class="search-result-sub">${esc(sub)}</div>` : ''}
+      </div>`;
+    }).join('');
+    resultsEl.style.display = 'block';
+    resultsEl.querySelectorAll('.search-result-item').forEach(el => {
+      el.addEventListener('click', () => {
+        map.flyTo([+el.dataset.lat, +el.dataset.lon], 17, { duration: 1.2 });
+        resultsEl.style.display = 'none';
+      });
+    });
+  } catch { resultsEl.style.display = 'none'; }
 }
 
 // ── Detail Panel ─────────────────────────────

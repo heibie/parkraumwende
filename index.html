@@ -229,6 +229,28 @@
     }
     .map-fab:hover  { background: var(--primary-d); transform: scale(1.08); }
     .map-fab.active { background: #dc2626; }
+    .filter-fab {
+      display: none; /* nur mobil sichtbar */
+      width: 44px; height: 44px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      align-items: center; justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,.2);
+      transition: background .15s, color .15s;
+      margin-bottom: 8px;
+    }
+    .filter-fab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .sheet-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.3);
+      z-index: 599;
+    }
+    .sheet-backdrop.show { display: block; }
     .add-mode-banner {
       position: absolute;
       top: 12px; left: 50%;
@@ -510,15 +532,69 @@
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
-      body { overflow: auto; height: auto; }
       .uebersicht-layout,
-      .uebersicht-layout.detail-open { grid-template-columns: 1fr; height: auto; }
-      .filter-sidebar { border-right: none; border-bottom: 1px solid var(--border); }
-      #map-uebersicht { height: 55vh; }
+      .uebersicht-layout.detail-open {
+        grid-template-columns: 1fr;
+        height: calc(100dvh - var(--header-h) - var(--nav-h));
+      }
+      #map-uebersicht { height: 100%; }
+
+      /* Filter-Sidebar → Bottom Sheet */
+      .filter-sidebar {
+        position: fixed;
+        inset: auto 0 0 0;
+        max-height: 75vh;
+        border-right: none;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.15);
+        transform: translateY(110%);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+        z-index: 600;
+        overflow-y: auto;
+      }
+      .filter-sidebar::before {
+        content: '';
+        display: block;
+        width: 36px; height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 10px auto 2px;
+      }
+      .filter-sidebar.sheet-open { transform: translateY(0); }
+
+      /* Detail-Panel → Bottom Sheet */
       .detail-panel,
       .uebersicht-layout.detail-open .detail-panel {
-        display: flex; border-left: none; border-top: 1px solid var(--border); max-height: 40vh;
+        display: flex;
+        position: fixed;
+        inset: auto 0 0 0;
+        max-height: 60vh;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.18);
+        transform: translateY(110%);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+        z-index: 601;
+        overflow-y: auto;
+        flex-direction: column;
+        max-width: none;
       }
+      .detail-panel::before {
+        content: '';
+        display: block;
+        width: 36px; height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 10px auto 2px;
+        flex-shrink: 0;
+      }
+      .uebersicht-layout.detail-open .detail-panel { transform: translateY(0); }
+
+      /* Filter FAB einblenden */
+      .filter-fab { display: flex; }
+
       .innenstadt-body { grid-template-columns: 1fr; }
       .tiles-panel { height: 45vh; }
       #map-innenstadt { height: 45vh; }
@@ -545,9 +621,11 @@
 
 <!-- ═══════════ ÜBERSICHT ═══════════ -->
 <div class="section active" id="sec-uebersicht">
+  <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeAllSheets()"></div>
+
   <div class="uebersicht-layout" id="uebersicht-layout">
 
-    <div class="filter-sidebar">
+    <div class="filter-sidebar" id="filter-sidebar">
       <div class="filter-top">
         <div class="filter-count" id="filter-count"><strong>–</strong> Einträge</div>
         <button class="btn-submit" onclick="openModal()">+ Eintrag einreichen</button>
@@ -784,6 +862,29 @@ async function loadCsv(url, delimiter) {
 }
 
 // ══════════════════════════════════════════════
+// SHEET-HELPERS (mobile Bottom Sheets)
+// ══════════════════════════════════════════════
+
+const mobileSheet = () => window.matchMedia('(max-width: 900px)').matches;
+
+let filterFabBtn = null;
+
+function toggleFilterSheet(force) {
+  if (!mobileSheet()) return;
+  const sidebar   = document.getElementById('filter-sidebar');
+  const backdrop  = document.getElementById('sheet-backdrop');
+  const open = force !== undefined ? force : !sidebar.classList.contains('sheet-open');
+  sidebar.classList.toggle('sheet-open', open);
+  backdrop.classList.toggle('show', open);
+  if (filterFabBtn) filterFabBtn.classList.toggle('active', open);
+}
+
+function closeAllSheets() {
+  toggleFilterSheet(false);
+  closeDetail();
+}
+
+// ══════════════════════════════════════════════
 // ÜBERSICHT
 // ══════════════════════════════════════════════
 
@@ -898,7 +999,7 @@ async function initUebersicht() {
     }
   });
 
-  // FAB
+  // FABs
   const AddFab = L.Control.extend({
     options: { position: 'bottomright' },
     onAdd() {
@@ -911,6 +1012,19 @@ async function initUebersicht() {
     },
   });
   new AddFab().addTo(mapUebersicht);
+
+  const FilterFab = L.Control.extend({
+    options: { position: 'bottomleft' },
+    onAdd() {
+      const btn = L.DomUtil.create('button', 'filter-fab');
+      btn.innerHTML = '≡';
+      btn.title = 'Filter';
+      L.DomEvent.on(btn, 'click', (e) => { L.DomEvent.stopPropagation(e); toggleFilterSheet(); });
+      filterFabBtn = btn;
+      return btn;
+    },
+  });
+  new FilterFab().addTo(mapUebersicht);
 
   // Banner
   const banner = document.createElement('div');
@@ -1041,6 +1155,10 @@ function showDetail(d, marker) {
   document.getElementById('dp-body').innerHTML = html;
   document.getElementById('uebersicht-layout').classList.add('detail-open');
   document.getElementById('dp-edit-btn').onclick = () => openCorrectionModal(d);
+  if (mobileSheet()) {
+    toggleFilterSheet(false);
+    document.getElementById('sheet-backdrop').classList.add('show');
+  }
 }
 
 function closeDetail() {
@@ -1048,6 +1166,7 @@ function closeDetail() {
   _selMarker = null;
   _selD      = null;
   document.getElementById('uebersicht-layout').classList.remove('detail-open');
+  document.getElementById('sheet-backdrop').classList.remove('show');
 }
 
 // ── Filter-Sidebar aufbauen ──────────────────

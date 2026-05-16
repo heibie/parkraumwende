@@ -172,6 +172,120 @@
           { "name": "einwohner_auslaender_innen", "type": "integer", "description": "Ausländische Einwohner" }
         ]
       }
+    },
+    {
+      "name": "modal-split",
+      "path": "modal_split.csv",
+      "title": "Modal Split München 2002–2023",
+      "description": "Verkehrsmittelwahl in München (Auto, ÖPNV, Rad, zu Fuß) in Prozent. Erhebungsjahre aus MiD-Studien (2002, 2008, 2017, 2023) sowie Zielwert 2025 aus der Münchner Mobilitätsstrategie.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2002/2025",
+      "sources": [
+        { "title": "Mobilität in Deutschland (MiD) – BMDV / infas", "path": "https://www.mobilitaet-in-deutschland.de" },
+        { "title": "Mobilitätsstrategie München – LHM", "path": "https://stadt.muenchen.de" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Jahr",          "type": "string",  "description": "Verkehrsmittel / Kategorie" },
+          { "name": "2002",          "type": "number",  "description": "Anteil 2002 in Prozent" },
+          { "name": "2008",          "type": "number",  "description": "Anteil 2008 in Prozent" },
+          { "name": "2017",          "type": "number",  "description": "Anteil 2017 in Prozent" },
+          { "name": "2023",          "type": "number",  "description": "Anteil 2023 in Prozent" },
+          { "name": "2025",          "type": "number",  "description": "Zielwert 2025 in Prozent (nur Umweltverbund)" }
+        ]
+      }
+    },
+    {
+      "name": "preissteigerung-oepnv-parken",
+      "path": "preissteigerung_oepnv_parken.csv",
+      "title": "Preisentwicklung ÖPNV-Tickets und Parkraum-Jahresausweis",
+      "description": "Eigene Zusammenstellung der Preisentwicklung: MVV-Streifenkarte (pro Karte), Deutschlandticket (pro Monat) und Parkraum-Jahresausweis München (pro Jahr). Grundlage für den Preisvergleich ÖPNV vs. Parkraum seit 2010.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2010/2026",
+      "sources": [
+        { "title": "MVV – Tarifbestimmungen", "path": "https://www.mvv-muenchen.de" },
+        { "title": "BMDV / VDV – Deutschlandticket", "path": "https://www.bmdv.bund.de" },
+        { "title": "LHM – Parkraumbewirtschaftung", "path": "https://www.muenchen.de" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "Jahr",              "type": "integer", "description": "Berichtsjahr" },
+          { "name": "Streifenkarte",     "type": "number",  "description": "Preis MVV-Streifenkarte in € (10 Streifen)" },
+          { "name": "Deutschlandticket", "type": "number",  "description": "Monatspreis Deutschlandticket in €" },
+          { "name": "Parkraum Lizenz",   "type": "number",  "description": "Jahrespreis Parkraum-Jahresausweis München in €" }
+        ]
+      }
+    },
+    {
+      "name": "visionzero-unfaelle",
+      "path": "visionzero_unfaelle.csv",
+      "title": "Verkehrsunfallstatistik München 2010–2024",
+      "description": "Jährliche Anzahl Verletzter und Getöteter im Münchner Stadtgebiet. Grundlage für die Vision-Zero-Auswertung.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2010/2024",
+      "sources": [
+        { "title": "Polizeipräsidium München – Verkehrsunfallstatistik", "path": "https://www.polizei.bayern.de/muenchen/" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Jahr",      "type": "integer", "description": "Berichtsjahr" },
+          { "name": "Verletzte", "type": "integer", "description": "Verletzte gesamt" },
+          { "name": "Tote",      "type": "integer", "description": "Getötete gesamt" }
+        ]
+      }
+    },
+    {
+      "name": "visionzero-schulwegunfaelle",
+      "path": "visionzero_schulwegunfaelle.csv",
+      "title": "Schulwegunfälle München 2010–2024",
+      "description": "Jährliche Schulwegunfälle im Münchner Stadtgebiet, aufgeschlüsselt nach Verkehrsmittel (zu Fuß, Fahrrad, Schulbus, PKW/Tram).",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2010/2024",
+      "sources": [
+        { "title": "Polizeipräsidium München – Schulwegunfallstatistik", "path": "https://www.polizei.bayern.de/muenchen/" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Jahr",                    "type": "integer", "description": "Berichtsjahr" },
+          { "name": "insgesamt",               "type": "integer", "description": "Unfälle insgesamt" },
+          { "name": "insgesamt verunglückt",   "type": "integer", "description": "Verunglückte insgesamt" },
+          { "name": "zu Fuß verunglückt",      "type": "integer", "description": "Zu Fuß verunglückte Kinder" },
+          { "name": "auf Fahrrad verunglückt", "type": "integer", "description": "Auf dem Fahrrad verunglückte Kinder" },
+          { "name": "im Schulbus verunglückt", "type": "integer", "description": "Im Schulbus verunglückte Kinder" },
+          { "name": "in PKW/Tram verunglückt", "type": "integer", "description": "In PKW oder Tram verunglückte Kinder" },
+          { "name": "Verletzte",               "type": "integer", "description": "Verletzte gesamt" },
+          { "name": "Tote",                    "type": "integer", "description": "Getötete gesamt" }
+        ]
+      }
+    },
+    {
+      "name": "mvv",
+      "path": "mvv.csv",
+      "title": "MVV – Fahrgastzahlen und Netzlänge 2010–2024",
+      "description": "Jährliche Fahrgastzahlen (beförderte Personen) sowie Linien- und Streckenlänge des MVV-Verbundnetzes.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2010/2024",
+      "sources": [
+        { "title": "Münchner Verkehrsgesellschaft (MVV) – Jahresbericht", "path": "https://www.mvv-muenchen.de" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Jahr",                  "type": "integer", "description": "Berichtsjahr" },
+          { "name": "beförderte Personen",   "type": "integer", "description": "Beförderte Personen gesamt" },
+          { "name": "Linienlänge in km",     "type": "integer", "description": "Gesamte Linienlänge in km" },
+          { "name": "Streckenlänge in km",   "type": "integer", "description": "Gesamte Streckenlänge in km" }
+        ]
+      }
     }
   ]
 }

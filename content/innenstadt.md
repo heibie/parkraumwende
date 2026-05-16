@@ -1,0 +1,1 @@
+**Parkhäuser Innenstadt – Live-Auslastung** – Die werden alle zwei Stunden automatisch aktualisiert. [Die Datenquelle liegt hier](https://pls-muc-z.com/pls/info/parkhaus.html). Ausgegraute Einträge werden als inaktiv übernommen.

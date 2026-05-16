@@ -1,0 +1,1 @@
+**Daten und Auswertungen** – Statistische Kennzahlen zum PKW-Bestand, Antriebsarten und Neuzulassungen in München. Quellen: KFZ-Zulassungsstelle München, Statistisches Amt München, Mobilität in Deutschland (MiD).

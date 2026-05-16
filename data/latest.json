@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-05-16 13:02:01",
-    "frei_gesamt": 766,
-    "belegt_gesamt": 3651,
-    "kap_gesamt": 4417,
+    "timestamp": "2026-05-16 14:02:02",
+    "frei_gesamt": 654,
+    "belegt_gesamt": 3765,
+    "kap_gesamt": 4419,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -16,7 +16,7 @@
             "sn": "106504",
             "ph": "P18",
             "parkhaus": "City-Parkhaus am Färbergraben",
-            "frei": 5,
+            "frei": 3,
             "kap": 350,
             "aktiv": true
         },
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 2,
+            "frei": 0,
             "kap": 376,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 69,
+            "frei": 11,
             "kap": 357,
             "aktiv": true
         },
@@ -96,8 +96,8 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 7,
-            "kap": 179,
+            "frei": 2,
+            "kap": 183,
             "aktiv": true
         },
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 369,
+            "frei": 364,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 18,
+            "frei": 6,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 143,
+            "frei": 127,
             "kap": 295,
             "aktiv": true
         },
@@ -161,7 +161,7 @@
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
             "frei": 0,
-            "kap": 474,
+            "kap": 472,
             "aktiv": true
         },
         {
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 51,
+            "frei": 41,
             "kap": 104,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 49,
+            "frei": 47,
             "kap": 267,
             "aktiv": true
         },

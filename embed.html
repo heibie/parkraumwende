@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramm – Parkraumwende München</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; font-family: system-ui, -apple-system, sans-serif; background: #fff; color: #272c30; }
+    body { display: flex; flex-direction: column; }
+
+    .e-head { padding: 10px 16px 7px; flex-shrink: 0; border-bottom: 1px solid #e8ebee; }
+    .e-title { font-size: 0.82rem; font-weight: 700; line-height: 1.3; }
+    .e-sub   { font-size: 0.63rem; color: #62707c; margin-top: 2px; }
+
+    .e-body  { flex: 1; min-height: 0; position: relative; padding: 14px 16px 8px; }
+    #chart   { width: 100% !important; height: 100% !important; }
+
+    .e-foot {
+      padding: 5px 16px;
+      flex-shrink: 0;
+      border-top: 1px solid #e8ebee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      color: #888;
+    }
+    .e-foot a { color: #2c2fdf; text-decoration: none; font-weight: 600; }
+    .e-foot a:hover { text-decoration: underline; }
+
+    .e-err { display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+
+<div class="e-head">
+  <div class="e-title" id="e-title">Lade …</div>
+  <div class="e-sub"   id="e-sub"></div>
+</div>
+<div class="e-body">
+  <canvas id="chart"></canvas>
+</div>
+<div class="e-foot">
+  <span id="e-source"></span>
+  <a href="https://data.parkraumwende.de" target="_blank">data.parkraumwende.de ↗</a>
+</div>
+
+<script>
+const COLORS = {
+  dunkelblau: '#1e3a5f', blau: '#2563eb', indigo: '#4338ca',
+  gelb: '#ffca76', gruen: '#009076', rot: '#c71e1d',
+  beige: '#d8c8b1', lila: '#887db7', grau: '#c7c8c9',
+};
+
+const CHARTS = {
+  'pkw-gesamt': {
+    title:  'Entwicklung des PKW-Bestands',
+    sub:    'München 2010–2025',
+    source: 'KFZ-Zulassungsstelle München / Statistisches Amt',
+    init:   initPkwGesamt,
+  },
+  'pkw-haltung': {
+    title:  'Privat vs. Gewerblich',
+    sub:    'Zusammensetzung des PKW-Bestands 2010–2025',
+    source: 'KFZ-Zulassungsstelle München / Statistisches Amt',
+    init:   initPkwHaltung,
+  },
+  'pkw-antrieb': {
+    title:  'Antriebsarten im Bestand',
+    sub:    'Verbrenner, Hybrid und Elektro 2016–2025',
+    source: 'KFZ-Zulassungsstelle München / Statistisches Amt',
+    init:   initPkwAntrieb,
+  },
+  'neu-gross': {
+    title:  'Neuzulassungen große KFZ',
+    sub:    'Oberklasse, Geländewagen, SUV, Sportwagen, Vans & Wohnmobile · München 2010–2024',
+    source: 'KFZ-Zulassungsstelle München',
+    init:   initNeuGross,
+  },
+  'hh-donut': {
+    title:  'Autobesitz je Haushalt',
+    sub:    'Anteil der Münchner Haushalte nach Fahrzeuganzahl',
+    source: 'Mobilität in Deutschland (MiD)',
+    init:   initHhDonut,
+  },
+  'einkommen': {
+    title:  'Autobesitz nach Haushaltseinkommen',
+    sub:    'Anteil mit mindestens einem Auto',
+    source: 'Mobilität in Deutschland (MiD)',
+    init:   initEinkommen,
+  },
+  'wachstum': {
+    title:  'Wachstum seit 2010: Bevölkerung und PKW-Bestand',
+    sub:    'Prozentuales Wachstum relativ zu 2010',
+    source: 'Statistisches Amt München',
+    init:   initWachstum,
+  },
+  'modal-split': {
+    title:  'Modal Split München',
+    sub:    'Verkehrsmittelwahl in Prozent · 2002–2023, Ziel 2025',
+    source: 'MiD / Statistisches Amt München / LHM',
+    init:   initModalSplit,
+  },
+  'preis': {
+    title:  'Preissteigerungen ÖPNV vs. Parklizenz seit 2010',
+    sub:    'Streifenkarte & Parkraum ab 2010, Deutschlandticket ab 2022',
+    source: 'MVV / LHM',
+    init:   initPreis,
+  },
+  'vz-unfaelle': {
+    title:  'Verkehrsunfälle München',
+    sub:    'Verletzte und Tote 2010–2024',
+    source: 'Polizeipräsidium München',
+    init:   initVzUnfaelle,
+  },
+  'vz-schulweg': {
+    title:  'Schulwegunfälle München',
+    sub:    'Verunglückte nach Verkehrsmittel 2010–2024',
+    source: 'Polizeipräsidium München',
+    init:   initVzSchulweg,
+  },
+  'mvv-fahrgaeste': {
+    title:  'MVV Fahrgäste',
+    sub:    'Beförderte Personen 2010–2024',
+    source: 'MVV',
+    init:   initMvvFahrgaeste,
+  },
+  'mvv-netz': {
+    title:  'MVV Netzausbau',
+    sub:    'Linien- und Streckenlänge in km 2010–2024',
+    source: 'MVV',
+    init:   initMvvNetz,
+  },
+};
+
+const chartId = new URLSearchParams(location.search).get('chart') || '';
+const meta    = CHARTS[chartId];
+
+if (!meta) {
+  document.getElementById('e-title').textContent = 'Unbekanntes Diagramm';
+  document.getElementById('chart').replaceWith(
+    Object.assign(document.createElement('div'), { className: 'e-err', textContent: 'Diagramm nicht gefunden.' })
+  );
+} else {
+  document.getElementById('e-title').textContent  = meta.title;
+  document.getElementById('e-sub').textContent    = meta.sub;
+  document.getElementById('e-source').textContent = 'Quelle: ' + meta.source;
+  meta.init();
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function loadCsv(path) {
+  return new Promise(resolve =>
+    Papa.parse(path, { download: true, header: true, skipEmptyLines: true, complete: r => resolve(r.data) })
+  );
+}
+
+const trim  = v => String(v ?? '').trim();
+const num   = v => parseFloat(trim(v).replace(/\s/g, '')) || 0;
+const yTsd  = { ticks: { callback: v => (v / 1000).toFixed(0) + ' Tsd.', font: { size: 11 } }, grid: { color: '#e8ebee' } };
+const xBase = { ticks: { font: { size: 11 } }, grid: { display: false } };
+
+// ─── Chart definitions ────────────────────────────────────────────────────────
+
+async function initPkwGesamt() {
+  const rows = await loadCsv('data/pkw_bestand.csv');
+  new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: {
+      labels: rows.map(r => trim(r['Jahr'])),
+      datasets: [{ label: 'PKW-Bestand gesamt', data: rows.map(r => num(r['PKW-Bestand'])),
+        borderColor: COLORS.gelb, backgroundColor: 'rgba(255,202,118,0.15)', fill: true,
+        tension: 0.35, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2 }],
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('de-DE') + ' Fahrzeuge' } } },
+      scales: { y: yTsd, x: xBase } },
+  });
+}
+
+async function initPkwHaltung() {
+  const rows = await loadCsv('data/pkw_bestand.csv');
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => trim(r['Jahr'])),
+      datasets: [
+        { label: 'Privat',     data: rows.map(r => num(r['privat'])),     backgroundColor: COLORS.blau,  stack: 's' },
+        { label: 'Gewerblich', data: rows.map(r => num(r['gewerblich'])), backgroundColor: COLORS.beige, stack: 's' },
+      ],
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } }, tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('de-DE') } } },
+      scales: { x: { ...xBase, stacked: true }, y: { ...yTsd, stacked: true } } },
+  });
+}
+
+async function initPkwAntrieb() {
+  const rows = await loadCsv('data/pkw_bestand.csv');
+  const r16  = rows.filter(r => +trim(r['Jahr']) >= 2016);
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels: r16.map(r => trim(r['Jahr'])),
+      datasets: [
+        { label: 'Verbrenner', data: r16.map(r => num(r['Verbrenner'])), backgroundColor: COLORS.beige, stack: 's' },
+        { label: 'Hybrid',     data: r16.map(r => num(r['Hybrid'])),     backgroundColor: COLORS.gelb,  stack: 's' },
+        { label: 'Elektro',    data: r16.map(r => num(r['Elektro'])),    backgroundColor: COLORS.gruen, stack: 's' },
+      ],
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } }, tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('de-DE') } } },
+      scales: { x: { ...xBase, stacked: true }, y: { ...yTsd, stacked: true } } },
+  });
+}
+
+async function initNeuGross() {
+  const rows = await loadCsv('data/neuzulassungen_fahrzeugtypen.csv');
+  const cols = [
+    { key: 'Oberklasse',           color: COLORS.dunkelblau },
+    { key: 'Geländewagen',         color: COLORS.blau       },
+    { key: 'SUVs',                 color: COLORS.indigo     },
+    { key: 'Sportwagen',           color: COLORS.rot        },
+    { key: 'Mini-Vans',            color: COLORS.gelb       },
+    { key: 'Großraum-Vans',        color: COLORS.gruen      },
+    { key: 'Utilities/Wohnmobile', color: COLORS.beige      },
+  ];
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => trim(r['Jahr'])),
+      datasets: cols.map(c => ({
+        label: c.key === 'SUVs' ? 'SUV' : c.key,
+        data: rows.map(r => num(r[c.key])),
+        backgroundColor: c.color, stack: 's',
+      })),
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } }, tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('de-DE') } } },
+      scales: { x: { ...xBase, stacked: true }, y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' }, stacked: true } } },
+  });
+}
+
+async function initHhDonut() {
+  const res = await fetch('data/pkw_haushalt.csv');
+  const txt = await res.text();
+  const { data: raw } = Papa.parse(txt, { header: false, dynamicTyping: true, skipEmptyLines: true });
+  const rows = raw.filter(r => r[0] && r[1] != null);
+  new Chart(document.getElementById('chart'), {
+    type: 'doughnut',
+    data: {
+      labels: rows.map(r => String(r[0])),
+      datasets: [{ data: rows.map(r => Number(r[1])),
+        backgroundColor: [COLORS.gruen, COLORS.gelb, COLORS.rot], borderWidth: 2 }],
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.parsed + ' %' } } } },
+  });
+}
+
+async function initEinkommen() {
+  const rows = await loadCsv('data/pkw_einkommen.csv');
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => trim(r['Einkommen'])),
+      datasets: [
+        { label: 'Mindestens ein Auto', data: rows.map(r => num(r['mindestens ein Auto'])), backgroundColor: COLORS.blau, stack: 's' },
+        { label: 'Kein Auto',           data: rows.map(r => num(r['Kein Auto'])),           backgroundColor: COLORS.grau, stack: 's' },
+      ],
+    },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.x + ' %' } } },
+      scales: {
+        x: { stacked: true, max: 100, ticks: { callback: v => v + ' %', font: { size: 11 } }, grid: { color: '#e8ebee' } },
+        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } },
+      } },
+  });
+}
+
+async function initModalSplit() {
+  const rows = await loadCsv('data/modal_split.csv');
+  const years = ['2002', '2008', '2017', '2023', '2025'];
+  const get = (cat, yr) => {
+    const row = rows.find(r => trim(r['Jahr']) === cat);
+    const v = row ? trim(row[yr]) : '';
+    return v === '' ? null : num(v);
+  };
+  const labels = years.map(y => y === '2025' ? ['2025', '(Ziel)'] : y);
+  const beige  = years.map(y => y === '2025' ? 'rgba(216,200,177,0.55)' : '#d8c8b1');
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Auto (PKW)',           data: years.map(y => get('Auto',   y)), backgroundColor: beige,     stack: 's' },
+        { label: 'ÖPNV',                 data: years.map(y => get('ÖPNV',   y)), backgroundColor: '#009076', stack: 's' },
+        { label: 'Rad',                  data: years.map(y => get('Rad',    y)), backgroundColor: '#3dab8d', stack: 's' },
+        { label: 'zu Fuß',              data: years.map(y => get('zu Fuß', y)), backgroundColor: '#8dd4c2', stack: 's' },
+        { label: 'Umweltverbund (Ziel)', data: years.map(y => y === '2025' ? get('Umweltverbund', y) : null), backgroundColor: '#009076', stack: 's' },
+      ],
+    },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{labels:{font:{size:11},boxWidth:13,padding:14}},
+        tooltip:{ filter: item=>item.parsed.y!=null, callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y+' %'} } },
+      scales:{ x:{stacked:true,ticks:{font:{size:11}},grid:{display:false}},
+        y:{stacked:true,max:100,ticks:{callback:v=>v+' %',font:{size:11}},grid:{color:'#e8ebee'}} } },
+  });
+}
+
+async function initPreis() {
+  const thenVals  = [11.50, 9.00, 30.00];
+  const nowVals   = [18.70, 63.00, 30.00];
+  const catColors = [COLORS.blau, COLORS.gruen, '#f59e0b'];
+  const pcts = nowVals.map((v, i) => +((v / thenVals[i] - 1) * 100).toFixed(0));
+  const changeLabelPlugin = {
+    id: 'changeLabel',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      chart.getDatasetMeta(1).data.forEach((bar, i) => {
+        const p = pcts[i];
+        ctx.save();
+        ctx.font = 'bold 12px system-ui, sans-serif';
+        ctx.fillStyle = p === 0 ? '#f59e0b' : '#1e293b';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText((p > 0 ? '+' : '') + p + ' %', bar.x, bar.y - 6);
+        ctx.restore();
+      });
+    },
+  };
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    plugins: [changeLabelPlugin],
+    data: {
+      labels: [
+        ['Streifenkarte MVV', '(€/Karte, ab 2010)'],
+        ['Deutschlandticket', '(€/Monat, ab 2022)'],
+        ['Parkraum-Lizenz', '(€/Jahr, ab 2010)'],
+      ],
+      datasets: [
+        { label: 'Startpreis', data: thenVals,
+          backgroundColor: catColors.map(c => c + '55'), borderColor: catColors, borderWidth: 1 },
+        { label: '2026', data: nowVals,
+          backgroundColor: catColors, borderColor: catColors, borderWidth: 1 },
+      ],
+    },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{font:{size:11},boxWidth:13,padding:14}},
+        tooltip:{callbacks:{
+          title: ctx => ctx[0].label,
+          label: ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €',
+        }},
+      },
+      scales:{
+        x:{...xBase, ticks:{font:{size:11},maxRotation:0}},
+        y:{ticks:{callback:v=>v+' €',font:{size:11}},grid:{color:'#e8ebee'},beginAtZero:true},
+      },
+    },
+  });
+}
+
+async function initVzUnfaelle() {
+  const rows = await loadCsv('data/visionzero_unfaelle.csv');
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => trim(r['Jahr'])),
+      datasets: [
+        { label:'Verletzte', data:rows.map(r=>num(r['Verletzte'])), backgroundColor:COLORS.gelb, yAxisID:'y', order:2 },
+        { label:'Tote', data:rows.map(r=>num(r['Tote'])), type:'line',
+          borderColor:COLORS.rot, backgroundColor:'transparent', tension:0.3, pointRadius:5, borderWidth:2, yAxisID:'y2', order:1 },
+      ],
+    },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{labels:{font:{size:11},boxWidth:13,padding:14}},
+        tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('de-DE')}} },
+      scales:{ x:xBase,
+        y:{ticks:{font:{size:11}},grid:{color:'#e8ebee'},title:{display:true,text:'Verletzte',font:{size:10},color:'#62707c'}},
+        y2:{position:'right',ticks:{font:{size:11}},grid:{display:false},title:{display:true,text:'Tote',font:{size:10},color:'#62707c'}} } },
+  });
+}
+
+async function initVzSchulweg() {
+  const rows = await loadCsv('data/visionzero_schulwegunfaelle.csv');
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => trim(r['Jahr'])),
+      datasets: [
+        { label:'zu Fuß',   data:rows.map(r=>num(r['zu Fuß verunglückt'])),       backgroundColor:COLORS.gelb,  stack:'s' },
+        { label:'Fahrrad',  data:rows.map(r=>num(r['auf Fahrrad verunglückt'])),  backgroundColor:COLORS.gruen, stack:'s' },
+        { label:'PKW/Tram', data:rows.map(r=>num(r['in PKW/Tram verunglückt'])),  backgroundColor:COLORS.beige, stack:'s' },
+        { label:'Schulbus', data:rows.map(r=>num(r['im Schulbus verunglückt'])),  backgroundColor:COLORS.grau,  stack:'s' },
+      ],
+    },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{labels:{font:{size:11},boxWidth:13,padding:14}},
+        tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y}} },
+      scales:{ x:{...xBase,stacked:true}, y:{stacked:true,ticks:{font:{size:11}},grid:{color:'#e8ebee'}} } },
+  });
+}
+
+async function initMvvFahrgaeste() {
+  const rows = await loadCsv('data/mvv.csv');
+  new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: {
+      labels: rows.map(r => trim(r['Jahr'])),
+      datasets: [{ label:'Beförderte Personen', data:rows.map(r=>+(num(r['beförderte Personen'])/1e6).toFixed(1)),
+        borderColor:COLORS.blau, backgroundColor:'rgba(37,99,235,0.1)', fill:true, tension:0.35, pointRadius:4, borderWidth:2 }],
+    },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.parsed.y.toLocaleString('de-DE')+' Mio.'}} },
+      scales:{ x:xBase, y:{ticks:{callback:v=>v+' Mio.',font:{size:11}},grid:{color:'#e8ebee'}} } },
+  });
+}
+
+async function initMvvNetz() {
+  const rows = await loadCsv('data/mvv.csv');
+  new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: {
+      labels: rows.map(r => trim(r['Jahr'])),
+      datasets: [
+        { label:'Linienlänge', data:rows.map(r=>num(r['Linienlänge in km'])),
+          borderColor:COLORS.blau, backgroundColor:'rgba(37,99,235,0.1)', fill:true, tension:0.35, pointRadius:4, borderWidth:2 },
+      ],
+    },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.parsed.y.toLocaleString('de-DE')+' km'}} },
+      scales:{ x:xBase, y:{ticks:{callback:v=>v+' km',font:{size:11}},grid:{color:'#e8ebee'}} } },
+  });
+}
+
+async function initWachstum() {
+  const [pkwRows, bevRows] = await Promise.all([
+    loadCsv('data/pkw_bestand.csv'),
+    loadCsv('data/bevoelkerung_ab_1900_stand_2024.csv'),
+  ]);
+  const pkwBase   = num((pkwRows.find(r => trim(r['Jahr']) === '2010') ?? {})['PKW-Bestand']);
+  const pkwLast   = num((pkwRows.filter(r => +trim(r['Jahr']) <= 2024).at(-1) ?? {})['PKW-Bestand']);
+  const bev2010   = bevRows.find(r => String(r['jahr']) === '2010');
+  const bevLast   = bevRows.at(-1);
+  const bevGrowth = +((Number(bevLast?.['einwohner_Insgesamt']) / Number(bev2010?.['einwohner_Insgesamt']) - 1) * 100).toFixed(1);
+  const pkwGrowth = +((pkwLast / pkwBase - 1) * 100).toFixed(1);
+
+  const barLabelPlugin = {
+    id: 'barLabel',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      chart.data.datasets.forEach((ds, i) => {
+        chart.getDatasetMeta(i).data.forEach((bar, j) => {
+          const v = ds.data[j];
+          ctx.save();
+          ctx.fillStyle = '#1e293b';
+          ctx.font = 'bold 15px system-ui, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText((v >= 0 ? '+' : '') + v.toFixed(1) + ' %', bar.x, bar.y - 6);
+          ctx.restore();
+        });
+      });
+    },
+  };
+
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    plugins: [barLabelPlugin],
+    data: {
+      labels: ['Bevölkerung', 'PKW-Bestand'],
+      datasets: [{ data: [bevGrowth, pkwGrowth], backgroundColor: [COLORS.gruen, COLORS.dunkelblau], barThickness: 72 }],
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y + ' %' } } },
+      scales: {
+        y: { ticks: { callback: v => (v >= 0 ? '+' : '') + v + ' %', font: { size: 11 } }, grid: { color: '#e8ebee' }, beginAtZero: true },
+        x: { ticks: { font: { size: 13 }, color: '#1e293b' }, grid: { display: false } },
+      } },
+  });
+}
+</script>
+</body>
+</html>

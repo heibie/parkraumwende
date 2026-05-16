@@ -1,1 +1,1 @@
-**Parkraumkarte München** – Hier entsteht eine offene Karte aller Parkhäuser, Tiefgaragen und Stellplätze in München. Einträge können über das Formular eingereicht werden und werden nach Prüfung übernommen.
+**Parkraumkarte München** – Hier entsteht eine offene Karte aller Parkhäuser, Tiefgaragen und Stellplätze in München. **Wichtig** Die Karte erfasst die Gesamtzahl an privaten Stellplätzen. Eine Aussage darüber, wieviele davon wirklich frei sind ist momentan nicht möglich. Einträge können über das Formular eingereicht werden und werden nach Prüfung übernommen.

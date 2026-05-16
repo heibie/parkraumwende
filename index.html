@@ -60,6 +60,7 @@
       --red:       #c0392b;
       --header-h:  52px;
       --nav-h:     42px;
+      --footer-h:  34px;
     }
 
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; }
@@ -104,8 +105,8 @@
 
     /* ── Section container ── */
     .section { display: none; }
-    .section.active { display: flex; flex-direction: column; height: calc(100vh - var(--header-h) - var(--nav-h)); }
-    .content-height { height: calc(100vh - var(--header-h) - var(--nav-h)); overflow: hidden; }
+    .section.active { display: flex; flex-direction: column; height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h)); }
+    .content-height { height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h)); overflow: hidden; }
 
     .editorial-box {
       background: var(--surface);
@@ -533,6 +534,39 @@
     .stat-value.belegt { color: var(--red); }
     .stat-value.pct    { color: var(--primary); }
 
+    /* Stats-bar toggle (desktop: hidden) */
+    .sb-toggle {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      padding: 9px 0;
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      cursor: pointer;
+      flex-shrink: 0;
+      text-align: left;
+    }
+    .sb-toggle:hover { color: var(--text); }
+    .sb-arrow { font-size: 0.65rem; display: inline-block; transition: transform .2s; margin-left: 6px; }
+    .stats-bar.sb-open .sb-arrow { transform: rotate(180deg); }
+
+    /* Filter section heading */
+    .filter-section-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-dim);
+      padding: 6px 2px 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+
     .innenstadt-body {
       display: grid;
       grid-template-columns: 1fr 360px;
@@ -587,7 +621,7 @@
        STATISTIKEN
     ══════════════════════════════════════ */
     .stats-section-body {
-      height: calc(100vh - var(--header-h) - var(--nav-h));
+      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -648,6 +682,26 @@
     .form-msg { padding: 10px; font-size: 0.82rem; margin-top: 10px; }
     .form-msg.ok    { background: #e8f5ec; color: #1e5c30; border: 1px solid #b5d9bf; }
     .form-msg.error { background: #fce8e6; color: #8b1a14; border: 1px solid #f0b0ab; }
+
+    /* ── Site Footer ── */
+    .site-footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--footer-h);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 20px;
+      font-size: 0.67rem;
+      color: var(--text-dim);
+      z-index: 200;
+    }
+    .site-footer a { color: var(--text-dim); text-decoration: none; }
+    .site-footer a:hover { color: var(--text); }
+    .site-footer .footer-copy { margin-right: auto; }
+    .site-footer .footer-sep { opacity: 0.35; }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
@@ -715,6 +769,14 @@
       .innenstadt-body { grid-template-columns: 1fr; }
       .tiles-panel { height: 45vh; }
       #map-innenstadt { height: 45vh; }
+
+      /* Collapsible stats bars on mobile */
+      .sb-toggle { display: flex; }
+      .stats-bar .stat,
+      .stats-bar .editorial-box { display: none; }
+      .stats-bar.sb-open .stat { display: flex; }
+      .stats-bar.sb-open .editorial-box { display: block; }
+      .stats-bar--info { display: none; }
     }
     @media (max-width: 560px) {
       header p { display: none; }
@@ -723,7 +785,7 @@
     }
     /* ══ Statistiken ══════════════════════════════ */
     .stats-body {
-      height: calc(100vh - var(--header-h) - var(--nav-h));
+      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h));
       overflow-y: auto;
       padding: 32px 24px 48px;
     }
@@ -735,6 +797,13 @@
       gap: 20px;
     }
     .stat-card-wide { grid-column: 1 / -1; }
+    .stat-section-head {
+      grid-column: 1 / -1;
+      padding: 28px 0 6px;
+      border-top: 2px solid var(--border);
+      margin-top: 8px;
+    }
+    .stat-section-head h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); }
     .stat-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -743,11 +812,74 @@
     .stat-card-head {
       padding: 14px 18px 12px;
       border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
     }
     .stat-card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); }
     .stat-card-sub   { font-size: 0.7rem; color: var(--text-dim); margin-top: 3px; }
     .stat-card-body  { padding: 20px 24px; display: flex; justify-content: center; }
     .stat-card-body canvas { max-width: 680px; width: 100%; }
+
+    /* Embed button */
+    .embed-btn {
+      flex-shrink: 0;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font: inherit;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      cursor: pointer;
+      padding: 3px 9px;
+      white-space: nowrap;
+      transition: background .1s, color .1s, border-color .1s;
+    }
+    .embed-btn:hover { background: var(--bg); color: var(--text); border-color: var(--text-dim); }
+
+    /* Embed modal */
+    .embed-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 950;
+    }
+    .embed-overlay[hidden] { display: none; }
+    .embed-dialog {
+      background: #fff;
+      padding: 22px 24px 20px;
+      width: 520px;
+      max-width: calc(100vw - 32px);
+      box-shadow: 0 8px 40px rgba(0,0,0,.22);
+    }
+    .embed-dhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .embed-dhead strong { font-size: 0.95rem; }
+    .embed-dhead button { background: none; border: none; font-size: 1.3rem; line-height: 1; cursor: pointer; color: var(--text-dim); padding: 0; }
+    .embed-sizes { display: flex; gap: 6px; margin-bottom: 12px; }
+    .embed-sz {
+      background: none; border: 1px solid var(--border);
+      padding: 4px 13px; font: inherit; font-size: 0.75rem;
+      cursor: pointer; transition: .1s;
+    }
+    .embed-sz.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .embed-sz:not(.active):hover { background: var(--bg); }
+    .embed-code {
+      display: block; width: 100%;
+      font-family: ui-monospace, monospace; font-size: 0.71rem;
+      padding: 10px; border: 1px solid var(--border); background: var(--bg);
+      resize: none; height: 76px; margin-bottom: 10px; line-height: 1.5;
+      color: var(--text);
+    }
+    .embed-copy {
+      width: 100%; padding: 9px;
+      background: var(--primary); color: #fff;
+      border: none; font: inherit; font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; transition: background .15s;
+    }
+    .embed-copy:hover { background: var(--primary-d); }
+    .embed-copy.copied { background: var(--green); }
     .stats-chapter { font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: .08em; color: var(--text-dim); margin: 32px 0 14px;
       max-width: 1060px; margin-left: auto; margin-right: auto; }
@@ -761,8 +893,10 @@
 <body>
 
 <header>
-  <img src="/logo.png" alt="Parkraumwende München">
-  <h1>Parkraumwende München – Karten und Daten</h1>
+  <a href="https://parkraumwende.de" style="display:flex;align-items:center;gap:16px;text-decoration:none;color:inherit">
+    <img src="/logo.png" alt="Parkraumwende München">
+    <h1>Parkraumwende München – Karten und Daten</h1>
+  </a>
 </header>
 
 <nav>
@@ -776,6 +910,7 @@
   <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeAllSheets()"></div>
 
   <div class="stats-bar">
+    <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Karte – Übersicht<span class="sb-arrow">▾</span></button>
     <div class="stat"><span class="stat-label">Einträge</span><span class="stat-value" id="karte-stat-eintraege">–</span></div>
     <div class="stat"><span class="stat-label">Stellplätze</span><span class="stat-value" id="karte-stat-plaetze">–</span></div>
     <div class="stat"><span class="stat-label">Parkhäuser</span><span class="stat-value" id="karte-stat-ph">–</span></div>
@@ -821,6 +956,7 @@
 <div class="section" id="sec-innenstadt">
   <div class="innenstadt-layout">
     <div class="stats-bar">
+      <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Live-Auslastung<span class="sb-arrow">▾</span></button>
       <div class="stat"><span class="stat-label">Freie Plätze</span><span class="stat-value frei" id="stat-frei">–</span></div>
       <div class="stat"><span class="stat-label">Belegte Plätze</span><span class="stat-value belegt" id="stat-belegt">–</span></div>
       <div class="stat"><span class="stat-label">Auslastung</span><span class="stat-value pct" id="stat-pct">–</span></div>
@@ -852,9 +988,10 @@
     <div class="stats-grid">
 
       <div class="stat-card">
-        <div class="stat-card-head">
-          <div class="stat-card-title">Entwicklung des PKW-Bestands</div>
-          <div class="stat-card-sub">München 2010–2025 · Quelle: KFZ-Zulassungsstelle München / Statistisches Amt</div>
+        <div class="stat-card-head" data-chart="pkw-gesamt">
+          <div><div class="stat-card-title">Entwicklung des PKW-Bestands</div>
+          <div class="stat-card-sub">München 2010–2025 · Quelle: KFZ-Zulassungsstelle München / Statistisches Amt</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
           <canvas id="chart-pkw-gesamt" height="260"></canvas>
@@ -862,9 +999,10 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-card-head">
-          <div class="stat-card-title">Privat vs. Gewerblich</div>
-          <div class="stat-card-sub">Zusammensetzung des Bestands 2010–2025</div>
+        <div class="stat-card-head" data-chart="pkw-haltung">
+          <div><div class="stat-card-title">Privat vs. Gewerblich</div>
+          <div class="stat-card-sub">Zusammensetzung des Bestands 2010–2025</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
           <canvas id="chart-pkw-haltung" height="260"></canvas>
@@ -872,9 +1010,10 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-card-head">
-          <div class="stat-card-title">Antriebsarten im Bestand</div>
-          <div class="stat-card-sub">Verbrenner, Hybrid und Elektro 2016–2025</div>
+        <div class="stat-card-head" data-chart="pkw-antrieb">
+          <div><div class="stat-card-title">Antriebsarten im Bestand</div>
+          <div class="stat-card-sub">Verbrenner, Hybrid und Elektro 2016–2025</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
           <canvas id="chart-pkw-antrieb" height="260"></canvas>
@@ -882,9 +1021,10 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-card-head">
-          <div class="stat-card-title">Neuzulassungen große KFZ</div>
-          <div class="stat-card-sub">Oberklasse, Geländewagen, SUV, Sportwagen, Vans &amp; Wohnmobile · München 2010–2024</div>
+        <div class="stat-card-head" data-chart="neu-gross">
+          <div><div class="stat-card-title">Neuzulassungen große KFZ</div>
+          <div class="stat-card-sub">Oberklasse, Geländewagen, SUV, Sportwagen, Vans &amp; Wohnmobile · München 2010–2024</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
           <canvas id="chart-neu-gross" height="260"></canvas>
@@ -893,13 +1033,14 @@
 
     </div>
 
-    <div class="stats-chapter">Autobesitz und Wachstum</div>
+    <div class="stats-chapter">Mobilitätsverhalten und Kosten</div>
     <div class="stats-grid">
 
       <div class="stat-card">
-        <div class="stat-card-head">
-          <div class="stat-card-title">Autobesitz je Haushalt</div>
-          <div class="stat-card-sub">Anteil der Münchner Haushalte nach Fahrzeuganzahl · Quelle: MiD</div>
+        <div class="stat-card-head" data-chart="hh-donut">
+          <div><div class="stat-card-title">Autobesitz je Haushalt</div>
+          <div class="stat-card-sub">Anteil der Münchner Haushalte nach Fahrzeuganzahl · Quelle: MiD</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body" style="justify-content:center">
           <canvas id="chart-hh-donut" height="260" style="max-width:300px"></canvas>
@@ -907,9 +1048,10 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-card-head">
-          <div class="stat-card-title">Autobesitz nach Haushaltseinkommen</div>
-          <div class="stat-card-sub">Anteil mit mindestens einem Auto · Quelle: MiD</div>
+        <div class="stat-card-head" data-chart="einkommen">
+          <div><div class="stat-card-title">Autobesitz nach Haushaltseinkommen</div>
+          <div class="stat-card-sub">Anteil mit mindestens einem Auto · Quelle: MiD</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
           <canvas id="chart-einkommen" height="260"></canvas>
@@ -917,16 +1059,108 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-card-head">
-          <div class="stat-card-title">Wachstum seit 2010: Bevölkerung und PKW-Bestand</div>
-          <div class="stat-card-sub">Prozentuales Wachstum relativ zu 2010 · Quelle: Statistisches Amt München</div>
+        <div class="stat-card-head" data-chart="wachstum">
+          <div><div class="stat-card-title">Wachstum seit 2010: Bevölkerung und PKW-Bestand</div>
+          <div class="stat-card-sub">Prozentuales Wachstum relativ zu 2010 · Quelle: Statistisches Amt München</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
           <canvas id="chart-wachstum" height="260"></canvas>
         </div>
       </div>
 
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="modal-split">
+          <div><div class="stat-card-title">Modal Split München</div>
+          <div class="stat-card-sub">Verkehrsmittelwahl in Prozent · Quellen: MiD / Statistisches Amt München / LHM</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-modal-split" height="260"></canvas>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="preis">
+          <div><div class="stat-card-title">Preissteigerungen ÖPNV vs. Parklizenz seit 2010</div>
+          <div class="stat-card-sub">Startpunkt: Streifenkarte &amp; Parkraum 2010, Deutschlandticket 2022 (9-Euro-Ticket)</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-preis" height="260"></canvas>
+        </div>
+      </div>
+
+      <div class="stat-section-head">
+        <h3>Vision Zero</h3>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="vz-unfaelle">
+          <div><div class="stat-card-title">Verkehrsunfälle München</div>
+          <div class="stat-card-sub">Verletzte und Tote 2010–2024 · Quelle: Polizeipräsidium München</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-vz-unfaelle" height="260"></canvas>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="vz-schulweg">
+          <div><div class="stat-card-title">Schulwegunfälle München</div>
+          <div class="stat-card-sub">Verunglückte nach Verkehrsmittel 2010–2024 · Quelle: Polizeipräsidium München</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-vz-schulweg" height="260"></canvas>
+        </div>
+      </div>
+
+      <div class="stat-section-head">
+        <h3>ÖPNV</h3>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="mvv-fahrgaeste">
+          <div><div class="stat-card-title">MVV Fahrgäste</div>
+          <div class="stat-card-sub">Beförderte Personen 2010–2024 · Quelle: MVV</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-mvv-fahrgaeste" height="260"></canvas>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="mvv-netz">
+          <div><div class="stat-card-title">MVV Netzausbau</div>
+          <div class="stat-card-sub">Linienlänge in km 2010–2024 · Quelle: MVV</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-mvv-netz" height="260"></canvas>
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
+
+<!-- ═══════════ EMBED MODAL ═══════════ -->
+<div class="embed-overlay" id="embed-overlay" hidden onclick="closeEmbed(event)">
+  <div class="embed-dialog">
+    <div class="embed-dhead">
+      <strong>Diagramm einbetten</strong>
+      <button onclick="document.getElementById('embed-overlay').hidden=true" aria-label="Schließen">×</button>
+    </div>
+    <div class="embed-sizes">
+      <button class="embed-sz active" data-w="680" data-h="420" onclick="pickEmbedSize(this)">Standard</button>
+      <button class="embed-sz" data-w="860" data-h="480" onclick="pickEmbedSize(this)">Breit</button>
+      <button class="embed-sz" data-w="480" data-h="340" onclick="pickEmbedSize(this)">Kompakt</button>
+    </div>
+    <textarea class="embed-code" id="embed-code" readonly onclick="this.select()" spellcheck="false"></textarea>
+    <button class="embed-copy" id="embed-copy" onclick="copyEmbed()">Code kopieren</button>
   </div>
 </div>
 
@@ -1539,6 +1773,10 @@ function buildFilters() {
 
   const el = document.getElementById('filter-body');
   el.innerHTML = '';
+  const filterHeading = document.createElement('div');
+  filterHeading.className = 'filter-section-label';
+  filterHeading.textContent = 'Filter';
+  el.appendChild(filterHeading);
   el.appendChild(buildDauerparken());
   el.appendChild(buildGroup('Typ',             'typ',    counts.typ,    true));
   el.appendChild(buildGroup('Bewirtschaftung', 'bew',    counts.bew,    false));
@@ -1716,7 +1954,7 @@ async function initInnenstadt() {
       </div>
       <div class="ph-status">
         <div class="ph-frei ${cls}">${frei != null ? fmtNum(frei) : '–'}</div>
-        <div class="ph-pct">${pct != null ? `${pct} % belegt` : 'inaktiv'}</div>
+        <div class="ph-pct">${pct != null ? `${pct} % belegt` : 'Sensor offline'}</div>
       </div>
       <div class="ph-bar-wrap">
         <div class="ph-bar" style="width:${fill}%;background:${barColors[cls]}"></div>
@@ -1734,7 +1972,7 @@ async function initInnenstadt() {
       `Kapazität: ${fmtNum(kap)}`,
       frei != null ? `Frei: ${fmtNum(frei)}` : '',
       pct  != null ? `Auslastung: ${pct} %` : '',
-      !aktiv ? '<em>Nicht gemeldet</em>' : '',
+      !aktiv ? '<em>Sensor offline – letzter bekannter Wert</em>' : '',
     ].filter(Boolean).join('<br>'));
     tile.addEventListener('click', () => { mapInnenstadt.setView([ph.lat, ph.lon], 16); marker.openPopup(); });
   });
@@ -2158,7 +2396,230 @@ async function initStatistiken() {
         x:{ ticks:{font:{size:13}, color:'#1e293b'}, grid:{display:false} },
       } },
   });
+
+  // Chart 9: Preisvergleich damals vs. heute
+  {
+    const numDE = v => { const s = trim(v).replace(/\s/g,'').replace(',','.'); return s===''?null:(parseFloat(s)||null); };
+    // Fixed data points: 2016/2023 (then) vs 2026 (now)
+    const thenVals = [11.50, 9.00, 30.00];
+    const nowVals  = [18.70, 63.00, 30.00];
+    const catColors = [COLORS.blau, COLORS.gruen, '#f59e0b'];
+    const pcts = nowVals.map((v, i) => +((v / thenVals[i] - 1) * 100).toFixed(0));
+
+    const changeLabelPlugin = {
+      id: 'changeLabel',
+      afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        chart.getDatasetMeta(1).data.forEach((bar, i) => {
+          const p = pcts[i];
+          const label = (p > 0 ? '+' : '') + p + ' %';
+          ctx.save();
+          ctx.font = 'bold 12px system-ui, sans-serif';
+          ctx.fillStyle = p === 0 ? '#f59e0b' : '#1e293b';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(label, bar.x, bar.y - 6);
+          ctx.restore();
+        });
+      },
+    };
+
+    new Chart(document.getElementById('chart-preis'), {
+      type: 'bar',
+      plugins: [changeLabelPlugin],
+      data: {
+        labels: [
+          ['Streifenkarte MVV', '(€/Karte, ab 2010)'],
+          ['Deutschlandticket', '(€/Monat, ab 2022)'],
+          ['Parkraum-Lizenz', '(€/Jahr, ab 2010)'],
+        ],
+        datasets: [
+          { label: 'Startpreis',
+            data: thenVals,
+            backgroundColor: catColors.map(c => c + '55'),
+            borderColor: catColors, borderWidth: 1 },
+          { label: '2026',
+            data: nowVals,
+            backgroundColor: catColors,
+            borderColor: catColors, borderWidth: 1 },
+        ],
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ labels:{font:{size:11},boxWidth:13,padding:14} },
+          tooltip:{ callbacks:{
+            title: ctx => ctx[0].label,
+            label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €',
+          }},
+        },
+        scales:{
+          x:{ ...xBase, ticks:{ font:{size:11}, maxRotation:0 } },
+          y:{ ticks:{callback:v=>v+' €',font:{size:11}}, grid:{color:'#e8ebee'}, beginAtZero:true },
+        },
+      },
+    });
+  }
+
+  // Chart 10: Vision Zero – Unfälle gesamt
+  {
+    const vzRows = await loadCsv('data/visionzero_unfaelle.csv');
+    new Chart(document.getElementById('chart-vz-unfaelle'), {
+      type: 'bar',
+      data: {
+        labels: vzRows.map(r => trim(r['Jahr'])),
+        datasets: [
+          { label: 'Verletzte', data: vzRows.map(r => num(r['Verletzte'])),
+            backgroundColor: COLORS.gelb, yAxisID: 'y', order: 2 },
+          { label: 'Tote', data: vzRows.map(r => num(r['Tote'])),
+            type: 'line', borderColor: COLORS.rot, backgroundColor: 'transparent',
+            tension: 0.3, pointRadius: 5, borderWidth: 2, yAxisID: 'y2', order: 1 },
+        ],
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{labels:{font:{size:11},boxWidth:13,padding:14}},
+          tooltip:{ callbacks:{ label: ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('de-DE') } } },
+        scales:{
+          x: xBase,
+          y:{ ticks:{font:{size:11}}, grid:{color:'#e8ebee'}, title:{display:true,text:'Verletzte',font:{size:10},color:'#62707c'} },
+          y2:{ position:'right', ticks:{font:{size:11}}, grid:{display:false}, title:{display:true,text:'Tote',font:{size:10},color:'#62707c'} },
+        } },
+    });
+  }
+
+  // Chart 11: Vision Zero – Schulwegunfälle nach Verkehrsmittel
+  {
+    const szwRows = await loadCsv('data/visionzero_schulwegunfaelle.csv');
+    new Chart(document.getElementById('chart-vz-schulweg'), {
+      type: 'bar',
+      data: {
+        labels: szwRows.map(r => trim(r['Jahr'])),
+        datasets: [
+          { label: 'zu Fuß',    data: szwRows.map(r => num(r['zu Fuß verunglückt'])),      backgroundColor: COLORS.gelb,  stack: 's' },
+          { label: 'Fahrrad',   data: szwRows.map(r => num(r['auf Fahrrad verunglückt'])), backgroundColor: COLORS.gruen, stack: 's' },
+          { label: 'PKW/Tram',  data: szwRows.map(r => num(r['in PKW/Tram verunglückt'])), backgroundColor: COLORS.beige, stack: 's' },
+          { label: 'Schulbus',  data: szwRows.map(r => num(r['im Schulbus verunglückt'])), backgroundColor: COLORS.grau,  stack: 's' },
+        ],
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{labels:{font:{size:11},boxWidth:13,padding:14}},
+          tooltip:{ callbacks:{ label: ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y } } },
+        scales:{ x:{...xBase,stacked:true}, y:{stacked:true,ticks:{font:{size:11}},grid:{color:'#e8ebee'}} } },
+    });
+  }
+
+  // Chart 12 + 13: MVV Fahrgäste & Netz
+  {
+    const mvvRows = await loadCsv('data/mvv.csv');
+    new Chart(document.getElementById('chart-mvv-fahrgaeste'), {
+      type: 'line',
+      data: {
+        labels: mvvRows.map(r => trim(r['Jahr'])),
+        datasets: [{ label: 'Beförderte Personen', data: mvvRows.map(r => +(num(r['beförderte Personen'])/1e6).toFixed(1)),
+          borderColor: COLORS.blau, backgroundColor: 'rgba(37,99,235,0.1)', fill:true,
+          tension:0.35, pointRadius:4, borderWidth:2 }],
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.parsed.y.toLocaleString('de-DE')+' Mio.'}} },
+        scales:{ x:xBase, y:{ticks:{callback:v=>v+' Mio.',font:{size:11}},grid:{color:'#e8ebee'}} } },
+    });
+    new Chart(document.getElementById('chart-mvv-netz'), {
+      type: 'line',
+      data: {
+        labels: mvvRows.map(r => trim(r['Jahr'])),
+        datasets: [
+          { label: 'Linienlänge', data: mvvRows.map(r => num(r['Linienlänge in km'])),
+            borderColor: COLORS.blau, backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension:0.35, pointRadius:4, borderWidth:2 },
+        ],
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.parsed.y.toLocaleString('de-DE')+' km'}} },
+        scales:{ x:xBase, y:{ticks:{callback:v=>v+' km',font:{size:11}},grid:{color:'#e8ebee'}} } },
+    });
+  }
+
+  // Chart 8: Modal Split
+  {
+    const msRows = await loadCsv('data/modal_split.csv');
+    const msYears = ['2002', '2008', '2017', '2023', '2025'];
+    const msGet = (cat, yr) => {
+      const row = msRows.find(r => trim(r['Jahr']) === cat);
+      const v = row ? trim(row[yr]) : '';
+      return v === '' ? null : num(v);
+    };
+    const msLabels = msYears.map(y => y === '2025' ? ['2025', '(Ziel)'] : y);
+    const msBeige  = msYears.map(y => y === '2025' ? 'rgba(216,200,177,0.55)' : '#d8c8b1');
+
+    new Chart(document.getElementById('chart-modal-split'), {
+      type: 'bar',
+      data: {
+        labels: msLabels,
+        datasets: [
+          { label: 'Auto (PKW)',           data: msYears.map(y => msGet('Auto',   y)), backgroundColor: msBeige,                          stack: 's' },
+          { label: 'ÖPNV',                 data: msYears.map(y => msGet('ÖPNV',   y)), backgroundColor: '#009076',                        stack: 's' },
+          { label: 'Rad',                  data: msYears.map(y => msGet('Rad',    y)), backgroundColor: '#3dab8d',                        stack: 's' },
+          { label: 'zu Fuß',              data: msYears.map(y => msGet('zu Fuß', y)), backgroundColor: '#8dd4c2',                        stack: 's' },
+          { label: 'Umweltverbund (Ziel)', data: msYears.map(y => y === '2025' ? msGet('Umweltverbund', y) : null), backgroundColor: '#009076', stack: 's' },
+        ],
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ labels:{ font:{size:11}, boxWidth:13, padding:14 } },
+          tooltip:{ filter: item => item.parsed.y != null,
+            callbacks:{ label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + ' %' } },
+        },
+        scales:{
+          x:{ ...xBase, stacked:true },
+          y:{ stacked:true, max:100, ticks:{ callback: v => v + ' %', font:{size:11} }, grid:{color:'#e8ebee'} },
+        } },
+    });
+  }
+}
+
+// ── Embed ─────────────────────────────────────────────────────────────────────
+let _eChart = '', _eW = 680, _eH = 420;
+
+function showEmbed(btn) {
+  _eChart = btn.closest('[data-chart]').dataset.chart;
+  _eW = 680; _eH = 420;
+  document.querySelectorAll('.embed-sz').forEach(b => b.classList.toggle('active', +b.dataset.w === _eW));
+  updateEmbedCode();
+  document.getElementById('embed-overlay').hidden = false;
+}
+
+function closeEmbed(e) {
+  if (!e || e.target === document.getElementById('embed-overlay'))
+    document.getElementById('embed-overlay').hidden = true;
+}
+
+function pickEmbedSize(btn) {
+  document.querySelectorAll('.embed-sz').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _eW = +btn.dataset.w; _eH = +btn.dataset.h;
+  updateEmbedCode();
+}
+
+function updateEmbedCode() {
+  const src = `https://data.parkraumwende.de/embed.html?chart=${_eChart}`;
+  document.getElementById('embed-code').value =
+    `<iframe src="${src}" width="${_eW}" height="${_eH}" frameborder="0" style="border:0;max-width:100%;" loading="lazy"></iframe>`;
+}
+
+function copyEmbed() {
+  navigator.clipboard.writeText(document.getElementById('embed-code').value).then(() => {
+    const btn = document.getElementById('embed-copy');
+    btn.textContent = '✓ Kopiert!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Code kopieren'; btn.classList.remove('copied'); }, 2200);
+  });
 }
 </script>
+
+<footer class="site-footer">
+  <span class="footer-copy">© 2026 <a href="https://parkraumwende.de">Parkraumwende München</a></span>
+  <span class="footer-sep">|</span>
+  <a href="quellen.html">Datenquellen &amp; Lizenz</a>
+  <span class="footer-sep">|</span>
+  <a href="https://parkraumwende.de/privacy-policy/" target="_blank">Impressum &amp; Datenschutz</a>
+</footer>
 </body>
 </html>

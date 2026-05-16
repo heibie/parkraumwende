@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datenquellen & Lizenz – Parkraumwende München</title>
+  <meta name="description" content="Übersicht aller Datenquellen und Lizenzen der Datenseite von Parkraumwende München.">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #2c2fdf;
+      --bg: #f5f5f5;
+      --surface: #fff;
+      --text: #272c30;
+      --text-dim: #62707c;
+      --border: #dde1e5;
+    }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    header {
+      background: var(--primary); color: #fff;
+      padding: 0 24px; height: 52px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    header img  { height: 32px; }
+    header a    { display: flex; align-items: center; gap: 16px; text-decoration: none; color: inherit; }
+    header h1   { font-size: 1.05rem; font-weight: 700; }
+
+    .back-nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      font-size: 0.8rem;
+    }
+    .back-nav a { color: var(--primary); text-decoration: none; }
+    .back-nav a:hover { text-decoration: underline; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .page-intro { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 36px; max-width: 680px; }
+
+    h3 { font-size: 1rem; font-weight: 700; margin: 36px 0 18px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+
+    .source-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      padding: 18px 20px;
+    }
+    .source-title { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+    .source-file  { font-family: ui-monospace, monospace; font-size: 0.72rem; color: var(--text-dim); margin-bottom: 10px; }
+    .source-desc  { font-size: 0.83rem; color: var(--text-dim); margin-bottom: 12px; line-height: 1.5; }
+
+    .source-meta  { display: flex; flex-wrap: wrap; gap: 8px; }
+    .meta-tag {
+      font-size: 0.68rem; font-weight: 600;
+      padding: 3px 9px;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .meta-tag.license { border-color: #009076; color: #006a55; }
+    .meta-tag.source-link a { color: inherit; text-decoration: none; }
+    .meta-tag.source-link a:hover { text-decoration: underline; }
+    .meta-tag .label { opacity: 0.7; font-weight: 400; }
+
+    .license-box {
+      background: #f0faf6;
+      border: 1px solid #b2ddc9;
+      padding: 18px 20px;
+      margin-bottom: 36px;
+    }
+    .license-box h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+    .license-box p  { font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
+    .license-box a  { color: #006a55; }
+
+    .download-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+      margin-top: 36px;
+    }
+    .download-box p { font-size: 0.82rem; color: var(--text-dim); }
+    .download-box a {
+      font-size: 0.78rem; font-weight: 600;
+      padding: 7px 16px;
+      background: var(--primary); color: #fff;
+      text-decoration: none;
+    }
+    .download-box a:hover { background: #2124b8; }
+
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+    footer .copy { margin-right: auto; }
+
+    @media (max-width: 600px) {
+      main { padding: 24px 16px 60px; }
+      .download-box { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://parkraumwende.de">
+    <img src="/logo.png" alt="Parkraumwende München">
+    <h1>Parkraumwende München – Karten und Daten</h1>
+  </a>
+</header>
+
+<div class="back-nav">
+  <a href="/">← Zurück zur Datenseite</a>
+</div>
+
+<main>
+  <h2>Datenquellen &amp; Lizenz</h2>
+  <p class="page-intro">
+    Alle auf dieser Seite verwendeten Datensätze sind frei zugänglich. Eigene Zusammenstellungen werden unter
+    <a href="https://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0</a> veröffentlicht.
+    Für Datensätze Dritter gelten die jeweiligen Originallizenzen.
+  </p>
+
+  <div class="license-box">
+    <h4>Eigene Daten: Creative Commons Attribution 4.0 (CC BY 4.0)</h4>
+    <p>
+      Die von uns selbst zusammengestellten Datensätze – insbesondere die <strong>Parkraumkarte</strong> –
+      sind frei nutzbar, auch kommerziell, unter der Bedingung der Namensnennung:<br>
+      <em>„Parkraumwende München, data.parkraumwende.de, CC BY 4.0"</em><br>
+      <a href="https://creativecommons.org/licenses/by/4.0/deed.de">→ Lizenztext (CC BY 4.0)</a>
+    </p>
+  </div>
+
+  <h3>Eigene Datensätze</h3>
+
+  <div class="source-card">
+    <div class="source-title">Parkraumkarte München</div>
+    <div class="source-file">data/parkraummap.csv</div>
+    <div class="source-desc">
+      Dokumentierte Parkhäuser, Tiefgaragen und Außenstellplätze in München. Zusammengestellt aus dem
+      OpenData-Portal der LHM, Immobilienanzeigen und eigener Recherche. Koordinaten via Nominatim geocodiert.
+      Beiträge und Korrekturen sind willkommen.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag license">CC BY 4.0</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München</span>
+      <span class="meta-tag"><span class="label">Format</span> CSV (Semikolon)</span>
+      <span class="meta-tag source-link"><a href="data/parkraummap.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="https://opendata.muenchen.de/dataset/parkhaeuser-munchen">Basis: OpenData LHM ↗</a></span>
+    </div>
+  </div>
+
+  <h3>Live-Daten (automatisch aktualisiert)</h3>
+
+  <div class="source-card">
+    <div class="source-title">Parkhäuser Innenstadt – Live-Auslastung</div>
+    <div class="source-file">data/latest.json &nbsp;·&nbsp; data/details/YYYY-MM.csv &nbsp;·&nbsp; data/summary/YYYY-MM.csv</div>
+    <div class="source-desc">
+      Aktuelle Belegungsdaten der am Parkleitsystem München Zentrum angeschlossenen Parkhäuser.
+      Wird alle zwei Stunden automatisch von der öffentlich zugänglichen HTML-Tabelle des Betreibers abgerufen.
+      Historische Zeitreihen werden im GitHub-Repository archiviert.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Setrix AG / Siemens (im Auftrag der LHM)</span>
+      <span class="meta-tag"><span class="label">Aktualisierung</span> alle 2 Stunden</span>
+      <span class="meta-tag"><span class="label">Lizenz</span> öffentlich zugänglich, keine explizite Lizenz</span>
+      <span class="meta-tag source-link"><a href="https://pls-muc-z.com/pls/info/parkhaus.html">Quelle: pls-muc-z.com ↗</a></span>
+      <span class="meta-tag source-link"><a href="data/latest.json">latest.json ↓</a></span>
+    </div>
+  </div>
+
+  <h3>Statistische Daten (Dritte)</h3>
+
+  <div class="source-card">
+    <div class="source-title">PKW-Bestand München 2010–2025</div>
+    <div class="source-file">data/pkw_bestand.csv</div>
+    <div class="source-desc">
+      Jährlicher PKW-Bestand nach Halterschaft (privat/gewerblich) und Antriebsart (Benzin, Diesel, Elektro, Hybrid).
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag license">dl-de/by-2-0</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> KFZ-Zulassungsstelle München / Statistisches Amt München</span>
+      <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2025</span>
+      <span class="meta-tag source-link"><a href="data/pkw_bestand.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München - Monatszahlenmonitoring ↗</a></span>
+    </div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-title">Neuzulassungen nach Fahrzeugtyp 2010–2024</div>
+    <div class="source-file">data/neuzulassungen_fahrzeugtypen.csv</div>
+    <div class="source-desc">
+      Jährliche PKW-Neuzulassungen in München aufgeschlüsselt nach Fahrzeugsegmenten: Kompaktklasse, Oberklasse,
+      Geländewagen, SUV, Sportwagen, Vans und Wohnmobile.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag license">dl-de/by-2-0</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> KFZ-Zulassungsstelle München</span>
+      <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2024</span>
+      <span class="meta-tag source-link"><a href="data/neuzulassungen_fahrzeugtypen.csv">↓ Download</a></span>
+	       <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München - Monatszahlenmonitoring ↗</a></span>
+    </div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-title">Autobesitz je Haushalt – München</div>
+    <div class="source-file">data/pkw_haushalt.csv</div>
+    <div class="source-desc">
+      Anteil der Münchner Haushalte ohne Auto, mit einem Auto und mit zwei oder mehr Autos.
+      Quelle: Mobilitätsstudie MiD (Mobilität in Deutschland).
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag license">dl-de/by-2-0</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> BMDV / infas (MiD-Studie)</span>
+      <span class="meta-tag source-link"><a href="data/pkw_haushalt.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="https://www.mobilitaet-in-deutschland.de">mobilitaet-in-deutschland.de ↗</a></span>
+    </div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-title">Autobesitz nach Haushaltseinkommen – München</div>
+    <div class="source-file">data/pkw_einkommen.csv</div>
+    <div class="source-desc">
+      Anteil der Münchner Haushalte mit mindestens einem Auto je Einkommensgruppe. Quelle: Bevölkerungsbefragung 2021 der LHM.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag license">dl-de/by-2-0</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> LHM</span>
+      <span class="meta-tag source-link"><a href="data/pkw_einkommen.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="https://stadt.muenchen.de/infos/bevoelkerungsbefragung.html">Bevölkerungsbefragung 2021 der LHM ↗</a></span>
+    </div>
+  </div>
+
+  <div class="source-card">
+    <div class="source-title">Bevölkerungsentwicklung München 1900–2024</div>
+    <div class="source-file">data/bevoelkerung_ab_1900_stand_2024.csv</div>
+    <div class="source-desc">
+      Jährliche Einwohnerzahlen der Stadt München seit 1900, nach Geschlecht und Staatsangehörigkeit.
+      Grundlage für den Wachstumsvergleich Bevölkerung vs. PKW-Bestand.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag license">dl-de/by-2-0</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Statistisches Amt München</span>
+      <span class="meta-tag"><span class="label">Zeitraum</span> 1900–2024</span>
+      <span class="meta-tag source-link"><a href="data/bevoelkerung_ab_1900_stand_2024.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="https://opendata.muenchen.de/dataset/bevoelkerung">OpenData LHM ↗</a></span>
+    </div>
+  </div>
+
+  <div class="download-box">
+    <div>
+      <strong>Maschinenlesbare Metadaten</strong>
+      <p>Alle Datensätze sind im Frictionless Data Standard (datapackage.json) beschrieben.</p>
+    </div>
+    <a href="data/datapackage.json">datapackage.json ↓</a>
+  </div>
+
+</main>
+
+<footer>
+  <span class="copy">© 2026 <a href="https://parkraumwende.de">Parkraumwende München</a></span>
+  <a href="/">Datenseite</a>
+  <a href="https://parkraumwende.de/privacy-policy/">Impressum &amp; Datenschutz</a>
+</footer>
+
+</body>
+</html>

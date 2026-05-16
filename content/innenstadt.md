@@ -1,1 +1,1 @@
-**Parkhäuser Innenstadt – Live-Auslastung** – Die werden alle zwei Stunden automatisch aktualisiert. [Die Datenquelle liegt hier](https://pls-muc-z.com/pls/info/parkhaus.html). Ausgegraute Einträge werden als inaktiv übernommen.
+**Parkhäuser Innenstadt – Live-Auslastung** – Die Daten werden alle zwei Stunden automatisch aktualisiert. [Die Datenquelle liegt hier](https://pls-muc-z.com/pls/info/parkhaus.html). Ausgegraute Einträge haben keine aktive Sensor-Verbindung und zeigen den letzten bekannten Wert – sie fließen nicht in die Gesamtstatistik ein.

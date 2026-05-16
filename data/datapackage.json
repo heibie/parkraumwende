@@ -1,0 +1,177 @@
+{
+  "name": "parkraumwende-muenchen",
+  "title": "Parkraumwende München – Offene Daten",
+  "description": "Datensätze zu Parkraum, PKW-Bestand, Neuzulassungen und Mobilität in München. Zusammengestellt und veröffentlicht von Parkraumwende München.",
+  "version": "1.0.0",
+  "homepage": "https://data.parkraumwende.de",
+  "contributors": [
+    { "title": "Heiko Bielinski", "email": "heiko@bielinski.de", "role": "author", "path": "https://parkraumwende.de" }
+  ],
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "title": "Creative Commons Attribution 4.0 International",
+      "path": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  ],
+  "keywords": ["parkraum", "münchen", "pkw", "mobilität", "opendata", "parking"],
+  "spatial": "München, Bayern, Deutschland",
+  "resources": [
+    {
+      "name": "parkraumkarte",
+      "path": "parkraummap.csv",
+      "title": "Parkraumkarte München",
+      "description": "Dokumentierte Parkhäuser, Tiefgaragen und Außenstellplätze in München. Eigene Erfassung auf Basis öffentlicher Quellen (OpenData LHM, Anzeigen, Vor-Ort-Recherche). Koordinaten via Nominatim geocodiert.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "delimiter": ";",
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "sources": [
+        { "title": "OpenData Portal LHM – Parkhäuser und Tiefgaragen", "path": "https://opendata.muenchen.de/dataset/parkhaeuser-munchen" },
+        { "title": "Eigene Erfassung / Crowdsourcing", "path": "https://data.parkraumwende.de" }
+      ],
+      "schema": {
+        "fields": [
+          { "name": "Name",             "type": "string",  "description": "Bezeichnung des Parkplatzes" },
+          { "name": "ID",               "type": "integer", "description": "Interne ID" },
+          { "name": "Typ",              "type": "string",  "description": "Parkhaus, Tiefgarage, Außenstellplatz, Wohnanlage" },
+          { "name": "Bewirtschaftungsart", "type": "string", "description": "Art der Nutzung, z.B. öffentlich, Anwohner, Kunden" },
+          { "name": "Immobilientyp",    "type": "string",  "description": "Gebäudetyp, z.B. Einzelhandel, Büro, Wohngebäude" },
+          { "name": "Plätze",           "type": "integer", "description": "Gesamtzahl Stellplätze" },
+          { "name": "Dauerparken",      "type": "string",  "description": "Dauerparken verfügbar (Ja/Nein)" },
+          { "name": "Kurzzeitparken",   "type": "string",  "description": "Kurzzeitparken verfügbar (Ja/Nein)" },
+          { "name": "Straße",           "type": "string",  "description": "Straßenname" },
+          { "name": "Hausnummer",       "type": "string",  "description": "Hausnummer" },
+          { "name": "PLZ",              "type": "string",  "description": "Postleitzahl" },
+          { "name": "Ort",              "type": "string",  "description": "Ort (i.d.R. München)" },
+          { "name": "Latitude",         "type": "number",  "description": "Geographische Breite (WGS84)" },
+          { "name": "Longitude",        "type": "number",  "description": "Geographische Länge (WGS84)" },
+          { "name": "Quelle",           "type": "string",  "description": "Datenherkunft des Eintrags" },
+          { "name": "Aktiv",            "type": "string",  "description": "Eintrag aktiv/sichtbar (Ja/Nein)" }
+        ]
+      }
+    },
+    {
+      "name": "parkhaeuser-innenstadt",
+      "path": "parkhaeuser.csv",
+      "title": "Parkhäuser Innenstadt München – Stammdaten",
+      "description": "Stammdaten der am Parkleitsystem München Zentrum (PLS-MUC-Z) angeschlossenen Parkhäuser. Kapazitäten, Adressen und Koordinaten.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Parkleitsystem München Zentrum (pls-muc-z.com)", "path": "https://pls-muc-z.com/pls/info/parkhaus.html" }
+      ],
+      "schema": {
+        "fields": [
+          { "name": "sn",      "type": "integer", "description": "Sensor-Nummer (eindeutige ID im PLS)" },
+          { "name": "ph",      "type": "string",  "description": "Parkhaus-Kürzel (P-Nummer im Leitsystem)" },
+          { "name": "name",    "type": "string",  "description": "Bezeichnung des Parkhauses" },
+          { "name": "adresse", "type": "string",  "description": "Anschrift" },
+          { "name": "lat",     "type": "number",  "description": "Geographische Breite (WGS84)" },
+          { "name": "lon",     "type": "number",  "description": "Geographische Länge (WGS84)" },
+          { "name": "kap",     "type": "integer", "description": "Kapazität (Stellplätze gesamt)" },
+          { "name": "url",     "type": "string",  "description": "Webseite des Parkhauses" }
+        ]
+      }
+    },
+    {
+      "name": "pkw-bestand",
+      "path": "pkw_bestand.csv",
+      "title": "PKW-Bestand München 2010–2025",
+      "description": "Jährlicher PKW-Bestand in München, aufgeschlüsselt nach Halterschaft (privat/gewerblich) und Antriebsart (Benzin, Diesel, Elektro, Hybrid u.a.).",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2010/2025",
+      "sources": [
+        { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Jahr",       "type": "integer", "description": "Berichtsjahr" },
+          { "name": "gewerblich", "type": "integer", "description": "Gewerblich zugelassene PKW" },
+          { "name": "privat",     "type": "integer", "description": "Privat zugelassene PKW" },
+          { "name": "PKW-Bestand","type": "integer", "description": "PKW-Bestand gesamt" },
+          { "name": "Benzin",     "type": "integer", "description": "Fahrzeuge mit Benzinantrieb" },
+          { "name": "Diesel",     "type": "integer", "description": "Fahrzeuge mit Dieselantrieb" },
+          { "name": "Elektro",    "type": "integer", "description": "Reine Elektrofahrzeuge (BEV)" },
+          { "name": "Hybrid",     "type": "integer", "description": "Hybrid-Fahrzeuge (inkl. PHEV)" },
+          { "name": "Verbrenner", "type": "integer", "description": "Alle Verbrenner-Antriebe summiert" }
+        ]
+      }
+    },
+    {
+      "name": "neuzulassungen-fahrzeugtypen",
+      "path": "neuzulassungen_fahrzeugtypen.csv",
+      "title": "Neuzulassungen nach Fahrzeugtyp München 2010–2024",
+      "description": "Jährliche PKW-Neuzulassungen in München, aufgeschlüsselt nach Fahrzeugsegmenten (Kompakt, Oberklasse, SUV, Geländewagen etc.).",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2010/2024",
+      "sources": [
+        { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }]
+    },
+    {
+      "name": "pkw-haushalt",
+      "path": "pkw_haushalt.csv",
+      "title": "Autobesitz je Haushalt – München",
+      "description": "Anteil der Münchner Haushalte ohne Auto, mit einem Auto und mit zwei oder mehr Autos (in Prozent).",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Mobilität in Deutschland (MiD) – Bundesministerium für Digitales und Verkehr / infas", "path": "https://www.mobilitaet-in-deutschland.de" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Kategorie", "type": "string",  "description": "Haushaltstyp (Kein Auto / Ein Auto / Zwei Autos)" },
+          { "name": "Anteil",    "type": "integer", "description": "Anteil in Prozent" }
+        ]
+      }
+    },
+    {
+      "name": "pkw-einkommen",
+      "path": "pkw_einkommen.csv",
+      "title": "Autobesitz nach Haushaltseinkommen – München",
+      "description": "Anteil der Münchner Haushalte mit mindestens einem Auto je Einkommensgruppe (in Prozent). Quelle: Bevölkerungsbefragung 2021 der Landeshauptstadt München.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Bevölkerungsbefragung 2021 der LHM", "path": "https://stadt.muenchen.de/infos/bevoelkerungsbefragung.html" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Einkommen",          "type": "string",  "description": "Einkommensgruppe" },
+          { "name": "mindestens ein Auto", "type": "integer", "description": "Anteil Haushalte mit mind. einem Auto (Prozent)" },
+          { "name": "Kein Auto",           "type": "integer", "description": "Anteil Haushalte ohne Auto (Prozent)" }
+        ]
+      }
+    },
+    {
+      "name": "bevoelkerung",
+      "path": "bevoelkerung_ab_1900_stand_2024.csv",
+      "title": "Bevölkerungsentwicklung München 1900–2024",
+      "description": "Jährliche Einwohnerzahlen der Stadt München seit 1900, nach Geschlecht und Staatsangehörigkeit.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "1900/2024",
+      "sources": [
+        { "title": "OpenData Portal LHM – Bevölkerung", "path": "https://opendata.muenchen.de/dataset/bevoelkerung" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "jahr",                      "type": "integer", "description": "Berichtsjahr" },
+          { "name": "einwohner_Insgesamt",        "type": "integer", "description": "Einwohner gesamt" },
+          { "name": "einwohner_maennlich",        "type": "integer", "description": "Einwohner männlich" },
+          { "name": "einwohner_weiblich",         "type": "integer", "description": "Einwohner weiblich" },
+          { "name": "einwohner_deutsche",         "type": "integer", "description": "Deutsche Einwohner" },
+          { "name": "einwohner_auslaender_innen", "type": "integer", "description": "Ausländische Einwohner" }
+        ]
+      }
+    }
+  ]
+}

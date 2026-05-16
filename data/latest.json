@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-16 05:02:01",
-    "frei_gesamt": 3109,
-    "belegt_gesamt": 1226,
+    "timestamp": "2026-05-16 06:02:01",
+    "frei_gesamt": 3105,
+    "belegt_gesamt": 1230,
     "kap_gesamt": 4335,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 304,
+            "frei": 302,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 314,
+            "frei": 315,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 135,
+            "frei": 134,
             "kap": 164,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 360,
+            "frei": 359,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 318,
+            "frei": 317,
             "kap": 421,
             "aktiv": true
         },

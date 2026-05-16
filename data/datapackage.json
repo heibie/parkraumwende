@@ -121,7 +121,7 @@
       "mediatype": "text/csv",
       "encoding": "UTF-8",
       "sources": [
-        { "title": "Mobilität in Deutschland (MiD) – Bundesministerium für Digitales und Verkehr / infas", "path": "https://www.mobilitaet-in-deutschland.de" }
+        { "title": "Mobilität in Städten – SrV 2023 (TU Dresden)", "path": "https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf" }
       ],
       "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
       "schema": {
@@ -182,8 +182,7 @@
       "encoding": "UTF-8",
       "temporalCoverage": "2002/2025",
       "sources": [
-        { "title": "Mobilität in Deutschland (MiD) – BMDV / infas", "path": "https://www.mobilitaet-in-deutschland.de" },
-        { "title": "Mobilitätsstrategie München – LHM", "path": "https://stadt.muenchen.de" }
+        { "title": "Mobilität in Städten – SrV 2023 (TU Dresden)", "path": "https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf" }
       ],
       "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
       "schema": {
@@ -229,7 +228,7 @@
       "encoding": "UTF-8",
       "temporalCoverage": "2010/2024",
       "sources": [
-        { "title": "Polizeipräsidium München – Verkehrsunfallstatistik", "path": "https://www.polizei.bayern.de/muenchen/" }
+        { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
       ],
       "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
       "schema": {
@@ -249,7 +248,7 @@
       "encoding": "UTF-8",
       "temporalCoverage": "2010/2024",
       "sources": [
-        { "title": "Polizeipräsidium München – Schulwegunfallstatistik", "path": "https://www.polizei.bayern.de/muenchen/" }
+        { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
       ],
       "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
       "schema": {

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-16 02:02:02",
-    "frei_gesamt": 3089,
-    "belegt_gesamt": 1246,
+    "timestamp": "2026-05-16 03:02:01",
+    "frei_gesamt": 3099,
+    "belegt_gesamt": 1236,
     "kap_gesamt": 4335,
     "parkhaeuser": [
         {
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 84,
+            "frei": 85,
             "kap": 150,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 303,
+            "frei": 304,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 308,
+            "frei": 309,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 134,
+            "frei": 135,
             "kap": 164,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 358,
+            "frei": 359,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 70,
+            "frei": 73,
             "kap": 316,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 119,
+            "frei": 121,
             "kap": 157,
             "aktiv": true
         },

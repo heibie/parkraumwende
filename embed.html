@@ -6,6 +6,7 @@
   <title>Diagramm – Parkraumwende München</title>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; overflow: hidden; font-family: system-ui, -apple-system, sans-serif; background: #fff; color: #272c30; }
@@ -49,6 +50,8 @@
 </div>
 
 <script>
+Chart.unregister(ChartDataLabels);
+
 const COLORS = {
   dunkelblau: '#1e3a5f', blau: '#2563eb', indigo: '#4338ca',
   gelb: '#ffca76', gruen: '#009076', rot: '#c71e1d',
@@ -56,6 +59,42 @@ const COLORS = {
 };
 
 const CHARTS = {
+  'lizenzgebiete': {
+    title:  'Überbuchung nach Lizenzgebiet',
+    sub:    'Parkausweise minus verfügbare Stellplätze je Gebiet · Stand 2022',
+    source: 'Landeshauptstadt München',
+    init:   initLizenzgebiete,
+  },
+  'parkplaetze-lizenzen': {
+    title:  'Überbuchter Parkraum gesamt',
+    sub:    '119.227 Lizenzen, aber nur 93.064 Stellplätze – 22 % überbucht',
+    source: 'Landeshauptstadt München',
+    init:   initParkplaetzeLizenzen,
+  },
+  'motelone': {
+    title:  'Parkplätze Tiefgarage IHK / MotelOne',
+    sub:    'Werktag und Wochenende im Vergleich. Über einen Monat in Haidhausen manuell gezählt.',
+    source: 'Parkraumwende München – eigene Erhebung',
+    init:   initMotelone,
+  },
+  'innenstadt-auslastung': {
+    title:  'Auslastung Innenstadt Parkhäuser an ausgewählten Samstagen',
+    sub:    '21.10.: Vollsperrung Stammstrecke, 4.11.: Teilsperrung, 16.12.: Adventssamstag',
+    source: 'Parkhäuser Innenstadt – Live-Auslastung',
+    init:   initInnenstadtAuslastung,
+  },
+  'lizenzen-europa': {
+    title:  'Parkausweis-Jahresgebühr im Städtevergleich',
+    sub:    'München zahlt mit 30 € pro Jahr europaweit am wenigsten',
+    source: 'Stadtverwaltungen – eigene Zusammenstellung',
+    init:   initLizenzenEuropa,
+  },
+  'oeffentlicher-raum': {
+    title:  'Kosten für öffentlichen Raum im Vergleich',
+    sub:    'Jahresgebühren München – Parken günstiger als jede andere Nutzung',
+    source: 'Landeshauptstadt München – eigene Zusammenstellung',
+    init:   initOeffentlicherRaum,
+  },
   'pkw-gesamt': {
     title:  'Entwicklung des PKW-Bestands',
     sub:    'München 2010–2025',
@@ -165,6 +204,131 @@ const yTsd  = { ticks: { callback: v => (v / 1000).toFixed(0) + ' Tsd.', font: {
 const xBase = { ticks: { font: { size: 11 } }, grid: { display: false } };
 
 // ─── Chart definitions ────────────────────────────────────────────────────────
+
+async function initLizenzgebiete() {
+  const rows = await loadCsv('data/parklizenzgebiete.csv');
+  const filtered = rows
+    .filter(r => r['Lizenzgebiet'] && r['Lizenzgebiet'] !== 'Gesamt' && typeof r['Anzahl Parkausweise'] === 'number')
+    .sort((a,b) => (b['Anzahl Parkausweise'] - b['Anzahl Stellplätze']) - (a['Anzahl Parkausweise'] - a['Anzahl Stellplätze']));
+  const diff   = filtered.map(r => r['Anzahl Parkausweise'] - r['Anzahl Stellplätze']);
+  const colors = diff.map(v => v > 0 ? COLORS.rot : COLORS.blau);
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: { labels: filtered.map(r => r['Lizenzgebiet']),
+      datasets: [{ label: 'Parkausweise minus Stellplätze', data: diff, backgroundColor: colors, barThickness: 10 }] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => { const v = ctx.parsed.y; return v > 0 ? ` ${v} Lizenzen ohne Stellplatz` : ` ${Math.abs(v)} Stellplätze ungenutzt`; } } } },
+      scales: {
+        x: { ticks: { font: { size: 9 }, maxRotation: 90, minRotation: 60 }, grid: { display: false } },
+        y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' }, title: { display: true, text: 'Überschuss Parkausweise', font: { size: 10 }, color: '#62707c' } },
+      } },
+  });
+}
+
+async function initParkplaetzeLizenzen() {
+  const total = 119227, spots = 93064, overbooked = total - spots;
+  const fmt = v => v.toLocaleString('de-DE');
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: { labels: ['Parklizenzen gesamt'],
+      datasets: [
+        { label: 'Verfügbare Parkplätze',  data: [spots],     backgroundColor: COLORS.gruen,           barThickness: 50 },
+        { label: 'Vergebene Parklizenzen', data: [overbooked], backgroundColor: 'rgba(199,30,29,0.55)', barThickness: 30 },
+      ] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { tooltip: { callbacks: {
+        title: ctx => ctx[0].dataset.label,
+        label: ctx => ctx.datasetIndex === 1 ? ` ${fmt(ctx.parsed.x)} überbucht (${fmt(total)} Lizenzen gesamt)` : ` ${fmt(ctx.parsed.x)}`,
+      } } },
+      scales: {
+        x: { stacked: true, ticks: { callback: v => v.toLocaleString('de-DE'), font: { size: 11 } }, grid: { color: '#e8ebee' } },
+        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } },
+      } },
+  });
+}
+
+async function initMotelone() {
+  const data = [ { label: 'Werktage', frei: 100, belegt: 80 }, { label: 'Wochenende', frei: 140, belegt: 40 } ];
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: { labels: data.map(r => r.label),
+      datasets: [
+        { label: 'Frei',   data: data.map(r => r.frei),   backgroundColor: COLORS.gruen, barPercentage: 0.75, categoryPercentage: 0.6 },
+        { label: 'Belegt', data: data.map(r => r.belegt), backgroundColor: COLORS.rot,   barPercentage: 0.75, categoryPercentage: 0.6 },
+      ] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: {
+        legend: { labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} Stellplätze` } },
+        datalabels: { color: '#fff', font: { size: 12, weight: '600' }, formatter: v => v, anchor: 'center', align: 'center', display: ctx => ctx.dataset.data[ctx.dataIndex] > 10 },
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' } },
+        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } },
+      } },
+  });
+}
+
+async function initInnenstadtAuslastung() {
+  const rows = await loadCsv('data/innenstadt_parkhaus_auslastung_exemplarisch.csv');
+  const data = rows.filter(r => r['Datum']);
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: { labels: data.map(r => r['Datum']),
+      datasets: [
+        { label: 'Frei',   data: data.map(r => r[Object.keys(r)[1]]), backgroundColor: COLORS.gruen, barPercentage: 0.75, categoryPercentage: 0.6 },
+        { label: 'Belegt', data: data.map(r => r[Object.keys(r)[2]]), backgroundColor: COLORS.rot,   barPercentage: 0.75, categoryPercentage: 0.6 },
+      ] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: {
+        legend: { labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} %` } },
+        datalabels: { color: '#fff', font: { size: 12, weight: '600' }, formatter: v => v + ' %', anchor: 'center', align: 'center', display: ctx => ctx.dataset.data[ctx.dataIndex] > 10 },
+      },
+      scales: {
+        x: { stacked: true, max: 100, ticks: { callback: v => v + ' %', font: { size: 11 } }, grid: { color: '#e8ebee' } },
+        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } },
+      } },
+  });
+}
+
+async function initLizenzenEuropa() {
+  const rows = await loadCsv('data/parklizenzen_europa.csv');
+  const sorted = [...rows].filter(r => r['Jahresgebühr']).sort((a,b) => a['Jahresgebühr'] - b['Jahresgebühr']);
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: { labels: sorted.map(r => r['Stadt']),
+      datasets: [{ label: 'Jahresgebühr (€)', data: sorted.map(r => r['Jahresgebühr']),
+        backgroundColor: sorted.map(r => r['Stadt'] === 'München' ? COLORS.rot : COLORS.blau), barThickness: 28 }] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} €` } } },
+      scales: {
+        x: { ticks: { callback: v => v + ' €', font: { size: 11 } }, grid: { color: '#e8ebee' } },
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } },
+      } },
+  });
+}
+
+async function initOeffentlicherRaum() {
+  const rows = await loadCsv('data/oeffentlicher_raum.csv');
+  const sorted = [...rows].filter(r => r['Kosten']).sort((a,b) => a['Kosten'] - b['Kosten']);
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: { labels: sorted.map(r => r['Nutzung']),
+      datasets: [{ label: 'Jahreskosten (€)', data: sorted.map(r => r['Kosten']),
+        backgroundColor: sorted.map(r => String(r['Nutzung']).startsWith('Bewohnerparkausweis') ? COLORS.rot : COLORS.blau),
+        barThickness: 28 }] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} €` } } },
+      scales: {
+        x: { ticks: { callback: v => v + ' €', font: { size: 11 } }, grid: { color: '#e8ebee' } },
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } },
+      } },
+  });
+}
 
 async function initPkwGesamt() {
   const rows = await loadCsv('data/pkw_bestand.csv');

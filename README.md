@@ -179,3 +179,4 @@ Eigene Datensätze: **CC BY 4.0** — Namensnennung: *Parkraumwende München, da
 Statistische Daten der LHM und öffentlicher Stellen: **Datenlizenz Deutschland – Namensnennung 2.0**
 
 Vollständige Quellenangaben: [data.parkraumwende.de/quellen.html](https://data.parkraumwende.de/quellen.html)
+

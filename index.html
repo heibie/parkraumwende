@@ -773,12 +773,45 @@
       #map-innenstadt { height: 45vh; }
 
       /* Collapsible stats bars on mobile */
-      .sb-toggle { display: flex; }
+      .sb-toggle {
+        display: flex;
+        padding: 10px 12px;
+        margin: 5px 0;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .sb-arrow { font-size: 0.78rem; }
+
       .stats-bar .stat,
       .stats-bar .editorial-box { display: none; }
-      .stats-bar.sb-open .stat { display: flex; }
-      .stats-bar.sb-open .editorial-box { display: block; }
-      .stats-bar--info { display: none; }
+
+      /* Stats: 2-Spalten-Raster wenn offen */
+      .stats-bar.sb-open .stat {
+        display: flex;
+        flex: 0 0 50%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        margin: 0;
+        padding: 8px 4px;
+      }
+      .stats-bar.sb-open .stat:last-of-type { margin-left: 0; padding-right: 4px; }
+
+      /* Editorial-Box: volle Breite, kein negatives Margin nötig */
+      .stats-bar.sb-open .editorial-box {
+        display: block;
+        flex: 0 0 100%;
+        margin: 0;
+        padding: 8px 0 4px;
+      }
+
+      /* Statistiken-Infobar: sichtbar und ausklappbar statt hidden */
+      .stats-bar--info { display: flex; }
+      .stats-bar--info .editorial-box { display: none; }
+      .stats-bar--info.sb-open .editorial-box { display: block; }
     }
     @media (max-width: 560px) {
       header p { display: none; }
@@ -1040,6 +1073,7 @@
 <!-- ═══════════ STATISTIKEN ═══════════ -->
 <div class="section" id="sec-statistiken">
   <div class="stats-bar stats-bar--info">
+    <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Über die Statistiken<span class="sb-arrow">▾</span></button>
     <div class="editorial-box" id="editorial-statistiken"></div>
   </div>
   <nav class="stats-subnav" id="stats-subnav">

@@ -1316,6 +1316,10 @@
       <button class="embed-sz" data-w="860" data-h="480" onclick="pickEmbedSize(this)">Breit</button>
       <button class="embed-sz" data-w="480" data-h="340" onclick="pickEmbedSize(this)">Kompakt</button>
     </div>
+    <div class="embed-sizes" style="margin-top:-4px">
+      <button class="embed-sz active" data-style="" onclick="pickEmbedStyle(this)">Kein Rahmen</button>
+      <button class="embed-sz" data-style="card" onclick="pickEmbedStyle(this)">Mit Rahmen</button>
+    </div>
     <textarea class="embed-code" id="embed-code" readonly onclick="this.select()" spellcheck="false"></textarea>
     <button class="embed-copy" id="embed-copy" onclick="copyEmbed()">Code kopieren</button>
   </div>
@@ -2894,8 +2898,9 @@ let _eChart = '', _eW = 680, _eH = 420;
 
 function showEmbed(btn) {
   _eChart = btn.closest('[data-chart]').dataset.chart;
-  _eW = 680; _eH = 420;
-  document.querySelectorAll('.embed-sz').forEach(b => b.classList.toggle('active', +b.dataset.w === _eW));
+  _eW = 680; _eH = 420; _eStyle = '';
+  document.querySelectorAll('.embed-sz[data-w]').forEach(b => b.classList.toggle('active', +b.dataset.w === _eW));
+  document.querySelectorAll('.embed-sz[data-style]').forEach(b => b.classList.toggle('active', b.dataset.style === _eStyle));
   updateEmbedCode();
   document.getElementById('embed-overlay').hidden = false;
 }
@@ -2906,16 +2911,26 @@ function closeEmbed(e) {
 }
 
 function pickEmbedSize(btn) {
-  document.querySelectorAll('.embed-sz').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.embed-sz[data-w]').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   _eW = +btn.dataset.w; _eH = +btn.dataset.h;
   updateEmbedCode();
 }
 
+function pickEmbedStyle(btn) {
+  document.querySelectorAll('.embed-sz[data-style]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _eStyle = btn.dataset.style;
+  updateEmbedCode();
+}
+
 function updateEmbedCode() {
-  const src = `https://data.parkraumwende.de/embed.html?chart=${_eChart}`;
+  const src = `https://data.parkraumwende.de/embed.html?chart=${_eChart}${_eStyle ? '&style=' + _eStyle : ''}`;
+  const iframeStyle = _eStyle === 'card'
+    ? 'border:1px solid #e2e8f0;border-radius:4px;max-width:100%;'
+    : 'border:0;max-width:100%;';
   document.getElementById('embed-code').value =
-    `<iframe src="${src}" width="${_eW}" height="${_eH}" frameborder="0" style="border:0;max-width:100%;" loading="lazy"></iframe>`;
+    `<iframe src="${src}" width="${_eW}" height="${_eH}" frameborder="0" style="${iframeStyle}" loading="lazy"></iframe>`;
 }
 
 function copyEmbed() {

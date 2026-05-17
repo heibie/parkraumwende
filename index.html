@@ -591,6 +591,7 @@
 
     .tiles-panel { display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
     .tiles-scroll { overflow-y: auto; flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 5px; }
+    .tiles-drag-handle { display: none; }
 
     .ph-tile {
       background: var(--surface);
@@ -768,9 +769,33 @@
       /* Filter FAB einblenden */
       .filter-fab { display: flex; }
 
-      .innenstadt-body { grid-template-columns: 1fr; }
-      .tiles-panel { height: 45vh; }
-      #map-innenstadt { height: 45vh; }
+      /* Innenstadt: Karte nimmt alles, Parkhausliste als Bottom-Sheet */
+      .innenstadt-body { display: flex; flex-direction: column; position: relative; }
+      .map-panel { flex: 1; min-height: 0; }
+      #map-innenstadt { height: 100%; }
+
+      .tiles-drag-handle {
+        display: block;
+        width: 36px; height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 10px auto 0;
+        flex-shrink: 0;
+      }
+      .tiles-panel {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 68vh;
+        transform: translateY(calc(100% - 54px));
+        transition: transform .3s cubic-bezier(.4,0,.2,1);
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.18);
+        z-index: 200;
+        border-top: none;
+      }
+      .tiles-panel.sheet-open { transform: translateY(0); }
+      .tiles-panel .panel-header { cursor: pointer; border-radius: 0; user-select: none; }
+      .tiles-panel.sheet-open .panel-header { border-bottom: 1px solid var(--border); }
 
       /* Collapsible stats bars on mobile */
       .sb-toggle {
@@ -1003,7 +1028,7 @@
   <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeAllSheets()"></div>
 
   <div class="stats-bar">
-    <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Karte – Übersicht<span class="sb-arrow">▾</span></button>
+    <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Infos zu diesem Bereich<span class="sb-arrow">▾</span></button>
     <div class="stat"><span class="stat-label">Einträge</span><span class="stat-value" id="karte-stat-eintraege">–</span></div>
     <div class="stat"><span class="stat-label">Stellplätze</span><span class="stat-value" id="karte-stat-plaetze">–</span></div>
     <div class="stat"><span class="stat-label">Parkhäuser</span><span class="stat-value" id="karte-stat-ph">–</span></div>
@@ -1049,7 +1074,7 @@
 <div class="section" id="sec-innenstadt">
   <div class="innenstadt-layout">
     <div class="stats-bar">
-      <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Live-Auslastung<span class="sb-arrow">▾</span></button>
+      <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Infos zu diesem Bereich<span class="sb-arrow">▾</span></button>
       <div class="stat"><span class="stat-label">Freie Plätze</span><span class="stat-value frei" id="stat-frei">–</span></div>
       <div class="stat"><span class="stat-label">Belegte Plätze</span><span class="stat-value belegt" id="stat-belegt">–</span></div>
       <div class="stat"><span class="stat-label">Auslastung</span><span class="stat-value pct" id="stat-pct">–</span></div>
@@ -1062,8 +1087,9 @@
         <div class="panel-header">Karte</div>
         <div id="map-innenstadt"></div>
       </div>
-      <div class="tiles-panel">
-        <div class="panel-header">Parkhäuser</div>
+      <div class="tiles-panel" id="tiles-panel">
+        <div class="tiles-drag-handle"></div>
+        <div class="panel-header" onclick="toggleTilesSheet()">Parkhäuser ▴</div>
         <div class="tiles-scroll" id="tiles"></div>
       </div>
     </div>
@@ -1073,7 +1099,7 @@
 <!-- ═══════════ STATISTIKEN ═══════════ -->
 <div class="section" id="sec-statistiken">
   <div class="stats-bar stats-bar--info">
-    <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Über die Statistiken<span class="sb-arrow">▾</span></button>
+    <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Infos zu diesem Bereich<span class="sb-arrow">▾</span></button>
     <div class="editorial-box" id="editorial-statistiken"></div>
   </div>
   <nav class="stats-subnav" id="stats-subnav">
@@ -1576,6 +1602,12 @@ function toggleFilterSheet(force) {
 function closeAllSheets() {
   toggleFilterSheet(false);
   closeDetail();
+}
+
+function toggleTilesSheet() {
+  if (!window.matchMedia('(max-width: 900px)').matches) return;
+  const panel = document.getElementById('tiles-panel');
+  panel.classList.toggle('sheet-open');
 }
 
 // ══════════════════════════════════════════════
@@ -2169,7 +2201,11 @@ async function initInnenstadt() {
       pct  != null ? `Auslastung: ${pct} %` : '',
       !aktiv ? '<em>Sensor offline – letzter bekannter Wert</em>' : '',
     ].filter(Boolean).join('<br>'));
-    tile.addEventListener('click', () => { mapInnenstadt.setView([ph.lat, ph.lon], 16); marker.openPopup(); });
+    tile.addEventListener('click', () => {
+      mapInnenstadt.setView([ph.lat, ph.lon], 16); marker.openPopup();
+      if (window.matchMedia('(max-width: 900px)').matches)
+        document.getElementById('tiles-panel').classList.add('sheet-open');
+    });
   });
 }
 

@@ -42,6 +42,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@13/marked.min.js"></script>
 
   <style>
@@ -61,6 +62,7 @@
       --header-h:  52px;
       --nav-h:     42px;
       --footer-h:  34px;
+      --subnav-h:  40px;
     }
 
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; }
@@ -785,11 +787,38 @@
     }
     /* ══ Statistiken ══════════════════════════════ */
     .stats-body {
-      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h));
+      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h) - var(--subnav-h));
       overflow-y: auto;
       padding: 32px 24px 48px;
     }
-    .stats-grid {
+    .stats-subnav {
+      display: flex;
+      gap: 6px;
+      padding: 0 24px;
+      height: var(--subnav-h);
+      align-items: center;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      flex-shrink: 0;
+      scrollbar-width: none;
+    }
+    .stats-subnav::-webkit-scrollbar { display: none; }
+    .stats-subnav-pill {
+      flex-shrink: 0;
+      padding: 3px 11px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .stats-subnav-pill:hover { color: var(--primary); border-color: var(--primary); }
+    .stats-subnav-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .stats-grid {
       max-width: 1060px;
       margin: 0 auto;
       display: grid;
@@ -821,6 +850,7 @@
     .stat-card-sub   { font-size: 0.7rem; color: var(--text-dim); margin-top: 3px; }
     .stat-card-body  { padding: 20px 24px; display: flex; justify-content: center; }
     .stat-card-body canvas { max-width: 680px; width: 100%; }
+    .stat-card-wide .stat-card-body canvas { max-width: 100%; }
     .stat-card-foot  { padding: 6px 18px 10px; font-size: 0.68rem; color: var(--text-dim); border-top: 1px solid var(--border); }
     .stat-card-foot a { color: var(--text-dim); text-decoration: none; }
     .stat-card-foot a:hover { text-decoration: underline; }
@@ -888,7 +918,34 @@
       max-width: 1060px; margin-left: auto; margin-right: auto; }
     .stats-chapter:first-child { margin-top: 0; }
     @media (max-width: 800px) {
-      .stats-grid { grid-template-columns: 1fr; }
+      .stats-subnav {
+      display: flex;
+      gap: 6px;
+      padding: 0 24px;
+      height: var(--subnav-h);
+      align-items: center;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      flex-shrink: 0;
+      scrollbar-width: none;
+    }
+    .stats-subnav::-webkit-scrollbar { display: none; }
+    .stats-subnav-pill {
+      flex-shrink: 0;
+      padding: 3px 11px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .stats-subnav-pill:hover { color: var(--primary); border-color: var(--primary); }
+    .stats-subnav-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .stats-grid { grid-template-columns: 1fr; }
       .stat-card-wide { grid-column: 1; }
     }
   </style>
@@ -985,9 +1042,93 @@
   <div class="stats-bar stats-bar--info">
     <div class="editorial-box" id="editorial-statistiken"></div>
   </div>
+  <nav class="stats-subnav" id="stats-subnav">
+    <a class="stats-subnav-pill active" href="#chapter-oeffentlicher-raum">Öff. Raum</a>
+    <a class="stats-subnav-pill" href="#chapter-kfz">KFZ &amp; Zulassungen</a>
+    <a class="stats-subnav-pill" href="#chapter-mobilitaet">Mobilität</a>
+    <a class="stats-subnav-pill" href="#chapter-visionzero">Vision Zero</a>
+    <a class="stats-subnav-pill" href="#chapter-oepnv">ÖPNV</a>
+  </nav>
   <div class="stats-body">
 
-    <div class="stats-chapter">KFZ-Bestand und Neuzulassungen München</div>
+    <div class="stats-chapter" id="chapter-oeffentlicher-raum">Öffentlicher Raum</div>
+    <div class="stats-grid">
+
+      <div class="stat-card stat-card-wide">
+        <div class="stat-card-head" data-chart="lizenzgebiete">
+          <div><div class="stat-card-title">Überbuchung nach Lizenzgebiet</div>
+          <div class="stat-card-sub">Differenz Parkausweise minus Stellplätze · Rot = mehr Lizenzen als Plätze · Blau = Überschuss an Plätzen</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-lizenzgebiete" height="560"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parklizenzgebiete">Quelle: Landeshauptstadt München</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="parkplaetze-lizenzen">
+          <div><div class="stat-card-title">Überbuchter Parkraum gesamt</div>
+          <div class="stat-card-sub">119.227 Lizenzen, aber nur 93.064 Stellplätze – 22 % überbucht</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-parkplaetze-lizenzen" height="120"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parklizenzgebiete">Quelle: Landeshauptstadt München</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="motelone">
+          <div><div class="stat-card-title">Parkplätze Tiefgarage IHK / MotelOne</div>
+          <div class="stat-card-sub">Werktag und Wochenende im Vergleich. Über einen Monat in Haidhausen manuell gezählt.</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-motelone" height="140"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#ihk-motelone">Quelle: Parkraumwende München – eigene Erhebung</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="innenstadt-auslastung">
+          <div><div class="stat-card-title">Auslastung Innenstadt Parkhäuser an ausgewählten Samstagen</div>
+          <div class="stat-card-sub">21.10.: Vollsperrung Stammstrecke, 4.11.: Teilsperrung Stammstrecke, 16.12.: Adventssamstag – jeweils zwischen 8 und 20 Uhr</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-innenstadt-auslastung" height="140"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parkhaeuser-live">Quelle: Parkhäuser Innenstadt – Live-Auslastung</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="lizenzen-europa">
+          <div><div class="stat-card-title">Parkausweis-Jahresgebühr im Städtevergleich</div>
+          <div class="stat-card-sub">München zahlt mit 30 € pro Jahr europaweit am wenigsten</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-lizenzen-europa" height="220"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parklizenzen-europa">Quelle: Stadtverwaltungen – eigene Zusammenstellung</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="oeffentlicher-raum">
+          <div><div class="stat-card-title">Kosten für öffentlichen Raum im Vergleich</div>
+          <div class="stat-card-sub">Jahresgebühren München – Parken günstiger als jede andere Nutzung</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-oeffentlicher-raum" height="240"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#oeffentlicher-raum">Quelle: Landeshauptstadt München – eigene Zusammenstellung</a></div>
+      </div>
+
+    </div>
+
+    <div class="stats-chapter" id="chapter-kfz">KFZ-Bestand und Neuzulassungen München</div>
     <div class="stats-grid">
 
       <div class="stat-card">
@@ -1040,7 +1181,7 @@
 
     </div>
 
-    <div class="stats-chapter">Mobilitätsverhalten und Kosten</div>
+    <div class="stats-chapter" id="chapter-mobilitaet">Mobilitätsverhalten und Kosten</div>
     <div class="stats-grid">
 
       <div class="stat-card">
@@ -1103,7 +1244,7 @@
         <div class="stat-card-foot"><a href="quellen.html#preissteigerung">Quelle: MVV, BMDV/VDV, LHM – eigene Zusammenstellung</a></div>
       </div>
 
-      <div class="stat-section-head">
+      <div class="stat-section-head" id="chapter-visionzero">
         <h3>Vision Zero</h3>
       </div>
 
@@ -1131,7 +1272,7 @@
         <div class="stat-card-foot"><a href="quellen.html#visionzero-schulwegunfaelle">Quelle: Statistisches Amt München</a></div>
       </div>
 
-      <div class="stat-section-head">
+      <div class="stat-section-head" id="chapter-oepnv">
         <h3>ÖPNV</h3>
       </div>
 
@@ -2224,6 +2365,7 @@ const COLORS = {
   grau:       '#c7c8c9',
 };
 
+Chart.unregister(ChartDataLabels); // nur per-chart verwenden
 const CHART_DEFAULTS = {
   responsive: true,
   maintainAspectRatio: false,
@@ -2236,6 +2378,162 @@ const CHART_DEFAULTS = {
 
 async function initStatistiken() {
   loadEditorial('statistiken');
+
+  // ── Öffentlicher Raum ──────────────────────────────────────────────────
+
+  // 1. Parklizenzgebiete – Diverging Bar: Parkausweise minus Stellplätze
+  const lgRows = await loadCsv('data/parklizenzgebiete.csv');
+  const lgFiltered = lgRows
+    .filter(r => r['Lizenzgebiet'] && r['Lizenzgebiet'] !== 'Gesamt'
+                 && typeof r['Anzahl Parkausweise'] === 'number')
+    .sort((a,b) => (b['Anzahl Parkausweise'] - b['Anzahl Stellplätze'])
+                 - (a['Anzahl Parkausweise'] - a['Anzahl Stellplätze']));
+  const lgDiff   = lgFiltered.map(r => r['Anzahl Parkausweise'] - r['Anzahl Stellplätze']);
+  const lgColors = lgDiff.map(v => v > 0 ? COLORS.rot : COLORS.blau);
+  new Chart(document.getElementById('chart-lizenzgebiete'), {
+    type: 'bar',
+    data: {
+      labels: lgFiltered.map(r => r['Lizenzgebiet']),
+      datasets: [{
+        label: 'Parkausweise minus Stellplätze',
+        data: lgDiff,
+        backgroundColor: lgColors,
+        barThickness: 10,
+      }],
+    },
+    options: { ...CHART_DEFAULTS, maintainAspectRatio: false,
+      plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false },
+        tooltip: { callbacks: { label: ctx => {
+          const v = ctx.parsed.y;
+          return v > 0 ? ` ${v} Lizenzen ohne Stellplatz` : ` ${Math.abs(v)} Stellplätze ungenutzt`;
+        }}} },
+      scales: {
+        x: { ticks: { font: { size: 9 }, maxRotation: 90, minRotation: 60 }, grid: { display: false } },
+        y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' },
+             title: { display: true, text: 'Überschuss Parkausweise', font: { size: 10 }, color: '#62707c' } },
+      },
+    },
+  });
+
+  // 2. Überbuchter Parkraum gesamt – absolute Zahlen
+  { const total = 119227, spots = 93064, overbooked = total - spots;
+    const fmt = v => v.toLocaleString('de-DE');
+    new Chart(document.getElementById('chart-parkplaetze-lizenzen'), {
+      type:'bar',
+      data:{ labels:['Parklizenzen gesamt'],
+        datasets:[
+          { label:'Verfügbare Parkplätze',  data:[spots],     backgroundColor: COLORS.gruen,              barThickness:50 },
+          { label:'Vergebene Parklizenzen', data:[overbooked], backgroundColor: 'rgba(199,30,29,0.55)',    barThickness:30 },
+        ]},
+      options:{ ...CHART_DEFAULTS, indexAxis:'y', maintainAspectRatio:false,
+        plugins:{ ...CHART_DEFAULTS.plugins, tooltip:{ callbacks:{ title: ctx => ctx[0].dataset.label, label: ctx => ctx.datasetIndex === 1 ? ` ${fmt(ctx.parsed.x)} überbucht (${fmt(total)} Lizenzen gesamt)` : ` ${fmt(ctx.parsed.x)}` } } },
+        scales:{
+          x:{ stacked:true, ticks:{ callback: v => v.toLocaleString('de-DE'), font:{size:11} }, grid:{color:'#e8ebee'} },
+          y:{ stacked:true, ticks:{ font:{size:11} }, grid:{display:false} },
+        },
+      },
+    });
+  }
+
+  // 3. Parkausweis-Jahresgebühr Städtevergleich
+  { const eurRows = await loadCsv('data/parklizenzen_europa.csv');
+    const eurSorted = [...eurRows].filter(r => r['Jahresgebühr']).sort((a,b) => a['Jahresgebühr'] - b['Jahresgebühr']);
+    new Chart(document.getElementById('chart-lizenzen-europa'), {
+      type:'bar',
+      data:{ labels: eurSorted.map(r => r['Stadt']),
+        datasets:[{ label:'Jahresgebühr (€)', data: eurSorted.map(r => r['Jahresgebühr']),
+          backgroundColor: eurSorted.map(r => r['Stadt'] === 'München' ? COLORS.rot : COLORS.blau),
+          barThickness:28 }]},
+      options:{ ...CHART_DEFAULTS, indexAxis:'y', maintainAspectRatio:false,
+        plugins:{ ...CHART_DEFAULTS.plugins, legend:{display:false},
+          tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.x} €` } } },
+        scales:{
+          x:{ ticks:{ callback: v => v+' €', font:{size:11} }, grid:{color:'#e8ebee'} },
+          y:{ ticks:{ font:{size:11} }, grid:{display:false} },
+        },
+      },
+    });
+  }
+
+  // 4. IHK / Motel One – Stacked Bar, absolute Zahlen, Werte in Balken
+  { const data = [ { label:'Werktage', frei:100, belegt:80 }, { label:'Wochenende', frei:140, belegt:40 } ];
+    new Chart(document.getElementById('chart-motelone'), {
+      type:'bar',
+      plugins:[ ChartDataLabels ],
+      data:{ labels: data.map(r => r.label),
+        datasets:[
+          { label:'Frei',   data: data.map(r => r.frei),   backgroundColor: COLORS.gruen, barPercentage:0.75, categoryPercentage:0.6 },
+          { label:'Belegt', data: data.map(r => r.belegt), backgroundColor: COLORS.rot,   barPercentage:0.75, categoryPercentage:0.6 },
+        ]},
+      options:{ ...CHART_DEFAULTS, indexAxis:'y', maintainAspectRatio:false,
+        plugins:{ ...CHART_DEFAULTS.plugins,
+          tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.x} Stellplätze` } },
+          datalabels:{
+            color:'#fff', font:{ size:12, weight:'600' },
+            formatter: v => v,
+            anchor:'center', align:'center',
+            display: ctx => ctx.dataset.data[ctx.dataIndex] > 10,
+          },
+        },
+        scales:{
+          x:{ stacked:true, ticks:{ font:{size:11} }, grid:{color:'#e8ebee'} },
+          y:{ stacked:true, ticks:{ font:{size:11} }, grid:{display:false} },
+        },
+      },
+    });
+  }
+
+  // 5. Innenstadt Parkhäuser – Auslastung ausgewählte Samstage
+  { const phRows = await loadCsv('data/innenstadt_parkhaus_auslastung_exemplarisch.csv');
+    const phData = phRows.filter(r => r['Datum']);
+    new Chart(document.getElementById('chart-innenstadt-auslastung'), {
+      type:'bar',
+      plugins:[ ChartDataLabels ],
+      data:{ labels: phData.map(r => r['Datum']),
+        datasets:[
+          { label:'Frei',   data: phData.map(r => r[Object.keys(r)[1]]), backgroundColor: COLORS.gruen, barPercentage:0.75, categoryPercentage:0.6 },
+          { label:'Belegt', data: phData.map(r => r[Object.keys(r)[2]]), backgroundColor: COLORS.rot,   barPercentage:0.75, categoryPercentage:0.6 },
+        ]},
+      options:{ ...CHART_DEFAULTS, indexAxis:'y', maintainAspectRatio:false,
+        plugins:{ ...CHART_DEFAULTS.plugins,
+          tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.x} %` } },
+          datalabels:{
+            color:'#fff', font:{ size:12, weight:'600' },
+            formatter: v => v + ' %',
+            anchor:'center', align:'center',
+            display: ctx => ctx.dataset.data[ctx.dataIndex] > 10,
+          },
+        },
+        scales:{
+          x:{ stacked:true, max:100, ticks:{ callback: v => v+' %', font:{size:11} }, grid:{color:'#e8ebee'} },
+          y:{ stacked:true, ticks:{ font:{size:11} }, grid:{display:false} },
+        },
+      },
+    });
+  }
+
+  // 6. Öffentlicher Raum – Kosten Vergleich
+  { const orRows = await loadCsv('data/oeffentlicher_raum.csv');
+    const orSorted = [...orRows].filter(r => r['Kosten']).sort((a,b) => a['Kosten'] - b['Kosten']);
+    new Chart(document.getElementById('chart-oeffentlicher-raum'), {
+      type:'bar',
+      data:{ labels: orSorted.map(r => r['Nutzung']),
+        datasets:[{ label:'Jahreskosten (€)', data: orSorted.map(r => r['Kosten']),
+          backgroundColor: orSorted.map(r =>
+            String(r['Nutzung']).startsWith('Bewohnerparkausweis') ? COLORS.rot : COLORS.blau),
+          barThickness:28 }]},
+      options:{ ...CHART_DEFAULTS, indexAxis:'y', maintainAspectRatio:false,
+        plugins:{ ...CHART_DEFAULTS.plugins, legend:{display:false},
+          tooltip:{ callbacks:{ label: ctx => ` ${ctx.parsed.x} €` } } },
+        scales:{
+          x:{ ticks:{ callback: v => v+' €', font:{size:11} }, grid:{color:'#e8ebee'} },
+          y:{ ticks:{ font:{size:11} }, grid:{display:false} },
+        },
+      },
+    });
+  }
+
+  // ── KFZ-Bestand ────────────────────────────────────────────────────────
   const rows = await loadCsv('data/pkw_bestand.csv');
   const c = {
     verbrenner: COLORS.beige,
@@ -2628,6 +2926,26 @@ function copyEmbed() {
     setTimeout(() => { btn.textContent = 'Code kopieren'; btn.classList.remove('copied'); }, 2200);
   });
 }
+
+  // ── Statistiken Subnav: aktive Pill per IntersectionObserver ──────────
+  (function() {
+    const body = document.getElementById('sec-statistiken')?.querySelector('.stats-body');
+    if (!body) return;
+    const pills = document.querySelectorAll('.stats-subnav-pill');
+    const setActive = id => pills.forEach(p =>
+      p.classList.toggle('active', p.getAttribute('href') === '#' + id)
+    );
+    pills.forEach(pill => pill.addEventListener('click', e => {
+      e.preventDefault();
+      setActive(pill.getAttribute('href').slice(1));
+      const target = document.querySelector(pill.getAttribute('href'));
+      if (target) body.scrollTo({ top: target.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop - 12 });
+    }));
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); });
+    }, { root: body, threshold: 0, rootMargin: '0px 0px -85% 0px' });
+    document.querySelectorAll('[id^="chapter-"]').forEach(el => obs.observe(el));
+  })();
 </script>
 
 <footer class="site-footer">

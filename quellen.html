@@ -142,7 +142,7 @@
     </p>
   </div>
 
-  <h3>Eigene Datensätze</h3>
+  <h3>Karte &amp; Eigene Datensätze</h3>
 
   <div class="source-card" id="parkraumkarte">
     <div class="source-title">Parkraumkarte München</div>
@@ -161,22 +161,7 @@
     </div>
   </div>
 
-  <div class="source-card" id="preissteigerung">
-    <div class="source-title">Preissteigerungen ÖPNV vs. Parkraum-Lizenz</div>
-    <div class="source-file">data/preissteigerung_oepnv_parken.csv</div>
-    <div class="source-desc">
-      Eigene Zusammenstellung von Preisänderungen: MVV-Streifenkarte (offizielle MVV-Tarife), Deutschlandticket (BMDV/VDV-Ankündigungen) und Parkraum-Jahresausweis (LHM-Stadtratsbeschlüsse). Grundlage für den Preisvergleich ÖPNV vs. Parklizenz seit 2010.
-    </div>
-    <div class="source-meta">
-      <span class="meta-tag license">CC BY 4.0</span>
-      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München</span>
-      <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2026</span>
-      <span class="meta-tag source-link"><a href="data/preissteigerung_oepnv_parken.csv">↓ Download</a></span>
-      <span class="meta-tag source-link"><a href="https://www.mvv-muenchen.de">MVV ↗</a></span>
-    </div>
-  </div>
-
-  <h3>Live-Daten (automatisch aktualisiert)</h3>
+  <h3>Live-Daten (Innenstadt-Parkhäuser)</h3>
 
   <div class="source-card" id="parkhaeuser-live">
     <div class="source-title">Parkhäuser Innenstadt – Live-Auslastung</div>
@@ -195,7 +180,76 @@
     </div>
   </div>
 
-  <h3>Statistische Daten (Dritte)</h3>
+  <h3>Öffentlicher Raum</h3>
+
+  <div class="source-card" id="parklizenzgebiete">
+    <div class="source-title">Parklizenzgebiete München – Stellplätze und Parkausweise</div>
+    <div class="source-file">data/parklizenzgebiete.csv &nbsp;·&nbsp; data/parkplaetze_parklizenzen.csv</div>
+    <div class="source-desc">
+      Anzahl der Stellplätze und verkauften Parkausweise je Lizenzgebiet sowie Gesamtbilanz. Zeigt, in welchen Gebieten mehr Lizenzen vergeben wurden als Stellplätze vorhanden sind (Überbuchung).
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Landeshauptstadt München</span>
+      <span class="meta-tag"><span class="label">Stand</span> 2022</span>
+      <span class="meta-tag source-link"><a href="data/parklizenzgebiete.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="https://risi.muenchen.de/risi/dokument/v/7144556">Quelle: RISI LHM ↗</a></span>
+    </div>
+  </div>
+
+  <div class="source-card" id="ihk-motelone">
+    <div class="source-title">Parkhausauslastung Tiefgarage IHK / MotelOne Haidhausen</div>
+    <div class="source-file">data/ihk_motelone.csv</div>
+    <div class="source-desc">
+      Die Tiefgaragen von IHK und MotelOne an der Ecke Orleansstraße / Rosenheimer Straße verfügen über digitale Anzeigen der freien Stellplätze. Diese wurden über knapp einen Monat manuell vor Ort erfasst und nach Werktag und Wochenende ausgewertet.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München – eigene Erhebung</span>
+      <span class="meta-tag"><span class="label">Stand</span> 2024</span>
+      <span class="meta-tag source-link"><a href="data/ihk_motelone.csv">↓ Download</a></span>
+    </div>
+  </div>
+
+  <div class="source-card" id="innenstadt-auslastung">
+    <div class="source-title">Auslastung Innenstadt Parkhäuser an ausgewählten Samstagen</div>
+    <div class="source-file">data/innenstadt_parkhaus_auslastung_exemplarisch.csv</div>
+    <div class="source-desc">
+      Stichprobenartige Auslastungsmessungen der Innenstadtparkhäuser an drei ausgewählten Samstagen 2023 (Vollsperrung Stammstrecke, Teilsperrung Stammstrecke, Adventssamstag), jeweils zwischen 8 und 20 Uhr. Datengrundlage: Live-Parkleitsystem der Landeshauptstadt München.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München – eigene Erhebung</span>
+      <span class="meta-tag"><span class="label">Stand</span> 2023</span>
+      <span class="meta-tag source-link"><a href="data/innenstadt_parkhaus_auslastung_exemplarisch.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="quellen.html#parkhaeuser-live">Basisdaten: Parkhäuser Live-Auslastung ↗</a></span>
+    </div>
+  </div>
+
+  <div class="source-card" id="parklizenzen-europa">
+    <div class="source-title">Parkausweis-Jahresgebühren im europäischen Städtevergleich</div>
+    <div class="source-file">data/parklizenzen_europa.csv</div>
+    <div class="source-desc">
+      Jährliche Gebühren für Anwohnerparkausweise in ausgewählten europäischen Städten (München, Wien, Zürich, Oslo, Amsterdam, Stockholm). Grundlage für den Vergleich der Parkraumkosten im europäischen Kontext.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München – eigene Recherche</span>
+      <span class="meta-tag"><span class="label">Stand</span> 2026</span>
+      <span class="meta-tag source-link"><a href="data/parklizenzen_europa.csv">↓ Download</a></span>
+    </div>
+  </div>
+
+  <div class="source-card" id="oeffentlicher-raum">
+    <div class="source-title">Kosten für die Nutzung öffentlichen Raums in München</div>
+    <div class="source-file">data/oeffentlicher_raum.csv</div>
+    <div class="source-desc">
+      Jährliche Gebühren für verschiedene Nutzungsformen des öffentlichen Raums in München: Anwohnerparkausweis, Gewerbeparkausweis, Freischankfläche, privater Stellplatz, Obststand u. a. Zeigt das starke Preisgefälle zwischen Parken und anderen Nutzungen.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München – eigene Recherche</span>
+      <span class="meta-tag"><span class="label">Stand</span> 2026</span>
+      <span class="meta-tag source-link"><a href="data/oeffentlicher_raum.csv">↓ Download</a></span>
+    </div>
+  </div>
+
+  <h3>KFZ-Bestand und Neuzulassungen München</h3>
 
   <div class="source-card" id="pkw-bestand">
     <div class="source-title">PKW-Bestand München 2010–2025</div>
@@ -208,7 +262,7 @@
       <span class="meta-tag"><span class="label">Herausgeber</span> KFZ-Zulassungsstelle München / Statistisches Amt München</span>
       <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2025</span>
       <span class="meta-tag source-link"><a href="data/pkw_bestand.csv">↓ Download</a></span>
-      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München - Monatszahlenmonitoring ↗</a></span>
+      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München – Monatszahlenmonitoring ↗</a></span>
     </div>
   </div>
 
@@ -221,25 +275,26 @@
     </div>
     <div class="source-meta">
       <span class="meta-tag license">dl-de/by-2-0</span>
-      <span class="meta-tag"><span class="label">Herausgeber</span>Statistisches Amt München</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Statistisches Amt München</span>
       <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2024</span>
       <span class="meta-tag source-link"><a href="data/neuzulassungen_fahrzeugtypen.csv">↓ Download</a></span>
-	       <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München - Monatszahlenmonitoring ↗</a></span>
+      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München – Monatszahlenmonitoring ↗</a></span>
     </div>
   </div>
+
+  <h3>Mobilitätsverhalten und Kosten</h3>
 
   <div class="source-card" id="pkw-haushalt">
     <div class="source-title">Autobesitz je Haushalt – München</div>
     <div class="source-file">data/pkw_haushalt.csv</div>
     <div class="source-desc">
       Anteil der Münchner Haushalte ohne Auto, mit einem Auto und mit zwei oder mehr Autos.
-      Quelle: Mobilitätsstudie MiD (Mobilität in Deutschland).
     </div>
     <div class="source-meta">
       <span class="meta-tag license">dl-de/by-2-0</span>
-      <span class="meta-tag"><span class="label">Herausgeber</span>Mobilitaet in Staedten – SrV 2023</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Mobilität in Städten – SrV 2023 (TU Dresden)</span>
       <span class="meta-tag source-link"><a href="data/pkw_haushalt.csv">↓ Download</a></span>
-      <span class="meta-tag source-link"><a href="https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf">Mobilitaet in Staedten – SrV 2023 ↗</a></span>
+      <span class="meta-tag source-link"><a href="https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf">Mobilität in Städten – SrV 2023 ↗</a></span>
     </div>
   </div>
 
@@ -277,16 +332,33 @@
     <div class="source-title">Modal Split München 2002–2023</div>
     <div class="source-file">data/modal_split.csv</div>
     <div class="source-desc">
-      Verkehrsmittelwahl der Münchner Bevölkerung (Auto, ÖPNV, Rad, zu Fuß) in Prozent. Erhebungsjahre 2002, 2008, 2017 und 2023 aus der bundesweiten Studie „Mobilität in Deutschland" (MiD). Der Zielwert 2025 (80 % Umweltverbund) entstammt der Münchner Mobilitätsstrategie (LHM).
+      Verkehrsmittelwahl der Münchner Bevölkerung (Auto, ÖPNV, Rad, zu Fuß) in Prozent. Erhebungsjahre 2002, 2008, 2017 und 2023. Der Zielwert 2025 (80 % Umweltverbund) entstammt der Münchner Mobilitätsstrategie (LHM).
     </div>
     <div class="source-meta">
       <span class="meta-tag license">dl-de/by-2-0</span>
-      <span class="meta-tag"><span class="label">Herausgeber</span>Mobilitaet in Staedten – SrV 2023</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Mobilität in Städten – SrV 2023 (TU Dresden)</span>
       <span class="meta-tag"><span class="label">Zeitraum</span> 2002–2023, Ziel 2025</span>
       <span class="meta-tag source-link"><a href="data/modal_split.csv">↓ Download</a></span>
-      <span class="meta-tag source-link"><a href="https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf">Mobilitaet in Staedten – SrV 2023 ↗</a></span>
+      <span class="meta-tag source-link"><a href="https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf">Mobilität in Städten – SrV 2023 ↗</a></span>
     </div>
   </div>
+
+  <div class="source-card" id="preissteigerung">
+    <div class="source-title">Preissteigerungen ÖPNV vs. Parkraum-Lizenz</div>
+    <div class="source-file">data/preissteigerung_oepnv_parken.csv</div>
+    <div class="source-desc">
+      Eigene Zusammenstellung von Preisänderungen: MVV-Streifenkarte (offizielle MVV-Tarife), Deutschlandticket (BMDV/VDV-Ankündigungen) und Parkraum-Jahresausweis (LHM-Stadtratsbeschlüsse). Grundlage für den Preisvergleich ÖPNV vs. Parklizenz seit 2010.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag license">CC BY 4.0</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München</span>
+      <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2026</span>
+      <span class="meta-tag source-link"><a href="data/preissteigerung_oepnv_parken.csv">↓ Download</a></span>
+      <span class="meta-tag source-link"><a href="https://www.mvv-muenchen.de">MVV ↗</a></span>
+    </div>
+  </div>
+
+  <h3>Vision Zero</h3>
 
   <div class="source-card" id="visionzero-unfaelle">
     <div class="source-title">Verkehrsunfallstatistik München 2010–2024</div>
@@ -296,10 +368,10 @@
     </div>
     <div class="source-meta">
       <span class="meta-tag license">dl-de/by-2-0</span>
-      <span class="meta-tag"><span class="label">Herausgeber</span>Statistisches Amt München</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Statistisches Amt München</span>
       <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2024</span>
       <span class="meta-tag source-link"><a href="data/visionzero_unfaelle.csv">↓ Download</a></span>
-      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München - Monatszahlenmonitoring ↗</a></span>
+      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München – Monatszahlenmonitoring ↗</a></span>
     </div>
   </div>
 
@@ -311,12 +383,14 @@
     </div>
     <div class="source-meta">
       <span class="meta-tag license">dl-de/by-2-0</span>
-      <span class="meta-tag"><span class="label">Herausgeber</span>Statistisches Amt München</span>
+      <span class="meta-tag"><span class="label">Herausgeber</span> Statistisches Amt München</span>
       <span class="meta-tag"><span class="label">Zeitraum</span> 2010–2024</span>
       <span class="meta-tag source-link"><a href="data/visionzero_schulwegunfaelle.csv">↓ Download</a></span>
-      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München - Monatszahlenmonitoring ↗</a></span>
+      <span class="meta-tag source-link"><a href="https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html">Statistisches Amt München – Monatszahlenmonitoring ↗</a></span>
     </div>
   </div>
+
+  <h3>ÖPNV</h3>
 
   <div class="source-card" id="mvv">
     <div class="source-title">MVV – Fahrgastzahlen und Netzlänge 2010–2024</div>
@@ -333,7 +407,7 @@
     </div>
   </div>
 
-  <div class="download-box">
+    <div class="download-box">
     <div>
       <strong>Maschinenlesbare Metadaten</strong>
       <p>Alle Datensätze sind im Frictionless Data Standard (datapackage.json) beschrieben.</p>

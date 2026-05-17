@@ -75,6 +75,122 @@
       }
     },
     {
+      "name": "parklizenzgebiete",
+      "path": "parklizenzgebiete.csv",
+      "title": "Parklizenzgebiete München – Stellplätze und Parkausweise",
+      "description": "Anzahl der Stellplätze und verkauften Parkausweise je Lizenzgebiet sowie Gesamtbilanz. Zeigt, in welchen Gebieten mehr Lizenzen vergeben wurden als Stellplätze vorhanden sind (Überbuchung).",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2022/2022",
+      "sources": [
+        { "title": "Landeshauptstadt München – RISI Dokument 7144556", "path": "https://risi.muenchen.de/risi/dokument/v/7144556" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Lizenzgebiet",        "type": "string",  "description": "Bezeichnung des Parklizenzgebiets" },
+          { "name": "Anzahl Stellplätze",  "type": "integer", "description": "Anzahl der Stellplätze im Gebiet" },
+          { "name": "Anzahl Parkausweise", "type": "integer", "description": "Anzahl der verkauften Parkausweise im Gebiet" },
+          { "name": "Differenz",           "type": "integer", "description": "Parkausweise minus Stellplätze (positiv = Überbuchung)" }
+        ]
+      }
+    },
+    {
+      "name": "parkplaetze-parklizenzen",
+      "path": "parkplaetze_parklizenzen.csv",
+      "title": "Parkplätze und Parklizenzen München – Gesamtbilanz",
+      "description": "Gesamtzahl der Stellplätze und verkauften Parklizenzen in München. Grundlage für die Darstellung des überbuchten Parkraums (22 % mehr Lizenzen als Stellplätze).",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2022/2022",
+      "sources": [
+        { "title": "Landeshauptstadt München – RISI Dokument 7144556", "path": "https://risi.muenchen.de/risi/dokument/v/7144556" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Titel",  "type": "string",  "description": "Kategorie (Parkplätze / Parklizenzen)" },
+          { "name": "Anzahl", "type": "integer", "description": "Absolute Zahl" }
+        ]
+      }
+    },
+    {
+      "name": "ihk-motelone",
+      "path": "ihk_motelone.csv",
+      "title": "Parkhausauslastung Tiefgarage IHK / MotelOne Haidhausen",
+      "description": "Auslastung der Tiefgaragen von IHK und MotelOne an der Ecke Orleansstraße / Rosenheimer Straße. Freie und belegte Stellplätze nach Werktag und Wochenende. Über knapp einen Monat manuell vor Ort erfasst.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2024/2024",
+      "sources": [
+        { "title": "Parkraumwende München – eigene Erhebung", "path": "https://parkraumwende.de" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "Zeitraum", "type": "string",  "description": "Werktag oder Wochenende" },
+          { "name": "Frei",     "type": "integer", "description": "Freie Stellplätze (Durchschnitt)" },
+          { "name": "Belegt",   "type": "integer", "description": "Belegte Stellplätze (Durchschnitt)" }
+        ]
+      }
+    },
+    {
+      "name": "innenstadt-auslastung-exemplarisch",
+      "path": "innenstadt_parkhaus_auslastung_exemplarisch.csv",
+      "title": "Auslastung Innenstadt Parkhäuser an ausgewählten Samstagen",
+      "description": "Stichprobenartige Auslastungsmessungen der Innenstadtparkhäuser an drei ausgewählten Samstagen 2023: Vollsperrung Stammstrecke (21.10.), Teilsperrung Stammstrecke (4.11.) und Adventssamstag (16.12.). Jeweils zwischen 8 und 20 Uhr erfasst.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2023/2023",
+      "sources": [
+        { "title": "Parkraumwende München – eigene Erhebung via Parkleitsystem München Zentrum", "path": "https://pls-muc-z.com/pls/info/parkhaus.html" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "Datum",  "type": "string",  "description": "Datum des ausgewählten Samstags" },
+          { "name": "Frei",   "type": "integer", "description": "Freie Kapazität in Prozent" },
+          { "name": "Belegt", "type": "integer", "description": "Belegte Kapazität in Prozent" }
+        ]
+      }
+    },
+    {
+      "name": "parklizenzen-europa",
+      "path": "parklizenzen_europa.csv",
+      "title": "Parkausweis-Jahresgebühren im europäischen Städtevergleich",
+      "description": "Jährliche Gebühren für Anwohnerparkausweise in ausgewählten europäischen Städten (München, Wien, Zürich, Oslo, Amsterdam, Stockholm).",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Parkraumwende München – eigene Recherche aus Stadtverwaltungen", "path": "https://parkraumwende.de" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "Stadt",        "type": "string",  "description": "Stadtname" },
+          { "name": "Jahresgebühr", "type": "integer", "description": "Jahresgebühr für Anwohnerparkausweis in Euro" }
+        ]
+      }
+    },
+    {
+      "name": "oeffentlicher-raum",
+      "path": "oeffentlicher_raum.csv",
+      "title": "Kosten für die Nutzung öffentlichen Raums in München",
+      "description": "Jährliche Gebühren für verschiedene Nutzungsformen des öffentlichen Raums in München: Anwohnerparkausweis, Gewerbeparkausweis, Freischankfläche, privater Stellplatz, Obststand u. a.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Landeshauptstadt München – eigene Zusammenstellung", "path": "https://www.muenchen.de" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "Nutzung", "type": "string",  "description": "Art der Nutzung des öffentlichen Raums" },
+          { "name": "Kosten",  "type": "number",  "description": "Jahreskosten in Euro" }
+        ]
+      }
+    },
+    {
       "name": "pkw-bestand",
       "path": "pkw_bestand.csv",
       "title": "PKW-Bestand München 2010–2025",

@@ -212,14 +212,20 @@
     }
     .filter-toggle:hover { background: var(--bg); color: var(--text); }
     .filter-group-arrow {
-      font-size: 0.6rem;
-      color: var(--text-dim);
+      font-size: 0.75rem;
+      color: var(--text);
       transition: transform .15s;
-      display: inline-block;
-      width: 10px;
-      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--bg);
+      flex-shrink: 0;
     }
-    .filter-group.open .filter-group-arrow { transform: rotate(180deg); }
+    .filter-group-header:hover .filter-group-arrow { border-color: var(--text-dim); }
+    .filter-group.open .filter-group-arrow { transform: rotate(180deg); background: var(--surface); }
 
     .filter-options { display: none; flex-direction: column; gap: 3px; padding-top: 6px; padding-bottom: 4px; }
     .filter-group.open .filter-options { display: flex; }
@@ -2094,6 +2100,8 @@ function onParkplatzFreiChange() {
 }
 
 function setAll(key, checked) {
+  const group = document.querySelector(`#opts-${key}`)?.closest('.filter-group');
+  if (group) group.classList.add('open');
   document.querySelectorAll(`input[data-key="${key}"]`).forEach(cb => { cb.checked = checked; });
   onFilterChange();
 }

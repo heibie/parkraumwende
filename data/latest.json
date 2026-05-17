@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-17 05:02:01",
-    "frei_gesamt": 3208,
-    "belegt_gesamt": 1179,
+    "timestamp": "2026-05-17 06:02:01",
+    "frei_gesamt": 3214,
+    "belegt_gesamt": 1173,
     "kap_gesamt": 4387,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 265,
+            "frei": 266,
             "kap": 275,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 76,
+            "frei": 78,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 200,
+            "frei": 201,
             "kap": 295,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 137,
+            "frei": 138,
             "kap": 160,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 252,
+            "frei": 253,
             "kap": 267,
             "aktiv": true
         },

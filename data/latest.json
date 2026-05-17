@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-17 06:02:01",
-    "frei_gesamt": 3214,
-    "belegt_gesamt": 1173,
+    "timestamp": "2026-05-17 07:02:01",
+    "frei_gesamt": 3227,
+    "belegt_gesamt": 1160,
     "kap_gesamt": 4387,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 299,
+            "frei": 300,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 288,
+            "frei": 287,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 353,
+            "frei": 357,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 78,
+            "frei": 77,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 201,
+            "frei": 202,
             "kap": 295,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 382,
+            "frei": 388,
             "kap": 473,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 138,
+            "frei": 140,
             "kap": 160,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 76,
+            "frei": 77,
             "kap": 104,
             "aktiv": true
         },

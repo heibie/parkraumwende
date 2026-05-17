@@ -21,12 +21,14 @@ scripts/            — Hilfsskripte (Datenaufbereitung)
 
 **Libraries (alle per CDN, kein npm):**
 
-| Library | Version | Zweck |
-|---|---|---|
-| [Chart.js](https://www.chartjs.org) | 4.4.4 | Alle Diagramme |
-| [chartjs-plugin-datalabels](https://chartjs-plugin-datalabels.netlify.app) | 2.2.0 | Werte in Balken |
-| [PapaParse](https://www.papaparse.com) | 5.4.1 | CSV-Parsing im Browser |
-| [Leaflet](https://leafletjs.com) | 1.9.4 | Interaktive Karte |
+| Library | Version | Zweck | Releases |
+|---|---|---|---|
+| [Chart.js](https://www.chartjs.org) | 4.4.4 | Alle Diagramme | [Releases](https://github.com/chartjs/Chart.js/releases) |
+| [chartjs-plugin-datalabels](https://chartjs-plugin-datalabels.netlify.app) | 2.2.0 | Werte in Balken | [Releases](https://github.com/chartjs/chartjs-plugin-datalabels/releases) |
+| [PapaParse](https://www.papaparse.com) | 5.4.1 | CSV-Parsing im Browser | [Releases](https://github.com/mholt/PapaParse/releases) |
+| [Leaflet](https://leafletjs.com) | 1.9.4 | Interaktive Karte | [Releases](https://github.com/Leaflet/Leaflet/releases) |
+
+> **Library-Updates (einmal jährlich prüfen):** Versionen sind fest in den CDN-URLs in `index.html` und `embed.html` eingebaut und aktualisieren sich nicht automatisch. Neue Version in der Tabelle oben und in allen `<script src="…@VERSION…">`-Tags eintragen, kurz testen, committen. Security-Risiko ist gering (keine Logins, keine externen APIs), aber bei bekannten Lücken zeitnah updaten.
 
 ---
 

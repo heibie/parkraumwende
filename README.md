@@ -108,21 +108,21 @@ Alle manuell gepflegten Datensätze liegen in `data/*.csv`. Jede Datei ist in `d
 
 | Datensatz | Datei | Quelle | Turnus |
 |---|---|---|---|
-| PKW-Bestand | `pkw_bestand.csv` | Statistisches Amt München | jährlich |
-| Neuzulassungen | `neuzulassungen_fahrzeugtypen.csv` | Statistisches Amt München | jährlich |
-| Autobesitz Haushalt | `pkw_haushalt.csv` | MiD (TU Dresden) | alle ~5 Jahre |
-| Autobesitz Einkommen | `pkw_einkommen.csv` | Bevölkerungsbefragung LHM | alle ~5 Jahre |
-| Bevölkerung | `bevoelkerung_ab_1900_stand_2024.csv` | OpenData LHM | jährlich |
-| Modal Split | `modal_split.csv` | MiD / LHM | alle ~5 Jahre |
-| ÖPNV-Preise | `preissteigerung_oepnv_parken.csv` | MVV / LHM | bei Preisänderung |
-| MVV Fahrgäste | `mvv.csv` | Statistisches Amt München | jährlich |
-| Verkehrsunfälle | `visionzero_unfaelle.csv` | Statistisches Amt München | jährlich |
-| Schulwegunfälle | `visionzero_schulwegunfaelle.csv` | Statistisches Amt München | jährlich |
-| Parklizenzgebiete | `parklizenzgebiete.csv` | LHM (RISI) | bei Änderung |
-| Parkplätze/Lizenzen | `parkplaetze_parklizenzen.csv` | LHM (RISI) | bei Änderung |
+| PKW-Bestand | `pkw_bestand.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
+| Neuzulassungen | `neuzulassungen_fahrzeugtypen.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
+| Autobesitz Haushalt | `pkw_haushalt.csv` | [MiD / SrV 2023 – TU Dresden](https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf) | alle ~5 Jahre |
+| Autobesitz Einkommen | `pkw_einkommen.csv` | [Bevölkerungsbefragung LHM](https://stadt.muenchen.de/infos/bevoelkerungsbefragung.html) | alle ~5 Jahre |
+| Bevölkerung | `bevoelkerung_ab_1900_stand_2024.csv` | [OpenData LHM – Bevölkerung](https://opendata.muenchen.de/dataset/bevoelkerung) | jährlich |
+| Modal Split | `modal_split.csv` | [MiD / SrV 2023 – TU Dresden](https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf) | alle ~5 Jahre |
+| ÖPNV-Preise | `preissteigerung_oepnv_parken.csv` | [MVV Tarifbestimmungen](https://www.mvv-muenchen.de) | bei Preisänderung |
+| MVV Fahrgäste | `mvv.csv` | [Statistisches Amt München – Statistik Verkehr](https://stadt.muenchen.de/infos/statistik-verkehr.html) | jährlich |
+| Verkehrsunfälle | `visionzero_unfaelle.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
+| Schulwegunfälle | `visionzero_schulwegunfaelle.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
+| Parklizenzgebiete | `parklizenzgebiete.csv` | [LHM – RISI Dokument 7144556](https://risi.muenchen.de/risi/dokument/v/7144556) | bei Änderung |
+| Parkplätze/Lizenzen | `parkplaetze_parklizenzen.csv` | [LHM – RISI Dokument 7144556](https://risi.muenchen.de/risi/dokument/v/7144556) | bei Änderung |
 | IHK/MotelOne | `ihk_motelone.csv` | Eigene Erhebung | bei Bedarf |
-| Parkhäuser Samstage | `innenstadt_parkhaus_auslastung_exemplarisch.csv` | Eigene Erhebung | bei Bedarf |
-| Parklizenzen Europa | `parklizenzen_europa.csv` | Eigene Recherche | bei Änderung |
+| Parkhäuser Samstage | `innenstadt_parkhaus_auslastung_exemplarisch.csv` | [Parkleitsystem München Zentrum](https://pls-muc-z.com/pls/info/parkhaus.html) | bei Bedarf |
+| Parklizenzen Europa | `parklizenzen_europa.csv` | Eigene Recherche aus Stadtverwaltungen | bei Änderung |
 | Öffentlicher Raum | `oeffentlicher_raum.csv` | LHM / Eigene Recherche | bei Änderung |
 
 **Workflow CSV-Update:**

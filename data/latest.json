@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-19 00:02:01",
-    "frei_gesamt": 2891,
-    "belegt_gesamt": 1273,
+    "timestamp": "2026-05-19 01:02:01",
+    "frei_gesamt": 2904,
+    "belegt_gesamt": 1260,
     "kap_gesamt": 4164,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 258,
+            "frei": 262,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 349,
+            "frei": 348,
             "kap": 393,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 321,
+            "frei": 325,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 228,
+            "frei": 230,
             "kap": 295,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 349,
+            "frei": 352,
             "kap": 391,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 89,
+            "frei": 90,
             "kap": 104,
             "aktiv": true
         },

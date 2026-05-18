@@ -50,6 +50,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@13/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.min.js"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -633,6 +634,97 @@
     .ph-inaktiv { opacity: 0.4; }
 
     /* ══════════════════════════════════════
+       PARKLIZENZGEBIETE
+    ══════════════════════════════════════ */
+    .parklizenz-layout {
+      display: flex; flex-direction: column;
+      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h));
+      overflow: hidden;
+    }
+    .parklizenz-body {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      overflow: hidden;
+    }
+    .parklizenz-body.detail-open {
+      grid-template-columns: 1fr 320px;
+    }
+    .parklizenz-body .detail-panel { display: none; }
+    .parklizenz-body.detail-open .detail-panel { display: flex; }
+    #map-parklizenz { height: 100%; }
+    .plz-legend {
+      display: flex; gap: 16px; align-items: center;
+      padding: 6px 12px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+    .plz-legend-item { display: flex; align-items: center; gap: 5px; }
+    .plz-legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+    .plz-legend-dot.rot   { background: rgba(220,53,69,.6);  border: 1px solid rgba(220,53,69,.9); }
+    .plz-legend-dot.gruen { background: rgba(40,167,69,.45); border: 1px solid rgba(40,167,69,.8); }
+    .plz-legend-dot.grau  { background: rgba(136,136,136,.3); border: 1px solid rgba(136,136,136,.6); }
+    .plz-label {
+      background: none; border: none;
+      font-size: 0.65rem; font-weight: 700; line-height: 1;
+      text-align: center; white-space: nowrap;
+      text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+      pointer-events: none;
+    }
+    .plz-label.rot   { color: #8b0000; }
+    .plz-label.gruen { color: #1a5c1a; }
+
+    /* ══════════════════════════════════════
+       PARKSEITEN
+    ══════════════════════════════════════ */
+    .parkseiten-layout {
+      display: flex; flex-direction: column;
+      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h));
+      overflow: hidden;
+    }
+    .parkseiten-body {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      overflow: hidden;
+    }
+    .parkseiten-body.detail-open { grid-template-columns: 240px 1fr 320px; }
+    .parkseiten-body .detail-panel { display: none; }
+    .parkseiten-body.detail-open .detail-panel { display: flex; }
+    #map-parkseiten { height: 100%; }
+    .ps-filter-sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .ps-filter-top {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .ps-filter-count { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 8px; }
+    .ps-filter-count strong { color: var(--text); font-size: 1rem; }
+    .ps-filter-btns { display: flex; gap: 6px; }
+    .ps-filter-body { overflow-y: auto; flex: 1; padding: 8px 10px 16px; }
+    .ps-filter-item {
+      display: flex; align-items: center; gap: 7px;
+      cursor: pointer; padding: 4px 4px;
+      transition: background .1s;
+    }
+    .ps-filter-item:hover { background: var(--bg); }
+    .ps-filter-item input[type=checkbox] { accent-color: var(--primary); width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; }
+    .ps-filter-dot { width: 20px; height: 4px; border-radius: 2px; flex-shrink: 0; }
+    .ps-filter-label { font-size: 0.77rem; color: var(--text); flex: 1; line-height: 1.3; }
+    .ps-filter-count-badge {
+      font-size: 0.67rem; color: var(--text-dim);
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 1px 5px; flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
        STATISTIKEN
     ══════════════════════════════════════ */
     .stats-section-body {
@@ -850,6 +942,72 @@
       .stats-bar--info { display: flex; }
       .stats-bar--info .editorial-box { display: none; }
       .stats-bar--info.sb-open .editorial-box { display: block; }
+
+      /* Parkseiten: Filter-Sidebar + Detail als Bottom Sheets */
+      .parkseiten-body { grid-template-columns: 1fr !important; }
+      .ps-filter-sidebar {
+        position: fixed; inset: auto 0 0 0; max-height: 75vh;
+        border-right: none; border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.15);
+        transform: translateY(110%);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+        z-index: 600; overflow-y: auto;
+      }
+      .ps-filter-sidebar::before {
+        content: ''; display: block; width: 36px; height: 4px;
+        background: var(--border); border-radius: 2px; margin: 10px auto 2px;
+      }
+      .ps-filter-sidebar.sheet-open { transform: translateY(0); }
+      .parkseiten-body { grid-template-columns: 1fr !important; }
+      .parkseiten-body .detail-panel,
+      .parkseiten-body.detail-open .detail-panel {
+        display: flex;
+        position: fixed; inset: auto 0 0 0;
+        max-height: 60vh; border-left: none;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.18);
+        transform: translateY(110%);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+        z-index: 601; overflow-y: auto; flex-direction: column; max-width: none;
+      }
+      .parkseiten-body .detail-panel::before {
+        content: ''; display: block; width: 36px; height: 4px;
+        background: var(--border); border-radius: 2px;
+        margin: 10px auto 2px; flex-shrink: 0;
+      }
+      .parkseiten-body.detail-open .detail-panel { transform: translateY(0); }
+
+      /* Parklizenzgebiete: Detail-Panel als Bottom Sheet */
+      .parklizenz-body { grid-template-columns: 1fr !important; }
+      .parklizenz-body .detail-panel,
+      .parklizenz-body.detail-open .detail-panel {
+        display: flex;
+        position: fixed;
+        inset: auto 0 0 0;
+        max-height: 60vh;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.18);
+        transform: translateY(110%);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+        z-index: 601;
+        overflow-y: auto;
+        flex-direction: column;
+        max-width: none;
+      }
+      .parklizenz-body .detail-panel::before {
+        content: '';
+        display: block;
+        width: 36px; height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 10px auto 2px;
+        flex-shrink: 0;
+      }
+      .parklizenz-body.detail-open .detail-panel { transform: translateY(0); }
     }
     @media (max-width: 560px) {
       header p { display: none; }
@@ -1032,8 +1190,10 @@
 
 <nav>
   <button class="nav-tab active" data-tab="karte"  onclick="showTab('karte', this)">Karte</button>
-  <button class="nav-tab"        data-tab="innenstadt"  onclick="showTab('innenstadt', this)">Innenstadt</button>
-  <button class="nav-tab"        data-tab="statistiken" onclick="showTab('statistiken', this)">Statistiken</button>
+  <button class="nav-tab"        data-tab="innenstadt"    onclick="showTab('innenstadt', this)">Innenstadt</button>
+  <button class="nav-tab"        data-tab="parklizenz"    onclick="showTab('parklizenz', this)">Parklizenzgebiete</button>
+  <button class="nav-tab"        data-tab="parkseiten"    onclick="showTab('parkseiten', this)">Parkseiten</button>
+  <button class="nav-tab"        data-tab="statistiken"   onclick="showTab('statistiken', this)">Statistiken</button>
 </nav>
 
 <!-- ═══════════ ÜBERSICHT ═══════════ -->
@@ -1104,6 +1264,74 @@
         <div class="tiles-drag-handle"></div>
         <div class="panel-header" onclick="toggleTilesSheet()">Parkhäuser<span class="tiles-arrow">▴</span></div>
         <div class="tiles-scroll" id="tiles"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PARKLIZENZGEBIETE ═══════════ -->
+<div class="section" id="sec-parklizenz">
+  <div class="parklizenz-layout">
+    <div class="stats-bar">
+      <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Mehr Infos<span class="sb-arrow">▾</span></button>
+      <div class="stat"><span class="stat-label">Gebiete gesamt</span><span class="stat-value" id="plz-stat-gesamt">–</span></div>
+      <div class="stat"><span class="stat-label">Überbucht</span><span class="stat-value" style="color:var(--red)" id="plz-stat-ueberbucht">–</span></div>
+      <div class="stat"><span class="stat-label">Nicht überbucht</span><span class="stat-value" style="color:var(--green)" id="plz-stat-ok">–</span></div>
+      <div class="stat"><span class="stat-label">Stellplätze gesamt</span><span class="stat-value" id="plz-stat-plaetze">–</span></div>
+      <div class="stat"><span class="stat-label">Ausweise gesamt</span><span class="stat-value" id="plz-stat-ausweise">–</span></div>
+      <div class="editorial-box" id="editorial-parklizenz"></div>
+    </div>
+    <div class="parklizenz-body" id="parklizenz-body">
+      <div id="map-parklizenz"></div>
+      <div class="detail-panel" id="plz-detail-panel">
+        <div class="detail-head">
+          <button class="detail-close" onclick="closePlzDetail()">✕</button>
+          <div class="detail-name" id="plz-dp-name"></div>
+          <div class="detail-typ">
+            <span class="detail-typ-dot" id="plz-dp-dot"></span>
+            <span id="plz-dp-status"></span>
+          </div>
+        </div>
+        <div class="detail-body" id="plz-dp-body"></div>
+      </div>
+    </div>
+    <div class="plz-legend">
+      <div class="plz-legend-item"><div class="plz-legend-dot rot"></div>Überbucht (mehr Ausweise als Stellplätze)</div>
+      <div class="plz-legend-item"><div class="plz-legend-dot gruen"></div>Nicht überbucht</div>
+      <div class="plz-legend-item"><div class="plz-legend-dot grau"></div>Keine Daten vorhanden</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PARKSEITEN ═══════════ -->
+<div class="section" id="sec-parkseiten">
+  <div class="parkseiten-layout">
+    <div class="stats-bar" id="ps-stats-bar">
+      <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Mehr Infos<span class="sb-arrow">▾</span></button>
+      <div class="editorial-box" id="editorial-parkseiten"></div>
+    </div>
+    <div class="parkseiten-body" id="parkseiten-body">
+      <div class="ps-filter-sidebar" id="ps-filter-sidebar">
+        <div class="ps-filter-top">
+          <div class="ps-filter-count" id="ps-filter-count"><strong>–</strong> Stellplätze</div>
+          <div class="ps-filter-btns">
+            <button class="filter-toggle" onclick="setPsAll(true)">Alle</button>
+            <button class="filter-toggle" onclick="setPsAll(false)">Keine</button>
+          </div>
+        </div>
+        <div class="ps-filter-body" id="ps-filter-body"></div>
+      </div>
+      <div id="map-parkseiten"></div>
+      <div class="detail-panel" id="ps-detail-panel">
+        <div class="detail-head">
+          <button class="detail-close" onclick="closePsDetail()">✕</button>
+          <div class="detail-name" id="ps-dp-name"></div>
+          <div class="detail-typ">
+            <span class="detail-typ-dot" id="ps-dp-dot"></span>
+            <span id="ps-dp-gruppe"></span>
+          </div>
+        </div>
+        <div class="detail-body" id="ps-dp-body"></div>
       </div>
     </div>
   </div>
@@ -1552,14 +1780,16 @@ function showTab(name, btn) {
   if (history.replaceState) history.replaceState(null, '', '#' + name);
   if (!initialized[name]) {
     initialized[name] = true;
-    if (name === 'karte')       initUebersicht();
-    if (name === 'innenstadt')  initInnenstadt();
-    if (name === 'statistiken') initStatistiken();
+    if (name === 'karte')        initUebersicht();
+    if (name === 'innenstadt')   initInnenstadt();
+    if (name === 'parklizenz')   initParklizenz();
+    if (name === 'parkseiten')   initParkseiten();
+    if (name === 'statistiken')  initStatistiken();
   }
 }
 
 window.addEventListener('hashchange', () => {
-  const valid = ['karte', 'innenstadt', 'statistiken'];
+  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'statistiken'];
   const hash = location.hash.replace('#', '');
   if (valid.includes(hash)) showTab(hash);
 });
@@ -1989,6 +2219,14 @@ function closeDetail() {
   _selD      = null;
   document.getElementById('uebersicht-layout').classList.remove('detail-open');
   document.getElementById('sheet-backdrop').classList.remove('show');
+}
+
+function closePlzDetail() {
+  document.getElementById('parklizenz-body').classList.remove('detail-open');
+}
+
+function closePsDetail() {
+  document.getElementById('parkseiten-body').classList.remove('detail-open');
 }
 
 // ── Filter-Sidebar aufbauen ──────────────────
@@ -2424,7 +2662,7 @@ function showMsg(text, cls) {
 // INIT
 // ══════════════════════════════════════════════
 {
-  const valid = ['karte', 'innenstadt', 'statistiken'];
+  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'statistiken'];
   const hash  = location.hash.replace('#', '');
   const start = valid.includes(hash) ? hash : 'karte';
   // Activate correct tab visually without triggering hashchange
@@ -2433,9 +2671,343 @@ function showMsg(text, cls) {
   document.getElementById('sec-' + start).classList.add('active');
   document.querySelector(`.nav-tab[data-tab="${start}"]`)?.classList.add('active');
   initialized[start] = true;
-  if (start === 'karte')       initUebersicht();
-  if (start === 'innenstadt')  initInnenstadt();
-  if (start === 'statistiken') initStatistiken();
+  if (start === 'karte')        initUebersicht();
+  if (start === 'innenstadt')   initInnenstadt();
+  if (start === 'parklizenz')   initParklizenz();
+  if (start === 'parkseiten')   initParkseiten();
+  if (start === 'statistiken')  initStatistiken();
+}
+
+// ══════════════════════════════════════════════
+// PARKLIZENZGEBIETE
+// ══════════════════════════════════════════════
+
+async function initParklizenz() {
+  await loadEditorial('parklizenz');
+
+  proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+
+  // Name normalization: poly CSV name → lizenz CSV name
+  const NAME_MAP = {
+    'Domagpark':       'Domagpark *',
+    'Messestadt':      'Messestadt *',
+    'Mittleres Lehel': 'Lehel Mitte',
+    'Südliches Lehel': 'Lehel Süd',
+  };
+
+  function parseWKTPolygon(wkt) {
+    const match = wkt.match(/POLYGON\s*\(\(([^)]+)\)/);
+    if (!match) return null;
+    return match[1].trim().split(',').map(pair => {
+      const [x, y] = pair.trim().split(/\s+/).map(Number);
+      const [lng, lat] = proj4('EPSG:25832', 'EPSG:4326', [x, y]);
+      return [lat, lng];
+    });
+  }
+
+  const [polyRows, lizenzRows] = await Promise.all([
+    loadCsv('data/ruhver_prm_gebiete_poly.csv'),
+    loadCsv('data/parklizenzgebiete.csv'),
+  ]);
+
+  // Build lookup by name from parklizenzgebiete.csv
+  const lizenzByName = {};
+  lizenzRows.forEach(r => {
+    if (r['Lizenzgebiet']) lizenzByName[r['Lizenzgebiet']] = r;
+  });
+
+  // Stats
+  let gesamt = 0, ueberbucht = 0, ok = 0, plaetzeSum = 0, ausweisenSum = 0;
+  lizenzRows.forEach(r => {
+    const name = r['Lizenzgebiet'];
+    if (!name || name === 'Gesamt' || !r['Anzahl Stellplätze']) return;
+    gesamt++;
+    const ueb = Number(r['Überbucht']) || 0;
+    if (ueb > 0) ueberbucht++; else ok++;
+    plaetzeSum  += Number(r['Anzahl Stellplätze']) || 0;
+    ausweisenSum += Number(r['Anzahl Parkausweise']) || 0;
+  });
+  document.getElementById('plz-stat-gesamt').textContent     = gesamt;
+  document.getElementById('plz-stat-ueberbucht').textContent = ueberbucht;
+  document.getElementById('plz-stat-ok').textContent         = ok;
+  document.getElementById('plz-stat-plaetze').textContent    = fmtNum(plaetzeSum);
+  document.getElementById('plz-stat-ausweise').textContent   = fmtNum(ausweisenSum);
+
+  // Map
+  const map = L.map('map-parklizenz', {
+    center: [48.137, 11.575],
+    zoom: 12,
+    zoomControl: true,
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap contributors © CARTO',
+    maxZoom: 19,
+  }).addTo(map);
+
+  const bounds = [];
+
+  polyRows.forEach(row => {
+    const polyName  = (row['name'] || '').trim();
+    const lizenzKey = NAME_MAP[polyName] || polyName;
+    const lizenz    = lizenzByName[lizenzKey];
+    const wkt       = row['shape'] || '';
+    const coords    = parseWKTPolygon(wkt);
+    if (!coords || coords.length < 3) return;
+
+    const uebInt   = lizenz ? (Number(lizenz['Überbucht']) || 0) : null;
+    const overbook = uebInt !== null && uebInt > 0;
+    const hasData  = uebInt !== null;
+
+    const fillColor   = !hasData ? '#888888' : overbook ? '#dc3545' : '#28a745';
+    const fillOpacity = !hasData ? 0.2       : overbook ? 0.45      : 0.3;
+    const color       = !hasData ? '#666666' : overbook ? '#b02030' : '#1a7a30';
+
+    const poly = L.polygon(coords, {
+      color, weight: 1.2, fillColor, fillOpacity,
+    }).addTo(map);
+    poly.on('mouseover', () => poly.setStyle({ weight: 2.5 }));
+    poly.on('mouseout',  () => poly.setStyle({ weight: 1.2 }));
+
+    bounds.push(...coords);
+
+    // Centroid label
+    if (hasData) {
+      const latSum = coords.reduce((s, c) => s + c[0], 0) / coords.length;
+      const lngSum = coords.reduce((s, c) => s + c[1], 0) / coords.length;
+      const labelText = overbook
+        ? `+${fmtNum(uebInt)}`
+        : `−${fmtNum(Math.abs(uebInt))}`;
+      const cls = overbook ? 'rot' : 'gruen';
+      L.marker([latSum, lngSum], {
+        icon: L.divIcon({ className: `plz-label ${cls}`, html: labelText, iconSize: null }),
+        interactive: false,
+      }).addTo(map);
+    }
+
+    const stellpl = lizenz ? fmtNum(Number(lizenz['Anzahl Stellplätze'])) : null;
+    const ausw    = lizenz ? fmtNum(Number(lizenz['Anzahl Parkausweise'])) : null;
+    const pdfLink = row['einzeluebersicht_link'] || null;
+    const eroeff  = row['eroeffnung'] || null;
+
+    poly.on('click', () => {
+      document.getElementById('plz-dp-name').textContent = polyName;
+
+      const dot    = document.getElementById('plz-dp-dot');
+      const status = document.getElementById('plz-dp-status');
+      if (!hasData) {
+        dot.style.background = '#888';
+        status.textContent   = 'Keine Statistikdaten vorhanden';
+        status.style.color   = '#888';
+      } else if (overbook) {
+        dot.style.background = '#dc3545';
+        status.textContent   = `Überbucht um ${fmtNum(uebInt)} Ausweise`;
+        status.style.color   = '#dc3545';
+      } else {
+        dot.style.background = '#28a745';
+        status.textContent   = `Nicht überbucht (${fmtNum(Math.abs(uebInt))} Stellplätze Überschuss)`;
+        status.style.color   = '#28a745';
+      }
+
+      let html = '';
+      if (hasData) {
+        html += `<div class="detail-section">
+          <div class="detail-section-title">Parkraum</div>
+          <div class="detail-row"><span class="detail-label">Stellplätze</span><span class="detail-value">${stellpl}</span></div>
+          <div class="detail-row"><span class="detail-label">Parkausweise</span><span class="detail-value">${ausw}</span></div>
+        </div>`;
+      }
+      if (eroeff) {
+        html += `<div class="detail-section">
+          <div class="detail-section-title">Gebiet</div>
+          <div class="detail-row"><span class="detail-label">Eröffnung</span><span class="detail-value">${eroeff}</span></div>
+          <div class="detail-row"><span class="detail-label">Überwachung</span><span class="detail-value">${row['ueberwachung'] || '–'}</span></div>
+        </div>`;
+      }
+      if (pdfLink) {
+        html += `<div class="detail-section">
+          <div class="detail-section-title">Dokumente</div>
+          <a class="detail-link" href="${pdfLink}" target="_blank" rel="noopener">Einzelübersicht (PDF) ↗</a>
+        </div>`;
+      }
+
+      document.getElementById('plz-dp-body').innerHTML = html;
+      document.getElementById('parklizenz-body').classList.add('detail-open');
+    });
+  });
+
+  if (bounds.length) map.fitBounds(L.latLngBounds(bounds), { padding: [20, 20] });
+}
+
+// ══════════════════════════════════════════════
+// PARKSEITEN
+// ══════════════════════════════════════════════
+
+const PS_COLORS = {
+  'Mischparken':                              '#2563eb',
+  'Mischparken mit Parkscheibe':              '#0ea5e9',
+  'Bewohnerparken':                           '#7c3aed',
+  'Kurzzeitparken':                           '#d97706',
+  'Altstadt und HBF':                         '#b45309',
+  'Absolutes Halteverbot (0-24 Uhr)':         '#dc2626',
+  'Absolutes Halteverbot temporär':           '#f87171',
+  'Eingeschränktes Halteverbot (0-24 Uhr)':  '#ea580c',
+  'Eingeschränktes Halteverbot temporär':    '#fb923c',
+  'Behindertenparken':                        '#16a34a',
+  'E-Parken':                                 '#10b981',
+  'Carsharing':                               '#0d9488',
+  'Taxi':                                     '#ca8a04',
+  'Busparken':                                '#8b5cf6',
+  'Baustelle':                                '#92400e',
+  'keine Regelung 0 - 24 Uhr':               '#9ca3af',
+};
+
+let _psLayerGroups = {};
+let _psGroupStats  = {};
+let _psMap         = null;
+
+function _psUpdateCount() {
+  let total = 0;
+  Object.entries(_psGroupStats).forEach(([g, v]) => {
+    if (_psMap && _psLayerGroups[g] && _psMap.hasLayer(_psLayerGroups[g]))
+      total += v.angebot;
+  });
+  const el = document.getElementById('ps-filter-count');
+  if (el) el.innerHTML = `<strong>${fmtNum(total)}</strong> Stellplätze`;
+}
+
+function setPsAll(on) {
+  if (!_psMap) return;
+  Object.entries(_psLayerGroups).forEach(([g, lg]) => {
+    if (on) { if (!_psMap.hasLayer(lg)) _psMap.addLayer(lg); }
+    else    { if (_psMap.hasLayer(lg))  _psMap.removeLayer(lg); }
+    const cb = document.querySelector(`#ps-filter-body input[data-gruppe="${CSS.escape(g)}"]`);
+    if (cb) cb.checked = on;
+  });
+  _psUpdateCount();
+}
+
+async function initParkseiten() {
+  await loadEditorial('parkseiten');
+
+  proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+
+  function parseWKTLine(wkt) {
+    const match = wkt.match(/LINESTRING\s*\(([^)]+)\)/);
+    if (!match) return null;
+    return match[1].trim().split(',').map(pair => {
+      const [x, y] = pair.trim().split(/\s+/).map(Number);
+      const [lng, lat] = proj4('EPSG:25832', 'EPSG:4326', [x, y]);
+      return [lat, lng];
+    });
+  }
+
+  const rows = await loadCsv('data/ruhver_parkseiten_line.csv');
+
+  // Aggregate per group
+  rows.forEach(r => {
+    const g = (r['parkregel_gruppe'] || '').trim();
+    if (!g) return;
+    if (!_psGroupStats[g]) _psGroupStats[g] = { angebot: 0, color: PS_COLORS[g] || '#888' };
+    _psGroupStats[g].angebot += Number(r['angebot']) || 0;
+  });
+
+  // Stats bar
+  const psStatDefs = [
+    { label: 'Mischparken',   key: 'Mischparken' },
+    { label: 'Bewohnerparken',key: 'Bewohnerparken' },
+    { label: 'Parkscheibe',   key: 'Mischparken mit Parkscheibe' },
+    { label: 'Kurzzeit',      key: 'Kurzzeitparken' },
+    { label: 'E-Parken',      key: 'E-Parken' },
+    { label: 'Behinderten',   key: 'Behindertenparken' },
+  ];
+  const psBar      = document.getElementById('ps-stats-bar');
+  const psEditorial = psBar.querySelector('.editorial-box');
+  psStatDefs.forEach(({ label, key }) => {
+    const v   = _psGroupStats[key];
+    const stat = document.createElement('div');
+    stat.className = 'stat';
+    stat.innerHTML = `<span class="stat-label" style="display:flex;align-items:center;gap:4px">
+      <span style="display:inline-block;width:12px;height:3px;border-radius:2px;background:${v ? v.color : '#888'};flex-shrink:0"></span>${label}
+    </span><span class="stat-value">${v ? fmtNum(v.angebot) : '–'}</span>`;
+    psBar.insertBefore(stat, psEditorial);
+  });
+
+  // Map
+  _psMap = L.map('map-parkseiten', { center: [48.137, 11.575], zoom: 13 });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap contributors © CARTO', maxZoom: 19,
+  }).addTo(_psMap);
+
+  Object.keys(_psGroupStats).forEach(g => {
+    _psLayerGroups[g] = L.layerGroup().addTo(_psMap);
+  });
+
+  const bounds = [];
+
+  rows.forEach(r => {
+    const gruppe = (r['parkregel_gruppe'] || '').trim();
+    const coords = parseWKTLine(r['shape'] || '');
+    if (!coords || coords.length < 2) return;
+
+    const color = PS_COLORS[gruppe] || '#888';
+    const line  = L.polyline(coords, { color, weight: 3, opacity: 0.85 });
+    line.addTo(_psLayerGroups[gruppe] || _psMap);
+    bounds.push(...coords);
+
+    line.on('mouseover', () => line.setStyle({ weight: 5 }));
+    line.on('mouseout',  () => line.setStyle({ weight: 3 }));
+    line.on('click', () => {
+      document.getElementById('ps-dp-name').textContent = r['strasse'] || '–';
+      const dot = document.getElementById('ps-dp-dot');
+      dot.style.background = color;
+      document.getElementById('ps-dp-gruppe').textContent = gruppe;
+      document.getElementById('ps-dp-gruppe').style.color = color;
+
+      let html = `<div class="detail-section">
+        <div class="detail-section-title">Parkregel</div>
+        <div class="detail-row"><span class="detail-label">Gruppe</span><span class="detail-value">${gruppe}</span></div>
+        <div class="detail-row"><span class="detail-label">Regel</span><span class="detail-value">${r['parkregel_beschreibung'] || '–'}</span></div>
+        <div class="detail-row"><span class="detail-label">Kurzname</span><span class="detail-value">${r['parkregel_name'] || '–'}</span></div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-section-title">Kapazität</div>
+        <div class="detail-row"><span class="detail-label">Stellplätze</span><span class="detail-value">${fmtNum(Number(r['angebot']) || 0)}</span></div>
+      </div>`;
+      if (r['prm_name']) {
+        html += `<div class="detail-section">
+          <div class="detail-section-title">Gebiet</div>
+          <div class="detail-row"><span class="detail-label">Lizenzgebiet</span><span class="detail-value">${r['prm_name']}</span></div>
+        </div>`;
+      }
+      document.getElementById('ps-dp-body').innerHTML = html;
+      document.getElementById('parkseiten-body').classList.add('detail-open');
+    });
+  });
+
+  if (bounds.length) _psMap.fitBounds(L.latLngBounds(bounds), { padding: [10, 10] });
+
+  // Build filter sidebar
+  const filterBody = document.getElementById('ps-filter-body');
+  Object.entries(_psGroupStats)
+    .sort((a, b) => b[1].angebot - a[1].angebot)
+    .forEach(([g, v]) => {
+      const item = document.createElement('label');
+      item.className = 'ps-filter-item';
+      item.innerHTML = `
+        <input type="checkbox" checked data-gruppe="${g}">
+        <span class="ps-filter-dot" style="background:${v.color}"></span>
+        <span class="ps-filter-label">${g}</span>
+        <span class="ps-filter-count-badge">${fmtNum(v.angebot)}</span>`;
+      item.querySelector('input').addEventListener('change', e => {
+        const lg = _psLayerGroups[g];
+        if (!lg) return;
+        if (e.target.checked) _psMap.addLayer(lg); else _psMap.removeLayer(lg);
+        _psUpdateCount();
+      });
+      filterBody.appendChild(item);
+    });
+
+  _psUpdateCount();
 }
 
 // ══════════════════════════════════════════════

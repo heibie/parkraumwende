@@ -1,0 +1,1 @@
+**Parklizenzgebiete München** – Karte aller 81 Parklizenzgebiete in München. Rot eingefärbt sind Gebiete, in denen mehr Parkausweise vergeben wurden als Stellplätze vorhanden sind (überbucht). Die Zahl im Umgriff zeigt die Differenz. Datenstand: 2022. [Mehr Infos zu den Parklizenzgebieten](https://data.parkraumwende.de/quellen.html#parklizenzgebiete-geodaten).

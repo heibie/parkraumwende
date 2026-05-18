@@ -1,6 +1,6 @@
 # data.parkraumwende.de
 
-Offene Karten und Daten zum Parkraum in München – Parkhäuser, Tiefgaragen, Live-Auslastung, Statistiken und Analysen.
+Offene Karten und Daten zum Parkraum in München – Parkhäuser, Tiefgaragen, Parklizenzgebiete, Parkseiten, Live-Auslastung, Statistiken und Analysen.
 
 **→ [data.parkraumwende.de](https://data.parkraumwende.de)**
 
@@ -11,9 +11,10 @@ Offene Karten und Daten zum Parkraum in München – Parkhäuser, Tiefgaragen, L
 Statische Single-Page-Application ohne Build-Pipeline. Alles läuft direkt im Browser.
 
 ```
-index.html          — SPA mit drei Tabs: Karte, Innenstadt, Statistiken
+index.html          — SPA mit fünf Tabs: Karte, Innenstadt, Parklizenzgebiete, Parkseiten, Statistiken
 embed.html          — Standalone-iFrame für einzelne Diagramme
 quellen.html        — Quelldokumentation aller Datensätze
+content/            — Redaktionelle Infotexte je Tab (Markdown, im Browser gerendert)
 data/               — CSV-Datensätze + datapackage.json + Live-Daten
 cron/               — Server-seitige Cron-Scripts (PHP)
 scripts/            — Hilfsskripte (Datenaufbereitung)
@@ -27,6 +28,7 @@ scripts/            — Hilfsskripte (Datenaufbereitung)
 | [chartjs-plugin-datalabels](https://chartjs-plugin-datalabels.netlify.app) | 2.2.0 | Werte in Balken | [Releases](https://github.com/chartjs/chartjs-plugin-datalabels/releases) |
 | [PapaParse](https://www.papaparse.com) | 5.4.1 | CSV-Parsing im Browser | [Releases](https://github.com/mholt/PapaParse/releases) |
 | [Leaflet](https://leafletjs.com) | 1.9.4 | Interaktive Karte | [Releases](https://github.com/Leaflet/Leaflet/releases) |
+| [proj4js](https://proj4js.org) | 2.11.0 | Koordinatentransformation UTM→WGS84 | [Releases](https://github.com/proj4js/proj4js/releases) |
 
 > **Library-Updates (einmal jährlich prüfen):** Versionen sind fest in den CDN-URLs in `index.html` und `embed.html` eingebaut und aktualisieren sich nicht automatisch. Neue Version in der Tabelle oben und in allen `<script src="…@VERSION…">`-Tags eintragen, kurz testen, committen. Security-Risiko ist gering (keine Logins, keine externen APIs), aber bei bekannten Lücken zeitnah updaten.
 
@@ -46,13 +48,47 @@ python3 -m http.server 8080
 
 ## Deployment
 
-Deployment per `scp` auf den Webserver, danach committen und pushen:
+Deployment läuft **vollautomatisch via GitHub Actions** bei jedem Push auf `main`:
+
+```
+git push → GitHub Actions → rsync → All-Inkl Webserver
+```
+
+Secrets im GitHub-Repo: `SSH_KEY`, `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PATH`. Live-Daten (`data/latest.json`, `data/details/`, `data/summary/`) werden vom rsync ausgeschlossen und nicht überschrieben.
+
+**Manueller Workflow (z. B. nur CSV deployen):**
 
 ```bash
 git add .
 git commit -m "feat: …"
 git push
 ```
+
+---
+
+## Geodaten-Tabs (Parklizenzgebiete & Parkseiten)
+
+Beide Tabs zeigen Geodaten des OpenData-Portals der LHM. Die Koordinaten liegen im Koordinatensystem **UTM Zone 32N (EPSG:25832)** und werden im Browser per **proj4js** nach WGS84 umgerechnet.
+
+### Parklizenzgebiete (`#parklizenz`)
+
+- **Polygone** aus `data/ruhver_prm_gebiete_poly.csv`
+- Angereichert mit Statistikdaten aus `data/parklizenzgebiete.csv` (Stellplätze, Parkausweise)
+- **Rot** = überbucht, **Grün** = nicht überbucht, **Grau** = keine Statistikdaten
+- Zahl im Polygon = Differenz Ausweise minus Stellplätze
+- Klick auf Polygon → Detail-Panel (rechts)
+- Infoleiste: `content/parklizenz.md`
+- Quelle: [opendata.muenchen.de](https://opendata.muenchen.de/dataset/opendata_ruhver_prm_gebiete_poly), laufend aktualisiert
+
+### Parkseiten (`#parkseiten`)
+
+- **Linien** aus `data/ruhver_parkseiten_line.csv` — 13.244 Segmente, 16 Regelgruppen, 100.432 Stellplätze
+- Filter-Sidebar links: Regelgruppen ein-/ausblenden
+- Klick auf Linie → Detail-Panel (rechts)
+- Infoleiste: `content/parkseiten.md`
+- Quelle: [opendata.muenchen.de](https://opendata.muenchen.de/dataset/opendata_ruhver_parkseiten_line), laufend aktualisiert
+
+**Geodaten aktuell halten:** Neue CSV-Versionen vom OpenData-Portal herunterladen, in `data/` ersetzen, committen und pushen.
 
 ---
 
@@ -122,6 +158,8 @@ Alle manuell gepflegten Datensätze liegen in `data/*.csv`. Jede Datei ist in `d
 | Schulwegunfälle | `visionzero_schulwegunfaelle.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
 | Parklizenzgebiete | `parklizenzgebiete.csv` | [LHM – RISI Dokument 7144556](https://risi.muenchen.de/risi/dokument/v/7144556) | bei Änderung |
 | Parkplätze/Lizenzen | `parkplaetze_parklizenzen.csv` | [LHM – RISI Dokument 7144556](https://risi.muenchen.de/risi/dokument/v/7144556) | bei Änderung |
+| Parklizenzgebiete Geodaten | `ruhver_prm_gebiete_poly.csv` | [OpenData LHM](https://opendata.muenchen.de/dataset/opendata_ruhver_prm_gebiete_poly) | laufend (OpenData-Portal prüfen) |
+| Parkseiten | `ruhver_parkseiten_line.csv` | [OpenData LHM](https://opendata.muenchen.de/dataset/opendata_ruhver_parkseiten_line) | laufend (OpenData-Portal prüfen) |
 | IHK/MotelOne | `ihk_motelone.csv` | Eigene Erhebung | bei Bedarf |
 | Parkhäuser Samstage | `innenstadt_parkhaus_auslastung_exemplarisch.csv` | [Parkleitsystem München Zentrum](https://pls-muc-z.com/pls/info/parkhaus.html) | bei Bedarf |
 | Parklizenzen Europa | `parklizenzen_europa.csv` | Eigene Recherche aus Stadtverwaltungen | bei Änderung |

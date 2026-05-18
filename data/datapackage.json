@@ -401,6 +401,58 @@
           { "name": "Streckenlänge in km",   "type": "integer", "description": "Gesamte Streckenlänge in km" }
         ]
       }
+    },
+    {
+      "name": "parklizenzgebiete-geodaten",
+      "path": "ruhver_prm_gebiete_poly.csv",
+      "title": "Parklizenzgebiete München – Geodaten (Polygone)",
+      "description": "Umgriffe aller Parklizenzgebiete in München als WKT-Polygone im Koordinatensystem UTM Zone 32N (EPSG:25832). Enthält Name, Status, Eröffnungsdatum, Überwachungsart und Link zur Einzelübersicht.",
+      "temporalCoverage": "2026-05-18",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "OpenData Portal Landeshauptstadt München", "path": "https://opendata.muenchen.de/dataset/opendata_ruhver_prm_gebiete_poly" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "title": "Creative Commons Attribution 4.0 International", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "FID",                    "type": "string",  "description": "Eindeutige ID" },
+          { "name": "status",                 "type": "string",  "description": "Betriebsstatus (z. B. in Betrieb)" },
+          { "name": "massnahme",              "type": "string",  "description": "Maßnahmentyp" },
+          { "name": "name",                   "type": "string",  "description": "Name des Lizenzgebiets" },
+          { "name": "ueberwachung",           "type": "string",  "description": "Überwachungsart (z. B. KVÜ)" },
+          { "name": "eroeffnung",             "type": "string",  "description": "Eröffnungsdatum" },
+          { "name": "einzeluebersicht_link",  "type": "string",  "description": "URL zur PDF-Einzelübersicht" },
+          { "name": "shape",                  "type": "string",  "description": "Polygongeometrie als WKT, UTM Zone 32N (EPSG:25832)" }
+        ]
+      }
+    },
+    {
+      "name": "parkseiten",
+      "path": "ruhver_parkseiten_line.csv",
+      "title": "Parkseiten München – regulierte Parkstreifen",
+      "description": "Alle regulierten Parkstreifen in München als Liniengeometrien (WKT, UTM Zone 32N / EPSG:25832). 13.244 Segmente in 16 Regelgruppen mit insgesamt 100.432 erfassten Stellplätzen.",
+      "temporalCoverage": "2026-05-18",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "OpenData Portal Landeshauptstadt München", "path": "https://opendata.muenchen.de/dataset/opendata_ruhver_parkseiten_line" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "title": "Creative Commons Attribution 4.0 International", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "FID",                     "type": "string",  "description": "Eindeutige ID" },
+          { "name": "angebot",                 "type": "integer", "description": "Anzahl Stellplätze dieses Segments" },
+          { "name": "parkregel_beschreibung",  "type": "string",  "description": "Ausführliche Beschreibung der Parkregel" },
+          { "name": "parkregel_gruppe",        "type": "string",  "description": "Regelgruppe (z. B. Mischparken, Bewohnerparken)" },
+          { "name": "parkregel_id",            "type": "integer", "description": "Interne ID der Parkregel" },
+          { "name": "parkregel_name",          "type": "string",  "description": "Kurzbezeichnung der Parkregel" },
+          { "name": "prm_name",                "type": "string",  "description": "Zugehöriges Parklizenzgebiet" },
+          { "name": "strasse",                 "type": "string",  "description": "Straßenname" },
+          { "name": "geoportal_class",         "type": "string",  "description": "Klassifikation im Geoportal" },
+          { "name": "shape",                   "type": "string",  "description": "Liniengeometrie als WKT, UTM Zone 32N (EPSG:25832)" }
+        ]
+      }
     }
   ]
 }

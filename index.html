@@ -363,6 +363,7 @@
       margin-bottom: 8px;
     }
     .filter-fab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .ps-hit { pointer-events: all !important; }
     .sheet-backdrop {
       display: none;
       position: fixed; inset: 0;
@@ -1831,6 +1832,7 @@ async function loadCsv(url, delimiter) {
 const mobileSheet = () => window.matchMedia('(max-width: 900px)').matches;
 
 let filterFabBtn = null;
+let psFabBtn     = null;
 
 function toggleFilterSheet(force) {
   if (!mobileSheet()) return;
@@ -1842,8 +1844,19 @@ function toggleFilterSheet(force) {
   if (filterFabBtn) filterFabBtn.classList.toggle('active', open);
 }
 
+function togglePsFilterSheet(force) {
+  if (!mobileSheet()) return;
+  const sidebar  = document.getElementById('ps-filter-sidebar');
+  const backdrop = document.getElementById('sheet-backdrop');
+  const open = force !== undefined ? force : !sidebar.classList.contains('sheet-open');
+  sidebar.classList.toggle('sheet-open', open);
+  backdrop.classList.toggle('show', open);
+  if (psFabBtn) psFabBtn.classList.toggle('active', open);
+}
+
 function closeAllSheets() {
   toggleFilterSheet(false);
+  togglePsFilterSheet(false);
   closeDetail();
 }
 
@@ -2938,6 +2951,19 @@ async function initParkseiten() {
     attribution: '© OpenStreetMap contributors © CARTO', maxZoom: 19,
   }).addTo(_psMap);
 
+  const PsFilterFab = L.Control.extend({
+    options: { position: 'bottomleft' },
+    onAdd() {
+      const btn = L.DomUtil.create('button', 'filter-fab');
+      btn.innerHTML = '≡';
+      btn.title = 'Filter';
+      L.DomEvent.on(btn, 'click', (e) => { L.DomEvent.stopPropagation(e); togglePsFilterSheet(); });
+      psFabBtn = btn;
+      return btn;
+    },
+  });
+  new PsFilterFab().addTo(_psMap);
+
   Object.keys(_psGroupStats).forEach(g => {
     _psLayerGroups[g] = L.layerGroup().addTo(_psMap);
   });
@@ -2949,14 +2975,17 @@ async function initParkseiten() {
     const coords = parseWKTLine(r['shape'] || '');
     if (!coords || coords.length < 2) return;
 
-    const color = PS_COLORS[gruppe] || '#888';
-    const line  = L.polyline(coords, { color, weight: 3, opacity: 0.85 });
-    line.addTo(_psLayerGroups[gruppe] || _psMap);
+    const color   = PS_COLORS[gruppe] || '#888';
+    const visLine = L.polyline(coords, { color, weight: 3, opacity: 0.85, interactive: false });
+    const hitLine = L.polyline(coords, { color: 'transparent', weight: 20, className: 'ps-hit' });
+    const lg = _psLayerGroups[gruppe] || _psMap;
+    visLine.addTo(lg);
+    hitLine.addTo(lg);
     bounds.push(...coords);
 
-    line.on('mouseover', () => line.setStyle({ weight: 5 }));
-    line.on('mouseout',  () => line.setStyle({ weight: 3 }));
-    line.on('click', () => {
+    hitLine.on('mouseover', () => visLine.setStyle({ weight: 5 }));
+    hitLine.on('mouseout',  () => visLine.setStyle({ weight: 3 }));
+    hitLine.on('click', () => {
       document.getElementById('ps-dp-name').textContent = r['strasse'] || '–';
       const dot = document.getElementById('ps-dp-dot');
       dot.style.background = color;

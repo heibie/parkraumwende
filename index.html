@@ -95,7 +95,10 @@
       height: var(--nav-h);
       display: flex;
       padding: 0 24px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    nav::-webkit-scrollbar { display: none; }
     .nav-tab {
       height: 100%;
       padding: 0 20px;
@@ -108,6 +111,8 @@
       color: var(--text-dim);
       cursor: pointer;
       transition: color .12s, border-color .12s;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .nav-tab:hover { color: var(--text); }
     .nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
@@ -633,6 +638,9 @@
     .ph-bar-wrap { grid-column: 1/-1; height: 3px; background: var(--border); margin-top: 7px; }
     .ph-bar { height: 100%; }
     .ph-inaktiv { opacity: 0.4; }
+    .innenstadt-body .detail-panel { display: none; }
+    .innenstadt-body.detail-open { grid-template-columns: 1fr 240px 300px; }
+    .innenstadt-body.detail-open .detail-panel { display: flex; }
 
     /* ══════════════════════════════════════
        PARKLIZENZGEBIETE
@@ -813,6 +821,9 @@
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
+      /* Leaflet controls below bottom sheets */
+      .leaflet-top, .leaflet-bottom { z-index: 400 !important; }
+
       .uebersicht-layout,
       .uebersicht-layout.detail-open {
         grid-template-columns: 1fr;
@@ -902,6 +913,27 @@
       .tiles-panel.sheet-open .panel-header { border-bottom: 1px solid var(--border); }
       .tiles-arrow { display: inline-block; transition: transform .3s; margin-left: 4px; font-style: normal; }
       .tiles-panel.sheet-open .tiles-arrow { transform: rotate(180deg); }
+
+      /* Innenstadt: Detail-Panel als Bottom Sheet */
+      .innenstadt-body { grid-template-columns: 1fr !important; }
+      .innenstadt-body .detail-panel,
+      .innenstadt-body.detail-open .detail-panel {
+        display: flex;
+        position: fixed; inset: auto 0 0 0;
+        max-height: 60vh; border-left: none;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.18);
+        transform: translateY(110%);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+        z-index: 605; overflow-y: auto; flex-direction: column; max-width: none;
+      }
+      .innenstadt-body .detail-panel::before {
+        content: ''; display: block; width: 36px; height: 4px;
+        background: var(--border); border-radius: 2px;
+        margin: 10px auto 2px; flex-shrink: 0;
+      }
+      .innenstadt-body.detail-open .detail-panel { transform: translateY(0); }
 
       /* Collapsible stats bars on mobile */
       .sb-toggle {
@@ -1256,7 +1288,7 @@
       <div class="stat"><span class="stat-label">Datenstand</span><span class="stat-value" style="font-size:.82rem;font-weight:400;color:var(--text-dim)" id="stat-ts">–</span></div>
       <div class="editorial-box" id="editorial-innenstadt"></div>
     </div>
-    <div class="innenstadt-body">
+    <div class="innenstadt-body" id="innenstadt-body">
       <div class="map-panel">
         <div class="panel-header">Karte</div>
         <div id="map-innenstadt"></div>
@@ -1265,6 +1297,17 @@
         <div class="tiles-drag-handle"></div>
         <div class="panel-header" onclick="toggleTilesSheet()">Parkhäuser<span class="tiles-arrow">▴</span></div>
         <div class="tiles-scroll" id="tiles"></div>
+      </div>
+      <div class="detail-panel" id="inn-detail-panel">
+        <div class="detail-head">
+          <button class="detail-close" onclick="closeInnDetail()">✕</button>
+          <div class="detail-name" id="inn-dp-name"></div>
+          <div class="detail-typ">
+            <span class="detail-typ-dot" id="inn-dp-dot"></span>
+            <span id="inn-dp-status"></span>
+          </div>
+        </div>
+        <div class="detail-body" id="inn-dp-body"></div>
       </div>
     </div>
   </div>
@@ -1858,6 +1901,11 @@ function closeAllSheets() {
   toggleFilterSheet(false);
   togglePsFilterSheet(false);
   closeDetail();
+  closeInnDetail();
+}
+
+function closeInnDetail() {
+  document.getElementById('innenstadt-body').classList.remove('detail-open');
 }
 
 function toggleTilesSheet() {
@@ -2454,25 +2502,43 @@ async function initInnenstadt() {
       </div>`;
     tilesEl.appendChild(tile);
 
-    if (!ph.lat || !ph.lon) return;
     const mc = markerColorMap[cls];
-    const marker = L.circleMarker([ph.lat, ph.lon], {
-      radius: 9, fillColor: mc, color: '#fff', weight: 2, fillOpacity: 0.9,
-    }).addTo(mapInnenstadt);
-    marker.bindPopup([
-      `<strong>${ph.name}</strong>`,
-      ph.adresse || '',
-      `Kapazität: ${fmtNum(kap)}`,
-      frei != null ? `Frei: ${fmtNum(frei)}` : '',
-      pct  != null ? `Auslastung: ${pct} %` : '',
-      !aktiv ? '<em>Sensor offline – letzter bekannter Wert</em>' : '',
-    ].filter(Boolean).join('<br>'));
+    if (ph.lat && ph.lon) {
+      const marker = L.circleMarker([ph.lat, ph.lon], {
+        radius: 9, fillColor: mc, color: '#fff', weight: 2, fillOpacity: 0.9,
+      }).addTo(mapInnenstadt);
+      marker.on('click', () => openInnDetail(ph, frei, kap, pct, cls, aktiv, mc));
+    }
     tile.addEventListener('click', () => {
-      mapInnenstadt.setView([ph.lat, ph.lon], 16); marker.openPopup();
-      if (window.matchMedia('(max-width: 900px)').matches)
-        document.getElementById('tiles-panel').classList.add('sheet-open');
+      if (ph.lat && ph.lon) mapInnenstadt.setView([ph.lat, ph.lon], 16);
+      openInnDetail(ph, frei, kap, pct, cls, aktiv, mc);
+      if (mobileSheet()) document.getElementById('tiles-panel').classList.remove('sheet-open');
     });
   });
+}
+
+function openInnDetail(ph, frei, kap, pct, cls, aktiv, mc) {
+  document.getElementById('inn-dp-name').textContent = ph.name;
+  const dot = document.getElementById('inn-dp-dot');
+  dot.style.background = mc;
+  const statusEl = document.getElementById('inn-dp-status');
+  statusEl.textContent = aktiv ? 'Sensor aktiv' : 'Sensor offline';
+  statusEl.style.color  = aktiv ? 'var(--green)' : 'var(--text-dim)';
+
+  let html = `<div class="detail-section">
+    <div class="detail-section-title">Standort</div>
+    ${ph.adresse ? `<div class="detail-row"><span class="detail-label">Adresse</span><span class="detail-value">${ph.adresse}</span></div>` : ''}
+    ${ph.ph     ? `<div class="detail-row"><span class="detail-label">Kürzel</span><span class="detail-value">${ph.ph}</span></div>` : ''}
+  </div>
+  <div class="detail-section">
+    <div class="detail-section-title">Belegung</div>
+    <div class="detail-row"><span class="detail-label">Kapazität</span><span class="detail-value">${fmtNum(kap || 0)}</span></div>
+    ${frei != null ? `<div class="detail-row"><span class="detail-label">Freie Plätze</span><span class="detail-value" style="color:${barColors[cls]};font-weight:600">${fmtNum(frei)}</span></div>` : ''}
+    ${pct  != null ? `<div class="detail-row"><span class="detail-label">Auslastung</span><span class="detail-value">${pct} %</span></div>` : ''}
+  </div>`;
+
+  document.getElementById('inn-dp-body').innerHTML = html;
+  document.getElementById('innenstadt-body').classList.add('detail-open');
 }
 
 // ══════════════════════════════════════════════

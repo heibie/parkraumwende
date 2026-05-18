@@ -2815,7 +2815,7 @@ async function initParklizenz() {
   // Map
   const map = L.map('map-parklizenz', {
     center: [48.137, 11.575],
-    zoom: 12,
+    zoom: 13,
     zoomControl: true,
   });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -2914,7 +2914,6 @@ async function initParklizenz() {
     });
   });
 
-  if (bounds.length) map.fitBounds(L.latLngBounds(bounds), { padding: [20, 20] });
 }
 
 // ══════════════════════════════════════════════
@@ -3078,8 +3077,6 @@ async function initParkseiten() {
       document.getElementById('parkseiten-body').classList.add('detail-open');
     });
   });
-
-  if (bounds.length) _psMap.fitBounds(L.latLngBounds(bounds), { padding: [10, 10] });
 
   // Build filter sidebar
   const filterBody = document.getElementById('ps-filter-body');

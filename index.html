@@ -1088,13 +1088,7 @@
       gap: 20px;
     }
     .stat-card-wide { grid-column: 1 / -1; }
-    .stat-section-head {
-      grid-column: 1 / -1;
-      padding: 28px 0 6px;
-      border-top: 2px solid var(--border);
-      margin-top: 8px;
-    }
-    .stat-section-head h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .stat-section-head { display: none; }
     .stat-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -1175,9 +1169,18 @@
     }
     .embed-copy:hover { background: var(--primary-d); }
     .embed-copy.copied { background: var(--green); }
-    .stats-chapter { font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: var(--text-dim); margin: 32px 0 14px;
-      max-width: 1060px; margin-left: auto; margin-right: auto; }
+    .stats-chapter {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      padding: 9px 14px;
+      margin: 44px auto 18px;
+      max-width: 1060px;
+      letter-spacing: .01em;
+    }
     .stats-chapter:first-child { margin-top: 0; }
     @media (max-width: 800px) {
       .stats-subnav {
@@ -1589,9 +1592,10 @@
         <div class="stat-card-foot"><a href="quellen.html#preissteigerung">Quelle: MVV, BMDV/VDV, LHM – eigene Zusammenstellung</a></div>
       </div>
 
-      <div class="stat-section-head" id="chapter-visionzero">
-        <h3>Vision Zero</h3>
-      </div>
+    </div>
+
+    <div class="stats-chapter" id="chapter-visionzero">Vision Zero</div>
+    <div class="stats-grid">
 
       <div class="stat-card">
         <div class="stat-card-head" data-chart="vz-unfaelle">
@@ -1617,9 +1621,10 @@
         <div class="stat-card-foot"><a href="quellen.html#visionzero-schulwegunfaelle">Quelle: Statistisches Amt München</a></div>
       </div>
 
-      <div class="stat-section-head" id="chapter-oepnv">
-        <h3>ÖPNV</h3>
-      </div>
+    </div>
+
+    <div class="stats-chapter" id="chapter-oepnv">ÖPNV</div>
+    <div class="stats-grid">
 
       <div class="stat-card">
         <div class="stat-card-head" data-chart="mvv-fahrgaeste">

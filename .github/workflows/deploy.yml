@@ -34,5 +34,5 @@ jobs:
             --exclude='data/latest.json' \
             --exclude='data/details' \
             --exclude='data/summary' \
-            --exclude='archive' \
+            --exclude='data/archive' \
             ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH"

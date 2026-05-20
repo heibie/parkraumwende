@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-20 05:02:02",
-    "frei_gesamt": 2909,
-    "belegt_gesamt": 1310,
+    "timestamp": "2026-05-20 06:02:01",
+    "frei_gesamt": 2907,
+    "belegt_gesamt": 1312,
     "kap_gesamt": 4219,
     "parkhaeuser": [
         {
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 210,
+            "frei": 211,
             "kap": 295,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 114,
+            "frei": 112,
             "kap": 197,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 125,
+            "frei": 124,
             "kap": 147,
             "aktiv": true
         },

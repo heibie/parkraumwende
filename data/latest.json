@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-20 01:02:01",
-    "frei_gesamt": 2901,
-    "belegt_gesamt": 1318,
+    "timestamp": "2026-05-20 02:02:01",
+    "frei_gesamt": 2905,
+    "belegt_gesamt": 1314,
     "kap_gesamt": 4219,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 259,
+            "frei": 260,
             "kap": 275,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 93,
+            "frei": 95,
             "kap": 150,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 150,
+            "frei": 149,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 355,
+            "frei": 356,
             "kap": 526,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 207,
+            "frei": 208,
             "kap": 212,
             "aktiv": true
         },

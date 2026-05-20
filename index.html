@@ -368,7 +368,6 @@
       margin-bottom: 8px;
     }
     .filter-fab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .ps-hit { pointer-events: all !important; }
     .sheet-backdrop {
       display: none;
       position: fixed; inset: 0;
@@ -3034,53 +3033,60 @@ async function initParkseiten() {
   });
   new PsFilterFab().addTo(_psMap);
 
+  const renderer = L.canvas({ padding: 0.5 });
+
   Object.keys(_psGroupStats).forEach(g => {
     _psLayerGroups[g] = L.layerGroup().addTo(_psMap);
   });
 
-  const bounds = [];
+  await new Promise(resolve => {
+    let i = 0;
+    const BATCH = 400;
+    function next() {
+      const end = Math.min(i + BATCH, rows.length);
+      for (; i < end; i++) {
+        const r = rows[i];
+        const gruppe = (r['parkregel_gruppe'] || '').trim();
+        const coords = parseWKTLine(r['shape'] || '');
+        if (!coords || coords.length < 2) continue;
 
-  rows.forEach(r => {
-    const gruppe = (r['parkregel_gruppe'] || '').trim();
-    const coords = parseWKTLine(r['shape'] || '');
-    if (!coords || coords.length < 2) return;
+        const color = PS_COLORS[gruppe] || '#888';
+        const line  = L.polyline(coords, { color, weight: 5, opacity: 0.85, renderer });
+        line.addTo(_psLayerGroups[gruppe] || _psMap);
 
-    const color   = PS_COLORS[gruppe] || '#888';
-    const visLine = L.polyline(coords, { color, weight: 3, opacity: 0.85, interactive: false });
-    const hitLine = L.polyline(coords, { color: 'transparent', weight: 20, className: 'ps-hit' });
-    const lg = _psLayerGroups[gruppe] || _psMap;
-    visLine.addTo(lg);
-    hitLine.addTo(lg);
-    bounds.push(...coords);
+        line.on('mouseover', () => line.setStyle({ weight: 8 }));
+        line.on('mouseout',  () => line.setStyle({ weight: 5 }));
+        line.on('click', () => {
+          document.getElementById('ps-dp-name').textContent = r['strasse'] || '–';
+          const dot = document.getElementById('ps-dp-dot');
+          dot.style.background = color;
+          document.getElementById('ps-dp-gruppe').textContent = gruppe;
+          document.getElementById('ps-dp-gruppe').style.color = color;
 
-    hitLine.on('mouseover', () => visLine.setStyle({ weight: 5 }));
-    hitLine.on('mouseout',  () => visLine.setStyle({ weight: 3 }));
-    hitLine.on('click', () => {
-      document.getElementById('ps-dp-name').textContent = r['strasse'] || '–';
-      const dot = document.getElementById('ps-dp-dot');
-      dot.style.background = color;
-      document.getElementById('ps-dp-gruppe').textContent = gruppe;
-      document.getElementById('ps-dp-gruppe').style.color = color;
-
-      let html = `<div class="detail-section">
-        <div class="detail-section-title">Parkregel</div>
-        <div class="detail-row"><span class="detail-label">Gruppe</span><span class="detail-value">${gruppe}</span></div>
-        <div class="detail-row"><span class="detail-label">Regel</span><span class="detail-value">${r['parkregel_beschreibung'] || '–'}</span></div>
-        <div class="detail-row"><span class="detail-label">Kurzname</span><span class="detail-value">${r['parkregel_name'] || '–'}</span></div>
-      </div>
-      <div class="detail-section">
-        <div class="detail-section-title">Kapazität</div>
-        <div class="detail-row"><span class="detail-label">Stellplätze</span><span class="detail-value">${fmtNum(Number(r['angebot']) || 0)}</span></div>
-      </div>`;
-      if (r['prm_name']) {
-        html += `<div class="detail-section">
-          <div class="detail-section-title">Gebiet</div>
-          <div class="detail-row"><span class="detail-label">Lizenzgebiet</span><span class="detail-value">${r['prm_name']}</span></div>
-        </div>`;
+          let html = `<div class="detail-section">
+            <div class="detail-section-title">Parkregel</div>
+            <div class="detail-row"><span class="detail-label">Gruppe</span><span class="detail-value">${gruppe}</span></div>
+            <div class="detail-row"><span class="detail-label">Regel</span><span class="detail-value">${r['parkregel_beschreibung'] || '–'}</span></div>
+            <div class="detail-row"><span class="detail-label">Kurzname</span><span class="detail-value">${r['parkregel_name'] || '–'}</span></div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-section-title">Kapazität</div>
+            <div class="detail-row"><span class="detail-label">Stellplätze</span><span class="detail-value">${fmtNum(Number(r['angebot']) || 0)}</span></div>
+          </div>`;
+          if (r['prm_name']) {
+            html += `<div class="detail-section">
+              <div class="detail-section-title">Gebiet</div>
+              <div class="detail-row"><span class="detail-label">Lizenzgebiet</span><span class="detail-value">${r['prm_name']}</span></div>
+            </div>`;
+          }
+          document.getElementById('ps-dp-body').innerHTML = html;
+          document.getElementById('parkseiten-body').classList.add('detail-open');
+        });
       }
-      document.getElementById('ps-dp-body').innerHTML = html;
-      document.getElementById('parkseiten-body').classList.add('detail-open');
-    });
+      if (i < rows.length) setTimeout(next, 0);
+      else resolve();
+    }
+    next();
   });
 
   // Build filter sidebar

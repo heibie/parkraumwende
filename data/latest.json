@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-20 03:02:01",
-    "frei_gesamt": 2908,
-    "belegt_gesamt": 1311,
+    "timestamp": "2026-05-20 04:02:01",
+    "frei_gesamt": 2912,
+    "belegt_gesamt": 1307,
     "kap_gesamt": 4219,
     "parkhaeuser": [
         {
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 64,
+            "frei": 66,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 212,
+            "frei": 211,
             "kap": 295,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 382,
+            "frei": 385,
             "kap": 441,
             "aktiv": true
         },

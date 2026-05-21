@@ -672,9 +672,12 @@
     }
     .plz-legend-item { display: flex; align-items: center; gap: 5px; }
     .plz-legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
-    .plz-legend-dot.rot   { background: rgba(220,53,69,.6);  border: 1px solid rgba(220,53,69,.9); }
-    .plz-legend-dot.gruen { background: rgba(40,167,69,.45); border: 1px solid rgba(40,167,69,.8); }
-    .plz-legend-dot.grau  { background: rgba(136,136,136,.3); border: 1px solid rgba(136,136,136,.6); }
+    .plz-legend-dot.rot     { background: rgba(220,53,69,.6);  border: 1px solid rgba(220,53,69,.9); }
+    .plz-legend-dot.gruen   { background: rgba(40,167,69,.45); border: 1px solid rgba(40,167,69,.8); }
+    .plz-legend-dot.grau    { background: rgba(136,136,136,.3); border: 1px solid rgba(136,136,136,.6); }
+    .plz-legend-dot.orange  { background: rgba(249,115,22,.35); border: 1.5px dashed rgba(249,115,22,.85); border-radius: 2px; }
+    .plz-legend-dot.gelb    { background: rgba(234,179,8,.3);  border: 1.5px dashed rgba(234,179,8,.9);  border-radius: 2px; }
+    .plz-legend-dot.hellgrau{ background: rgba(200,204,208,.4); border: 1px solid rgba(200,204,208,.8); }
     .plz-label {
       background: none; border: none;
       font-size: 0.65rem; font-weight: 700; line-height: 1;
@@ -1088,6 +1091,15 @@
     }
     .stat-card-wide { grid-column: 1 / -1; }
     .stat-section-head { display: none; }
+    .ps-table { width: 100%; border-collapse: collapse; }
+    .ps-table th { padding: 7px 16px; border-bottom: 2px solid var(--border); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-dim); text-align: left; }
+    .ps-table th.col-val { text-align: right; }
+    .ps-table td { padding: 9px 16px; border-bottom: 1px solid var(--border); font-size: 0.875rem; vertical-align: middle; }
+    .ps-table tr:last-child td { border-bottom: none; }
+    .ps-table .col-val { text-align: right; font-weight: 700; font-size: 0.95rem; color: var(--text); white-space: nowrap; }
+    .pct-badge { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 0.72rem; font-weight: 700; background: var(--bg); color: var(--text-dim); }
+    .ps-table tr.row-realistic .pct-badge { background: #d1fae5; color: #065f46; }
+    .ps-table tr.row-realistic .col-val { color: var(--green); }
     .stat-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -1213,6 +1225,20 @@
       .stat-card-wide { grid-column: 1; }
     }
   </style>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://piwik.bielinski.de/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '11']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
 </head>
 <body>
 
@@ -1325,6 +1351,8 @@
       <div class="stat"><span class="stat-label">Nicht überbucht</span><span class="stat-value" style="color:var(--green)" id="plz-stat-ok">–</span></div>
       <div class="stat"><span class="stat-label">Stellplätze gesamt</span><span class="stat-value" id="plz-stat-plaetze">–</span></div>
       <div class="stat"><span class="stat-label">Ausweise gesamt</span><span class="stat-value" id="plz-stat-ausweise">–</span></div>
+      <div class="stat"><span class="stat-label">Stadtfläche unbewirtschaftet</span><span class="stat-value" style="color:var(--red)">88 %</span></div>
+      <button class="embed-btn" onclick="showMapEmbed('parklizenz')" style="margin-left:auto;flex-shrink:0">⟨/⟩ Einbetten</button>
       <div class="editorial-box" id="editorial-parklizenz"></div>
     </div>
     <div class="parklizenz-body" id="parklizenz-body">
@@ -1345,6 +1373,8 @@
       <div class="plz-legend-item"><div class="plz-legend-dot rot"></div>Überbucht (mehr Ausweise als Stellplätze)</div>
       <div class="plz-legend-item"><div class="plz-legend-dot gruen"></div>Nicht überbucht</div>
       <div class="plz-legend-item"><div class="plz-legend-dot grau"></div>Keine Daten vorhanden</div>
+      <div style="width:1px;background:var(--border);align-self:stretch;margin:0 4px"></div>
+      <div class="plz-legend-item"><div class="plz-legend-dot orange"></div>Nicht bewirtschaftet (88 % der Stadtfläche · 273 km²)</div>
     </div>
   </div>
 </div>
@@ -1391,6 +1421,7 @@
   </div>
   <nav class="stats-subnav" id="stats-subnav">
     <a class="stats-subnav-pill active" href="#chapter-oeffentlicher-raum">Öff. Raum</a>
+    <a class="stats-subnav-pill" href="#chapter-einnahmenpotentiale">Einnahmenpot.</a>
     <a class="stats-subnav-pill" href="#chapter-kfz">KFZ &amp; Zulassungen</a>
     <a class="stats-subnav-pill" href="#chapter-mobilitaet">Mobilität</a>
     <a class="stats-subnav-pill" href="#chapter-visionzero">Vision Zero</a>
@@ -1450,6 +1481,23 @@
       </div>
 
       <div class="stat-card">
+        <div class="stat-card-head" data-chart="oeffentlicher-raum">
+          <div><div class="stat-card-title">Kosten für öffentlichen Raum im Vergleich</div>
+          <div class="stat-card-sub">Jahresgebühren München – Parken günstiger als jede andere Nutzung</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-oeffentlicher-raum" height="240"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#oeffentlicher-raum">Quelle: Landeshauptstadt München – eigene Zusammenstellung</a></div>
+      </div>
+
+    </div>
+
+    <div class="stats-chapter" id="chapter-einnahmenpotentiale">Städtische Einnahmenpotentiale</div>
+    <div class="stats-grid">
+
+      <div class="stat-card">
         <div class="stat-card-head" data-chart="lizenzen-europa">
           <div><div class="stat-card-title">Parkausweis-Jahresgebühr im Städtevergleich</div>
           <div class="stat-card-sub">München zahlt mit 30 € pro Jahr europaweit am wenigsten</div></div>
@@ -1462,15 +1510,45 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-card-head" data-chart="oeffentlicher-raum">
-          <div><div class="stat-card-title">Kosten für öffentlichen Raum im Vergleich</div>
-          <div class="stat-card-sub">Jahresgebühren München – Parken günstiger als jede andere Nutzung</div></div>
+        <div class="stat-card-head" data-chart="lizenz-einnahmen">
+          <div><div class="stat-card-title">Einnahmepotenzial Parklizenzen München</div>
+          <div class="stat-card-sub">Was die Stadt einnimmt (30 €/Jahr) vs. was möglich wäre (102 €/Jahr – bereits heute in der Münchner Altstadt) · 120.000 vergebene Lizenzen</div></div>
           <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
-          <canvas id="chart-oeffentlicher-raum" height="240"></canvas>
+          <canvas id="chart-lizenz-einnahmen" height="120"></canvas>
         </div>
-        <div class="stat-card-foot"><a href="quellen.html#oeffentlicher-raum">Quelle: Landeshauptstadt München – eigene Zusammenstellung</a></div>
+        <div class="stat-card-foot"><a href="quellen.html#lizenz-einnahmen">Quelle: LHM – eigene Berechnung</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head">
+          <div><div class="stat-card-title">Ein Parkplatz · Tageseinnahme</div>
+          <div class="stat-card-sub">Parkschein statt Parkscheibe – 14 h × 2,60 €</div></div>
+        </div>
+        <div class="stat-card-body" id="tbl-parkscheibe-platz"></div>
+        <div class="stat-card-foot"><a href="quellen.html#parkscheibe">Quelle: LHM – eigene Berechnung</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head">
+          <div><div class="stat-card-title">9.800 Parkplätze · Tageseinnahmen</div>
+          <div class="stat-card-sub">Parkschein statt Parkscheibe – Stundenpreis: 2,60 €</div></div>
+        </div>
+        <div class="stat-card-body" id="tbl-parkscheibe-alle"></div>
+        <div class="stat-card-foot"><a href="quellen.html#parkscheibe">Quelle: LHM – eigene Berechnung</a></div>
+      </div>
+
+      <div class="stat-card stat-card-wide">
+        <div class="stat-card-head" data-chart="parkscheibe-jahreseinnahmen">
+          <div><div class="stat-card-title">9.800 Parkscheiben-Stellplätze · Jahreseinnahmen</div>
+          <div class="stat-card-sub">Potenzielle Einnahmen bei Einführung von Parkscheinpflicht · 14 h/Tag · 2,60 €/h</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-parkscheibe-jahreseinnahmen" height="240"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parkscheibe">Quelle: LHM – eigene Berechnung</a></div>
       </div>
 
     </div>
@@ -2788,9 +2866,10 @@ async function initParklizenz() {
     });
   }
 
-  const [polyRows, lizenzRows] = await Promise.all([
+  const [polyRows, lizenzRows, unbewirtschaftetGeoJson] = await Promise.all([
     loadCsv('data/ruhver_prm_gebiete_poly.csv'),
     loadCsv('data/parklizenzgebiete.csv'),
+    fetch('data/muenchen_unbewirtschaftet.geojson').then(r => r.json()),
   ]);
 
   // Build lookup by name from parklizenzgebiete.csv
@@ -2825,6 +2904,12 @@ async function initParklizenz() {
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap contributors © CARTO',
     maxZoom: 19,
+  }).addTo(map);
+
+  // Unbewirtschaftete Fläche (München gesamt minus Lizenzgebiete)
+  L.geoJSON(unbewirtschaftetGeoJson, {
+    style: { color: '#ea580c', weight: 1, fillColor: '#fff3e0', fillOpacity: 0.5, dashArray: null },
+    interactive: false,
   }).addTo(map);
 
   const bounds = [];
@@ -3219,7 +3304,111 @@ async function initStatistiken() {
     });
   }
 
-  // 4. IHK / Motel One – Stacked Bar, absolute Zahlen, Werte in Balken
+  // 4. Einnahmepotenzial Parklizenzen – 30 € vs. 102 €
+  { const prRows = await loadCsv('data/kalkulation_parklizenz_preise.csv');
+    const r30  = prRows.find(r => Number(r['Preis/Jahr']) === 30);
+    const r102 = prRows.find(r => Number(r['Preis/Jahr']) === 102);
+    const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
+    new Chart(document.getElementById('chart-lizenz-einnahmen'), {
+      type: 'bar',
+      plugins: [ChartDataLabels],
+      data: {
+        labels: ['Aktuell · 30 €/Jahr', '102 €/Jahr (bereits Altstadt-Preis)'],
+        datasets: [{
+          data: [Number(r30['Einnahmen/Jahr']), Number(r102['Einnahmen/Jahr'])],
+          backgroundColor: [COLORS.blau, COLORS.gruen],
+          barThickness: 40,
+        }],
+      },
+      options: { ...CHART_DEFAULTS, indexAxis: 'y', maintainAspectRatio: false,
+        plugins: { ...CHART_DEFAULTS.plugins,
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ' ' + fmtMio(ctx.parsed.x) } },
+          datalabels: {
+            anchor: 'end', align: 'end',
+            formatter: fmtMio,
+            font: { size: 12, weight: '600' },
+            color: COLORS.dunkelblau,
+          },
+        },
+        scales: {
+          x: { max: 14500000,
+            ticks: { callback: v => (v / 1e6).toLocaleString('de-DE') + ' Mio.', font: { size: 11 } },
+            grid: { color: '#e8ebee' } },
+          y: { ticks: { font: { size: 11 } }, grid: { display: false } },
+        },
+      },
+    });
+  }
+
+  // 5. Parkscheibe – Tabellen + Jahresdiagramm
+  { const psRows = await loadCsv('data/kalkulation_parkscheibe_parkschein.csv');
+    function parseDE(s) {
+      return parseFloat(String(s).replace(/\./g, '').replace(',', '.').replace(/[^0-9.]/g, ''));
+    }
+    function buildPsTable(elId, valueKey) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const tbl = document.createElement('table');
+      tbl.className = 'ps-table';
+      const thead = document.createElement('thead');
+      thead.innerHTML = `<tr><th>Auslastung</th><th class="col-val">Einnahmen</th></tr>`;
+      tbl.appendChild(thead);
+      psRows.forEach(r => {
+        const pct = Number(r['Auslastung in %']);
+        const tr  = document.createElement('tr');
+        if (pct === 50) tr.className = 'row-realistic';
+        tr.innerHTML = `<td><span class="pct-badge">${pct} %</span></td>
+          <td class="col-val">${r[valueKey]}</td>`;
+        tbl.appendChild(tr);
+      });
+      el.appendChild(tbl);
+    }
+    buildPsTable('tbl-parkscheibe-platz', 'Tageseinnahme');
+    buildPsTable('tbl-parkscheibe-alle',  'Tageseinnahme alle');
+
+    const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
+    const jahresWerte = psRows.map(r => parseDE(r['Jahreseinnahmen alle']));
+    const auslastungen = psRows.map(r => Number(r['Auslastung in %']) + ' %');
+    new Chart(document.getElementById('chart-parkscheibe-jahreseinnahmen'), {
+      type: 'bar',
+      plugins: [ChartDataLabels],
+      data: {
+        labels: auslastungen,
+        datasets: [{
+          data: jahresWerte,
+          backgroundColor: psRows.map(r => Number(r['Auslastung in %']) === 50 ? COLORS.gruen : COLORS.blau),
+        }],
+      },
+      options: { ...CHART_DEFAULTS, indexAxis: 'y', maintainAspectRatio: false,
+        plugins: { ...CHART_DEFAULTS.plugins,
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => {
+            const r = psRows[ctx.dataIndex];
+            return [
+              ' ' + fmtMio(ctx.parsed.x),
+              ' 1 Platz/Tag: ' + r['Tageseinnahme'],
+              ' Alle/Tag: '    + r['Tageseinnahme alle'],
+            ];
+          }}},
+          datalabels: {
+            anchor: 'end', align: 'end',
+            formatter: fmtMio,
+            font: { size: 12, weight: '600' },
+            color: ctx => Number(psRows[ctx.dataIndex]['Auslastung in %']) === 50 ? COLORS.gruen : COLORS.dunkelblau,
+          },
+        },
+        scales: {
+          x: { max: 145000000,
+            ticks: { callback: v => (v / 1e6).toLocaleString('de-DE') + ' Mio.', font: { size: 11 } },
+            grid: { color: '#e8ebee' } },
+          y: { title: { display: true, text: 'Auslastung', font: { size: 11 }, color: 'var(--text-dim)' }, ticks: { font: { size: 11 } }, grid: { display: false } },
+        },
+      },
+    });
+  }
+
+  // 6. IHK / Motel One – Stacked Bar, absolute Zahlen, Werte in Balken
   { const data = [ { label:'Werktage', frei:100, belegt:80 }, { label:'Wochenende', frei:140, belegt:40 } ];
     new Chart(document.getElementById('chart-motelone'), {
       type:'bar',
@@ -3247,7 +3436,7 @@ async function initStatistiken() {
     });
   }
 
-  // 5. Innenstadt Parkhäuser – Auslastung ausgewählte Samstage
+  // 7. Innenstadt Parkhäuser – Auslastung ausgewählte Samstage
   { const phRows = await loadCsv('data/innenstadt_parkhaus_auslastung_exemplarisch.csv');
     const phData = phRows.filter(r => r['Datum']);
     new Chart(document.getElementById('chart-innenstadt-auslastung'), {
@@ -3276,7 +3465,7 @@ async function initStatistiken() {
     });
   }
 
-  // 6. Öffentlicher Raum – Kosten Vergleich
+  // 8. Öffentlicher Raum – Kosten Vergleich
   { const orRows = await loadCsv('data/oeffentlicher_raum.csv');
     const orSorted = [...orRows].filter(r => r['Kosten']).sort((a,b) => a['Kosten'] - b['Kosten']);
     new Chart(document.getElementById('chart-oeffentlicher-raum'), {
@@ -3684,8 +3873,21 @@ function pickEmbedStyle(btn) {
   updateEmbedCode();
 }
 
+let _eMap = null;
+
+function showMapEmbed(mapId) {
+  _eMap = mapId; _eChart = null;
+  _eW = 680; _eH = 500; _eStyle = '';
+  document.querySelectorAll('.embed-sz[data-w]').forEach(b => b.classList.toggle('active', +b.dataset.w === _eW));
+  document.querySelectorAll('.embed-sz[data-style]').forEach(b => b.classList.toggle('active', b.dataset.style === _eStyle));
+  updateEmbedCode();
+  document.getElementById('embed-overlay').hidden = false;
+}
+
 function updateEmbedCode() {
-  const src = `https://data.parkraumwende.de/embed.html?chart=${_eChart}${_eStyle ? '&style=' + _eStyle : ''}`;
+  const src = _eMap
+    ? `https://data.parkraumwende.de/embed-${_eMap}.html`
+    : `https://data.parkraumwende.de/embed.html?chart=${_eChart}${_eStyle ? '&style=' + _eStyle : ''}`;
   const iframeStyle = _eStyle === 'card'
     ? 'border:1px solid #e2e8f0;border-radius:4px;max-width:100%;'
     : 'border:0;max-width:100%;';

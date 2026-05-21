@@ -173,6 +173,45 @@
       }
     },
     {
+      "name": "parkscheibe-einnahmen",
+      "path": "kalkulation_parkscheibe_parkschein.csv",
+      "title": "Einnahmepotenzial Parkscheiben-Stellplätze München",
+      "description": "Potenzielle Einnahmen aus 9.800 Parkscheiben-Stellplätzen bei Einführung einer Parkscheinpflicht (14 h/Tag, 2,60 €/h) für fünf Auslastungsszenarien.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Parkraumwende München – eigene Berechnung", "path": "https://parkraumwende.de" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "Auslastung in %",     "type": "integer", "description": "Angenommene Auslastung der Parkplätze in Prozent" },
+          { "name": "Tageseinnahme",       "type": "string",  "description": "Tageseinnahme eines einzelnen Parkplatzes (formatiert)" },
+          { "name": "Tageseinnahme alle",  "type": "string",  "description": "Tageseinnahme aller 9.800 Parkplätze (formatiert)" },
+          { "name": "Jahreseinnahmen alle","type": "string",  "description": "Jahreseinnahmen aller 9.800 Parkplätze (formatiert)" }
+        ]
+      }
+    },
+    {
+      "name": "lizenz-einnahmen",
+      "path": "kalkulation_parklizenz_preise.csv",
+      "title": "Einnahmepotenzial Parklizenzen München",
+      "description": "Berechnung der jährlichen Einnahmen aus Anwohnerparkausweisen bei 30 €/Jahr (aktuell stadtweiter Preis) und 102 €/Jahr (bereits heute geltender Preis in der Münchner Altstadt). Grundlage: ca. 120.000 vergebene Parklizenzen.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Parkraumwende München – eigene Berechnung", "path": "https://parkraumwende.de" }
+      ],
+      "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
+      "schema": {
+        "fields": [
+          { "name": "Preis/Jahr",      "type": "integer", "description": "Jahrespreis Parkausweis in Euro" },
+          { "name": "Lizenzen vergeben","type": "integer", "description": "Anzahl vergebener Parklizenzen in München" },
+          { "name": "Einnahmen/Jahr",  "type": "integer", "description": "Gesamteinnahmen pro Jahr in Euro" }
+        ]
+      }
+    },
+    {
       "name": "oeffentlicher-raum",
       "path": "oeffentlicher_raum.csv",
       "title": "Kosten für die Nutzung öffentlichen Raums in München",

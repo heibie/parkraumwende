@@ -34,6 +34,20 @@
 
     .e-err { display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 0.82rem; }
   </style>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://piwik.bielinski.de/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '11']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
 </head>
 <body>
 
@@ -91,6 +105,18 @@ const CHARTS = {
     sub:    'München zahlt mit 30 € pro Jahr europaweit am wenigsten',
     source: 'Stadtverwaltungen – eigene Zusammenstellung',
     init:   initLizenzenEuropa,
+  },
+  'parkscheibe-jahreseinnahmen': {
+    title:  '9.800 Parkscheiben-Stellplätze · Jahreseinnahmen',
+    sub:    'Potenzielle Einnahmen bei Parkscheinpflicht · 14 h/Tag · 2,60 €/h',
+    source: 'LHM – eigene Berechnung',
+    init:   initParkscheibeJahr,
+  },
+  'lizenz-einnahmen': {
+    title:  'Einnahmepotenzial Parklizenzen München',
+    sub:    'Was die Stadt einnimmt (30 €/Jahr) vs. was möglich wäre (102 €/Jahr – bereits heute Altstadt-Preis)',
+    source: 'LHM – eigene Berechnung',
+    init:   initLizenzEinnahmen,
   },
   'oeffentlicher-raum': {
     title:  'Kosten für öffentlichen Raum im Vergleich',
@@ -312,6 +338,83 @@ async function initLizenzenEuropa() {
         x: { ticks: { callback: v => v + ' €', font: { size: 11 } }, grid: { color: '#e8ebee' } },
         y: { ticks: { font: { size: 11 } }, grid: { display: false } },
       } },
+  });
+}
+
+async function initParkscheibeJahr() {
+  const rows = await loadCsv('data/kalkulation_parkscheibe_parkschein.csv');
+  function parseDE(s) {
+    return parseFloat(String(s).replace(/\./g, '').replace(',', '.').replace(/[^0-9.]/g, ''));
+  }
+  const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: rows.map(r => Number(r['Auslastung in %']) + ' %'),
+      datasets: [{
+        data: rows.map(r => parseDE(r['Jahreseinnahmen alle'])),
+        backgroundColor: rows.map(r => Number(r['Auslastung in %']) === 50 ? '#1e8a3e' : '#2c2fdf'),
+      }],
+    },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => {
+          const r = rows[ctx.dataIndex];
+          return [' ' + fmtMio(ctx.parsed.x), ' 1 Platz/Tag: ' + r['Tageseinnahme'], ' Alle/Tag: ' + r['Tageseinnahme alle']];
+        }}},
+        datalabels: {
+          anchor: 'end', align: 'end',
+          formatter: fmtMio,
+          font: { size: 12, weight: '600' },
+          color: ctx => Number(rows[ctx.dataIndex]['Auslastung in %']) === 50 ? '#1e8a3e' : '#2c2fdf',
+        },
+      },
+      scales: {
+        x: { max: 145000000,
+          ticks: { callback: v => (v / 1e6).toLocaleString('de-DE') + ' Mio.', font: { size: 11 } },
+          grid: { color: '#e8ebee' } },
+        y: { title: { display: true, text: 'Auslastung', font: { size: 11 }, color: '#62707c' }, ticks: { font: { size: 11 } }, grid: { display: false } },
+      },
+    },
+  });
+}
+
+async function initLizenzEinnahmen() {
+  const rows = await loadCsv('data/kalkulation_parklizenz_preise.csv');
+  const r30  = rows.find(r => Number(r['Preis/Jahr']) === 30);
+  const r102 = rows.find(r => Number(r['Preis/Jahr']) === 102);
+  const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: ['Aktuell · 30 €/Jahr', '102 €/Jahr (bereits Altstadt-Preis)'],
+      datasets: [{
+        data: [Number(r30['Einnahmen/Jahr']), Number(r102['Einnahmen/Jahr'])],
+        backgroundColor: ['#2c2fdf', '#1e8a3e'],
+        barThickness: 40,
+      }],
+    },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + fmtMio(ctx.parsed.x) } },
+        datalabels: {
+          anchor: 'end', align: 'end',
+          formatter: fmtMio,
+          font: { size: 12, weight: '600' },
+          color: '#2c2fdf',
+        },
+      },
+      scales: {
+        x: { max: 14500000,
+          ticks: { callback: v => (v / 1e6).toLocaleString('de-DE') + ' Mio.', font: { size: 11 } },
+          grid: { color: '#e8ebee' } },
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } },
+      },
+    },
   });
 }
 

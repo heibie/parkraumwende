@@ -76,6 +76,7 @@ Beide Tabs zeigen Geodaten des OpenData-Portals der LHM. Die Koordinaten liegen 
 - Angereichert mit Statistikdaten aus `data/parklizenzgebiete.csv` (Stellplätze, Parkausweise)
 - **Rot** = überbucht, **Grün** = nicht überbucht, **Grau** = keine Statistikdaten
 - Zahl im Polygon = Differenz Ausweise minus Stellplätze
+- **Unbewirtschaftete Fläche**: `data/muenchen_unbewirtschaftet.geojson` — vorberechnete Differenzfläche (München gesamt minus Lizenzgebiete, 88 % der Stadtfläche / 273 km²). Neu generieren mit `node scripts/berechne_unbewirtschaftet.js` nach Aktualisierung der Polygon-CSV.
 - Klick auf Polygon → Detail-Panel (rechts)
 - Infoleiste: `content/parklizenz.md`
 - Quelle: [opendata.muenchen.de](https://opendata.muenchen.de/dataset/opendata_ruhver_prm_gebiete_poly), laufend aktualisiert
@@ -164,6 +165,8 @@ Alle manuell gepflegten Datensätze liegen in `data/*.csv`. Jede Datei ist in `d
 | Parkhäuser Samstage | `innenstadt_parkhaus_auslastung_exemplarisch.csv` | [Parkleitsystem München Zentrum](https://pls-muc-z.com/pls/info/parkhaus.html) | bei Bedarf |
 | Parklizenzen Europa | `parklizenzen_europa.csv` | Eigene Recherche aus Stadtverwaltungen | bei Änderung |
 | Öffentlicher Raum | `oeffentlicher_raum.csv` | LHM / Eigene Recherche | bei Änderung |
+| Einnahmepotenzial Parklizenzen | `kalkulation_parklizenz_preise.csv` | Eigene Berechnung (30 €/Jahr vs. 102 €/Jahr × 120.000 Lizenzen) | bei Änderung |
+| Einnahmepotenzial Parkscheiben | `kalkulation_parkscheibe_parkschein.csv` | Eigene Berechnung (9.800 Plätze × 14 h × 2,60 €/h) | bei Änderung |
 
 **Workflow CSV-Update:**
 
@@ -192,6 +195,8 @@ Quelle: [pls-muc-z.com](https://pls-muc-z.com/pls/info/parkhaus.html) (Setrix AG
 
 ## Embed-System
 
+### Diagramme
+
 Jedes Diagramm kann als iFrame eingebettet werden:
 
 ```html
@@ -206,7 +211,18 @@ Jedes Diagramm kann als iFrame eingebettet werden:
         style="border:1px solid #e2e8f0;border-radius:4px;max-width:100%;" loading="lazy"></iframe>
 ```
 
-Der Embed-Code wird automatisch über den **⟨/⟩ Einbetten**-Button auf jeder Diagramm-Kachel generiert.
+### Karten
+
+Karten haben eigene Embed-Seiten:
+
+```html
+<!-- Parklizenzgebiete-Karte -->
+<iframe src="https://data.parkraumwende.de/embed-parklizenz.html"
+        width="680" height="500" frameborder="0"
+        style="border:0;max-width:100%;" loading="lazy"></iframe>
+```
+
+Der Embed-Code wird automatisch über den **⟨/⟩ Einbetten**-Button generiert — bei Diagrammen auf der Kachel, bei Karten in der Statistikleiste des jeweiligen Tabs.
 
 ---
 

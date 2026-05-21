@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parklizenzgebiete München – Parkraumwende</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; font-family: system-ui, -apple-system, sans-serif; background: #fff; color: #272c30; }
+    body { display: flex; flex-direction: column; }
+
+    .e-head { padding: 10px 16px 7px; flex-shrink: 0; border-bottom: 1px solid #e8ebee; }
+    .e-title { font-size: 0.82rem; font-weight: 700; line-height: 1.3; }
+    .e-sub   { font-size: 0.63rem; color: #62707c; margin-top: 2px; }
+
+    .e-body  { flex: 1; min-height: 0; position: relative; }
+    #map     { width: 100%; height: 100%; }
+
+    .e-foot {
+      padding: 5px 16px;
+      flex-shrink: 0;
+      border-top: 1px solid #e8ebee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.6rem;
+      color: #888;
+    }
+    .e-foot a { color: #2c2fdf; text-decoration: none; font-weight: 600; }
+    .e-foot a:hover { text-decoration: underline; }
+    .e-legend { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .e-legend-item { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+    .e-legend-dot {
+      width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0;
+    }
+    .e-legend-dot.rot     { background: rgba(220,53,69,.6);  border: 1px solid rgba(220,53,69,.9); }
+    .e-legend-dot.gruen   { background: rgba(40,167,69,.45); border: 1px solid rgba(40,167,69,.8); }
+    .e-legend-dot.orange  { background: rgba(255,243,224,.9); border: 1px solid rgba(234,88,12,.7); }
+  </style>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://piwik.bielinski.de/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '11']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+</head>
+<body>
+
+<div class="e-head">
+  <div class="e-title">Parklizenzgebiete München – Überbuchung und Flächendeckung</div>
+  <div class="e-sub">Rot = mehr Parkausweise als Stellplätze · Grün = nicht überbucht · 88 % der Stadtfläche noch ohne Bewirtschaftung</div>
+</div>
+<div class="e-body">
+  <div id="map"></div>
+</div>
+<div class="e-foot">
+  <div class="e-legend">
+    <div class="e-legend-item"><div class="e-legend-dot rot"></div>Überbucht</div>
+    <div class="e-legend-item"><div class="e-legend-dot gruen"></div>Nicht überbucht</div>
+    <div class="e-legend-item"><div class="e-legend-dot orange"></div>Nicht bewirtschaftet (88 %)</div>
+  </div>
+  <span>Quelle: Landeshauptstadt München &nbsp;·&nbsp; <a href="https://data.parkraumwende.de/#parklizenz" target="_blank">data.parkraumwende.de ↗</a></span>
+</div>
+
+<script>
+proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+
+const NAME_MAP = {
+  'Domagpark':       'Domagpark *',
+  'Messestadt':      'Messestadt *',
+  'Mittleres Lehel': 'Lehel Mitte',
+  'Südliches Lehel': 'Lehel Süd',
+};
+
+function parseWKTPolygon(wkt) {
+  const match = wkt.match(/POLYGON\s*\(\(([^)]+)\)/);
+  if (!match) return null;
+  return match[1].trim().split(',').map(pair => {
+    const [x, y] = pair.trim().split(/\s+/).map(Number);
+    const [lng, lat] = proj4('EPSG:25832', 'EPSG:4326', [x, y]);
+    return [lat, lng];
+  });
+}
+
+function fmtNum(n) { return Number(n).toLocaleString('de-DE'); }
+
+async function loadCsv(path) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(path, { download: true, header: true, skipEmptyLines: true,
+      complete: r => resolve(r.data), error: reject });
+  });
+}
+
+async function init() {
+  const [polyRows, lizenzRows, unbewGeoJson] = await Promise.all([
+    loadCsv('data/ruhver_prm_gebiete_poly.csv'),
+    loadCsv('data/parklizenzgebiete.csv'),
+    fetch('data/muenchen_unbewirtschaftet.geojson').then(r => r.json()),
+  ]);
+
+  const lizenzByName = {};
+  lizenzRows.forEach(r => { if (r['Lizenzgebiet']) lizenzByName[r['Lizenzgebiet']] = r; });
+
+  const map = L.map('map', { center: [48.137, 11.575], zoom: 12, zoomControl: true });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap contributors © CARTO', maxZoom: 19,
+  }).addTo(map);
+
+  // Unbewirtschaftete Fläche
+  L.geoJSON(unbewGeoJson, {
+    style: { color: '#ea580c', weight: 1, fillColor: '#fff3e0', fillOpacity: 0.5 },
+    interactive: false,
+  }).addTo(map);
+
+  // Lizenzgebiet-Polygone
+  polyRows.forEach(row => {
+    const polyName  = (row['name'] || '').trim();
+    const lizenzKey = NAME_MAP[polyName] || polyName;
+    const lizenz    = lizenzByName[lizenzKey];
+    const coords    = parseWKTPolygon(row['shape'] || '');
+    if (!coords || coords.length < 3) return;
+
+    const uebInt   = lizenz ? (Number(lizenz['Überbucht']) || 0) : null;
+    const overbook = uebInt !== null && uebInt > 0;
+    const hasData  = uebInt !== null;
+
+    const fillColor   = !hasData ? '#888' : overbook ? '#dc3545' : '#28a745';
+    const fillOpacity = !hasData ? 0.2    : overbook ? 0.45      : 0.3;
+    const color       = !hasData ? '#666' : overbook ? '#b02030' : '#1a7a30';
+
+    const poly = L.polygon(coords, { color, weight: 1.2, fillColor, fillOpacity }).addTo(map);
+    poly.on('mouseover', () => poly.setStyle({ weight: 2.5 }));
+    poly.on('mouseout',  () => poly.setStyle({ weight: 1.2 }));
+
+    if (hasData) {
+      const stellpl = fmtNum(Number(lizenz['Anzahl Stellplätze']));
+      const ausw    = fmtNum(Number(lizenz['Anzahl Parkausweise']));
+      const status  = overbook
+        ? `Überbucht um ${fmtNum(uebInt)} Ausweise`
+        : `Nicht überbucht (${fmtNum(Math.abs(uebInt))} Stellplätze Überschuss)`;
+      poly.bindPopup(`<strong>${polyName}</strong><br>${status}<br>Stellplätze: ${stellpl} · Ausweise: ${ausw}`);
+    }
+  });
+}
+
+init();
+</script>
+</body>
+</html>

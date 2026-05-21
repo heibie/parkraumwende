@@ -110,6 +110,20 @@
       .download-box { flex-direction: column; align-items: flex-start; }
     }
   </style>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://piwik.bielinski.de/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '11']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
 </head>
 <body>
 
@@ -263,6 +277,32 @@
       <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München – eigene Recherche</span>
       <span class="meta-tag"><span class="label">Stand</span> 2026</span>
       <span class="meta-tag source-link"><a href="data/parklizenzen_europa.csv">↓ Download</a></span>
+    </div>
+  </div>
+
+  <div class="source-card" id="parkscheibe">
+    <div class="source-title">Einnahmepotenzial Parkscheiben-Stellplätze München</div>
+    <div class="source-file">data/kalkulation_parkscheibe_parkschein.csv</div>
+    <div class="source-desc">
+      Berechnung der potenziellen Einnahmen aus 9.800 aktuell kostenlos nutzbaren Parkscheiben-Stellplätzen bei Einführung einer Parkscheinpflicht (14 h/Tag, 2,60 €/h). Dargestellt für fünf Auslastungsszenarien (10–100 %).
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München – eigene Berechnung</span>
+      <span class="meta-tag"><span class="label">Stand</span> 2026</span>
+      <span class="meta-tag source-link"><a href="data/kalkulation_parkscheibe_parkschein.csv">↓ Download</a></span>
+    </div>
+  </div>
+
+  <div class="source-card" id="lizenz-einnahmen">
+    <div class="source-title">Einnahmepotenzial Parklizenzen München</div>
+    <div class="source-file">data/kalkulation_parklizenz_preise.csv</div>
+    <div class="source-desc">
+      Berechnung der jährlichen Einnahmen aus Anwohnerparkausweisen in München bei aktuellem Preis (30 €/Jahr) und dem bereits heute in der Münchner Altstadt geltenden Preis (102 €/Jahr). Grundlage: ca. 120.000 vergebene Parklizenzen in München.
+    </div>
+    <div class="source-meta">
+      <span class="meta-tag"><span class="label">Herausgeber</span> Parkraumwende München – eigene Berechnung</span>
+      <span class="meta-tag"><span class="label">Stand</span> 2026</span>
+      <span class="meta-tag source-link"><a href="data/kalkulation_parklizenz_preise.csv">↓ Download</a></span>
     </div>
   </div>
 

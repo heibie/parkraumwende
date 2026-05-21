@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-21 02:02:01",
-    "frei_gesamt": 3070,
-    "belegt_gesamt": 1077,
+    "timestamp": "2026-05-21 03:02:01",
+    "frei_gesamt": 3071,
+    "belegt_gesamt": 1076,
     "kap_gesamt": 4147,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 238,
+            "frei": 239,
             "kap": 296,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 151,
+            "frei": 152,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 364,
+            "frei": 363,
             "kap": 526,
             "aktiv": true
         },

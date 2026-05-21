@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-21 01:02:01",
-    "frei_gesamt": 3064,
-    "belegt_gesamt": 1083,
+    "timestamp": "2026-05-21 02:02:01",
+    "frei_gesamt": 3070,
+    "belegt_gesamt": 1077,
     "kap_gesamt": 4147,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 236,
+            "frei": 238,
             "kap": 296,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 257,
+            "frei": 260,
             "kap": 275,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 152,
+            "frei": 151,
             "kap": 160,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 109,
+            "frei": 110,
             "kap": 197,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 86,
+            "frei": 87,
             "kap": 104,
             "aktiv": true
         },

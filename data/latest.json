@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-05-21 03:02:01",
+    "timestamp": "2026-05-21 04:02:01",
     "frei_gesamt": 3071,
     "belegt_gesamt": 1076,
     "kap_gesamt": 4147,
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 363,
+            "frei": 362,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 231,
+            "frei": 232,
             "kap": 316,
             "aktiv": true
         },

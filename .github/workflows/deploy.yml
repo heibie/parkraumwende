@@ -25,7 +25,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H -p 22 "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-          rsync -az --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
+          rsync -az --delete --inplace -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='scripts' \

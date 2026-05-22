@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-22 04:02:01",
-    "frei_gesamt": 3043,
-    "belegt_gesamt": 1141,
+    "timestamp": "2026-05-22 05:02:01",
+    "frei_gesamt": 3045,
+    "belegt_gesamt": 1139,
     "kap_gesamt": 4184,
     "parkhaeuser": [
         {
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 122,
+            "frei": 123,
             "kap": 197,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 78,
+            "frei": 79,
             "kap": 104,
             "aktiv": true
         },

@@ -3311,7 +3311,8 @@ async function initStatistiken() {
     const r30  = prRows.find(r => Number(r['Preis/Jahr']) === 30);
     const r102 = prRows.find(r => Number(r['Preis/Jahr']) === 102);
     const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
-    new Chart(document.getElementById('chart-lizenz-einnahmen'), {
+    const elLizenz = document.getElementById('chart-lizenz-einnahmen');
+    if (elLizenz) new Chart(elLizenz, {
       type: 'bar',
       plugins: [ChartDataLabels],
       data: {
@@ -3372,7 +3373,8 @@ async function initStatistiken() {
     const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
     const jahresWerte = psRows.map(r => parseDE(r['Jahreseinnahmen alle']));
     const auslastungen = psRows.map(r => Number(r['Auslastung in %']) + ' %');
-    new Chart(document.getElementById('chart-parkscheibe-jahreseinnahmen'), {
+    const elParkscheibe = document.getElementById('chart-parkscheibe-jahreseinnahmen');
+    if (elParkscheibe) new Chart(elParkscheibe, {
       type: 'bar',
       plugins: [ChartDataLabels],
       data: {

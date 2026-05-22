@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-22 02:02:01",
-    "frei_gesamt": 3040,
-    "belegt_gesamt": 1144,
+    "timestamp": "2026-05-22 03:02:01",
+    "frei_gesamt": 3039,
+    "belegt_gesamt": 1145,
     "kap_gesamt": 4184,
     "parkhaeuser": [
         {
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 93,
+            "frei": 92,
             "kap": 150,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 79,
+            "frei": 78,
             "kap": 104,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 211,
+            "frei": 212,
             "kap": 222,
             "aktiv": true
         },

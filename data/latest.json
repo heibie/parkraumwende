@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-24 03:02:01",
-    "frei_gesamt": 3329,
-    "belegt_gesamt": 1003,
+    "timestamp": "2026-05-24 04:02:01",
+    "frei_gesamt": 3341,
+    "belegt_gesamt": 991,
     "kap_gesamt": 4332,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 257,
+            "frei": 265,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 157,
+            "frei": 158,
             "kap": 193,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 372,
+            "frei": 373,
             "kap": 526,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 245,
+            "frei": 247,
             "kap": 267,
             "aktiv": true
         },

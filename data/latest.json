@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-25 03:02:01",
-    "frei_gesamt": 3440,
-    "belegt_gesamt": 827,
+    "timestamp": "2026-05-25 04:02:01",
+    "frei_gesamt": 3448,
+    "belegt_gesamt": 819,
     "kap_gesamt": 4267,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 266,
+            "frei": 268,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 260,
+            "frei": 262,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 215,
+            "frei": 216,
             "kap": 316,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 124,
+            "frei": 123,
             "kap": 197,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 135,
+            "frei": 136,
             "kap": 147,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 253,
+            "frei": 256,
             "kap": 267,
             "aktiv": true
         },

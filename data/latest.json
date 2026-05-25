@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-25 02:02:01",
-    "frei_gesamt": 3434,
-    "belegt_gesamt": 833,
+    "timestamp": "2026-05-25 03:02:01",
+    "frei_gesamt": 3440,
+    "belegt_gesamt": 827,
     "kap_gesamt": 4267,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 265,
+            "frei": 266,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 261,
+            "frei": 260,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 153,
+            "frei": 154,
             "kap": 193,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 248,
+            "frei": 253,
             "kap": 267,
             "aktiv": true
         },

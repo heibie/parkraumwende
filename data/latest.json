@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-25 05:02:01",
-    "frei_gesamt": 3453,
-    "belegt_gesamt": 814,
+    "timestamp": "2026-05-25 06:02:01",
+    "frei_gesamt": 3458,
+    "belegt_gesamt": 809,
     "kap_gesamt": 4267,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 268,
+            "frei": 267,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 265,
+            "frei": 273,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 362,
+            "frei": 360,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 174,
+            "frei": 173,
             "kap": 250,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 257,
+            "frei": 258,
             "kap": 267,
             "aktiv": true
         },

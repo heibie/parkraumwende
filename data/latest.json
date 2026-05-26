@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-26 01:02:01",
-    "frei_gesamt": 3555,
-    "belegt_gesamt": 712,
+    "timestamp": "2026-05-26 02:02:01",
+    "frei_gesamt": 3560,
+    "belegt_gesamt": 707,
     "kap_gesamt": 4267,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 192,
+            "frei": 191,
             "kap": 266,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 272,
+            "frei": 264,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 257,
+            "frei": 269,
             "kap": 357,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 415,
+            "frei": 416,
             "kap": 476,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 92,
+            "frei": 93,
             "kap": 104,
             "aktiv": true
         },

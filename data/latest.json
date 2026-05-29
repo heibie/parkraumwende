@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-29 02:02:01",
-    "frei_gesamt": 2915,
-    "belegt_gesamt": 1299,
+    "timestamp": "2026-05-29 03:02:01",
+    "frei_gesamt": 2918,
+    "belegt_gesamt": 1296,
     "kap_gesamt": 4214,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 146,
+            "frei": 148,
             "kap": 357,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 137,
+            "frei": 138,
             "kap": 147,
             "aktiv": true
         },

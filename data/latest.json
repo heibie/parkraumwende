@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-30 05:02:01",
-    "frei_gesamt": 2804,
-    "belegt_gesamt": 1418,
+    "timestamp": "2026-05-30 06:02:01",
+    "frei_gesamt": 2811,
+    "belegt_gesamt": 1411,
     "kap_gesamt": 4222,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 227,
+            "frei": 228,
             "kap": 296,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 354,
+            "frei": 353,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 143,
+            "frei": 150,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 129,
+            "frei": 128,
             "kap": 160,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 240,
+            "frei": 238,
             "kap": 295,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 107,
+            "frei": 108,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 329,
+            "frei": 330,
             "kap": 421,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 128,
+            "frei": 129,
             "kap": 155,
             "aktiv": true
         },

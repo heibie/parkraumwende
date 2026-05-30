@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-30 04:02:01",
-    "frei_gesamt": 2789,
-    "belegt_gesamt": 1433,
+    "timestamp": "2026-05-30 05:02:01",
+    "frei_gesamt": 2804,
+    "belegt_gesamt": 1418,
     "kap_gesamt": 4222,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 132,
+            "frei": 143,
             "kap": 357,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 239,
+            "frei": 240,
             "kap": 295,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 106,
+            "frei": 107,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 328,
+            "frei": 329,
             "kap": 421,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 214,
+            "frei": 215,
             "kap": 227,
             "aktiv": true
         },

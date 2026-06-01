@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-01 04:02:01",
-    "frei_gesamt": 3009,
-    "belegt_gesamt": 1215,
+    "timestamp": "2026-06-01 05:02:01",
+    "frei_gesamt": 3007,
+    "belegt_gesamt": 1217,
     "kap_gesamt": 4224,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 196,
+            "frei": 197,
             "kap": 266,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 294,
+            "frei": 291,
             "kap": 357,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 263,
+            "frei": 262,
             "kap": 295,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 140,
+            "frei": 141,
             "kap": 147,
             "aktiv": true
         },

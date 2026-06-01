@@ -293,6 +293,9 @@
     .poi-num  { padding: 2px 5px; white-space: nowrap; }
     .poi-frei     { border-color: #16a34a; border-width: 2.5px; box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 0 2px rgba(22,163,74,0.35); }
     .poi-unverified { background: #6b7280 !important; border: 2px dashed #f59e0b !important; opacity: 0.85; }
+    .filter-preview-section { background: #fff8ed; border: 1px solid #f59e0b; border-radius: 6px; padding: 4px 0; margin-bottom: 12px; }
+    .filter-preview-section .filter-group-header { cursor: default; }
+    .filter-preview-section .filter-group-title { color: #92400e; font-weight: 700; }
 
     /* Add-mode FAB + banner */
     .map-fab {
@@ -2387,8 +2390,9 @@ function closePsDetail() {
 // ── Filter-Sidebar aufbauen ──────────────────
 
 const activeFilters = { typ: new Set(), bew: new Set(), quelle: new Set(), immo: new Set() };
-let filterDauerparken   = false;
-let filterParkplatzFrei = false;
+let filterDauerparken    = false;
+let filterParkplatzFrei  = false;
+let filterUnverifiedOnly = false;
 
 function buildFilters() {
   const counts = { typ: {}, bew: {}, quelle: {}, immo: {} };
@@ -2406,6 +2410,7 @@ function buildFilters() {
 
   const el = document.getElementById('filter-body');
   el.innerHTML = '';
+  if (previewMode) el.appendChild(buildPreviewFilter());
   const filterHeading = document.createElement('div');
   filterHeading.className = 'filter-section-label';
   filterHeading.textContent = 'Filter';
@@ -2455,6 +2460,29 @@ function buildGroup(title, key, counts, withDots) {
   });
 
   return div;
+}
+
+function buildPreviewFilter() {
+  const cnt = allMarkers.filter(m => m.unverified).length;
+  const div = document.createElement('div');
+  div.className = 'filter-group filter-preview-section open';
+  div.innerHTML = `
+    <div class="filter-group-header">
+      <span class="filter-group-title">⚠ Vorschau-Modus</span>
+    </div>
+    <div class="filter-options">
+      <label class="filter-option">
+        <input type="checkbox" id="cb-unverified" onchange="onUnverifiedChange()">
+        <span class="filter-option-label">Nur unverifizierte anzeigen</span>
+        <span class="filter-option-count">${cnt}</span>
+      </label>
+    </div>`;
+  return div;
+}
+
+function onUnverifiedChange() {
+  filterUnverifiedOnly = document.getElementById('cb-unverified').checked;
+  applyFilters();
 }
 
 function buildDauerparken() {
@@ -2512,6 +2540,11 @@ function onFilterChange() {
 function applyFilters() {
   let visible = 0;
   allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, unverified }) => {
+    if (filterUnverifiedOnly) {
+      const show = unverified;
+      if (show) { marker.addTo(mapUebersicht); visible++; } else { marker.remove(); }
+      return;
+    }
     if (previewMode && unverified) { marker.addTo(mapUebersicht); visible++; return; }
     const immoOk = immo.length === 0 || immo.some(v => activeFilters.immo.has(v));
     const show = activeFilters.typ.has(typ)

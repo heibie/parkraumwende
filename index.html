@@ -292,6 +292,7 @@
     .poi-dot  { width: 9px; height: 9px; border-radius: 50%; }
     .poi-num  { padding: 2px 5px; white-space: nowrap; }
     .poi-frei     { border-color: #16a34a; border-width: 2.5px; box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 0 2px rgba(22,163,74,0.35); }
+    .poi-unverified { background: #6b7280 !important; border: 2px dashed #f59e0b !important; opacity: 0.85; }
 
     /* Add-mode FAB + banner */
     .map-fab {
@@ -2009,25 +2010,29 @@ const TYP_COLORS = {
 };
 function typColor(typ) { return TYP_COLORS[typ] || '#62707c'; }
 
-function makeMarkerIcon(color, plaetze, frei, selected = false) {
+function makeMarkerIcon(color, plaetze, frei, selected = false, unverified = false) {
   const n    = parseInt(plaetze) || 0;
-  const cls  = (frei ? ' poi-frei' : '') + (selected ? ' poi-selected' : '');
+  const cls  = (frei ? ' poi-frei' : '') + (selected ? ' poi-selected' : '') + (unverified ? ' poi-unverified' : '');
+  const bg   = unverified ? '#6b7280' : color;
   if (n > 0) {
+    const label = unverified ? '?' : n;
     const w = n >= 1000 ? 36 : n >= 100 ? 30 : 26;
     return L.divIcon({
       className: '',
-      html: `<div class="poi-marker poi-num${cls}" style="background:${color}">${n}</div>`,
-      iconSize: [w, 17],
-      iconAnchor: [w / 2, 8],
+      html: `<div class="poi-marker poi-num${cls}" style="background:${bg}">${label}</div>`,
+      iconSize: [unverified ? 20 : w, 17],
+      iconAnchor: [unverified ? 10 : w / 2, 8],
     });
   }
   return L.divIcon({
     className: '',
-    html: `<div class="poi-marker poi-dot${cls}" style="background:${color}"></div>`,
+    html: `<div class="poi-marker poi-dot${cls}" style="background:${bg}"></div>`,
     iconSize: [9, 9],
     iconAnchor: [4, 4],
   });
 }
+
+const previewMode = new URLSearchParams(window.location.search).has('preview');
 
 let mapUebersicht = null;
 let allMarkers    = [];
@@ -2062,6 +2067,9 @@ async function initUebersicht() {
     const typ     = (r['Typ'] || '').trim();
     if (!typ || typ.startsWith('http')) return;
 
+    const verifiziert = String(r['Verifiziert'] || '').trim().toLowerCase() === 'ja';
+    if (!previewMode && !verifiziert) return;
+
     const name        = (r['Name'] || '–').trim();
     const bew         = (r['Bewirtschaftungsart'] || '').trim();
     const quelle      = (r['Quelle'] || '').trim();
@@ -2091,16 +2099,18 @@ async function initUebersicht() {
       url2:         (r['URL 2']          || '').trim(),
       kontakt:      (r['Kontakt']        || '').trim(),
       bemerkung:    (r['Bemerkung']      || '').trim(),
-      aktiv, inactive,
+      issue:        (r['Issue']          || '').toString().trim(),
+      aktiv, inactive, verifiziert,
     };
 
+    const unverified = !verifiziert;
     const marker = L.marker([lat, lon], {
-      icon: makeMarkerIcon(color, d.plaetze, parkplatzFrei, false, inactive),
+      icon: makeMarkerIcon(color, d.plaetze, parkplatzFrei, false, unverified),
     }).addTo(mapUebersicht);
 
     marker.on('click', (e) => { L.DomEvent.stopPropagation(e); showDetail(d, marker); });
 
-    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive });
+    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive, unverified });
   });
 
   // Karte-Statistiken befüllen (aus allMarkers – gleiche Basis wie Filter-Count)
@@ -2332,12 +2342,14 @@ function showDetail(d, marker) {
 
   // Info / Meta
   const meta = [];
+  if (d.issue && previewMode) meta.push(['GitHub Issue', `<a href="https://github.com/heibie/parkraumwende/issues/${d.issue}" target="_blank" rel="noopener">#${d.issue}</a>`, true]);
+  if (!d.verifiziert && previewMode) meta.push(['Status', '⚠ Unverifiziert']);
   if (d.kontakt)   meta.push(['Kontakt',   d.kontakt]);
   if (d.bemerkung) meta.push(['Bemerkung', d.bemerkung]);
   if (meta.length) {
     html += `<div class="detail-section"><div class="detail-section-title">Info</div>`;
-    meta.forEach(([l, v]) => {
-      html += `<div class="detail-row"><span class="detail-label">${esc(l)}</span><span class="detail-value">${esc(v)}</span></div>`;
+    meta.forEach(([l, v, raw]) => {
+      html += `<div class="detail-row"><span class="detail-label">${esc(l)}</span><span class="detail-value">${raw ? v : esc(v)}</span></div>`;
     });
     html += `</div>`;
   }
@@ -2499,7 +2511,8 @@ function onFilterChange() {
 
 function applyFilters() {
   let visible = 0;
-  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei }) => {
+  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, unverified }) => {
+    if (previewMode && unverified) { marker.addTo(mapUebersicht); visible++; return; }
     const immoOk = immo.length === 0 || immo.some(v => activeFilters.immo.has(v));
     const show = activeFilters.typ.has(typ)
               && activeFilters.bew.has(bew)

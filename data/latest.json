@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-01 03:02:01",
-    "frei_gesamt": 3011,
-    "belegt_gesamt": 1213,
+    "timestamp": "2026-06-01 04:02:01",
+    "frei_gesamt": 3009,
+    "belegt_gesamt": 1215,
     "kap_gesamt": 4224,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 295,
+            "frei": 294,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 164,
+            "frei": 165,
             "kap": 316,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 95,
+            "frei": 93,
             "kap": 197,
             "aktiv": true
         },

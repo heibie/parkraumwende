@@ -314,6 +314,18 @@
     }
     .map-fab:hover  { background: var(--primary-d); transform: scale(1.08); }
     .map-fab.active { background: #dc2626; }
+    .locate-fab.active { background: #2563eb !important; }
+    .locate-fab.loading { opacity: 0.55; cursor: wait; }
+    .location-dot {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #2563eb; border: 2.5px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      animation: loc-pulse 2s ease-in-out infinite;
+    }
+    @keyframes loc-pulse {
+      0%, 100% { box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 0   rgba(37,99,235,.4); }
+      50%       { box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 10px rgba(37,99,235,0);  }
+    }
 
     /* ── Adresssuche ── */
     .search-control {
@@ -1814,6 +1826,7 @@
           <div class="form-group">
             <label>Typ *</label>
             <select id="f-typ">
+              <option value="">– bitte wählen –</option>
               <option value="Parkhaus">Parkhaus</option>
               <option value="Tiefgarage">Tiefgarage</option>
               <option value="Tiefgarage (Wohnanlage)">Tiefgarage (Wohnanlage)</option>
@@ -1836,16 +1849,6 @@
             </select>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Anzahl Stellplätze</label>
-            <input type="number" id="f-plaetze" placeholder="z.B. 200" min="1" enterkeyhint="next" inputmode="numeric">
-          </div>
-          <div class="form-group">
-            <label>Davon frei</label>
-            <input type="number" id="f-frei" placeholder="z.B. 50" min="0" enterkeyhint="next" inputmode="numeric">
-          </div>
-        </div>
         <div class="form-group">
           <label>Immobilientyp (Strg/Cmd für Mehrfachauswahl)</label>
           <select id="f-immo" multiple>
@@ -1858,12 +1861,59 @@
             <option value="Sonstiges Gewerbe">Sonstiges Gewerbe</option>
           </select>
         </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Anzahl Stellplätze</label>
+            <input type="number" id="f-plaetze" placeholder="z.B. 200" min="1" enterkeyhint="next" inputmode="numeric">
+          </div>
+          <div class="form-group">
+            <label>Davon frei</label>
+            <input type="number" id="f-frei" placeholder="z.B. 50" min="0" enterkeyhint="next" inputmode="numeric">
+          </div>
+        </div>
         <div class="form-group">
           <label>Verfügbarkeit</label>
           <div class="form-checks">
             <label class="form-check"><input type="checkbox" id="f-dauerparken"> Dauerparken möglich</label>
             <label class="form-check"><input type="checkbox" id="f-kurzzeitparken"> Kurzzeitparken möglich</label>
           </div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <label>Preis / Monat (€)</label>
+            <input type="number" id="f-preis-monat" placeholder="z.B. 80" min="0" step="0.01" enterkeyhint="next" inputmode="decimal">
+          </div>
+          <div class="form-group">
+            <label>Preis / Tag (€)</label>
+            <input type="number" id="f-preis-tag" placeholder="z.B. 15" min="0" step="0.01" enterkeyhint="next" inputmode="decimal">
+          </div>
+          <div class="form-group">
+            <label>Preis / Stunde (€)</label>
+            <input type="number" id="f-preis-stunde" placeholder="z.B. 2.50" min="0" step="0.01" enterkeyhint="next" inputmode="decimal">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Öffnungszeiten</label>
+            <input type="text" id="f-oeffnung" placeholder="z.B. Mo–Fr 7–22 Uhr, Sa 8–20 Uhr" enterkeyhint="next" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>Einfahrtshöhe (m)</label>
+            <input type="number" id="f-hoehe" placeholder="z.B. 2.10" min="0" step="0.01" enterkeyhint="next" inputmode="decimal">
+          </div>
+        </div>
+      </div>
+
+      <!-- Zusätzliche Informationen -->
+      <div class="form-section">
+        <div class="form-section-title">Zusätzliche Informationen</div>
+        <div class="form-group">
+          <label>Weiterführender Link (URL)</label>
+          <input type="url" id="f-url" placeholder="https://…" enterkeyhint="next" inputmode="url" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Bemerkung</label>
+          <textarea id="f-bemerkung" placeholder="Weitere Informationen, Hinweise…" enterkeyhint="send"></textarea>
         </div>
       </div>
 
@@ -1877,15 +1927,6 @@
         <div class="form-group">
           <label>E-Mail</label>
           <input type="email" id="f-email" placeholder="für Rückfragen (wird nicht veröffentlicht)" enterkeyhint="next" inputmode="email" autocomplete="email">
-        </div>
-      </div>
-
-      <!-- Zusätzliche Informationen -->
-      <div class="form-section">
-        <div class="form-section-title">Zusätzliche Informationen</div>
-        <div class="form-group">
-          <label>Bemerkung</label>
-          <textarea id="f-bemerkung" placeholder="Weitere Informationen, Hinweise, Links…" enterkeyhint="send"></textarea>
         </div>
       </div>
 
@@ -2156,6 +2197,45 @@ async function initUebersicht() {
     },
   });
   new AddFab().addTo(mapUebersicht);
+
+  // Locate FAB
+  let locateMarker = null;
+  let locateActive = false;
+  const LocateFab = L.Control.extend({
+    options: { position: 'bottomright' },
+    onAdd() {
+      const btn = L.DomUtil.create('button', 'map-fab locate-fab');
+      btn.title = 'Meinen Standort anzeigen';
+      btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6.5"/><line x1="12" y1="17.5" x2="12" y2="22"/><line x1="2" y1="12" x2="6.5" y2="12"/><line x1="17.5" y1="12" x2="22" y2="12"/></svg>`;
+      L.DomEvent.on(btn, 'click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        if (locateActive) {
+          if (locateMarker) { locateMarker.remove(); locateMarker = null; }
+          locateActive = false;
+          btn.classList.remove('active');
+          return;
+        }
+        if (!navigator.geolocation) return;
+        btn.classList.add('loading');
+        navigator.geolocation.getCurrentPosition(
+          ({ coords: { latitude: lat, longitude: lng } }) => {
+            btn.classList.remove('loading');
+            locateActive = true;
+            btn.classList.add('active');
+            if (locateMarker) locateMarker.remove();
+            locateMarker = L.marker([lat, lng], {
+              icon: L.divIcon({ className: '', html: '<div class="location-dot"></div>', iconSize: [20, 20], iconAnchor: [10, 10] }),
+              zIndexOffset: 1000,
+            }).addTo(mapUebersicht);
+            mapUebersicht.flyTo([lat, lng], Math.max(mapUebersicht.getZoom(), 16), { duration: 1.2 });
+          },
+          () => { btn.classList.remove('loading'); }
+        );
+      });
+      return btn;
+    },
+  });
+  new LocateFab().addTo(mapUebersicht);
 
   const FilterFab = L.Control.extend({
     options: { position: 'bottomleft' },
@@ -2838,6 +2918,12 @@ async function submitForm() {
         immotyp:        immo,
         dauerparken:    document.getElementById('f-dauerparken').checked ? 'Ja' : 'Nein',
         kurzzeitparken: document.getElementById('f-kurzzeitparken').checked ? 'Ja' : 'Nein',
+        preis_monat:    document.getElementById('f-preis-monat').value.trim(),
+        preis_tag:      document.getElementById('f-preis-tag').value.trim(),
+        preis_stunde:   document.getElementById('f-preis-stunde').value.trim(),
+        oeffnung:       document.getElementById('f-oeffnung').value.trim(),
+        hoehe:          document.getElementById('f-hoehe').value.trim(),
+        url:            document.getElementById('f-url').value.trim(),
         bemerkung:      document.getElementById('f-bemerkung').value.trim(),
         correction_of:  _correctionD ? (_correctionD.id || _correctionD.name) : '',
         changes,

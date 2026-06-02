@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-03 00:02:01",
-    "frei_gesamt": 3587,
-    "belegt_gesamt": 627,
+    "timestamp": "2026-06-03 01:02:01",
+    "frei_gesamt": 3591,
+    "belegt_gesamt": 623,
     "kap_gesamt": 4214,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 256,
+            "frei": 257,
             "kap": 316,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 275,
+            "frei": 265,
             "kap": 275,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 159,
+            "frei": 158,
             "kap": 170,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 176,
+            "frei": 177,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 364,
+            "frei": 369,
             "kap": 421,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 76,
+            "frei": 82,
             "kap": 104,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 210,
+            "frei": 212,
             "kap": 217,
             "aktiv": true
         },

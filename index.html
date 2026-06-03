@@ -3032,21 +3032,18 @@ async function initParklizenz() {
   document.getElementById('plz-stat-ausweise').textContent   = fmtNum(ausweisenSum);
 
   // Map
-  const map = L.map('map-parklizenz', {
-    center: [48.137, 11.575],
-    zoom: 13,
-    zoomControl: true,
-  });
+  const map = L.map('map-parklizenz', { zoomControl: true });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap contributors © CARTO',
     maxZoom: 19,
   }).addTo(map);
 
   // Unbewirtschaftete Fläche (München gesamt minus Lizenzgebiete)
-  L.geoJSON(unbewirtschaftetGeoJson, {
+  const unbewLayer = L.geoJSON(unbewirtschaftetGeoJson, {
     style: { color: '#ea580c', weight: 1, fillColor: '#fff3e0', fillOpacity: 0.5, dashArray: null },
     interactive: false,
   }).addTo(map);
+  map.fitBounds(unbewLayer.getBounds(), { padding: [16, 16] });
 
   const bounds = [];
 

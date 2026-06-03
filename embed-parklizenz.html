@@ -114,16 +114,17 @@ async function init() {
   const lizenzByName = {};
   lizenzRows.forEach(r => { if (r['Lizenzgebiet']) lizenzByName[r['Lizenzgebiet']] = r; });
 
-  const map = L.map('map', { center: [48.137, 11.575], zoom: 12, zoomControl: true });
+  const map = L.map('map', { zoomControl: true });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap contributors © CARTO', maxZoom: 19,
   }).addTo(map);
 
   // Unbewirtschaftete Fläche
-  L.geoJSON(unbewGeoJson, {
+  const unbewLayer = L.geoJSON(unbewGeoJson, {
     style: { color: '#ea580c', weight: 1, fillColor: '#fff3e0', fillOpacity: 0.5 },
     interactive: false,
   }).addTo(map);
+  map.fitBounds(unbewLayer.getBounds(), { padding: [16, 16] });
 
   // Lizenzgebiet-Polygone
   polyRows.forEach(row => {

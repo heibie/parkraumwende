@@ -174,7 +174,7 @@ const CHARTS = {
   },
   'preis': {
     title:  'Preissteigerungen ÖPNV vs. Parklizenz seit 2010',
-    sub:    'Streifenkarte & Parkraum ab 2010, Deutschlandticket ab 2022',
+    sub:    'Startpreise und aktueller Stand laut CSV · Deutschlandticket ab erstem verfügbaren Jahr',
     source: 'MVV / LHM',
     init:   initPreis,
   },
@@ -585,8 +585,18 @@ async function initModalSplit() {
 }
 
 async function initPreis() {
-  const thenVals  = [11.50, 9.00, 30.00];
-  const nowVals   = [18.70, 63.00, 30.00];
+  const numDE = v => { const s = (v||'').toString().replace(/\s/g,'').replace(',','.'); return s===''?null:(parseFloat(s)||null); };
+  const preisRows = await loadCsv('data/preissteigerung_oepnv_parken.csv');
+  const cols = ['Streifenkarte', 'Deutschlandticket', 'Parkraum Lizenz'];
+  const colLabels = ['Streifenkarte MVV', 'Deutschlandticket', 'Parkraum-Lizenz'];
+  const colUnits  = ['€/Karte', '€/Monat', '€/Jahr'];
+  const thenVals = [], nowVals = [], thenYears = [];
+  cols.forEach(col => {
+    const entries = preisRows.map(r => ({ jahr: parseInt(r['Jahr']), val: numDE(r[col]) })).filter(e => e.val !== null);
+    thenVals.push(entries[0]?.val ?? 0);
+    nowVals.push(entries[entries.length - 1]?.val ?? 0);
+    thenYears.push(entries[0]?.jahr ?? '');
+  });
   const catColors = [COLORS.blau, COLORS.gruen, '#f59e0b'];
   const pcts = nowVals.map((v, i) => +((v / thenVals[i] - 1) * 100).toFixed(0));
   const changeLabelPlugin = {
@@ -609,11 +619,7 @@ async function initPreis() {
     type: 'bar',
     plugins: [changeLabelPlugin],
     data: {
-      labels: [
-        ['Streifenkarte MVV', '(€/Karte, ab 2010)'],
-        ['Deutschlandticket', '(€/Monat, ab 2022)'],
-        ['Parkraum-Lizenz', '(€/Jahr, ab 2010)'],
-      ],
+      labels: cols.map((_, i) => [colLabels[i], `(${colUnits[i]}, ab ${thenYears[i]})`]),
       datasets: [
         { label: 'Startpreis', data: thenVals,
           backgroundColor: catColors.map(c => c + '55'), borderColor: catColors, borderWidth: 1 },

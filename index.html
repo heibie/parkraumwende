@@ -1678,7 +1678,7 @@
       <div class="stat-card">
         <div class="stat-card-head" data-chart="preis">
           <div><div class="stat-card-title">Preissteigerungen ÖPNV vs. Parklizenz seit 2010</div>
-          <div class="stat-card-sub">Startpunkt: Streifenkarte &amp; Parkraum 2010, Deutschlandticket 2022 (9-Euro-Ticket)</div></div>
+          <div class="stat-card-sub">Startpunkt: Streifenkarte &amp; Parkraum 2010, Deutschlandticket 2023</div></div>
           <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
@@ -3803,9 +3803,17 @@ async function initStatistiken() {
   // Chart 9: Preisvergleich damals vs. heute
   {
     const numDE = v => { const s = trim(v).replace(/\s/g,'').replace(',','.'); return s===''?null:(parseFloat(s)||null); };
-    // Fixed data points: 2016/2023 (then) vs 2026 (now)
-    const thenVals = [11.50, 9.00, 30.00];
-    const nowVals  = [18.70, 63.00, 30.00];
+    const preisRows = await loadCsv('data/preissteigerung_oepnv_parken.csv');
+    const cols = ['Streifenkarte', 'Deutschlandticket', 'Parkraum Lizenz'];
+    const colLabels = ['Streifenkarte MVV', 'Deutschlandticket', 'Parkraum-Lizenz'];
+    const colUnits  = ['€/Karte', '€/Monat', '€/Jahr'];
+    const thenVals = [], nowVals = [], thenYears = [];
+    cols.forEach(col => {
+      const entries = preisRows.map(r => ({ jahr: parseInt(r['Jahr']), val: numDE(r[col]) })).filter(e => e.val !== null);
+      thenVals.push(entries[0]?.val ?? 0);
+      nowVals.push(entries[entries.length - 1]?.val ?? 0);
+      thenYears.push(entries[0]?.jahr ?? '');
+    });
     const catColors = [COLORS.blau, COLORS.gruen, '#f59e0b'];
     const pcts = nowVals.map((v, i) => +((v / thenVals[i] - 1) * 100).toFixed(0));
 
@@ -3831,11 +3839,7 @@ async function initStatistiken() {
       type: 'bar',
       plugins: [changeLabelPlugin],
       data: {
-        labels: [
-          ['Streifenkarte MVV', '(€/Karte, ab 2010)'],
-          ['Deutschlandticket', '(€/Monat, ab 2022)'],
-          ['Parkraum-Lizenz', '(€/Jahr, ab 2010)'],
-        ],
+        labels: cols.map((_, i) => [colLabels[i], `(${colUnits[i]}, ab ${thenYears[i]})`]),
         datasets: [
           { label: 'Startpreis',
             data: thenVals,

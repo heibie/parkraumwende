@@ -33,6 +33,16 @@
     .e-foot a:hover { text-decoration: underline; }
 
     .e-err { display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 0.82rem; }
+
+    .ps-table { width: 100%; border-collapse: collapse; }
+    .ps-table th { padding: 7px 16px; border-bottom: 2px solid #e8ebee; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #62707c; text-align: left; }
+    .ps-table th.col-val { text-align: right; }
+    .ps-table td { padding: 9px 16px; border-bottom: 1px solid #e8ebee; font-size: 0.875rem; vertical-align: middle; }
+    .ps-table tr:last-child td { border-bottom: none; }
+    .ps-table .col-val { text-align: right; font-weight: 700; font-size: 0.95rem; color: #272c30; white-space: nowrap; }
+    .pct-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #e8f4fd; color: #1e3a5f; font-size: 0.75rem; font-weight: 600; }
+    .ps-table tr.row-realistic .pct-badge { background: #d1fae5; color: #065f46; }
+    .ps-table tr.row-realistic .col-val { color: #009076; }
   </style>
   <!-- Matomo -->
   <script>
@@ -105,6 +115,18 @@ const CHARTS = {
     sub:    'München zahlt mit 30 € pro Jahr europaweit am wenigsten',
     source: 'Stadtverwaltungen – eigene Zusammenstellung',
     init:   initLizenzenEuropa,
+  },
+  'tbl-parkscheibe-platz': {
+    title:  'Ein Parkplatz · Tageseinnahme',
+    sub:    'Parkschein statt Parkscheibe – 14 h × 2,60 €',
+    source: 'LHM – eigene Berechnung',
+    init:   initTblParkscheibePlatz,
+  },
+  'tbl-parkscheibe-alle': {
+    title:  '9.800 Parkplätze · Tageseinnahmen',
+    sub:    'Parkschein statt Parkscheibe – Stundenpreis: 2,60 €',
+    source: 'LHM – eigene Berechnung',
+    init:   initTblParkscheibeAlle,
   },
   'parkscheibe-jahreseinnahmen': {
     title:  '9.800 Parkscheiben-Stellplätze · Jahreseinnahmen',
@@ -340,6 +362,27 @@ async function initLizenzenEuropa() {
       } },
   });
 }
+
+async function initTblParkscheibe(valueKey) {
+  const psRows = await loadCsv('data/kalkulation_parkscheibe_parkschein.csv');
+  const canvas = document.getElementById('chart');
+  const div = document.createElement('div');
+  div.style.cssText = 'width:100%;height:100%;overflow-y:auto';
+  canvas.parentNode.replaceChild(div, canvas);
+  const tbl = document.createElement('table');
+  tbl.className = 'ps-table';
+  tbl.innerHTML = '<thead><tr><th>Auslastung</th><th class="col-val">Einnahmen</th></tr></thead>';
+  psRows.forEach(r => {
+    const pct = Number(r['Auslastung in %']);
+    const tr = document.createElement('tr');
+    if (pct === 50) tr.className = 'row-realistic';
+    tr.innerHTML = `<td><span class="pct-badge">${pct} %</span></td><td class="col-val">${r[valueKey]}</td>`;
+    tbl.appendChild(tr);
+  });
+  div.appendChild(tbl);
+}
+async function initTblParkscheibePlatz() { await initTblParkscheibe('Tageseinnahme'); }
+async function initTblParkscheibeAlle()  { await initTblParkscheibe('Tageseinnahme alle'); }
 
 async function initParkscheibeJahr() {
   const rows = await loadCsv('data/kalkulation_parkscheibe_parkschein.csv');

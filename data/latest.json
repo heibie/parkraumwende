@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-04 06:02:01",
-    "frei_gesamt": 3489,
-    "belegt_gesamt": 740,
+    "timestamp": "2026-06-04 07:02:01",
+    "frei_gesamt": 3491,
+    "belegt_gesamt": 738,
     "kap_gesamt": 4229,
     "parkhaeuser": [
         {
@@ -16,7 +16,7 @@
             "sn": "106504",
             "ph": "P18",
             "parkhaus": "City-Parkhaus am Färbergraben",
-            "frei": 334,
+            "frei": 335,
             "kap": 350,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 267,
+            "frei": 266,
             "kap": 275,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 226,
+            "frei": 227,
             "kap": 316,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 93,
+            "frei": 94,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 355,
+            "frei": 354,
             "kap": 426,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 136,
+            "frei": 137,
             "kap": 147,
             "aktiv": true
         },

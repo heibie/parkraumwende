@@ -111,7 +111,7 @@ const CHARTS = {
     init:   initInnenstadtAuslastung,
   },
   'lizenzen-europa': {
-    title:  'Parkausweis-Jahresgebühr im Städtevergleich',
+    title:  'Parkausweis-Jahresgebühr im internationalen Städtevergleich',
     sub:    'München zahlt mit 30 € pro Jahr europaweit am wenigsten',
     source: 'Stadtverwaltungen – eigene Zusammenstellung',
     init:   initLizenzenEuropa,
@@ -136,7 +136,7 @@ const CHARTS = {
   },
   'lizenz-einnahmen': {
     title:  'Einnahmepotenzial Parklizenzen München',
-    sub:    'Was die Stadt einnimmt (30 €/Jahr) vs. was möglich wäre (102 €/Jahr – bereits heute Altstadt-Preis)',
+    sub:    'Was die Stadt einnimmt (30 €/Jahr) vs. was möglich wäre mit Gebühren, die andere deutsche Städte erheben · 120.000 vergebene Lizenzen',
     source: 'LHM – eigene Berechnung',
     init:   initLizenzEinnahmen,
   },
@@ -426,18 +426,22 @@ async function initParkscheibeJahr() {
 
 async function initLizenzEinnahmen() {
   const rows = await loadCsv('data/kalkulation_parklizenz_preise.csv');
-  const r30  = rows.find(r => Number(r['Preis/Jahr']) === 30);
-  const r102 = rows.find(r => Number(r['Preis/Jahr']) === 102);
   const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
+  const labels = rows.map(r => [r['Stadt'].trim(), Number(r['Preis/Jahr']).toLocaleString('de-DE') + ' €/Jahr']);
+  const values = rows.map(r => Number(r['Preis/Jahr']) * Number(r['Lizenzen vergeben']));
+  const colors = rows.map(r => r['Stadt'].trim() === 'München' ? '#e8384f' : '#2c2fdf');
+  const xMax   = Math.ceil(Math.max(...values) * 1.4 / 1e6) * 1e6;
+  const el = document.getElementById('chart');
+  if (el) el.height = rows.length * 50;
   new Chart(document.getElementById('chart'), {
     type: 'bar',
     plugins: [ChartDataLabels],
     data: {
-      labels: ['Aktuell · 30 €/Jahr', '102 €/Jahr (bereits Altstadt-Preis)'],
+      labels,
       datasets: [{
-        data: [Number(r30['Einnahmen/Jahr']), Number(r102['Einnahmen/Jahr'])],
-        backgroundColor: ['#2c2fdf', '#1e8a3e'],
-        barThickness: 40,
+        data: values,
+        backgroundColor: colors,
+        barThickness: 28,
       }],
     },
     options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
@@ -452,7 +456,7 @@ async function initLizenzEinnahmen() {
         },
       },
       scales: {
-        x: { max: 14500000,
+        x: { max: xMax,
           ticks: { callback: v => (v / 1e6).toLocaleString('de-DE') + ' Mio.', font: { size: 11 } },
           grid: { color: '#e8ebee' } },
         y: { ticks: { font: { size: 11 } }, grid: { display: false } },

@@ -1,3 +1,7 @@
-Preis/Jahr,Lizenzen vergeben,Einnahmen/Jahr
-30,120000,3600000
-102,120000,12240000
+Preis/Jahr,Stadt,Lizenzen vergeben
+30,München,120000
+102,Altstadt,120000
+200,Freiburg,120000
+240,Tübingen,120000
+360,Karlsruhe,120000
+767,Maximum,120000

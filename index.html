@@ -1517,7 +1517,7 @@
 
       <div class="stat-card">
         <div class="stat-card-head" data-chart="lizenzen-europa">
-          <div><div class="stat-card-title">Parkausweis-Jahresgebühr im Städtevergleich</div>
+          <div><div class="stat-card-title">Parkausweis-Jahresgebühr im internationalen Städtevergleich</div>
           <div class="stat-card-sub">München zahlt mit 30 € pro Jahr europaweit am wenigsten</div></div>
           <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
@@ -1530,11 +1530,11 @@
       <div class="stat-card">
         <div class="stat-card-head" data-chart="lizenz-einnahmen">
           <div><div class="stat-card-title">Einnahmepotenzial Parklizenzen München</div>
-          <div class="stat-card-sub">Was die Stadt einnimmt (30 €/Jahr) vs. was möglich wäre (102 €/Jahr – bereits heute in der Münchner Altstadt) · 120.000 vergebene Lizenzen</div></div>
+          <div class="stat-card-sub">Was die Stadt einnimmt (30 €/Jahr) vs. was möglich wäre mit Gebühren, die andere deutsche Städte erheben · 120.000 vergebene Lizenzen</div></div>
           <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
-          <canvas id="chart-lizenz-einnahmen" height="120"></canvas>
+          <canvas id="chart-lizenz-einnahmen"></canvas>
         </div>
         <div class="stat-card-foot"><a href="quellen.html#lizenz-einnahmen">Quelle: LHM – eigene Berechnung</a></div>
       </div>
@@ -3437,21 +3437,27 @@ async function initStatistiken() {
     });
   }
 
-  // 4. Einnahmepotenzial Parklizenzen – 30 € vs. 102 €
+  // 4. Einnahmepotenzial Parklizenzen – dynamisch aus CSV
   { const prRows = await loadCsv('data/kalkulation_parklizenz_preise.csv');
-    const r30  = prRows.find(r => Number(r['Preis/Jahr']) === 30);
-    const r102 = prRows.find(r => Number(r['Preis/Jahr']) === 102);
     const fmtMio = v => (v / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' Mio. €';
+    const palette = [COLORS.blau, COLORS.gruen, COLORS.orange, COLORS.dunkelblau];
+    const labels  = prRows.map(r => [r['Stadt'].trim(), Number(r['Preis/Jahr']).toLocaleString('de-DE') + ' €/Jahr']);
+    const values  = prRows.map(r => Number(r['Preis/Jahr']) * Number(r['Lizenzen vergeben']));
+    const colors  = prRows.map(r => r['Stadt'].trim() === 'München' ? COLORS.rot : COLORS.blau);
+    const xMax    = Math.ceil(Math.max(...values) * 1.4 / 1e6) * 1e6;
     const elLizenz = document.getElementById('chart-lizenz-einnahmen');
+    if (elLizenz) {
+      elLizenz.height = prRows.length * 50;
+    }
     if (elLizenz) new Chart(elLizenz, {
       type: 'bar',
       plugins: [ChartDataLabels],
       data: {
-        labels: ['Aktuell · 30 €/Jahr', '102 €/Jahr (bereits Altstadt-Preis)'],
+        labels,
         datasets: [{
-          data: [Number(r30['Einnahmen/Jahr']), Number(r102['Einnahmen/Jahr'])],
-          backgroundColor: [COLORS.blau, COLORS.gruen],
-          barThickness: 40,
+          data: values,
+          backgroundColor: colors,
+          barThickness: 28,
         }],
       },
       options: { ...CHART_DEFAULTS, indexAxis: 'y', maintainAspectRatio: false,
@@ -3466,7 +3472,7 @@ async function initStatistiken() {
           },
         },
         scales: {
-          x: { max: 14500000,
+          x: { max: xMax,
             ticks: { callback: v => (v / 1e6).toLocaleString('de-DE') + ' Mio.', font: { size: 11 } },
             grid: { color: '#e8ebee' } },
           y: { ticks: { font: { size: 11 } }, grid: { display: false } },

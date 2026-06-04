@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-04 04:02:01",
-    "frei_gesamt": 3487,
-    "belegt_gesamt": 742,
+    "timestamp": "2026-06-04 05:02:01",
+    "frei_gesamt": 3491,
+    "belegt_gesamt": 738,
     "kap_gesamt": 4229,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 268,
+            "frei": 269,
             "kap": 326,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 266,
+            "frei": 267,
             "kap": 275,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 226,
+            "frei": 227,
             "kap": 316,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 221,
+            "frei": 222,
             "kap": 227,
             "aktiv": true
         },

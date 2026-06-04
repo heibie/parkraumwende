@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-04 05:02:01",
-    "frei_gesamt": 3491,
-    "belegt_gesamt": 738,
+    "timestamp": "2026-06-04 06:02:01",
+    "frei_gesamt": 3489,
+    "belegt_gesamt": 740,
     "kap_gesamt": 4229,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 327,
+            "frei": 324,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 227,
+            "frei": 226,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 251,
+            "frei": 250,
             "kap": 275,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 352,
+            "frei": 355,
             "kap": 426,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-05 01:02:02",
-    "frei_gesamt": 3034,
-    "belegt_gesamt": 769,
+    "timestamp": "2026-06-05 02:02:01",
+    "frei_gesamt": 3036,
+    "belegt_gesamt": 767,
     "kap_gesamt": 3803,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 251,
+            "frei": 252,
             "kap": 326,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 275,
+            "frei": 268,
             "kap": 275,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 90,
+            "frei": 91,
             "kap": 150,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 297,
+            "frei": 300,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 238,
+            "frei": 237,
             "kap": 316,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 74,
+            "frei": 79,
             "kap": 104,
             "aktiv": true
         },

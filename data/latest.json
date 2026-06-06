@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-06 04:02:01",
-    "frei_gesamt": 3339,
-    "belegt_gesamt": 935,
+    "timestamp": "2026-06-06 05:02:01",
+    "frei_gesamt": 3317,
+    "belegt_gesamt": 957,
     "kap_gesamt": 4274,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 263,
+            "frei": 264,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 304,
+            "frei": 280,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 225,
+            "frei": 226,
             "kap": 316,
             "aktiv": true
         },

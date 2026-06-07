@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-07 04:02:01",
-    "frei_gesamt": 3330,
-    "belegt_gesamt": 919,
+    "timestamp": "2026-06-07 05:02:01",
+    "frei_gesamt": 3334,
+    "belegt_gesamt": 915,
     "kap_gesamt": 4249,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 255,
+            "frei": 256,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 309,
+            "frei": 310,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 122,
+            "frei": 123,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 316,
+            "frei": 315,
             "kap": 526,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 148,
+            "frei": 149,
             "kap": 162,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 252,
+            "frei": 253,
             "kap": 267,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-08 03:02:01",
-    "frei_gesamt": 3384,
-    "belegt_gesamt": 790,
+    "timestamp": "2026-06-08 04:02:01",
+    "frei_gesamt": 3387,
+    "belegt_gesamt": 787,
     "kap_gesamt": 4174,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 279,
+            "frei": 285,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 259,
+            "frei": 257,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 214,
+            "frei": 213,
             "kap": 316,
             "aktiv": true
         },

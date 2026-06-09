@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-09 04:02:01",
-    "frei_gesamt": 3109,
-    "belegt_gesamt": 985,
+    "timestamp": "2026-06-09 05:02:01",
+    "frei_gesamt": 3114,
+    "belegt_gesamt": 980,
     "kap_gesamt": 4094,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 190,
+            "frei": 191,
             "kap": 266,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 147,
+            "frei": 151,
             "kap": 357,
             "aktiv": true
         },

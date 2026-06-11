@@ -23,9 +23,13 @@ jobs:
           mkdir -p ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H -p 22 "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh-keyscan -H -p 22 "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          if [ ! -s ~/.ssh/known_hosts ]; then
+            echo "ERROR: ssh-keyscan produced no output, aborting"
+            exit 1
+          fi
 
-          rsync -az --delete --inplace -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
+          rsync -azv --delete --inplace -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='scripts' \

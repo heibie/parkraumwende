@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-11 01:02:01",
-    "frei_gesamt": 2954,
-    "belegt_gesamt": 1200,
+    "timestamp": "2026-06-11 02:02:01",
+    "frei_gesamt": 2973,
+    "belegt_gesamt": 1181,
     "kap_gesamt": 4154,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 228,
+            "frei": 229,
             "kap": 306,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 257,
+            "frei": 269,
             "kap": 275,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 280,
+            "frei": 279,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 326,
+            "frei": 329,
             "kap": 411,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 125,
+            "frei": 127,
             "kap": 147,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 214,
+            "frei": 216,
             "kap": 217,
             "aktiv": true
         },

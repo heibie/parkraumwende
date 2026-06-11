@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-11 04:02:01",
-    "frei_gesamt": 2976,
-    "belegt_gesamt": 1178,
+    "timestamp": "2026-06-11 05:02:01",
+    "frei_gesamt": 2977,
+    "belegt_gesamt": 1177,
     "kap_gesamt": 4154,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 280,
+            "frei": 279,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 182,
+            "frei": 180,
             "kap": 245,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 330,
+            "frei": 333,
             "kap": 411,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 216,
+            "frei": 217,
             "kap": 217,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-16 03:02:01",
-    "frei_gesamt": 3003,
-    "belegt_gesamt": 1101,
+    "timestamp": "2026-06-16 04:02:01",
+    "frei_gesamt": 3004,
+    "belegt_gesamt": 1100,
     "kap_gesamt": 4104,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 292,
+            "frei": 293,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 298,
+            "frei": 299,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 210,
+            "frei": 209,
             "kap": 245,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-18 04:02:01",
-    "frei_gesamt": 2796,
-    "belegt_gesamt": 795,
+    "timestamp": "2026-06-18 05:02:01",
+    "frei_gesamt": 2767,
+    "belegt_gesamt": 824,
     "kap_gesamt": 3591,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 173,
+            "frei": 143,
             "kap": 357,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 214,
+            "frei": 215,
             "kap": 217,
             "aktiv": true
         },

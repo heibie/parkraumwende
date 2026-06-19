@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-19 04:02:01",
-    "frei_gesamt": 3024,
-    "belegt_gesamt": 574,
+    "timestamp": "2026-06-19 05:02:01",
+    "frei_gesamt": 3025,
+    "belegt_gesamt": 573,
     "kap_gesamt": 3598,
     "parkhaeuser": [
         {
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 128,
+            "frei": 129,
             "kap": 147,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-20 05:02:01",
-    "frei_gesamt": 2625,
-    "belegt_gesamt": 1043,
+    "timestamp": "2026-06-20 06:02:01",
+    "frei_gesamt": 2627,
+    "belegt_gesamt": 1041,
     "kap_gesamt": 3668,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 292,
+            "frei": 295,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 130,
+            "frei": 129,
             "kap": 160,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 180,
+            "frei": 181,
             "kap": 245,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 353,
+            "frei": 352,
             "kap": 401,
             "aktiv": true
         },

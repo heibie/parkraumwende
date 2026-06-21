@@ -1286,8 +1286,7 @@
     <div class="stat"><span class="stat-label">Parkhäuser</span><span class="stat-value" id="karte-stat-ph">–</span></div>
     <div class="stat"><span class="stat-label">Tiefgaragen</span><span class="stat-value" id="karte-stat-tg">–</span></div>
     <div class="stat"><span class="stat-label">Außenstellplätze</span><span class="stat-value" id="karte-stat-as">–</span></div>
-    <div class="stat stat-growth"><span class="stat-label">Wachstum</span><svg id="karte-stat-growth" width="96" height="32" style="display:block;margin-top:3px"></svg></div>
-    <div class="editorial-box" id="editorial-karte"></div>
+<div class="editorial-box" id="editorial-karte"></div>
   </div>
 
   <div class="uebersicht-layout" id="uebersicht-layout">
@@ -2171,31 +2170,6 @@ async function initUebersicht() {
     document.getElementById('karte-stat-ph').textContent        = valid.filter(r => (r['Typ'] || '').trim() === 'Parkhaus').length;
     document.getElementById('karte-stat-tg').textContent        = valid.filter(r => (r['Typ'] || '').trim() === 'Tiefgarage').length;
     document.getElementById('karte-stat-as').textContent        = valid.filter(r => (r['Typ'] || '').trim() === 'Außenstellplatz').length;
-
-    const growthDates = rows
-      .map(r => (r['Erstellt am'] || '').slice(0, 7))
-      .filter(Boolean)
-      .sort();
-    if (growthDates.length > 1) {
-      const months = [...new Set(growthDates)].sort();
-      const cumul  = months.map(m => growthDates.filter(d => d <= m).length);
-      const maxC   = cumul[cumul.length - 1];
-      const W = 96, H = 32, pad = 2;
-      const dataXs = cumul.map((_, i) => pad + (i + 1) * (W - 2 * pad) / cumul.length);
-      const dataYs = cumul.map(c => H - pad - (c / maxC) * (H - 2 * pad));
-      const allXs  = [pad, ...dataXs];
-      const allYs  = [H - pad, ...dataYs];
-      const line = allXs.map((x, i) => `${x},${allYs[i]}`).join(' ');
-      const area = `M${pad},${H - pad} ` + dataXs.map((x, i) => `L${x},${dataYs[i]}`).join(' ') + ` L${dataXs[dataXs.length - 1]},${H - pad} Z`;
-      document.getElementById('karte-stat-growth').innerHTML = `
-        <defs><linearGradient id="growth-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="var(--primary)" stop-opacity=".4"/>
-          <stop offset="100%" stop-color="var(--primary)" stop-opacity=".05"/>
-        </linearGradient></defs>
-        <path d="${area}" fill="url(#growth-grad)"/>
-        <polyline points="${line}" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-        <circle cx="${dataXs[dataXs.length-1]}" cy="${dataYs[dataYs.length-1]}" r="3" fill="var(--primary)"/>`;
-    }
   }
 
   mapUebersicht.on('click', (e) => {

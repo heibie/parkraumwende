@@ -2181,18 +2181,20 @@ async function initUebersicht() {
       const cumul  = months.map(m => growthDates.filter(d => d <= m).length);
       const maxC   = cumul[cumul.length - 1];
       const W = 96, H = 32, pad = 2;
-      const xs = cumul.map((_, i) => pad + i * (W - 2 * pad) / Math.max(cumul.length - 1, 1));
-      const ys = cumul.map(c => H - pad - (c / maxC) * (H - 2 * pad));
-      const line = xs.map((x, i) => `${x},${ys[i]}`).join(' ');
-      const area = `M${xs[0]},${H - pad} ` + xs.map((x, i) => `L${x},${ys[i]}`).join(' ') + ` L${xs[xs.length - 1]},${H - pad} Z`;
+      const dataXs = cumul.map((_, i) => pad + (i + 1) * (W - 2 * pad) / cumul.length);
+      const dataYs = cumul.map(c => H - pad - (c / maxC) * (H - 2 * pad));
+      const allXs  = [pad, ...dataXs];
+      const allYs  = [H - pad, ...dataYs];
+      const line = allXs.map((x, i) => `${x},${allYs[i]}`).join(' ');
+      const area = `M${pad},${H - pad} ` + dataXs.map((x, i) => `L${x},${dataYs[i]}`).join(' ') + ` L${dataXs[dataXs.length - 1]},${H - pad} Z`;
       document.getElementById('karte-stat-growth').innerHTML = `
         <defs><linearGradient id="growth-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="var(--primary)" stop-opacity=".25"/>
-          <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+          <stop offset="0%" stop-color="var(--primary)" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="var(--primary)" stop-opacity=".05"/>
         </linearGradient></defs>
         <path d="${area}" fill="url(#growth-grad)"/>
-        <polyline points="${line}" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
-        <circle cx="${xs[xs.length-1]}" cy="${ys[ys.length-1]}" r="2.5" fill="var(--primary)"/>`;
+        <polyline points="${line}" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="${dataXs[dataXs.length-1]}" cy="${dataYs[dataYs.length-1]}" r="3" fill="var(--primary)"/>`;
     }
   }
 

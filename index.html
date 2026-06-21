@@ -2062,21 +2062,13 @@ function makeMarkerIcon(color, plaetze, frei, selected = false, unverified = fal
   const n    = parseInt(plaetze) || 0;
   const cls  = (frei ? ' poi-frei' : '') + (selected ? ' poi-selected' : '') + (unverified ? ' poi-unverified' : '');
   const bg   = unverified ? '#6b7280' : color;
-  if (n > 0) {
-    const label = unverified ? '?' : n;
-    const w = n >= 1000 ? 36 : n >= 100 ? 30 : 26;
-    return L.divIcon({
-      className: '',
-      html: `<div class="poi-marker poi-num${cls}" style="background:${bg}">${label}</div>`,
-      iconSize: [unverified ? 20 : w, 17],
-      iconAnchor: [unverified ? 10 : w / 2, 8],
-    });
-  }
+  const label = (n > 0 && !unverified) ? n : '?';
+  const w = n >= 1000 ? 36 : n >= 100 ? 30 : 26;
   return L.divIcon({
     className: '',
-    html: `<div class="poi-marker poi-dot${cls}" style="background:${bg}"></div>`,
-    iconSize: [9, 9],
-    iconAnchor: [4, 4],
+    html: `<div class="poi-marker poi-num${cls}" style="background:${bg}">${label}</div>`,
+    iconSize: [w, 17],
+    iconAnchor: [w / 2, 8],
   });
 }
 
@@ -2113,7 +2105,8 @@ async function initUebersicht() {
     if (!lat || !lon || isNaN(lat) || isNaN(lon)) return;
 
     const typ     = (r['Typ'] || '').trim();
-    if (!typ || typ.startsWith('http')) return;
+    if (typ.startsWith('http')) return;
+    if (!typ && !previewMode) return;
 
     const verifiziert = String(r['Verifiziert'] || '').trim().toLowerCase() === 'ja';
     if (!previewMode && !verifiziert) return;

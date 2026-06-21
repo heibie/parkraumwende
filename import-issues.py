@@ -123,7 +123,8 @@ def main():
         strasse, hausnr, plz, ort = parse_address(fields.get("Adresse", ""))
         lat, lon                  = parse_coords(fields.get("Koordinaten", ""))
 
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        created_at = datetime.strptime(issue["created_at"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M:%S")
+        now        = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         row = {f: "" for f in fieldnames}
         row.update({
@@ -151,7 +152,7 @@ def main():
             "Quelle":           "Crowdsourcing",
             "Aktiv":            "Ja",
             "Verifiziert":      "Nein",
-            "Erstellt am":      now,
+            "Erstellt am":      created_at,
             "Aktualisiert am":  now,
             "Issue":            str(num),
         })

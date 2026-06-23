@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-23 01:02:01",
-    "frei_gesamt": 2922,
-    "belegt_gesamt": 1172,
+    "timestamp": "2026-06-23 02:02:01",
+    "frei_gesamt": 2927,
+    "belegt_gesamt": 1167,
     "kap_gesamt": 4094,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 195,
+            "frei": 196,
             "kap": 266,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 382,
+            "frei": 383,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 288,
+            "frei": 287,
             "kap": 357,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 334,
+            "frei": 335,
             "kap": 391,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 195,
+            "frei": 198,
             "kap": 217,
             "aktiv": true
         },

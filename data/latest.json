@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-29 02:02:01",
-    "frei_gesamt": 2861,
-    "belegt_gesamt": 1358,
+    "timestamp": "2026-06-29 03:02:01",
+    "frei_gesamt": 2862,
+    "belegt_gesamt": 1357,
     "kap_gesamt": 4219,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 379,
+            "frei": 380,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 307,
+            "frei": 308,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 69,
+            "frei": 68,
             "kap": 526,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-06-30 05:02:01",
-    "frei_gesamt": 2909,
-    "belegt_gesamt": 1215,
+    "timestamp": "2026-06-30 06:02:01",
+    "frei_gesamt": 2902,
+    "belegt_gesamt": 1222,
     "kap_gesamt": 4124,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 380,
+            "frei": 379,
             "kap": 393,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 146,
+            "frei": 145,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 242,
+            "frei": 238,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 216,
+            "frei": 214,
             "kap": 245,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 104,
+            "frei": 103,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 372,
+            "frei": 374,
             "kap": 421,
             "aktiv": true
         },

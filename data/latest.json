@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-01 02:02:01",
-    "frei_gesamt": 2820,
-    "belegt_gesamt": 1289,
+    "timestamp": "2026-07-01 03:02:01",
+    "frei_gesamt": 2822,
+    "belegt_gesamt": 1287,
     "kap_gesamt": 4109,
     "parkhaeuser": [
         {
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 338,
+            "frei": 339,
             "kap": 403,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 207,
+            "frei": 208,
             "kap": 217,
             "aktiv": true
         },

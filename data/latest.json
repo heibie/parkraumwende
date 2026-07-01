@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-07-01 04:02:01",
+    "timestamp": "2026-07-01 05:02:01",
     "frei_gesamt": 2827,
     "belegt_gesamt": 1282,
     "kap_gesamt": 4109,
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 256,
+            "frei": 257,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 210,
+            "frei": 208,
             "kap": 245,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 208,
+            "frei": 209,
             "kap": 217,
             "aktiv": true
         },

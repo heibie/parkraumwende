@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-02 02:02:01",
-    "frei_gesamt": 2809,
-    "belegt_gesamt": 1285,
+    "timestamp": "2026-07-02 03:02:01",
+    "frei_gesamt": 2808,
+    "belegt_gesamt": 1286,
     "kap_gesamt": 4094,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 252,
+            "frei": 253,
             "kap": 275,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 224,
+            "frei": 223,
             "kap": 245,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 108,
+            "frei": 107,
             "kap": 197,
             "aktiv": true
         },

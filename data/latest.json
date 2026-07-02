@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-02 03:02:01",
-    "frei_gesamt": 2808,
-    "belegt_gesamt": 1286,
+    "timestamp": "2026-07-02 04:02:01",
+    "frei_gesamt": 2810,
+    "belegt_gesamt": 1284,
     "kap_gesamt": 4094,
     "parkhaeuser": [
         {
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 179,
+            "frei": 180,
             "kap": 316,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 107,
+            "frei": 106,
             "kap": 197,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 191,
+            "frei": 193,
             "kap": 217,
             "aktiv": true
         },

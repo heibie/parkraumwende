@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-03 03:02:01",
-    "frei_gesamt": 2641,
-    "belegt_gesamt": 1466,
+    "timestamp": "2026-07-03 04:02:01",
+    "frei_gesamt": 2645,
+    "belegt_gesamt": 1462,
     "kap_gesamt": 4107,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 172,
+            "frei": 171,
             "kap": 266,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 249,
+            "frei": 250,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 293,
+            "frei": 295,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 163,
+            "frei": 164,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 217,
+            "frei": 218,
             "kap": 245,
             "aktiv": true
         },

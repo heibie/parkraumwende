@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-04 04:02:01",
-    "frei_gesamt": 3086,
-    "belegt_gesamt": 1083,
+    "timestamp": "2026-07-04 05:02:01",
+    "frei_gesamt": 3088,
+    "belegt_gesamt": 1081,
     "kap_gesamt": 4169,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 186,
+            "frei": 187,
             "kap": 266,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 382,
+            "frei": 383,
             "kap": 393,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 159,
+            "frei": 158,
             "kap": 316,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 335,
+            "frei": 334,
             "kap": 416,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 76,
+            "frei": 78,
             "kap": 104,
             "aktiv": true
         },

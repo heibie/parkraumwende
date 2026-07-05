@@ -104,7 +104,7 @@ def main():
     new_count    = 0
     new_imported = []
 
-    for issue in issues:
+    for issue in sorted(issues, key=lambda x: x["number"]):
         num   = issue["number"]
         title = issue.get("title", "")
 

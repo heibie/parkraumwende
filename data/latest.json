@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-05 06:02:01",
-    "frei_gesamt": 2738,
-    "belegt_gesamt": 1419,
+    "timestamp": "2026-07-05 07:02:01",
+    "frei_gesamt": 2741,
+    "belegt_gesamt": 1416,
     "kap_gesamt": 4157,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 188,
+            "frei": 189,
             "kap": 266,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 260,
+            "frei": 255,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 384,
+            "frei": 385,
             "kap": 393,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 361,
+            "frei": 365,
             "kap": 426,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 71,
+            "frei": 72,
             "kap": 104,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 209,
+            "frei": 210,
             "kap": 237,
             "aktiv": true
         },

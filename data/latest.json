@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-06 01:02:01",
-    "frei_gesamt": 2789,
-    "belegt_gesamt": 1368,
+    "timestamp": "2026-07-06 02:02:01",
+    "frei_gesamt": 2792,
+    "belegt_gesamt": 1365,
     "kap_gesamt": 4157,
     "parkhaeuser": [
         {
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 96,
+            "frei": 97,
             "kap": 150,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 155,
+            "frei": 154,
             "kap": 316,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 364,
+            "frei": 366,
             "kap": 426,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 85,
+            "frei": 86,
             "kap": 104,
             "aktiv": true
         },

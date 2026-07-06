@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-06 03:02:01",
-    "frei_gesamt": 2791,
-    "belegt_gesamt": 1366,
+    "timestamp": "2026-07-06 04:02:01",
+    "frei_gesamt": 2793,
+    "belegt_gesamt": 1364,
     "kap_gesamt": 4157,
     "parkhaeuser": [
         {
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 154,
+            "frei": 155,
             "kap": 316,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 366,
+            "frei": 367,
             "kap": 426,
             "aktiv": true
         },

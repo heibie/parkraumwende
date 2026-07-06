@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-07 00:02:02",
-    "frei_gesamt": 2543,
-    "belegt_gesamt": 1556,
+    "timestamp": "2026-07-07 01:02:01",
+    "frei_gesamt": 2561,
+    "belegt_gesamt": 1538,
     "kap_gesamt": 4099,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 188,
+            "frei": 189,
             "kap": 266,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 252,
+            "frei": 262,
             "kap": 275,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 208,
+            "frei": 209,
             "kap": 245,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 52,
+            "frei": 53,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 346,
+            "frei": 350,
             "kap": 416,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 77,
+            "frei": 78,
             "kap": 104,
             "aktiv": true
         },

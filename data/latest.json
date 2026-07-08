@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-08 02:02:01",
-    "frei_gesamt": 2624,
-    "belegt_gesamt": 1496,
+    "timestamp": "2026-07-08 03:02:01",
+    "frei_gesamt": 2628,
+    "belegt_gesamt": 1492,
     "kap_gesamt": 4120,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 137,
+            "frei": 138,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 225,
+            "frei": 226,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 348,
+            "frei": 350,
             "kap": 427,
             "aktiv": true
         },

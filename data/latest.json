@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-10 05:02:01",
-    "frei_gesamt": 2620,
-    "belegt_gesamt": 1464,
+    "timestamp": "2026-07-10 06:02:02",
+    "frei_gesamt": 2621,
+    "belegt_gesamt": 1463,
     "kap_gesamt": 4084,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 205,
+            "frei": 206,
             "kap": 266,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 125,
+            "frei": 126,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 180,
+            "frei": 179,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 265,
+            "frei": 264,
             "kap": 316,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 332,
+            "frei": 331,
             "kap": 401,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 129,
+            "frei": 131,
             "kap": 147,
             "aktiv": true
         },

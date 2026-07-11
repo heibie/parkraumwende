@@ -357,3 +357,10 @@ Tiefgarage Baugenossenschaft München West;Tiefgarage (Wohnanlage);Privat;Wohnen
 MGS-Block Kirchen/Seerieder/Einsteinstraße;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Ja;Nein;;;;;;;Seeriederstraße;26;81675;München;;48.1341011;11.6019380;;;;;;Crowdsourcing;;2026-06-28 17:00:26;2026-07-04 15:37:11;39
 Spicherenstraße 9;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Spicherenstraße;9;81667;München;;48.1320416;11.6056073;;;;;;Crowdsourcing;;2026-07-01 08:38:01;2026-07-04 15:37:11;40
 Spicherenstr. 15;Tiefgarage;Privat;Wohnen;Ja;Ja;300;;Nein;Nein;;;;;;;Spicherenstraße;15;81667;München;;48.1310280;11.6070610;;;;;;Crowdsourcing;;2026-07-01 08:39:36;2026-07-04 15:37:11;41
+Ärztehaus Mühlbaurstrasse;Tiefgarage;Kunden / Besucherparkplatz;nur Parken;Ja;Ja;;;Nein;Nein;;;;;;;Mühlbaurstraße;16;81677;München;1.8;48.1413050;11.6109663;;;;;;Crowdsourcing;;2026-07-08 14:12:14;2026-07-11 10:45:20;42
+Edeka Stuntzstr;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;;;Stuntzstraße;16;81677;München;;48.1419880;11.6185865;;;;;;Crowdsourcing;;2026-07-08 14:14:59;2026-07-11 10:45:20;43
+Richard-Strauss;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;;;Richard-Strauss-Strasse;24;81677;München;;48.1398493;11.6150755;;;;;;Crowdsourcing;;2026-07-08 14:30:39;2026-07-11 10:45:20;44
+Grillparzer;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;;;Grillparzerstraße;39;81675;München;;48.1371249;11.6084075;;;;;;Crowdsourcing;;2026-07-08 14:32:26;2026-07-11 10:45:20;45
+Auerfeldstr;Außenstellplatz;Privat;Sonstiges Gewerbe;Ja;Ja;;;Nein;Nein;;;;;;;Auerfeldstraße;4a;81541;München;;48.1235338;11.5914398;;;;;;Crowdsourcing;;2026-07-08 14:56:15;2026-07-11 10:45:20;46
+Don Bosco/St. Wolfgang;Außenstellplatz;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;;;Barnabasstraße;11;81669;München;;48.1246299;11.5942132;;;;;;Crowdsourcing;;2026-07-08 15:03:15;2026-07-11 10:45:20;47
+Tiefgarage zwischen Gotzinger und Impler Strasse;Tiefgarage;Privat;Wohnen, Einzelhandel, Büro;Ja;Ja;410;;Ja;Nein;;;;;;;Gotzinger Str.;19;81371;München;2;48.1214930;11.5502977;;;;;Implerstraße 29 ( Ausfahrt) Gotzinger Str. 21 (Einfahrt);Crowdsourcing;;2026-07-10 13:03:23;2026-07-11 10:45:20;48

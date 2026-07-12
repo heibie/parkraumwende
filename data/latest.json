@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-12 06:02:01",
-    "frei_gesamt": 2890,
-    "belegt_gesamt": 1317,
+    "timestamp": "2026-07-12 07:02:01",
+    "frei_gesamt": 2887,
+    "belegt_gesamt": 1320,
     "kap_gesamt": 4207,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 250,
+            "frei": 249,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 356,
+            "frei": 355,
             "kap": 393,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 278,
+            "frei": 280,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 315,
+            "frei": 313,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 127,
+            "frei": 126,
             "kap": 245,
             "aktiv": true
         },

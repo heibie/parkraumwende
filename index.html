@@ -161,10 +161,34 @@
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
     }
+    .filter-mitmachen-heading {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    #filter-mitmachen-extra { margin-top: 10px; }
+    .filter-datenlücken-heading {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #14532d;
+      padding: 6px 12px 0;
+    }
+    .filter-datenlücken-hint {
+      font-size: 0.75rem;
+      color: #166534;
+      padding: 4px 12px 6px;
+      line-height: 1.4;
+    }
     .filter-count {
       font-size: 0.75rem;
       color: var(--text-dim);
-      margin-bottom: 8px;
+      padding: 10px 14px 4px;
+      flex-shrink: 0;
     }
     .filter-count strong { color: var(--text); font-size: 1rem; }
 
@@ -296,6 +320,10 @@
     .filter-preview-section { background: #fff8ed; border: 1px solid #f59e0b; border-radius: 6px; padding: 4px 0; margin-bottom: 12px; }
     .filter-preview-section .filter-group-header { cursor: default; }
     .filter-preview-section .filter-group-title { color: #92400e; font-weight: 700; }
+    .filter-datenlücken-section { background: #f0fdf4; border: 1px solid #22c55e; border-radius: 6px; padding: 4px 0; margin-bottom: 12px; }
+    .filter-datenlücken-section .filter-group-header { cursor: default; }
+    .filter-datenlücken-section .filter-group-title { color: #14532d; font-weight: 700; }
+    .filter-datenlücken-section .filter-option-label { font-size: 0.85rem; }
 
     /* Add-mode FAB + banner */
     .map-fab {
@@ -1293,9 +1321,11 @@
 
     <div class="filter-sidebar" id="filter-sidebar">
       <div class="filter-top">
-        <div class="filter-count" id="filter-count"><strong>–</strong> Einträge</div>
+        <div class="filter-mitmachen-heading">Mitmachen!</div>
         <button class="btn-submit" onclick="openModal()">+ Eintrag einreichen</button>
+        <div id="filter-mitmachen-extra"></div>
       </div>
+      <div class="filter-count" id="filter-count"><strong>–</strong> Einträge</div>
       <div class="filter-body" id="filter-body"></div>
     </div>
 
@@ -2151,7 +2181,8 @@ async function initUebersicht() {
 
     marker.on('click', (e) => { L.DomEvent.stopPropagation(e); showDetail(d, marker); });
 
-    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive, unverified });
+    const unknownPlaetze = !d.plaetze || isNaN(parseInt(d.plaetze)) || parseInt(d.plaetze) <= 0;
+    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive, unverified, unknownPlaetze });
   });
 
   // Karte-Statistiken befüllen (aus allMarkers – gleiche Basis wie Filter-Count)
@@ -2470,6 +2501,7 @@ const activeFilters = { typ: new Set(), bew: new Set(), quelle: new Set(), immo:
 let filterDauerparken    = false;
 let filterParkplatzFrei  = false;
 let filterUnverifiedOnly = false;
+let filterUnknownPlaetze = false;
 
 function buildFilters() {
   const counts = { typ: {}, bew: {}, quelle: {}, immo: {} };
@@ -2484,6 +2516,10 @@ function buildFilters() {
   Object.keys(counts.bew).forEach(v => activeFilters.bew.add(v));
   Object.keys(counts.quelle).forEach(v => activeFilters.quelle.add(v));
   Object.keys(counts.immo).forEach(v => activeFilters.immo.add(v));
+
+  const mitmachenEl = document.getElementById('filter-mitmachen-extra');
+  mitmachenEl.innerHTML = '';
+  mitmachenEl.appendChild(buildDatalueckenFilter());
 
   const el = document.getElementById('filter-body');
   el.innerHTML = '';
@@ -2562,6 +2598,28 @@ function onUnverifiedChange() {
   applyFilters();
 }
 
+function buildDatalueckenFilter() {
+  const cnt = allMarkers.filter(m => m.unknownPlaetze).length;
+  const div = document.createElement('div');
+  div.className = 'filter-datenlücken-section';
+  div.innerHTML = `
+    <div class="filter-datenlücken-heading">Einträge ergänzen</div>
+    <div class="filter-datenlücken-hint">Bei Einträgen mit ? ist die Anzahl der Parkplätze unbekannt. Hilf uns sie zu ergänzen. Klicke auf den Punkt. Es öffnet sich eine Detailansicht. Dort kannst du Änderungen über den Button „Korrektur vorschlagen" eintragen.</div>
+    <div class="filter-options" style="display:flex;padding:2px 12px 8px">
+      <label class="filter-option">
+        <input type="checkbox" id="cb-unknown-plaetze" onchange="onUnknownPlaetzeChange()">
+        <span class="filter-option-label">Anzahl Parkplätze unbekannt</span>
+        <span class="filter-option-count">${cnt}</span>
+      </label>
+    </div>`;
+  return div;
+}
+
+function onUnknownPlaetzeChange() {
+  filterUnknownPlaetze = document.getElementById('cb-unknown-plaetze').checked;
+  applyFilters();
+}
+
 function buildDauerparken() {
   const cntD = allMarkers.filter(m => m.dauerparken).length;
   const cntF = allMarkers.filter(m => m.parkplatzFrei).length;
@@ -2616,20 +2674,25 @@ function onFilterChange() {
 
 function applyFilters() {
   let visible = 0;
-  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, unverified }) => {
+  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, unverified, unknownPlaetze }) => {
     if (filterUnverifiedOnly) {
-      const show = unverified;
+      const show = unverified && (!filterUnknownPlaetze || unknownPlaetze);
       if (show) { marker.addTo(mapUebersicht); visible++; } else { marker.remove(); }
       return;
     }
-    if (previewMode && unverified) { marker.addTo(mapUebersicht); visible++; return; }
+    if (previewMode && unverified) {
+      const show = !filterUnknownPlaetze || unknownPlaetze;
+      if (show) { marker.addTo(mapUebersicht); visible++; } else { marker.remove(); }
+      return;
+    }
     const immoOk = immo.length === 0 || immo.some(v => activeFilters.immo.has(v));
     const show = activeFilters.typ.has(typ)
               && activeFilters.bew.has(bew)
               && activeFilters.quelle.has(quelle)
               && immoOk
-              && (!filterDauerparken   || dauerparken)
-              && (!filterParkplatzFrei || parkplatzFrei);
+              && (!filterDauerparken    || dauerparken)
+              && (!filterParkplatzFrei  || parkplatzFrei)
+              && (!filterUnknownPlaetze || unknownPlaetze);
     if (show) { marker.addTo(mapUebersicht); visible++; }
     else       { marker.remove(); }
   });

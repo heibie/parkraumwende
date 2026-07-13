@@ -2138,8 +2138,8 @@ async function initUebersicht() {
       einfahrt:     (r['Einfahrtshöhe']  || '').toString().trim(),
       url1:         (r['URL 1']          || '').trim(),
       url2:         (r['URL 2']          || '').trim(),
-      kontakt:      (r['Kontakt']        || '').trim(),
-      bemerkung:    (r['Bemerkung']      || '').trim(),
+      kontakt:      (r['Kontakt']        || '').toString().trim(),
+      bemerkung:    (r['Bemerkung']      || '').toString().trim(),
       issue:        (r['Issue']          || '').toString().trim(),
       aktiv, inactive, verifiziert,
     };

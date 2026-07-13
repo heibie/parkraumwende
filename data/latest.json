@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-13 02:02:01",
-    "frei_gesamt": 2616,
-    "belegt_gesamt": 1541,
+    "timestamp": "2026-07-13 03:02:01",
+    "frei_gesamt": 2614,
+    "belegt_gesamt": 1543,
     "kap_gesamt": 4157,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 184,
+            "frei": 183,
             "kap": 266,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 87,
+            "frei": 88,
             "kap": 150,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 230,
+            "frei": 229,
             "kap": 526,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 91,
+            "frei": 90,
             "kap": 197,
             "aktiv": true
         },

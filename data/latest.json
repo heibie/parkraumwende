@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-13 04:02:01",
-    "frei_gesamt": 2615,
-    "belegt_gesamt": 1542,
+    "timestamp": "2026-07-13 05:02:01",
+    "frei_gesamt": 2616,
+    "belegt_gesamt": 1541,
     "kap_gesamt": 4157,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 254,
+            "frei": 255,
             "kap": 275,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-13 03:02:01",
-    "frei_gesamt": 2614,
-    "belegt_gesamt": 1543,
+    "timestamp": "2026-07-13 04:02:01",
+    "frei_gesamt": 2615,
+    "belegt_gesamt": 1542,
     "kap_gesamt": 4157,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 122,
+            "frei": 123,
             "kap": 160,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 143,
+            "frei": 142,
             "kap": 245,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 253,
+            "frei": 254,
             "kap": 267,
             "aktiv": true
         },

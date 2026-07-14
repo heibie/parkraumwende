@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-14 03:02:01",
-    "frei_gesamt": 2611,
-    "belegt_gesamt": 1523,
+    "timestamp": "2026-07-14 04:02:01",
+    "frei_gesamt": 2612,
+    "belegt_gesamt": 1522,
     "kap_gesamt": 4134,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 191,
+            "frei": 190,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 162,
+            "frei": 163,
             "kap": 316,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 177,
+            "frei": 178,
             "kap": 197,
             "aktiv": true
         },

@@ -539,9 +539,11 @@
       padding: 10px 14px;
       border-top: 1px solid var(--border);
       flex-shrink: 0;
+      display: flex;
+      gap: 8px;
     }
     .detail-edit-btn {
-      width: 100%;
+      flex: 1;
       padding: 9px 12px;
       background: var(--primary);
       border: none;
@@ -554,6 +556,21 @@
       transition: background .15s, transform .1s;
     }
     .detail-edit-btn:hover { background: var(--primary-d); transform: scale(1.01); }
+    .detail-link-btn {
+      flex: 1;
+      padding: 9px 12px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background .15s, transform .1s;
+    }
+    .detail-link-btn:hover { background: var(--bg-2, #f1f5f9); transform: scale(1.01); }
+    .detail-link-btn.copied { background: var(--primary); border-color: var(--primary); color: #fff; }
 
     /* ══════════════════════════════════════
        INNENSTADT
@@ -1345,6 +1362,7 @@
       </div>
       <div class="detail-body" id="dp-body"></div>
       <div class="detail-footer">
+        <button class="detail-link-btn" id="dp-link-btn">🔗 Link kopieren</button>
         <button class="detail-edit-btn" id="dp-edit-btn">Korrektur vorschlagen</button>
       </div>
     </div>
@@ -1990,6 +2008,8 @@ function showTab(name, btn) {
     if (name === 'parklizenz')   initParklizenz();
     if (name === 'parkseiten')   initParkseiten();
     if (name === 'statistiken')  initStatistiken();
+  } else if (name === 'karte') {
+    openDeepLinkedEntry();
   }
 }
 
@@ -2106,6 +2126,7 @@ const previewMode = new URLSearchParams(window.location.search).has('preview');
 
 let mapUebersicht = null;
 let allMarkers    = [];
+const entryById   = {};
 let pickMap = null, pickMarker = null;
 let addMode   = false;
 let addFabBtn = null;
@@ -2180,6 +2201,8 @@ async function initUebersicht() {
     }).addTo(mapUebersicht);
 
     marker.on('click', (e) => { L.DomEvent.stopPropagation(e); showDetail(d, marker); });
+
+    if (d.id) entryById[d.id] = { d, marker };
 
     const unknownPlaetze = !d.plaetze || isNaN(parseInt(d.plaetze)) || parseInt(d.plaetze) <= 0;
     allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive, unverified, unknownPlaetze });
@@ -2322,6 +2345,15 @@ async function initUebersicht() {
 
   buildFilters();
   updateCount();
+  openDeepLinkedEntry();
+}
+
+function openDeepLinkedEntry() {
+  const id = new URLSearchParams(location.search).get('eintrag');
+  if (!id || !entryById[id]) return;
+  const { d, marker } = entryById[id];
+  mapUebersicht.setView([d.lat, d.lon], 17);
+  showDetail(d, marker);
 }
 
 // ── Adresssuche ──────────────────────────────
@@ -2473,6 +2505,13 @@ function showDetail(d, marker) {
   document.getElementById('dp-body').innerHTML = html;
   document.getElementById('uebersicht-layout').classList.add('detail-open');
   document.getElementById('dp-edit-btn').onclick = () => openCorrectionModal(d);
+  document.getElementById('dp-link-btn').onclick = () => copyDeepLink(d);
+  if (history.replaceState) {
+    const url = new URL(location.href);
+    if (d.id) url.searchParams.set('eintrag', d.id); else url.searchParams.delete('eintrag');
+    url.hash = 'karte';
+    history.replaceState(null, '', url);
+  }
   if (mobileSheet()) {
     toggleFilterSheet(false);
     document.getElementById('sheet-backdrop').classList.add('show');
@@ -2485,6 +2524,24 @@ function closeDetail() {
   _selD      = null;
   document.getElementById('uebersicht-layout').classList.remove('detail-open');
   document.getElementById('sheet-backdrop').classList.remove('show');
+  if (history.replaceState) {
+    const url = new URL(location.href);
+    url.searchParams.delete('eintrag');
+    history.replaceState(null, '', url);
+  }
+}
+
+function copyDeepLink(d) {
+  const url = new URL(location.origin + location.pathname);
+  if (d.id) url.searchParams.set('eintrag', d.id);
+  url.hash = 'karte';
+  navigator.clipboard.writeText(url.toString()).then(() => {
+    const btn = document.getElementById('dp-link-btn');
+    const original = '🔗 Link kopieren';
+    btn.textContent = '✓ Kopiert!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 2200);
+  });
 }
 
 function closePlzDetail() {

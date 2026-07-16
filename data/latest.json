@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-16 02:02:01",
-    "frei_gesamt": 2655,
-    "belegt_gesamt": 1479,
+    "timestamp": "2026-07-16 03:02:01",
+    "frei_gesamt": 2652,
+    "belegt_gesamt": 1482,
     "kap_gesamt": 4134,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 199,
+            "frei": 195,
             "kap": 266,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 377,
+            "frei": 378,
             "kap": 393,
             "aktiv": true
         },

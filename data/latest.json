@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-07-16 13:02:01",
-    "frei_gesamt": 1324,
-    "belegt_gesamt": 2820,
-    "kap_gesamt": 4144,
+    "timestamp": "2026-07-16 14:02:01",
+    "frei_gesamt": 1314,
+    "belegt_gesamt": 2865,
+    "kap_gesamt": 4179,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -16,7 +16,7 @@
             "sn": "106504",
             "ph": "P18",
             "parkhaus": "City-Parkhaus am Färbergraben",
-            "frei": 189,
+            "frei": 179,
             "kap": 350,
             "aktiv": true
         },
@@ -24,8 +24,8 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 110,
-            "kap": 266,
+            "frei": 144,
+            "kap": 296,
             "aktiv": true
         },
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 173,
+            "frei": 159,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 24,
+            "frei": 38,
             "kap": 357,
             "aktiv": true
         },
@@ -97,7 +97,7 @@
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
             "frei": 12,
-            "kap": 160,
+            "kap": 165,
             "aktiv": true
         },
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 279,
+            "frei": 266,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 93,
+            "frei": 83,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 199,
+            "frei": 195,
             "kap": 295,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 114,
+            "frei": 102,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 12,
+            "frei": 15,
             "kap": 391,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 8,
+            "frei": 15,
             "kap": 147,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 34,
+            "frei": 29,
             "kap": 217,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-16 01:02:01",
-    "frei_gesamt": 2650,
-    "belegt_gesamt": 1484,
+    "timestamp": "2026-07-16 02:02:01",
+    "frei_gesamt": 2655,
+    "belegt_gesamt": 1479,
     "kap_gesamt": 4134,
     "parkhaeuser": [
         {
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 240,
+            "frei": 242,
             "kap": 295,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 330,
+            "frei": 332,
             "kap": 391,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 128,
+            "frei": 129,
             "kap": 147,
             "aktiv": true
         },

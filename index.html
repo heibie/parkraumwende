@@ -3171,6 +3171,8 @@ async function initParklizenz() {
     if (!coords || coords.length < 3) return;
 
     const uebInt   = lizenz ? (Number(lizenz['Überbucht']) || 0) : null;
+    const stellplNum = lizenz ? (Number(lizenz['Anzahl Stellplätze']) || 0) : 0;
+    const uebPct   = (uebInt !== null && stellplNum > 0) ? Math.round(uebInt / stellplNum * 100) : null;
     const overbook = uebInt !== null && uebInt > 0;
     const hasData  = uebInt !== null;
 
@@ -3190,9 +3192,10 @@ async function initParklizenz() {
     if (hasData) {
       const latSum = coords.reduce((s, c) => s + c[0], 0) / coords.length;
       const lngSum = coords.reduce((s, c) => s + c[1], 0) / coords.length;
+      const pctText = uebPct !== null ? ` (${overbook ? '+' : '−'}${Math.abs(uebPct)}%)` : '';
       const labelText = overbook
-        ? `+${fmtNum(uebInt)}`
-        : `−${fmtNum(Math.abs(uebInt))}`;
+        ? `+${fmtNum(uebInt)}${pctText}`
+        : `−${fmtNum(Math.abs(uebInt))}${pctText}`;
       const cls = overbook ? 'rot' : 'gruen';
       L.marker([latSum, lngSum], {
         icon: L.divIcon({ className: `plz-label ${cls}`, html: labelText, iconSize: null }),
@@ -3216,11 +3219,11 @@ async function initParklizenz() {
         status.style.color   = '#888';
       } else if (overbook) {
         dot.style.background = '#dc3545';
-        status.textContent   = `Überbucht um ${fmtNum(uebInt)} Ausweise`;
+        status.textContent   = `Überbucht um ${fmtNum(uebInt)} Ausweise${uebPct !== null ? ` (+${uebPct}%)` : ''}`;
         status.style.color   = '#dc3545';
       } else {
         dot.style.background = '#28a745';
-        status.textContent   = `Nicht überbucht (${fmtNum(Math.abs(uebInt))} Stellplätze Überschuss)`;
+        status.textContent   = `Nicht überbucht (${fmtNum(Math.abs(uebInt))} Stellplätze Überschuss${uebPct !== null ? `, ${uebPct}%` : ''})`;
         status.style.color   = '#28a745';
       }
 
@@ -3230,6 +3233,7 @@ async function initParklizenz() {
           <div class="detail-section-title">Parkraum</div>
           <div class="detail-row"><span class="detail-label">Stellplätze</span><span class="detail-value">${stellpl}</span></div>
           <div class="detail-row"><span class="detail-label">Parkausweise</span><span class="detail-value">${ausw}</span></div>
+          ${uebPct !== null ? `<div class="detail-row"><span class="detail-label">Überbuchung</span><span class="detail-value" style="color:${overbook ? '#dc3545' : '#28a745'};font-weight:600">${overbook ? '+' : '−'}${Math.abs(uebPct)}%</span></div>` : ''}
         </div>`;
       }
       if (eroeff) {

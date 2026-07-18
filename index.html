@@ -321,9 +321,9 @@
     .filter-preview-section .filter-group-header { cursor: default; }
     .filter-preview-section .filter-group-title { color: #92400e; font-weight: 700; }
     .filter-datenlücken-section { background: #f0fdf4; border: 1px solid #22c55e; border-radius: 6px; padding: 4px 0; margin-bottom: 12px; }
-    .filter-datenlücken-section .filter-group-header { cursor: default; }
-    .filter-datenlücken-section .filter-group-title { color: #14532d; font-weight: 700; }
+    .filter-datenlücken-section .filter-group-header { padding: 5px 12px; }
     .filter-datenlücken-section .filter-option-label { font-size: 0.85rem; }
+    .filter-datenlücken-section .filter-options { padding-top: 0; }
 
     /* Add-mode FAB + banner */
     .map-fab {
@@ -750,6 +750,8 @@
     }
     .plz-label.rot   { color: #8b0000; }
     .plz-label.gruen { color: #1a5c1a; }
+    .sb-boundary:focus { outline: none; }
+    .detail-panel.bezirk-mode .detail-footer { display: none; }
 
     /* ══════════════════════════════════════
        PARKSEITEN
@@ -2141,6 +2143,34 @@ function toggleAddMode(on) {
   }
 }
 
+// Punkt-in-Polygon (Ray-Casting) für Stadtbezirk-Zuordnung — läuft on-the-fly beim Kartenladen
+function rayCastInRing(lat, lng, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i], [xj, yj] = ring[j];
+    const intersect = ((yi > lat) !== (yj > lat)) &&
+      (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+function pointInPolygonFeature(lat, lng, geometry) {
+  const rings = geometry.coordinates;
+  if (!rayCastInRing(lat, lng, rings[0])) return false;
+  for (let k = 1; k < rings.length; k++) {
+    if (rayCastInRing(lat, lng, rings[k])) return false;
+  }
+  return true;
+}
+function findStadtbezirk(lat, lng, districtsGeo) {
+  for (const feature of districtsGeo.features) {
+    if (pointInPolygonFeature(lat, lng, feature.geometry)) {
+      return `${feature.properties.sb_nummer} ${feature.properties.sb_name}`;
+    }
+  }
+  return null;
+}
+
 async function initUebersicht() {
   loadEditorial('karte');
   mapUebersicht = L.map('map-uebersicht').setView([48.137, 11.575], 12);
@@ -2148,7 +2178,23 @@ async function initUebersicht() {
     attribution: '© OpenStreetMap', maxZoom: 19,
   }).addTo(mapUebersicht);
 
-  const rows = await loadCsv('data/parkraummap.csv', ';');
+  const [rows, districtsGeo] = await Promise.all([
+    loadCsv('data/parkraummap.csv', ';'),
+    fetch('data/stadtbezirke_muenchen.geojson').then(r => r.json()),
+  ]);
+
+  // EXPERIMENTAL: Stadtbezirke-Umrisse (Test, noch nicht final)
+  L.geoJSON(districtsGeo, {
+    style: { color: '#333', weight: 1.5, fillOpacity: 0, dashArray: '4,3', className: 'sb-boundary' },
+    onEachFeature: (feature, layer) => {
+      const bezirkKey = `${feature.properties.sb_nummer} ${feature.properties.sb_name}`;
+      layer.bindTooltip(bezirkKey, { sticky: true, className: 'sb-tooltip' });
+      layer.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        showBezirkDetail(bezirkKey, feature.properties.flaeche_qm);
+      });
+    },
+  }).addTo(mapUebersicht);
 
   rows.forEach(r => {
     const lat = parseFloat(r['Latitude']  || '');
@@ -2171,9 +2217,10 @@ async function initUebersicht() {
     const aktiv          = String(r['Aktiv']           || '').trim().toLowerCase() !== 'nein';
     const inactive       = quelle === 'Anzeige' && !aktiv;
     const color          = typColor(typ);
+    const stadtbezirk    = findStadtbezirk(lat, lon, districtsGeo) || 'Unbekannt';
 
     const d = {
-      name, typ, bew, quelle, immo, dauerparken, parkplatzFrei, color, lat, lon,
+      name, typ, bew, quelle, immo, dauerparken, parkplatzFrei, color, lat, lon, stadtbezirk,
       id:           String(r['ID']         ?? '').trim(),
       strasse:      String(r['Straße']     ?? '').trim(),
       hausnr:       String(r['Hausnummer'] ?? '').trim(),
@@ -2206,7 +2253,7 @@ async function initUebersicht() {
     if (d.id) entryById[d.id] = { d, marker };
 
     const unknownPlaetze = !d.plaetze || isNaN(parseInt(d.plaetze)) || parseInt(d.plaetze) <= 0;
-    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive, unverified, unknownPlaetze });
+    allMarkers.push({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, inactive, unverified, unknownPlaetze, stadtbezirk });
   });
 
   // Karte-Statistiken befüllen (aus allMarkers – gleiche Basis wie Filter-Count)
@@ -2404,6 +2451,53 @@ function esc(s) {
   return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+function showBezirkDetail(bezirkKey, flaecheQm) {
+  _restoreSelected();
+  _selMarker = null;
+  _selD      = null;
+
+  const entries = Object.values(entryById)
+    .filter(({ d }) => d.stadtbezirk === bezirkKey)
+    .map(({ d }) => d);
+
+  document.getElementById('dp-name').textContent = bezirkKey;
+  document.getElementById('dp-dot').style.background = '#888';
+  document.getElementById('dp-typ').textContent = 'Stadtbezirk';
+  document.getElementById('dp-addr').textContent = flaecheQm
+    ? `${(flaecheQm / 1e6).toLocaleString('de-DE', { maximumFractionDigits: 1 })} km²`
+    : '';
+
+  const typCounts = {};
+  let plaetzeSum = 0;
+  entries.forEach(d => {
+    typCounts[d.typ] = (typCounts[d.typ] || 0) + 1;
+    const p = parseInt(d.plaetze);
+    if (!isNaN(p) && p > 0) plaetzeSum += p;
+  });
+
+  let html = `<div class="detail-section">
+    <div class="detail-section-title">Übersicht</div>
+    <div class="detail-row"><span class="detail-label">Einträge</span><span class="detail-value">${fmtNum(entries.length)}</span></div>
+    <div class="detail-row"><span class="detail-label">Stellplätze gesamt</span><span class="detail-value">${plaetzeSum > 0 ? fmtNum(plaetzeSum) : '–'}</span></div>
+  </div>`;
+
+  if (Object.keys(typCounts).length) {
+    html += `<div class="detail-section"><div class="detail-section-title">Nach Typ</div>`;
+    Object.entries(typCounts).sort((a, b) => b[1] - a[1]).forEach(([typ, cnt]) => {
+      html += `<div class="detail-row"><span class="detail-label">${esc(typ || '–')}</span><span class="detail-value">${cnt}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('dp-body').innerHTML = html;
+  document.getElementById('detail-panel').classList.add('bezirk-mode');
+  document.getElementById('uebersicht-layout').classList.add('detail-open');
+  if (mobileSheet()) {
+    toggleFilterSheet(false);
+    document.getElementById('sheet-backdrop').classList.add('show');
+  }
+}
+
 function showDetail(d, marker) {
   _restoreSelected();
   if (marker) {
@@ -2412,6 +2506,7 @@ function showDetail(d, marker) {
     _selMarker = marker;
     _selD      = d;
   }
+  document.getElementById('detail-panel').classList.remove('bezirk-mode');
   document.getElementById('dp-name').textContent = d.name;
   document.getElementById('dp-dot').style.background = d.color;
   document.getElementById('dp-typ').textContent = d.typ;
@@ -2556,18 +2651,19 @@ function closePsDetail() {
 
 // ── Filter-Sidebar aufbauen ──────────────────
 
-const activeFilters = { typ: new Set(), bew: new Set(), quelle: new Set(), immo: new Set() };
+const activeFilters = { typ: new Set(), bew: new Set(), quelle: new Set(), immo: new Set(), bezirk: new Set() };
 let filterDauerparken    = false;
 let filterParkplatzFrei  = false;
 let filterUnverifiedOnly = false;
 let filterUnknownPlaetze = false;
 
 function buildFilters() {
-  const counts = { typ: {}, bew: {}, quelle: {}, immo: {} };
-  allMarkers.forEach(({ typ, bew, quelle, immo }) => {
+  const counts = { typ: {}, bew: {}, quelle: {}, immo: {}, bezirk: {} };
+  allMarkers.forEach(({ typ, bew, quelle, immo, stadtbezirk }) => {
     counts.typ[typ]       = (counts.typ[typ]       || 0) + 1;
     counts.bew[bew]       = (counts.bew[bew]       || 0) + 1;
     counts.quelle[quelle] = (counts.quelle[quelle] || 0) + 1;
+    counts.bezirk[stadtbezirk] = (counts.bezirk[stadtbezirk] || 0) + 1;
     immo.forEach(v => { counts.immo[v] = (counts.immo[v] || 0) + 1; });
   });
 
@@ -2575,6 +2671,7 @@ function buildFilters() {
   Object.keys(counts.bew).forEach(v => activeFilters.bew.add(v));
   Object.keys(counts.quelle).forEach(v => activeFilters.quelle.add(v));
   Object.keys(counts.immo).forEach(v => activeFilters.immo.add(v));
+  Object.keys(counts.bezirk).forEach(v => activeFilters.bezirk.add(v));
 
   const mitmachenEl = document.getElementById('filter-mitmachen-extra');
   mitmachenEl.innerHTML = '';
@@ -2592,6 +2689,7 @@ function buildFilters() {
   el.appendChild(buildGroup('Bewirtschaftung', 'bew',    counts.bew,    false));
   el.appendChild(buildGroup('Immobilientyp',   'immo',   counts.immo,   false));
   el.appendChild(buildGroup('Quelle',          'quelle', counts.quelle, false));
+  el.appendChild(buildGroup('Stadtbezirk',     'bezirk', counts.bezirk, false));
 }
 
 function toggleFilterGroup(header) {
@@ -2660,12 +2758,15 @@ function onUnverifiedChange() {
 function buildDatalueckenFilter() {
   const cnt = allMarkers.filter(m => m.unknownPlaetze).length;
   const div = document.createElement('div');
-  div.className = 'filter-datenlücken-section';
+  div.className = 'filter-datenlücken-section filter-group';
   div.innerHTML = `
-    <div class="filter-datenlücken-heading">Einträge ergänzen</div>
-    <div class="filter-datenlücken-hint">Bei Einträgen mit ? ist die Anzahl der Parkplätze unbekannt. Hilf uns sie zu ergänzen. Klicke auf den Punkt. Es öffnet sich eine Detailansicht. Dort kannst du Änderungen über den Button „Korrektur vorschlagen" eintragen.</div>
-    <div class="filter-options" style="display:flex;padding:2px 12px 8px">
-      <label class="filter-option">
+    <div class="filter-group-header" onclick="toggleFilterGroup(this)">
+      <span class="filter-datenlücken-heading" style="padding:0">Einträge ergänzen</span>
+      <span class="filter-group-arrow">▾</span>
+    </div>
+    <div class="filter-options">
+      <div class="filter-datenlücken-hint">Bei Einträgen mit ? ist die Anzahl der Parkplätze unbekannt. Hilf uns sie zu ergänzen. Klicke auf den Punkt. Es öffnet sich eine Detailansicht. Dort kannst du Änderungen über den Button „Korrektur vorschlagen" eintragen.</div>
+      <label class="filter-option" style="padding:2px 12px 8px">
         <input type="checkbox" id="cb-unknown-plaetze" onchange="onUnknownPlaetzeChange()">
         <span class="filter-option-label">Anzahl Parkplätze unbekannt</span>
         <span class="filter-option-count">${cnt}</span>
@@ -2722,7 +2823,7 @@ function setAll(key, checked) {
 }
 
 function onFilterChange() {
-  ['typ', 'bew', 'quelle', 'immo'].forEach(key => {
+  ['typ', 'bew', 'quelle', 'immo', 'bezirk'].forEach(key => {
     activeFilters[key].clear();
     document.querySelectorAll(`input[data-key="${key}"]:checked`).forEach(cb => {
       activeFilters[key].add(cb.dataset.val);
@@ -2733,7 +2834,7 @@ function onFilterChange() {
 
 function applyFilters() {
   let visible = 0;
-  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, unverified, unknownPlaetze }) => {
+  allMarkers.forEach(({ marker, typ, bew, quelle, immo, dauerparken, parkplatzFrei, unverified, unknownPlaetze, stadtbezirk }) => {
     if (filterUnverifiedOnly) {
       const show = unverified && (!filterUnknownPlaetze || unknownPlaetze);
       if (show) { marker.addTo(mapUebersicht); visible++; } else { marker.remove(); }
@@ -2748,6 +2849,7 @@ function applyFilters() {
     const show = activeFilters.typ.has(typ)
               && activeFilters.bew.has(bew)
               && activeFilters.quelle.has(quelle)
+              && activeFilters.bezirk.has(stadtbezirk)
               && immoOk
               && (!filterDauerparken    || dauerparken)
               && (!filterParkplatzFrei  || parkplatzFrei)

@@ -2181,6 +2181,7 @@ async function initUebersicht() {
       plz:          String(r['PLZ']  ?? '').trim(),
       ort:          (r['Ort']            || '').trim(),
       plaetze:      (r['Plätze']         || '').toString().trim(),
+      freiePlaetze: (r['Freie Plätze']   || '').toString().trim(),
       kurzzeit:     (r['Kurzzeitparken'] || '').trim(),
       preisStunde:  (r['Preis/Stunde']   || '').toString().trim(),
       preisTag:     (r['Preis/Tag']      || '').toString().trim(),
@@ -2434,6 +2435,7 @@ function showDetail(d, marker) {
   if (d.bew)         nutzung.push(['Bewirtschaftung', d.bew]);
   if (d.immo.length) nutzung.push(['Immobilientyp',   d.immo.join(', ')]);
   if (d.plaetze)     nutzung.push(['Stellplätze',     d.plaetze]);
+  if (d.freiePlaetze && !isNaN(parseInt(d.freiePlaetze))) nutzung.push(['Freie Plätze', d.freiePlaetze]);
   if (d.oeffnung)    nutzung.push(['Öffnungszeiten',  d.oeffnung]);
   if (d.einfahrt)    nutzung.push(['Einfahrt max.',   d.einfahrt + ' m']);
 

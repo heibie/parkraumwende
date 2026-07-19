@@ -752,6 +752,33 @@
     .plz-label.gruen { color: #1a5c1a; }
 
     /* ══════════════════════════════════════
+       BEZIRKSPROFILE
+    ══════════════════════════════════════ */
+    .bezirke-layout {
+      display: flex; flex-direction: column;
+      height: calc(100vh - var(--header-h) - var(--nav-h) - var(--footer-h));
+      overflow: hidden;
+    }
+    .bezirke-body {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      overflow: hidden;
+    }
+    .bezirke-body.detail-open { grid-template-columns: 1fr 340px; }
+    .bezirke-body .detail-panel { display: none; }
+    .bezirke-body.detail-open .detail-panel { display: flex; }
+    #map-bezirke { height: 100%; }
+    .bez-label {
+      background: none; border: none;
+      font-size: 0.62rem; font-weight: 700; line-height: 1.15; text-align: center;
+      color: var(--primary);
+      text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+      pointer-events: none; white-space: nowrap;
+    }
+    .bez-chart-wrap { position: relative; height: 150px; }
+
+    /* ══════════════════════════════════════
        PARKSEITEN
     ══════════════════════════════════════ */
     .parkseiten-layout {
@@ -1106,6 +1133,36 @@
         flex-shrink: 0;
       }
       .parklizenz-body.detail-open .detail-panel { transform: translateY(0); }
+
+      /* Bezirksprofile: Detail-Panel als Bottom Sheet */
+      .bezirke-body { grid-template-columns: 1fr !important; }
+      .bezirke-body .detail-panel,
+      .bezirke-body.detail-open .detail-panel {
+        display: flex;
+        position: fixed;
+        inset: auto 0 0 0;
+        max-height: 65vh;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.18);
+        transform: translateY(110%);
+        transition: transform .28s cubic-bezier(.4,0,.2,1);
+        z-index: 601;
+        overflow-y: auto;
+        flex-direction: column;
+        max-width: none;
+      }
+      .bezirke-body .detail-panel::before {
+        content: '';
+        display: block;
+        width: 36px; height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 10px auto 2px;
+        flex-shrink: 0;
+      }
+      .bezirke-body.detail-open .detail-panel { transform: translateY(0); }
     }
     @media (max-width: 560px) {
       header p { display: none; }
@@ -1317,6 +1374,7 @@
   <button class="nav-tab"        data-tab="innenstadt"    onclick="showTab('innenstadt', this)">Innenstadt</button>
   <button class="nav-tab"        data-tab="parklizenz"    onclick="showTab('parklizenz', this)">Parklizenzgebiete</button>
   <button class="nav-tab"        data-tab="parkseiten"    onclick="showTab('parkseiten', this)">Parkseiten</button>
+  <button class="nav-tab"        data-tab="bezirke"       onclick="showTab('bezirke', this)">Bezirksprofile</button>
   <button class="nav-tab"        data-tab="statistiken"   onclick="showTab('statistiken', this)">Statistiken</button>
 </nav>
 
@@ -1474,6 +1532,29 @@
           </div>
         </div>
         <div class="detail-body" id="ps-dp-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ BEZIRKSPROFILE ═══════════ -->
+<div class="section" id="sec-bezirke">
+  <div class="bezirke-layout">
+    <div class="stats-bar">
+      <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Mehr Infos<span class="sb-arrow">▾</span></button>
+      <div class="stat"><span class="stat-label">Stadtbezirke</span><span class="stat-value" id="bez-stat-anzahl">–</span></div>
+      <button class="embed-btn" id="bez-gesamtstadt-btn" onclick="showGesamtstadtDetail()">🏙 Gesamtstadt</button>
+      <div class="editorial-box" id="editorial-bezirke"></div>
+    </div>
+    <div class="bezirke-body" id="bezirke-body">
+      <div id="map-bezirke"></div>
+      <div class="detail-panel" id="bez-detail-panel">
+        <div class="detail-head">
+          <button class="detail-close" onclick="closeBezDetail()">✕</button>
+          <div class="detail-name" id="bez-dp-name"></div>
+          <div class="detail-typ" id="bez-dp-sub"></div>
+        </div>
+        <div class="detail-body" id="bez-dp-body"></div>
       </div>
     </div>
   </div>
@@ -2007,6 +2088,7 @@ function showTab(name, btn) {
     if (name === 'innenstadt')   initInnenstadt();
     if (name === 'parklizenz')   initParklizenz();
     if (name === 'parkseiten')   initParkseiten();
+    if (name === 'bezirke')      initBezirke();
     if (name === 'statistiken')  initStatistiken();
   } else if (name === 'karte') {
     openDeepLinkedEntry();
@@ -2014,7 +2096,7 @@ function showTab(name, btn) {
 }
 
 window.addEventListener('hashchange', () => {
-  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'statistiken'];
+  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'bezirke', 'statistiken'];
   const hash = location.hash.replace('#', '');
   if (valid.includes(hash)) showTab(hash);
 });
@@ -2038,7 +2120,7 @@ async function loadEditorial(section) {
 
 async function loadCsv(url, delimiter) {
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return [];
     const text = await res.text();
     const { data } = Papa.parse(text, {
@@ -3077,7 +3159,7 @@ function showMsg(text, cls) {
 // INIT
 // ══════════════════════════════════════════════
 {
-  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'statistiken'];
+  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'bezirke', 'statistiken'];
   const hash  = location.hash.replace('#', '');
   const start = valid.includes(hash) ? hash : 'karte';
   // Activate correct tab visually without triggering hashchange
@@ -3090,6 +3172,7 @@ function showMsg(text, cls) {
   if (start === 'innenstadt')   initInnenstadt();
   if (start === 'parklizenz')   initParklizenz();
   if (start === 'parkseiten')   initParkseiten();
+  if (start === 'bezirke')      initBezirke();
   if (start === 'statistiken')  initStatistiken();
 }
 
@@ -3451,6 +3534,263 @@ async function initParkseiten() {
     });
 
   _psUpdateCount();
+}
+
+// ══════════════════════════════════════════════
+// BEZIRKSPROFILE
+// ══════════════════════════════════════════════
+
+let GESAMTSTADT_REF = null;
+let bezMap = null;
+let bezDataByNum = {};
+let bezMotorisierung = {};
+let bezCharts = {};
+
+async function initBezirke() {
+  loadEditorial('bezirke');
+
+  const [geo, rows, motRows] = await Promise.all([
+    fetch('data/stadtbezirke_muenchen.geojson').then(r => r.json()),
+    loadCsv('data/stadtbezirksprofile.csv', ','),
+    loadCsv('data/indikat_verkehr_motorisierungsgrad_personenkraftwagen.csv', ','),
+  ]);
+
+  bezDataByNum = {};
+  rows.forEach(r => { if (r.sb_nummer != null) bezDataByNum[String(r.sb_nummer)] = r; });
+
+  bezMotorisierung = {};
+  motRows.forEach(r => {
+    if ((r['Ausprägung'] || '').trim() !== 'insgesamt') return;
+    const raum = (r['Raumbezug'] || '').trim();
+    let key;
+    if (raum === 'Stadt München') key = 'gesamt';
+    else {
+      const m = raum.match(/^(\d+)/);
+      if (!m) return;
+      key = String(parseInt(m[1], 10));
+    }
+    if (!bezMotorisierung[key]) bezMotorisierung[key] = { jahre: [], quote: [], pkw: [] };
+    bezMotorisierung[key].jahre.push(Number(r['Jahr']));
+    bezMotorisierung[key].quote.push(Number(r['Indikatorwert']));
+    bezMotorisierung[key].pkw.push(Number(r['Basiswert 1']));
+  });
+  Object.values(bezMotorisierung).forEach(d => {
+    const idx = d.jahre.map((_, i) => i).sort((a, b) => d.jahre[a] - d.jahre[b]);
+    d.jahre = idx.map(i => d.jahre[i]);
+    d.quote = idx.map(i => d.quote[i]);
+    d.pkw   = idx.map(i => d.pkw[i]);
+  });
+
+  const gRow = bezDataByNum['0'];
+  GESAMTSTADT_REF = {
+    bevoelkerung: gRow.bevoelkerung, befragte: gRow.befragte, stichprobengroesse_pct: gRow.stichprobengroesse_pct,
+    modalsplit: { kfz: gRow.modalsplit_kfz_pct, oev: gRow.modalsplit_oev_pct, rad: gRow.modalsplit_rad_pct, fuss: gRow.modalsplit_fuss_pct },
+    wegezweck:  { arbeitsplatz: gRow.wegezweck_arbeitsplatz_pct, kita_schule: gRow.wegezweck_kita_schule_pct, einkauf: gRow.wegezweck_einkauf_pct, freizeit: gRow.wegezweck_freizeit_pct, anderer: gRow.wegezweck_anderer_pct },
+    wegekennwerte: { wege_pro_tag: gRow.wege_pro_tag, dauer_pro_weg_min: gRow.dauer_pro_weg_min, entfernung_pro_weg_km: gRow.entfernung_pro_weg_km },
+    alter: { a0_15: gRow.alter_0_15_pct, a15_25: gRow.alter_15_25_pct, a25_45: gRow.alter_25_45_pct, a45_65: gRow.alter_45_65_pct, a65plus: gRow.alter_65plus_pct },
+    weitere: { homeoffice_quote_pct: gRow.homeoffice_quote_pct, hh_groesse: gRow.hh_groesse, pkw_besetzung: gRow.pkw_besetzung, bevoelkerungsdichte_einw_pro_ha: gRow.bevoelkerungsdichte_einw_pro_ha },
+  };
+
+  document.getElementById('bez-stat-anzahl').textContent = rows.filter(r => r.sb_nummer > 0).length;
+
+  bezMap = L.map('map-bezirke', { zoomControl: true }).setView([48.137, 11.575], 11);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap contributors © CARTO',
+    maxZoom: 19,
+  }).addTo(bezMap);
+
+  const bezLayer = L.geoJSON(geo, {
+    style: { color: '#2c2fdf', weight: 1.3, fillColor: '#2c2fdf', fillOpacity: 0.08 },
+    onEachFeature: (feature, layer) => {
+      const num = parseInt(feature.properties.sb_nummer, 10);
+      layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.22, weight: 2.2 }));
+      layer.on('mouseout',  () => layer.setStyle({ fillOpacity: 0.08, weight: 1.3 }));
+      layer.on('click', () => showBezDetail(num, feature.properties.sb_name, layer));
+
+      const center = layer.getBounds().getCenter();
+      L.marker(center, {
+        icon: L.divIcon({ className: 'bez-label', html: `${num}`, iconSize: null }),
+        interactive: false,
+      }).addTo(bezMap);
+    },
+  }).addTo(bezMap);
+  bezMap.fitBounds(bezLayer.getBounds(), { padding: [16, 16] });
+}
+
+function showBezDetail(num, name, layer) {
+  const row = bezDataByNum[String(num)];
+  if (!row) return;
+  renderBezSteckbrief(num, name, row, false);
+  if (layer && bezMap) bezMap.fitBounds(layer.getBounds(), { padding: [24, 24], maxZoom: 14 });
+  document.getElementById('bezirke-body').classList.add('detail-open');
+  if (history.replaceState) history.replaceState(null, '', '#bezirke');
+}
+
+function showGesamtstadtDetail() {
+  renderBezSteckbrief(null, 'Gesamtstadt München', null, true);
+  document.getElementById('bezirke-body').classList.add('detail-open');
+}
+
+function closeBezDetail() {
+  document.getElementById('bezirke-body').classList.remove('detail-open');
+}
+
+function renderBezSteckbrief(num, name, row, isGesamt) {
+  document.getElementById('bez-dp-name').textContent = isGesamt ? name : `${num} – ${name}`;
+  document.getElementById('bez-dp-sub').textContent = isGesamt
+    ? `${fmtNum(GESAMTSTADT_REF.bevoelkerung)} Einwohner · gesamte Stadt`
+    : `${fmtNum(row.bevoelkerung)} Einwohner`;
+
+  const wk  = isGesamt ? GESAMTSTADT_REF.wegekennwerte : { wege_pro_tag: row.wege_pro_tag, dauer_pro_weg_min: row.dauer_pro_weg_min, entfernung_pro_weg_km: row.entfernung_pro_weg_km };
+  const alt = isGesamt ? GESAMTSTADT_REF.alter : { a0_15: row.alter_0_15_pct, a15_25: row.alter_15_25_pct, a25_45: row.alter_25_45_pct, a45_65: row.alter_45_65_pct, a65plus: row.alter_65plus_pct };
+  const wei = isGesamt ? GESAMTSTADT_REF.weitere : { homeoffice_quote_pct: row.homeoffice_quote_pct, hh_groesse: row.hh_groesse, pkw_besetzung: row.pkw_besetzung, bevoelkerungsdichte_einw_pro_ha: row.bevoelkerungsdichte_einw_pro_ha };
+
+  let html = '';
+
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Wegekennwerte</div>
+    <div class="detail-row"><span class="detail-label">Wege pro Tag</span><span class="detail-value">${wk.wege_pro_tag}</span></div>
+    <div class="detail-row"><span class="detail-label">Dauer pro Weg</span><span class="detail-value">${wk.dauer_pro_weg_min} min</span></div>
+    <div class="detail-row"><span class="detail-label">Entfernung pro Weg</span><span class="detail-value">${wk.entfernung_pro_weg_km} km</span></div>
+  </div>`;
+
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Verkehrsmittelanteile${isGesamt ? '' : ' – Bezirk vs. Gesamtstadt'}</div>
+    <div class="bez-chart-wrap"><canvas id="bez-chart-modalsplit"></canvas></div>
+  </div>`;
+
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Wegezwecke${isGesamt ? '' : ' – Bezirk vs. Gesamtstadt'}</div>
+    <div class="bez-chart-wrap"><canvas id="bez-chart-wegezweck"></canvas></div>
+  </div>`;
+
+  const motBez = bezMotorisierung[isGesamt ? 'gesamt' : String(num)];
+  const motGes = bezMotorisierung['gesamt'];
+  if (motBez) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Pkw-Bestand je 1.000 Einwohner${isGesamt ? '' : ' – Bezirk vs. Gesamtstadt'}</div>
+      <div class="bez-chart-wrap"><canvas id="bez-chart-motorisierung"></canvas></div>
+    </div>`;
+  }
+
+  if (!isGesamt) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Üblicher Abstellort Haushalts-Pkw</div>
+      <div class="bez-chart-wrap"><canvas id="bez-chart-abstellort"></canvas></div>
+    </div>`;
+
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Fahrzeugausstattung je Haushalt</div>
+      <div class="detail-row"><span class="detail-label">Privat-Pkw</span><span class="detail-value">${row.fz_privat_pkw_je_hh}</span></div>
+      <div class="detail-row"><span class="detail-label">Dienst-Pkw</span><span class="detail-value">${row.fz_dienst_pkw_je_hh}</span></div>
+      <div class="detail-row"><span class="detail-label">Fahrräder</span><span class="detail-value">${row.fz_fahrraeder_je_hh}</span></div>
+      <div class="detail-row"><span class="detail-label">E-Fahrräder</span><span class="detail-value">${row.fz_efahrraeder_je_hh}</span></div>
+    </div>`;
+
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Antriebsart Haushalts-Pkw</div>
+      <div class="detail-row"><span class="detail-label">Benzin</span><span class="detail-value">${row.antrieb_benzin_pct}%</span></div>
+      <div class="detail-row"><span class="detail-label">Diesel</span><span class="detail-value">${row.antrieb_diesel_pct}%</span></div>
+      <div class="detail-row"><span class="detail-label">Plug-in-Hybrid</span><span class="detail-value">${row.antrieb_pluginhybrid_pct}%</span></div>
+      <div class="detail-row"><span class="detail-label">Elektro</span><span class="detail-value">${row.antrieb_elektro_pct}%</span></div>
+    </div>`;
+  }
+
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Altersstruktur</div>
+    <div class="detail-row"><span class="detail-label">0–15 Jahre</span><span class="detail-value">${alt.a0_15}%</span></div>
+    <div class="detail-row"><span class="detail-label">15–25 Jahre</span><span class="detail-value">${alt.a15_25}%</span></div>
+    <div class="detail-row"><span class="detail-label">25–45 Jahre</span><span class="detail-value">${alt.a25_45}%</span></div>
+    <div class="detail-row"><span class="detail-label">45–65 Jahre</span><span class="detail-value">${alt.a45_65}%</span></div>
+    <div class="detail-row"><span class="detail-label">65+ Jahre</span><span class="detail-value">${alt.a65plus}%</span></div>
+  </div>`;
+
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Weitere Kennziffern</div>
+    <div class="detail-row"><span class="detail-label">Homeoffice-Quote</span><span class="detail-value">${wei.homeoffice_quote_pct}%</span></div>
+    <div class="detail-row"><span class="detail-label">Ø Haushaltsgröße</span><span class="detail-value">${wei.hh_groesse}</span></div>
+    <div class="detail-row"><span class="detail-label">Ø Pkw-Besetzung</span><span class="detail-value">${wei.pkw_besetzung}</span></div>
+    <div class="detail-row"><span class="detail-label">Bevölkerungsdichte</span><span class="detail-value">${wei.bevoelkerungsdichte_einw_pro_ha} Einw./ha</span></div>
+  </div>`;
+
+  html += `<div class="detail-quelle">Quelle: <a href="quellen.html#srv-stadtbezirke" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Haushaltsbefragung „SrV 2023"</a> (TU Dresden, im Auftrag der LHM) · Bevölkerungsdaten © Statistisches Amt München (Stand 2023) · Pkw-Bestand: <a href="quellen.html#motorisierungsgrad" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Statistisches Amt München, Indikatorenatlas Verkehr</a></div>`;
+
+  document.getElementById('bez-dp-body').innerHTML = html;
+
+  Object.values(bezCharts).forEach(c => c.destroy());
+  bezCharts = {};
+
+  const grau = '#cbd5e1';
+  const accent = '#2c2fdf';
+
+  const msRow = isGesamt ? GESAMTSTADT_REF.modalsplit : { kfz: row.modalsplit_kfz_pct, oev: row.modalsplit_oev_pct, rad: row.modalsplit_rad_pct, fuss: row.modalsplit_fuss_pct };
+  const msLabels = ['Kfz', 'ÖV', 'Rad', 'Fuß'];
+  const msDatasets = isGesamt
+    ? [{ label: 'Gesamtstadt', data: [msRow.kfz, msRow.oev, msRow.rad, msRow.fuss], backgroundColor: accent }]
+    : [
+        { label: 'Gesamtstadt', data: [GESAMTSTADT_REF.modalsplit.kfz, GESAMTSTADT_REF.modalsplit.oev, GESAMTSTADT_REF.modalsplit.rad, GESAMTSTADT_REF.modalsplit.fuss], backgroundColor: grau },
+        { label: name, data: [msRow.kfz, msRow.oev, msRow.rad, msRow.fuss], backgroundColor: accent },
+      ];
+  bezCharts.modalsplit = new Chart(document.getElementById('bez-chart-modalsplit'), {
+    type: 'bar',
+    data: { labels: msLabels, datasets: msDatasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: !isGesamt, position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+      scales: { y: { beginAtZero: true, ticks: { callback: v => v + '%', font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } },
+    },
+  });
+
+  const wzRow = isGesamt ? GESAMTSTADT_REF.wegezweck : { arbeitsplatz: row.wegezweck_arbeitsplatz_pct, kita_schule: row.wegezweck_kita_schule_pct, einkauf: row.wegezweck_einkauf_pct, freizeit: row.wegezweck_freizeit_pct, anderer: row.wegezweck_anderer_pct };
+  const wzLabels = ['Arbeitsplatz', 'Kita/Schule', 'Einkauf', 'Freizeit', 'Anderer Zweck'];
+  const wzVals = [wzRow.arbeitsplatz, wzRow.kita_schule, wzRow.einkauf, wzRow.freizeit, wzRow.anderer];
+  const wzDatasets = isGesamt
+    ? [{ label: 'Gesamtstadt', data: wzVals, backgroundColor: accent }]
+    : [
+        { label: 'Gesamtstadt', data: [GESAMTSTADT_REF.wegezweck.arbeitsplatz, GESAMTSTADT_REF.wegezweck.kita_schule, GESAMTSTADT_REF.wegezweck.einkauf, GESAMTSTADT_REF.wegezweck.freizeit, GESAMTSTADT_REF.wegezweck.anderer], backgroundColor: grau },
+        { label: name, data: wzVals, backgroundColor: accent },
+      ];
+  bezCharts.wegezweck = new Chart(document.getElementById('bez-chart-wegezweck'), {
+    type: 'bar',
+    data: { labels: wzLabels, datasets: wzDatasets },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: !isGesamt, position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+      scales: { x: { beginAtZero: true, ticks: { callback: v => v + '%', font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } },
+    },
+  });
+
+  if (motBez) {
+    const motDatasets = isGesamt
+      ? [{ label: 'Gesamtstadt', data: motBez.quote, borderColor: accent, backgroundColor: 'transparent', tension: 0.3, pointRadius: 0, borderWidth: 2 }]
+      : [
+          { label: 'Gesamtstadt', data: motGes.quote, borderColor: grau, backgroundColor: 'transparent', tension: 0.3, pointRadius: 0, borderWidth: 2, borderDash: [4, 3] },
+          { label: name, data: motBez.quote, borderColor: accent, backgroundColor: 'transparent', tension: 0.3, pointRadius: 0, borderWidth: 2 },
+        ];
+    bezCharts.motorisierung = new Chart(document.getElementById('bez-chart-motorisierung'), {
+      type: 'line',
+      data: { labels: motBez.jahre, datasets: motDatasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: !isGesamt, position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+        scales: { y: { ticks: { font: { size: 10 } } }, x: { ticks: { font: { size: 10 }, maxTicksLimit: 8 } } },
+      },
+    });
+  }
+
+  if (!isGesamt) {
+    bezCharts.abstellort = new Chart(document.getElementById('bez-chart-abstellort'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Privater Stellplatz', 'Öffentlicher Straßenraum', 'Unterschiedlich'],
+        datasets: [{ data: [row.abstellort_privater_stellplatz_pct, row.abstellort_oeffentlicher_strassenraum_pct, row.abstellort_unterschiedlich_pct], backgroundColor: ['#16a34a', '#dc3545', '#94a3b8'] }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }, tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.parsed}%` } } },
+      },
+    });
+  }
 }
 
 // ══════════════════════════════════════════════

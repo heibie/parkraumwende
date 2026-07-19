@@ -1555,6 +1555,9 @@
           <div class="detail-typ" id="bez-dp-sub"></div>
         </div>
         <div class="detail-body" id="bez-dp-body"></div>
+        <div class="detail-footer">
+          <button class="detail-link-btn" id="bez-dp-link-btn">🔗 Link kopieren</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2092,6 +2095,8 @@ function showTab(name, btn) {
     if (name === 'statistiken')  initStatistiken();
   } else if (name === 'karte') {
     openDeepLinkedEntry();
+  } else if (name === 'bezirke') {
+    openDeepLinkedBezirk();
   }
 }
 
@@ -3543,6 +3548,7 @@ async function initParkseiten() {
 let GESAMTSTADT_REF = null;
 let bezMap = null;
 let bezDataByNum = {};
+let bezLayerByNum = {};
 let bezMotorisierung = {};
 let bezCharts = {};
 
@@ -3603,6 +3609,7 @@ async function initBezirke() {
     style: { color: '#2c2fdf', weight: 1.3, fillColor: '#2c2fdf', fillOpacity: 0.08 },
     onEachFeature: (feature, layer) => {
       const num = parseInt(feature.properties.sb_nummer, 10);
+      if (!bezLayerByNum[num]) bezLayerByNum[num] = layer;
       layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.22, weight: 2.2 }));
       layer.on('mouseout',  () => layer.setStyle({ fillOpacity: 0.08, weight: 1.3 }));
       layer.on('click', () => showBezDetail(num, feature.properties.sb_name, layer));
@@ -3615,6 +3622,19 @@ async function initBezirke() {
     },
   }).addTo(bezMap);
   bezMap.fitBounds(bezLayer.getBounds(), { padding: [16, 16] });
+
+  openDeepLinkedBezirk();
+}
+
+function openDeepLinkedBezirk() {
+  const val = new URLSearchParams(location.search).get('bezirk');
+  if (!val) return;
+  if (val === 'gesamt') { showGesamtstadtDetail(); return; }
+  const num = parseInt(val, 10);
+  const layer = bezLayerByNum[num];
+  const row = bezDataByNum[String(num)];
+  if (!layer || !row) return;
+  showBezDetail(num, row.sb_name, layer);
 }
 
 function showBezDetail(num, name, layer) {
@@ -3623,16 +3643,45 @@ function showBezDetail(num, name, layer) {
   renderBezSteckbrief(num, name, row, false);
   if (layer && bezMap) bezMap.fitBounds(layer.getBounds(), { padding: [24, 24], maxZoom: 14 });
   document.getElementById('bezirke-body').classList.add('detail-open');
-  if (history.replaceState) history.replaceState(null, '', '#bezirke');
+  if (history.replaceState) {
+    const url = new URL(location.href);
+    url.searchParams.set('bezirk', num);
+    url.hash = 'bezirke';
+    history.replaceState(null, '', url);
+  }
 }
 
 function showGesamtstadtDetail() {
   renderBezSteckbrief(null, 'Gesamtstadt München', null, true);
   document.getElementById('bezirke-body').classList.add('detail-open');
+  if (history.replaceState) {
+    const url = new URL(location.href);
+    url.searchParams.set('bezirk', 'gesamt');
+    url.hash = 'bezirke';
+    history.replaceState(null, '', url);
+  }
 }
 
 function closeBezDetail() {
   document.getElementById('bezirke-body').classList.remove('detail-open');
+  if (history.replaceState) {
+    const url = new URL(location.href);
+    url.searchParams.delete('bezirk');
+    history.replaceState(null, '', url);
+  }
+}
+
+function copyBezDeepLink(num) {
+  const url = new URL(location.origin + location.pathname);
+  url.searchParams.set('bezirk', num == null ? 'gesamt' : num);
+  url.hash = 'bezirke';
+  navigator.clipboard.writeText(url.toString()).then(() => {
+    const btn = document.getElementById('bez-dp-link-btn');
+    const original = '🔗 Link kopieren';
+    btn.textContent = '✓ Kopiert!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 2200);
+  });
 }
 
 function renderBezSteckbrief(num, name, row, isGesamt) {
@@ -3640,6 +3689,7 @@ function renderBezSteckbrief(num, name, row, isGesamt) {
   document.getElementById('bez-dp-sub').textContent = isGesamt
     ? `${fmtNum(GESAMTSTADT_REF.bevoelkerung)} Einwohner · gesamte Stadt`
     : `${fmtNum(row.bevoelkerung)} Einwohner`;
+  document.getElementById('bez-dp-link-btn').onclick = () => copyBezDeepLink(isGesamt ? null : num);
 
   const wk  = isGesamt ? GESAMTSTADT_REF.wegekennwerte : { wege_pro_tag: row.wege_pro_tag, dauer_pro_weg_min: row.dauer_pro_weg_min, entfernung_pro_weg_km: row.entfernung_pro_weg_km };
   const alt = isGesamt ? GESAMTSTADT_REF.alter : { a0_15: row.alter_0_15_pct, a15_25: row.alter_15_25_pct, a25_45: row.alter_25_45_pct, a45_65: row.alter_45_65_pct, a65plus: row.alter_65plus_pct };

@@ -90,6 +90,8 @@ def main():
         fieldnames = reader.fieldnames
         rows      = list(reader)
 
+    next_id = max((int(r["ID"]) for r in rows if r.get("ID", "").strip().isdigit()), default=0) + 1
+
     # Neue Spalte "Issue" einfügen falls noch nicht vorhanden
     if "Issue" not in fieldnames:
         fieldnames = list(fieldnames) + ["Issue"]
@@ -128,6 +130,7 @@ def main():
 
         row = {f: "" for f in fieldnames}
         row.update({
+            "ID":               str(next_id),
             "Name":             fields.get("Name", ""),
             "Typ":              fields.get("Typ", ""),
             "Bewirtschaftungsart": fields.get("Bewirtschaftung", ""),
@@ -164,7 +167,8 @@ def main():
 
         name_str = fields.get("Name", "?")
         addr_str = f"{strasse} {hausnr}, {plz} {ort}".strip(", ")
-        print(f"  Importiert: Issue #{num} – {name_str} ({addr_str})")
+        print(f"  Importiert: Issue #{num} – {name_str} ({addr_str}) → ID {next_id}")
+        next_id += 1
 
     if new_count == 0 and not new_imported:
         print("Keine neuen Issues zum Importieren.")

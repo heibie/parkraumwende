@@ -388,3 +388,12 @@ ID;Name;Typ;Bewirtschaftungsart;Immobilientyp;Aktiv;Verifiziert;Plätze;Freie Pl
 387;WOGENO - Eugen-Jochum-Strasse 1;Tiefgarage;Privat;Wohnen;Ja;Ja;;3;Ja;Nein;119;;;Ja;aktiv;;Eugen-Jochum-Str.;1;81927;München;;48.162811853920516;11.630549195331366;https://www.wogeno.de;;;hb.eugenjochum@wogeno.de;"3 KFZ-Stellplatz, kein Duplex, 100 € monatlich für WOGENO-Wohnende, ab sofort frei
 davon 1 Stellplatz mit E-Ladestation";Crowdsourcing;;2026-07-18 18:28:00;;
 388;WOGENO - Limmatstraße 3;Tiefgarage;Privat;Wohnen;Ja;Ja;;5;Ja;Nein;119;;;Ja;aktiv;;Limmatstraße;3;81476;München;;48.093818692151544;11.501024541352113;https://www.wogeno.de;;;hb.limmat@wogeno.de;5 freie Tiefgaragenstellplätze, ab sofort, davon 3 Duplexstellplätze;Crowdsourcing;;2026-07-18 18:29:00;;
+391;Hotel München Palace;Tiefgarage;Kunden / Besucherparkplatz;Hotel;Ja;Ja;;;Nein;Nein;;;;;;;Trogerstraße;21;81675;München;;48.1398962;11.6013157;https://www.hotel-muenchen-palace.de/service/palace-garage;;;;;Crowdsourcing;;2026-07-19 11:04:21;2026-07-19 16:48:29;69
+392;Troger 44;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Trogerstraße;44;81675;München;;48.1397602;11.6015410;;;;;;Crowdsourcing;;2026-07-19 11:13:10;2026-07-19 16:48:29;70
+393;Troger 19;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Trogerstraße;19;81675;München;;48.1397172;11.6013050;;;;;;Crowdsourcing;;2026-07-19 11:14:28;2026-07-19 16:48:29;71
+394;Troger 42;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Trogerstraße;42;81675;München;;48.1395096;11.6015518;;;;;;Crowdsourcing;;2026-07-19 11:16:00;2026-07-19 16:48:29;72
+395;Perfall 1;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Perfallstraße;1;81675;München;;48.1387721;11.6019917;;;;;;Crowdsourcing;;2026-07-19 11:17:13;2026-07-19 16:48:29;73
+396;Perfall 4;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Perfallstraße;4;81675;München;;48.1387072;11.6023001;;;;;;Crowdsourcing;;2026-07-19 11:19:20;2026-07-19 16:48:29;74
+397;Kugler 7;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Kuglerstraße;7;81675;München;;48.1361111;11.6051674;;;;;;Crowdsourcing;;2026-07-19 11:20:38;2026-07-19 16:48:29;75
+398;Kirchenstr. 74;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Kirchenstraße;74;81675;München;;48.1329853;11.6065300;;;;;;Crowdsourcing;;2026-07-19 11:28:12;2026-07-19 16:48:29;76
+399;Kirchenstr. 84;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;;;Kirchenstraße;84;81675;München;;48.1329343;11.6073024;;;;;;Crowdsourcing;;2026-07-19 11:29:29;2026-07-19 16:48:29;77

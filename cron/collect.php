@@ -42,38 +42,36 @@ try {
         exit;
     }
 
-    // 3. Details-CSV anfügen
+    // 3. Details-CSV: neuen Inhalt (bestehend + Anhang) zusammenbauen
     $detailRows = '';
     foreach ($data as $r) {
         $aktiv = $r['aktiv'] ? 1 : 0;
         $name  = str_replace(',', ' ', $r['parkhaus']); // Komma-Schutz
         $detailRows .= "{$now},{$r['sn']},{$name},{$r['frei']},{$r['kap']},{$aktiv}\n";
     }
-    github_append_csv(
+    $detailsContent = github_build_append_content(
         "data/details/{$yearMonth}.csv",
         "timestamp,sn,parkhaus,frei,kap,aktiv\n",
         $detailRows,
-        "data: details {$now}",
         $githubToken,
         $githubRepo
     );
 
-    // 4. Summary-CSV anfügen
+    // 4. Summary-CSV: neuen Inhalt zusammenbauen
     $active   = array_filter($data, fn($r) => $r['aktiv']);
     $kapGes   = array_sum(array_column(array_values($active), 'kap'));
     $freiGes  = array_sum(array_column(array_values($active), 'frei'));
     $belegtGs = $kapGes - $freiGes;
     $summaryRow = "{$now},{$freiGes},{$belegtGs},{$kapGes}\n";
-    github_append_csv(
+    $summaryContent = github_build_append_content(
         "data/summary/{$yearMonth}.csv",
         "timestamp,frei_gesamt,belegt_gesamt,kap_gesamt\n",
         $summaryRow,
-        "data: summary {$now}",
         $githubToken,
         $githubRepo
     );
 
-    // 5. latest.json aktualisieren
+    // 5. latest.json
     $latest = [
         'timestamp'     => $now,
         'frei_gesamt'   => $freiGes,
@@ -86,12 +84,16 @@ try {
     // Direkt auf Festplatte schreiben – sofort sichtbar ohne Deploy-Umweg
     file_put_contents(__DIR__ . '/../data/latest.json', $latestJson);
 
-    // Zusätzlich auf GitHub für Versionierung
-    github_put_file(
-        'data/latest.json',
-        $latestJson,
-        "data: latest {$now}",
-        github_get_sha('data/latest.json', $githubToken, $githubRepo),
+    // 6. Alle drei Dateien in EINEM Commit auf GitHub schreiben (Git-Data-API),
+    //    damit nur EIN Push und damit EIN Deploy-Workflow-Lauf ausgelöst wird
+    //    (statt bisher drei fast zeitgleiche, die sich beim rsync-Deploy ins Gehege kamen).
+    github_commit_multiple(
+        [
+            "data/details/{$yearMonth}.csv" => $detailsContent,
+            "data/summary/{$yearMonth}.csv" => $summaryContent,
+            'data/latest.json'              => $latestJson,
+        ],
+        "data: update {$now}",
         $githubToken,
         $githubRepo
     );
@@ -270,42 +272,88 @@ function github_headers(string $token): array
     ];
 }
 
-function github_get_sha(string $path, string $token, string $repo): ?string
-{
-    $url = "https://api.github.com/repos/{$repo}/contents/{$path}";
-    $res = github_request('GET', $url, github_headers($token));
-    if ($res['code'] !== 200) return null;
-    $data = json_decode($res['body'], true);
-    return $data['sha'] ?? null;
-}
-
-function github_put_file(string $path, string $content, string $message, ?string $sha, string $token, string $repo): void
-{
-    $url  = "https://api.github.com/repos/{$repo}/contents/{$path}";
-    $body = ['message' => $message, 'content' => base64_encode($content)];
-    if ($sha) $body['sha'] = $sha;
-
-    $res = github_request('PUT', $url, github_headers($token), json_encode($body));
-    if (!in_array($res['code'], [200, 201])) {
-        throw new RuntimeException("GitHub PUT {$path} fehlgeschlagen (HTTP {$res['code']}): {$res['body']}");
-    }
-}
-
-function github_append_csv(string $path, string $headers, string $newRows, string $message, string $token, string $repo): void
+// Liefert den kompletten neuen Dateiinhalt (bestehender Inhalt + Anhang), OHNE zu schreiben.
+// Wird zusammen mit anderen Dateien über github_commit_multiple() in einem Commit gespeichert.
+function github_build_append_content(string $path, string $headers, string $newRows, string $token, string $repo): string
 {
     $url = "https://api.github.com/repos/{$repo}/contents/{$path}";
     $res = github_request('GET', $url, github_headers($token));
 
     if ($res['code'] === 404) {
-        $content = $headers . $newRows;
-        $sha     = null;
-    } elseif ($res['code'] === 200) {
-        $data    = json_decode($res['body'], true);
-        $sha     = $data['sha'];
-        $content = rtrim(base64_decode($data['content'])) . "\n" . $newRows;
-    } else {
-        throw new RuntimeException("GitHub GET {$path} fehlgeschlagen (HTTP {$res['code']})");
+        return $headers . $newRows;
+    }
+    if ($res['code'] === 200) {
+        $data = json_decode($res['body'], true);
+        return rtrim(base64_decode($data['content'])) . "\n" . $newRows;
+    }
+    throw new RuntimeException("GitHub GET {$path} fehlgeschlagen (HTTP {$res['code']})");
+}
+
+// Schreibt mehrere Dateien in EINEM Commit (Git-Data-API: Blob → Tree → Commit → Ref-Update),
+// damit nur EIN Push-Event und damit EIN Deploy-Workflow-Lauf ausgelöst wird.
+// $files: ['pfad/datei.csv' => 'kompletter neuer inhalt', ...]
+function github_commit_multiple(array $files, string $message, string $token, string $repo, string $branch = 'main'): void
+{
+    $headers = github_headers($token);
+
+    // 1. Aktuellen Branch-HEAD holen
+    $refRes = github_request('GET', "https://api.github.com/repos/{$repo}/git/refs/heads/{$branch}", $headers);
+    if ($refRes['code'] !== 200) {
+        throw new RuntimeException("GitHub GET ref fehlgeschlagen (HTTP {$refRes['code']}): {$refRes['body']}");
+    }
+    $latestCommitSha = json_decode($refRes['body'], true)['object']['sha'];
+
+    // 2. Basis-Tree des aktuellen Commits holen
+    $commitRes = github_request('GET', "https://api.github.com/repos/{$repo}/git/commits/{$latestCommitSha}", $headers);
+    if ($commitRes['code'] !== 200) {
+        throw new RuntimeException("GitHub GET commit fehlgeschlagen (HTTP {$commitRes['code']}): {$commitRes['body']}");
+    }
+    $baseTreeSha = json_decode($commitRes['body'], true)['tree']['sha'];
+
+    // 3. Für jede Datei einen Blob anlegen
+    $treeEntries = [];
+    foreach ($files as $path => $content) {
+        $blobRes = github_request('POST', "https://api.github.com/repos/{$repo}/git/blobs", $headers, json_encode([
+            'content'  => base64_encode($content),
+            'encoding' => 'base64',
+        ]));
+        if ($blobRes['code'] !== 201) {
+            throw new RuntimeException("GitHub POST blob {$path} fehlgeschlagen (HTTP {$blobRes['code']}): {$blobRes['body']}");
+        }
+        $treeEntries[] = [
+            'path' => $path,
+            'mode' => '100644',
+            'type' => 'blob',
+            'sha'  => json_decode($blobRes['body'], true)['sha'],
+        ];
     }
 
-    github_put_file($path, $content, $message, $sha, $token, $repo);
+    // 4. Neuen Tree auf Basis des alten anlegen (nur die geänderten Pfade überschreiben)
+    $treeRes = github_request('POST', "https://api.github.com/repos/{$repo}/git/trees", $headers, json_encode([
+        'base_tree' => $baseTreeSha,
+        'tree'      => $treeEntries,
+    ]));
+    if ($treeRes['code'] !== 201) {
+        throw new RuntimeException("GitHub POST tree fehlgeschlagen (HTTP {$treeRes['code']}): {$treeRes['body']}");
+    }
+    $newTreeSha = json_decode($treeRes['body'], true)['sha'];
+
+    // 5. Neuen Commit anlegen
+    $newCommitRes = github_request('POST', "https://api.github.com/repos/{$repo}/git/commits", $headers, json_encode([
+        'message' => $message,
+        'tree'    => $newTreeSha,
+        'parents' => [$latestCommitSha],
+    ]));
+    if ($newCommitRes['code'] !== 201) {
+        throw new RuntimeException("GitHub POST commit fehlgeschlagen (HTTP {$newCommitRes['code']}): {$newCommitRes['body']}");
+    }
+    $newCommitSha = json_decode($newCommitRes['body'], true)['sha'];
+
+    // 6. Branch-Ref auf den neuen Commit zeigen lassen → löst genau EINEN Push aus
+    $updateRes = github_request('PATCH', "https://api.github.com/repos/{$repo}/git/refs/heads/{$branch}", $headers, json_encode([
+        'sha' => $newCommitSha,
+    ]));
+    if ($updateRes['code'] !== 200) {
+        throw new RuntimeException("GitHub PATCH ref fehlgeschlagen (HTTP {$updateRes['code']}): {$updateRes['body']}");
+    }
 }

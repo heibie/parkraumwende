@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-22 01:02:01",
-    "frei_gesamt": 2851,
-    "belegt_gesamt": 1012,
+    "timestamp": "2026-07-22 02:02:01",
+    "frei_gesamt": 2853,
+    "belegt_gesamt": 1010,
     "kap_gesamt": 3863,
     "parkhaeuser": [
         {
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 46,
+            "frei": 47,
             "kap": 150,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 198,
+            "frei": 197,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 248,
+            "frei": 250,
             "kap": 280,
             "aktiv": true
         },

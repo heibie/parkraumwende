@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-24 03:02:01",
-    "frei_gesamt": 2851,
-    "belegt_gesamt": 1030,
+    "timestamp": "2026-07-24 04:02:01",
+    "frei_gesamt": 2854,
+    "belegt_gesamt": 1027,
     "kap_gesamt": 3881,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 253,
+            "frei": 254,
             "kap": 275,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 227,
+            "frei": 226,
             "kap": 280,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 355,
+            "frei": 356,
             "kap": 411,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 205,
+            "frei": 207,
             "kap": 217,
             "aktiv": true
         },

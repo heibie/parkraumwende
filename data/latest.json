@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-24 05:02:01",
-    "frei_gesamt": 2854,
-    "belegt_gesamt": 1027,
+    "timestamp": "2026-07-24 06:02:01",
+    "frei_gesamt": 2851,
+    "belegt_gesamt": 1030,
     "kap_gesamt": 3881,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 339,
+            "frei": 337,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 151,
+            "frei": 150,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 226,
+            "frei": 225,
             "kap": 280,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 67,
+            "frei": 68,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 356,
+            "frei": 358,
             "kap": 411,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 70,
+            "frei": 68,
             "kap": 102,
             "aktiv": true
         },

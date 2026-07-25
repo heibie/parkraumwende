@@ -3023,7 +3023,35 @@ async function reverseGeocode(lat, lng) {
   }
 }
 
+function resetForm() {
+  document.getElementById('f-name').value    = '';
+  document.getElementById('f-strasse').value = '';
+  document.getElementById('f-hausnr').value  = '';
+  document.getElementById('f-plz').value     = '';
+  document.getElementById('f-ort').value     = 'München';
+  document.getElementById('f-typ').value = '';
+  document.getElementById('f-bew').value = '';
+  [...document.getElementById('f-immo').options].forEach(o => o.selected = false);
+  document.getElementById('f-plaetze').value = '';
+  document.getElementById('f-frei').value    = '';
+  document.getElementById('f-dauerparken').checked    = false;
+  document.getElementById('f-kurzzeitparken').checked = false;
+  document.getElementById('f-preis-monat').value  = '';
+  document.getElementById('f-preis-tag').value    = '';
+  document.getElementById('f-preis-stunde').value = '';
+  document.getElementById('f-oeffnung').value = '';
+  document.getElementById('f-hoehe').value    = '';
+  document.getElementById('f-url').value      = '';
+  document.getElementById('f-bemerkung').value = '';
+  // Kontaktdaten (f-kontakt-name, f-email) bewusst NICHT zurücksetzen –
+  // gelten meist für mehrere Einreichungen derselben Person hintereinander.
+}
+
 function openModal(lat, lng) {
+  resetForm();
+  const btn = document.getElementById('btn-send');
+  btn.disabled = false;
+  btn.textContent = 'Eintrag einreichen';
   document.getElementById('modal-overlay').classList.add('open');
   setTimeout(() => {
     if (pickMap) {

@@ -224,6 +224,24 @@ const CHARTS = {
     source: 'MVV',
     init:   initMvvNetz,
   },
+  'karte-wachstum': {
+    title:  'Wachstum der Parkraumkarte',
+    sub:    'Kumulierte Anzahl dokumentierter Einträge seit Projektstart bis heute',
+    source: 'Parkraumwende München – eigene Datenerfassung',
+    init:   initKarteWachstum,
+  },
+  'karte-quelle': {
+    title:  'Woher kommen die Karteneinträge?',
+    sub:    'Anteil nach Datenquelle',
+    source: 'Parkraumwende München – eigene Datenerfassung',
+    init:   initKarteQuelle,
+  },
+  'karte-immobilientyp': {
+    title:  'Immobilientyp der Karteneinträge',
+    sub:    'Mehrfachnennungen möglich, z. B. Wohnen und Gewerbe im selben Gebäude',
+    source: 'Parkraumwende München – eigene Datenerfassung',
+    init:   initKarteImmobilientyp,
+  },
 };
 
 const chartId = new URLSearchParams(location.search).get('chart') || '';
@@ -807,6 +825,84 @@ async function initWachstum() {
         y: { ticks: { callback: v => (v >= 0 ? '+' : '') + v + ' %', font: { size: 11 } }, grid: { color: '#e8ebee' }, beginAtZero: true },
         x: { ticks: { font: { size: 13 }, color: '#1e293b' }, grid: { display: false } },
       } },
+  });
+}
+
+async function initKarteWachstum() {
+  const rows = await loadCsv('data/parkraummap.csv');
+  const dated = rows
+    .map(r => new Date(trim(r['Erstellt am']).replace(' ', 'T')))
+    .filter(d => !isNaN(d));
+  dated.sort((a, b) => a - b);
+  const monthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+  const countsByMonth = {};
+  dated.forEach(d => { const k = monthKey(d); countsByMonth[k] = (countsByMonth[k] || 0) + 1; });
+  const months = [];
+  { let y = dated[0].getFullYear(), m = dated[0].getMonth();
+    const now = new Date(), endY = now.getFullYear(), endM = now.getMonth();
+    while (y < endY || (y === endY && m <= endM)) {
+      months.push(`${y}-${String(m + 1).padStart(2, '0')}`);
+      m++; if (m > 11) { m = 0; y++; }
+    } }
+  let cum = 0;
+  const cumCounts = months.map(k => { cum += (countsByMonth[k] || 0); return cum; });
+  const monthLabels = months.map(k => {
+    const [y, m] = k.split('-');
+    return new Date(+y, +m - 1, 1).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' });
+  });
+  new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: { labels: monthLabels, datasets: [{
+      label: 'Karteneinträge', data: cumCounts,
+      borderColor: COLORS.blau, backgroundColor: 'rgba(37,99,235,0.12)', fill: true,
+      tension: 0.3, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2,
+    }] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('de-DE') + ' Einträge' } } },
+      scales: { y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' }, beginAtZero: true }, x: xBase } },
+  });
+}
+
+async function initKarteQuelle() {
+  const rows = await loadCsv('data/parkraummap.csv');
+  const quelleCounts = {};
+  rows.forEach(r => { const q = trim(r['Quelle']) || 'Unbekannt'; quelleCounts[q] = (quelleCounts[q] || 0) + 1; });
+  const quelleOrder = Object.entries(quelleCounts).sort((a, b) => b[1] - a[1]);
+  const quelleColors = { 'Anzeige': COLORS.gelb, 'Crowdsourcing': COLORS.gruen, 'OpenData LHM': COLORS.blau, 'Recherche': COLORS.lila };
+  const quelleTotal = quelleOrder.reduce((s, [, v]) => s + v, 0);
+  new Chart(document.getElementById('chart'), {
+    type: 'doughnut',
+    data: { labels: quelleOrder.map(([k]) => k),
+      datasets: [{ data: quelleOrder.map(([, v]) => v),
+        backgroundColor: quelleOrder.map(([k]) => quelleColors[k] || COLORS.grau),
+        borderColor: '#fff', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } },
+        tooltip: { callbacks: { label: ctx => {
+          const pct = (ctx.parsed / quelleTotal * 100).toFixed(0);
+          return ' ' + ctx.label + ': ' + ctx.parsed + ' (' + pct + ' %)';
+        } } } } },
+  });
+}
+
+async function initKarteImmobilientyp() {
+  const rows = await loadCsv('data/parkraummap.csv');
+  const immoCounts = {};
+  rows.forEach(r => {
+    const val = trim(r['Immobilientyp']);
+    if (!val) { immoCounts['Unbekannt'] = (immoCounts['Unbekannt'] || 0) + 1; return; }
+    val.split(',').forEach(part => { const p = part.trim(); if (p) immoCounts[p] = (immoCounts[p] || 0) + 1; });
+  });
+  const immoSorted = Object.entries(immoCounts).sort((a, b) => b[1] - a[1]);
+  new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: { labels: immoSorted.map(([k]) => k),
+      datasets: [{ data: immoSorted.map(([, v]) => v),
+        backgroundColor: immoSorted.map(([k]) => k === 'Unbekannt' ? COLORS.grau : COLORS.blau),
+        barThickness: 20 }] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.x + ' Einträge' } } },
+      scales: { x: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' } }, y: { ticks: { font: { size: 11 } }, grid: { display: false } } } },
   });
 }
 </script>

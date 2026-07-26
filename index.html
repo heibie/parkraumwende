@@ -1581,56 +1581,15 @@
     <div class="editorial-box" id="editorial-statistiken"></div>
   </div>
   <nav class="stats-subnav" id="stats-subnav">
-    <a class="stats-subnav-pill active" href="#chapter-parkraumkarte">Parkraumkarte</a>
-    <a class="stats-subnav-pill" href="#chapter-oeffentlicher-raum">Öff. Raum</a>
+    <a class="stats-subnav-pill active" href="#chapter-oeffentlicher-raum">Öff. Raum</a>
     <a class="stats-subnav-pill" href="#chapter-einnahmenpotentiale">Einnahmenpot.</a>
     <a class="stats-subnav-pill" href="#chapter-kfz">KFZ &amp; Zulassungen</a>
     <a class="stats-subnav-pill" href="#chapter-mobilitaet">Mobilität</a>
     <a class="stats-subnav-pill" href="#chapter-visionzero">Vision Zero</a>
     <a class="stats-subnav-pill" href="#chapter-oepnv">ÖPNV</a>
+    <a class="stats-subnav-pill" href="#chapter-parkraumkarte">Parkraumkarte</a>
   </nav>
   <div class="stats-body">
-
-    <div class="stats-chapter" id="chapter-parkraumkarte">Parkraumkarte</div>
-    <div class="stats-grid">
-
-      <div class="stat-card stat-card-wide">
-        <div class="stat-card-head" data-chart="karte-wachstum">
-          <div><div class="stat-card-title">Wachstum der Parkraumkarte</div>
-          <div class="stat-card-sub">Kumulierte Anzahl dokumentierter Einträge seit Projektstart bis heute</div></div>
-          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
-        </div>
-        <div class="stat-card-body">
-          <canvas id="chart-karte-wachstum" height="280"></canvas>
-        </div>
-        <div class="stat-card-foot"><a href="quellen.html#parkraumkarte">Quelle: Parkraumwende München – eigene Datenerfassung</a></div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-head" data-chart="karte-quelle">
-          <div><div class="stat-card-title">Woher kommen die Karteneinträge?</div>
-          <div class="stat-card-sub">Anteil nach Datenquelle</div></div>
-          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
-        </div>
-        <div class="stat-card-body">
-          <canvas id="chart-karte-quelle" height="280"></canvas>
-        </div>
-        <div class="stat-card-foot"><a href="quellen.html#parkraumkarte">Quelle: Parkraumwende München – eigene Datenerfassung</a></div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-head" data-chart="karte-immobilientyp">
-          <div><div class="stat-card-title">Immobilientyp der Karteneinträge</div>
-          <div class="stat-card-sub">Mehrfachnennungen möglich, z. B. Wohnen und Gewerbe im selben Gebäude</div></div>
-          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
-        </div>
-        <div class="stat-card-body">
-          <canvas id="chart-karte-immobilientyp" height="280"></canvas>
-        </div>
-        <div class="stat-card-foot"><a href="quellen.html#parkraumkarte">Quelle: Parkraumwende München – eigene Datenerfassung</a></div>
-      </div>
-
-    </div>
 
     <div class="stats-chapter" id="chapter-oeffentlicher-raum">Öffentlicher Raum</div>
     <div class="stats-grid">
@@ -1930,6 +1889,47 @@
           <canvas id="chart-mvv-netz" height="260"></canvas>
         </div>
         <div class="stat-card-foot"><a href="quellen.html#mvv">Quelle: Statistisches Amt München</a></div>
+      </div>
+
+    </div>
+
+    <div class="stats-chapter" id="chapter-parkraumkarte">Parkraumkarte</div>
+    <div class="stats-grid">
+
+      <div class="stat-card stat-card-wide">
+        <div class="stat-card-head" data-chart="karte-wachstum">
+          <div><div class="stat-card-title">Wachstum der Parkraumkarte</div>
+          <div class="stat-card-sub">Kumulierte Anzahl dokumentierter Einträge seit Projektstart bis heute</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-karte-wachstum" height="280"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parkraumkarte">Quelle: Parkraumwende München – eigene Datenerfassung</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="karte-quelle">
+          <div><div class="stat-card-title">Woher kommen die Karteneinträge?</div>
+          <div class="stat-card-sub">Anteil nach Datenquelle</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-karte-quelle" height="280"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parkraumkarte">Quelle: Parkraumwende München – eigene Datenerfassung</a></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head" data-chart="karte-immobilientyp">
+          <div><div class="stat-card-title">Immobilientyp der Karteneinträge</div>
+          <div class="stat-card-sub">Mehrfachnennungen möglich, z. B. Wohnen und Gewerbe im selben Gebäude</div></div>
+          <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
+        </div>
+        <div class="stat-card-body">
+          <canvas id="chart-karte-immobilientyp" height="280"></canvas>
+        </div>
+        <div class="stat-card-foot"><a href="quellen.html#parkraumkarte">Quelle: Parkraumwende München – eigene Datenerfassung</a></div>
       </div>
 
     </div>
@@ -3951,96 +3951,6 @@ const CHART_DEFAULTS = {
 async function initStatistiken() {
   loadEditorial('statistiken');
 
-  // ── Parkraumkarte ──────────────────────────────────────────────────────
-  {
-    const kRows = await loadCsv('data/parkraummap.csv', ';');
-    const kTrim = v => String(v ?? '').trim();
-
-    // 1. Wachstum – kumulierte Einträge nach Erstellungsmonat
-    const dated = kRows
-      .map(r => new Date(kTrim(r['Erstellt am']).replace(' ', 'T')))
-      .filter(d => !isNaN(d));
-    if (dated.length) {
-      dated.sort((a, b) => a - b);
-      const monthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      const countsByMonth = {};
-      dated.forEach(d => { const k = monthKey(d); countsByMonth[k] = (countsByMonth[k] || 0) + 1; });
-      const months = [];
-      { let y = dated[0].getFullYear(), m = dated[0].getMonth();
-        const now = new Date(), endY = now.getFullYear(), endM = now.getMonth();
-        while (y < endY || (y === endY && m <= endM)) {
-          months.push(`${y}-${String(m + 1).padStart(2, '0')}`);
-          m++; if (m > 11) { m = 0; y++; }
-        } }
-      let cum = 0;
-      const cumCounts = months.map(k => { cum += (countsByMonth[k] || 0); return cum; });
-      const monthLabels = months.map(k => {
-        const [y, m] = k.split('-');
-        return new Date(+y, +m - 1, 1).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' });
-      });
-      new Chart(document.getElementById('chart-karte-wachstum'), {
-        type: 'line',
-        data: { labels: monthLabels, datasets: [{
-          label: 'Karteneinträge', data: cumCounts,
-          borderColor: COLORS.blau, backgroundColor: 'rgba(37,99,235,0.12)', fill: true,
-          tension: 0.3, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2,
-        }] },
-        options: { ...CHART_DEFAULTS, maintainAspectRatio: false,
-          plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false },
-            tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('de-DE') + ' Einträge' } } },
-          scales: {
-            y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' }, beginAtZero: true },
-            x: { ticks: { font: { size: 11 } }, grid: { display: false } },
-          } },
-      });
-    }
-
-    // 2. Quelle – Anteil nach Datenherkunft
-    { const quelleCounts = {};
-      kRows.forEach(r => { const q = kTrim(r['Quelle']) || 'Unbekannt'; quelleCounts[q] = (quelleCounts[q] || 0) + 1; });
-      const quelleOrder = Object.entries(quelleCounts).sort((a, b) => b[1] - a[1]);
-      const quelleColors = { 'Anzeige': COLORS.gelb, 'Crowdsourcing': COLORS.gruen, 'OpenData LHM': COLORS.blau, 'Recherche': COLORS.lila };
-      const quelleTotal = quelleOrder.reduce((s, [, v]) => s + v, 0);
-      new Chart(document.getElementById('chart-karte-quelle'), {
-        type: 'doughnut',
-        data: { labels: quelleOrder.map(([k]) => k),
-          datasets: [{ data: quelleOrder.map(([, v]) => v),
-            backgroundColor: quelleOrder.map(([k]) => quelleColors[k] || COLORS.grau),
-            borderColor: '#fff', borderWidth: 2 }] },
-        options: { responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } },
-            tooltip: { callbacks: { label: ctx => {
-              const pct = (ctx.parsed / quelleTotal * 100).toFixed(0);
-              return ' ' + ctx.label + ': ' + ctx.parsed + ' (' + pct + ' %)';
-            } } } } },
-      });
-    }
-
-    // 3. Immobilientyp – Mehrfachnennungen aufgeschlüsselt
-    { const immoCounts = {};
-      kRows.forEach(r => {
-        const val = kTrim(r['Immobilientyp']);
-        if (!val) { immoCounts['Unbekannt'] = (immoCounts['Unbekannt'] || 0) + 1; return; }
-        val.split(',').forEach(part => { const p = part.trim(); if (p) immoCounts[p] = (immoCounts[p] || 0) + 1; });
-      });
-      const immoSorted = Object.entries(immoCounts).sort((a, b) => b[1] - a[1]);
-      new Chart(document.getElementById('chart-karte-immobilientyp'), {
-        type: 'bar',
-        data: { labels: immoSorted.map(([k]) => k),
-          datasets: [{ data: immoSorted.map(([, v]) => v),
-            backgroundColor: immoSorted.map(([k]) => k === 'Unbekannt' ? COLORS.grau : COLORS.blau),
-            barThickness: 20 }] },
-        options: { ...CHART_DEFAULTS, indexAxis: 'y', maintainAspectRatio: false,
-          plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false },
-            tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.x + ' Einträge' } } },
-          scales: {
-            x: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' } },
-            y: { ticks: { font: { size: 11 } }, grid: { display: false } },
-          } },
-      });
-    }
-  }
-
   // ── Öffentlicher Raum ──────────────────────────────────────────────────
 
   // 1. Parklizenzgebiete – Diverging Bar: Parkausweise minus Stellplätze
@@ -4664,6 +4574,96 @@ async function initStatistiken() {
           y:{ stacked:true, max:100, ticks:{ callback: v => v + ' %', font:{size:11} }, grid:{color:'#e8ebee'} },
         } },
     });
+  }
+
+  // ── Parkraumkarte ──────────────────────────────────────────────────────
+  {
+    const kRows = await loadCsv('data/parkraummap.csv', ';');
+    const kTrim = v => String(v ?? '').trim();
+
+    // 1. Wachstum – kumulierte Einträge nach Erstellungsmonat
+    const dated = kRows
+      .map(r => new Date(kTrim(r['Erstellt am']).replace(' ', 'T')))
+      .filter(d => !isNaN(d));
+    if (dated.length) {
+      dated.sort((a, b) => a - b);
+      const monthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const countsByMonth = {};
+      dated.forEach(d => { const k = monthKey(d); countsByMonth[k] = (countsByMonth[k] || 0) + 1; });
+      const months = [];
+      { let y = dated[0].getFullYear(), m = dated[0].getMonth();
+        const now = new Date(), endY = now.getFullYear(), endM = now.getMonth();
+        while (y < endY || (y === endY && m <= endM)) {
+          months.push(`${y}-${String(m + 1).padStart(2, '0')}`);
+          m++; if (m > 11) { m = 0; y++; }
+        } }
+      let cum = 0;
+      const cumCounts = months.map(k => { cum += (countsByMonth[k] || 0); return cum; });
+      const monthLabels = months.map(k => {
+        const [y, m] = k.split('-');
+        return new Date(+y, +m - 1, 1).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' });
+      });
+      new Chart(document.getElementById('chart-karte-wachstum'), {
+        type: 'line',
+        data: { labels: monthLabels, datasets: [{
+          label: 'Karteneinträge', data: cumCounts,
+          borderColor: COLORS.blau, backgroundColor: 'rgba(37,99,235,0.12)', fill: true,
+          tension: 0.3, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2,
+        }] },
+        options: { ...CHART_DEFAULTS, maintainAspectRatio: false,
+          plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('de-DE') + ' Einträge' } } },
+          scales: {
+            y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' }, beginAtZero: true },
+            x: { ticks: { font: { size: 11 } }, grid: { display: false } },
+          } },
+      });
+    }
+
+    // 2. Quelle – Anteil nach Datenherkunft
+    { const quelleCounts = {};
+      kRows.forEach(r => { const q = kTrim(r['Quelle']) || 'Unbekannt'; quelleCounts[q] = (quelleCounts[q] || 0) + 1; });
+      const quelleOrder = Object.entries(quelleCounts).sort((a, b) => b[1] - a[1]);
+      const quelleColors = { 'Anzeige': COLORS.gelb, 'Crowdsourcing': COLORS.gruen, 'OpenData LHM': COLORS.blau, 'Recherche': COLORS.lila };
+      const quelleTotal = quelleOrder.reduce((s, [, v]) => s + v, 0);
+      new Chart(document.getElementById('chart-karte-quelle'), {
+        type: 'doughnut',
+        data: { labels: quelleOrder.map(([k]) => k),
+          datasets: [{ data: quelleOrder.map(([, v]) => v),
+            backgroundColor: quelleOrder.map(([k]) => quelleColors[k] || COLORS.grau),
+            borderColor: '#fff', borderWidth: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 13, padding: 14 } },
+            tooltip: { callbacks: { label: ctx => {
+              const pct = (ctx.parsed / quelleTotal * 100).toFixed(0);
+              return ' ' + ctx.label + ': ' + ctx.parsed + ' (' + pct + ' %)';
+            } } } } },
+      });
+    }
+
+    // 3. Immobilientyp – Mehrfachnennungen aufgeschlüsselt
+    { const immoCounts = {};
+      kRows.forEach(r => {
+        const val = kTrim(r['Immobilientyp']);
+        if (!val) { immoCounts['Unbekannt'] = (immoCounts['Unbekannt'] || 0) + 1; return; }
+        val.split(',').forEach(part => { const p = part.trim(); if (p) immoCounts[p] = (immoCounts[p] || 0) + 1; });
+      });
+      const immoSorted = Object.entries(immoCounts).sort((a, b) => b[1] - a[1]);
+      new Chart(document.getElementById('chart-karte-immobilientyp'), {
+        type: 'bar',
+        data: { labels: immoSorted.map(([k]) => k),
+          datasets: [{ data: immoSorted.map(([, v]) => v),
+            backgroundColor: immoSorted.map(([k]) => k === 'Unbekannt' ? COLORS.grau : COLORS.blau),
+            barThickness: 20 }] },
+        options: { ...CHART_DEFAULTS, indexAxis: 'y', maintainAspectRatio: false,
+          plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.x + ' Einträge' } } },
+          scales: {
+            x: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' } },
+            y: { ticks: { font: { size: 11 } }, grid: { display: false } },
+          } },
+      });
+    }
   }
 }
 

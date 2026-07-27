@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-07-27 04:02:01",
+    "timestamp": "2026-07-27 05:02:01",
     "frei_gesamt": 2483,
     "belegt_gesamt": 1453,
     "kap_gesamt": 3936,
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 206,
+            "frei": 205,
             "kap": 245,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 349,
+            "frei": 350,
             "kap": 451,
             "aktiv": true
         },

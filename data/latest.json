@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-07-27 14:02:02",
-    "frei_gesamt": 902,
-    "belegt_gesamt": 2927,
-    "kap_gesamt": 3829,
+    "timestamp": "2026-07-27 15:02:01",
+    "frei_gesamt": 881,
+    "belegt_gesamt": 2952,
+    "kap_gesamt": 3833,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -16,7 +16,7 @@
             "sn": "106504",
             "ph": "P18",
             "parkhaus": "City-Parkhaus am Färbergraben",
-            "frei": 107,
+            "frei": 93,
             "kap": 350,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 1,
+            "frei": 0,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 72,
+            "frei": 75,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 105,
+            "frei": 103,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 83,
+            "frei": 91,
             "kap": 316,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 121,
+            "frei": 120,
             "kap": 197,
             "aktiv": true
         },
@@ -160,8 +160,8 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 2,
-            "kap": 383,
+            "frei": 4,
+            "kap": 387,
             "aktiv": true
         },
         {
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 34,
+            "frei": 18,
             "kap": 212,
             "aktiv": true
         },

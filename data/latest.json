@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-07-29 05:02:01",
-    "frei_gesamt": 2418,
-    "belegt_gesamt": 1421,
+    "timestamp": "2026-07-29 06:02:01",
+    "frei_gesamt": 2421,
+    "belegt_gesamt": 1418,
     "kap_gesamt": 3839,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 361,
+            "frei": 360,
             "kap": 393,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 122,
+            "frei": 121,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 185,
+            "frei": 186,
             "kap": 245,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 48,
+            "frei": 49,
             "kap": 197,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 117,
+            "frei": 119,
             "kap": 147,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 189,
+            "frei": 190,
             "kap": 227,
             "aktiv": true
         },

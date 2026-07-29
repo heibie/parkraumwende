@@ -1481,9 +1481,10 @@
   <div class="parklizenz-layout">
     <div class="stats-bar">
       <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Mehr Infos<span class="sb-arrow">▾</span></button>
-      <div class="stat"><span class="stat-label">Gebiete mit Daten (Stand 2022)</span><span class="stat-value" id="plz-stat-gesamt">–</span></div>
+      <div class="stat"><span class="stat-label">Gebiete gesamt</span><span class="stat-value" id="plz-stat-gesamt">–</span></div>
       <div class="stat"><span class="stat-label">Überbucht</span><span class="stat-value" style="color:var(--red)" id="plz-stat-ueberbucht">–</span></div>
       <div class="stat"><span class="stat-label">Nicht überbucht</span><span class="stat-value" style="color:var(--green)" id="plz-stat-ok">–</span></div>
+      <div class="stat"><span class="stat-label">Keine Daten vorhanden</span><span class="stat-value" id="plz-stat-keinedaten">–</span></div>
       <div class="stat"><span class="stat-label">Stellplätze gesamt</span><span class="stat-value" id="plz-stat-plaetze">–</span></div>
       <div class="stat"><span class="stat-label">Ausweise gesamt</span><span class="stat-value" id="plz-stat-ausweise">–</span></div>
       <div class="stat"><span class="stat-label">Stadtfläche unbewirtschaftet</span><span class="stat-value" style="color:var(--red)">88 %</span></div>
@@ -3298,20 +3299,25 @@ async function initParklizenz() {
     if (r['Lizenzgebiet']) lizenzByName[r['Lizenzgebiet']] = r;
   });
 
-  // Stats
-  let gesamt = 0, ueberbucht = 0, ok = 0, plaetzeSum = 0, ausweisenSum = 0;
-  lizenzRows.forEach(r => {
-    const name = r['Lizenzgebiet'];
-    if (!name || name === 'Gesamt' || !r['Anzahl Stellplätze']) return;
+  // Stats – über alle Gebiete der Geodaten-Liste (82), nicht nur die mit
+  // 2022er-Zahlen, damit "Gebiete gesamt" zur Karte passt. Gleiche
+  // hasData/overbook-Kriterien wie im Render-Loop weiter unten.
+  let gesamt = 0, ueberbucht = 0, ok = 0, keineDaten = 0, plaetzeSum = 0, ausweisenSum = 0;
+  polyRows.forEach(row => {
+    const polyName = (row['name'] || '').trim();
+    if (!polyName) return;
     gesamt++;
-    const ueb = Number(r['Überbucht']) || 0;
+    const lizenz = lizenzByName[NAME_MAP[polyName] || polyName];
+    if (!lizenz) { keineDaten++; return; }
+    const ueb = Number(lizenz['Überbucht']) || 0;
     if (ueb > 0) ueberbucht++; else ok++;
-    plaetzeSum  += Number(r['Anzahl Stellplätze']) || 0;
-    ausweisenSum += Number(r['Anzahl Parkausweise']) || 0;
+    plaetzeSum   += Number(lizenz['Anzahl Stellplätze']) || 0;
+    ausweisenSum += Number(lizenz['Anzahl Parkausweise']) || 0;
   });
   document.getElementById('plz-stat-gesamt').textContent     = gesamt;
   document.getElementById('plz-stat-ueberbucht').textContent = ueberbucht;
   document.getElementById('plz-stat-ok').textContent         = ok;
+  document.getElementById('plz-stat-keinedaten').textContent = keineDaten;
   document.getElementById('plz-stat-plaetze').textContent    = fmtNum(plaetzeSum);
   document.getElementById('plz-stat-ausweise').textContent   = fmtNum(ausweisenSum);
 

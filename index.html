@@ -1481,7 +1481,7 @@
   <div class="parklizenz-layout">
     <div class="stats-bar">
       <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Mehr Infos<span class="sb-arrow">▾</span></button>
-      <div class="stat"><span class="stat-label">Gebiete gesamt</span><span class="stat-value" id="plz-stat-gesamt">–</span></div>
+      <div class="stat"><span class="stat-label">Gebiete mit Daten (Stand 2022)</span><span class="stat-value" id="plz-stat-gesamt">–</span></div>
       <div class="stat"><span class="stat-label">Überbucht</span><span class="stat-value" style="color:var(--red)" id="plz-stat-ueberbucht">–</span></div>
       <div class="stat"><span class="stat-label">Nicht überbucht</span><span class="stat-value" style="color:var(--green)" id="plz-stat-ok">–</span></div>
       <div class="stat"><span class="stat-label">Stellplätze gesamt</span><span class="stat-value" id="plz-stat-plaetze">–</span></div>
@@ -1597,7 +1597,7 @@
       <div class="stat-card stat-card-wide">
         <div class="stat-card-head" data-chart="lizenzgebiete">
           <div><div class="stat-card-title">Überbuchung nach Lizenzgebiet</div>
-          <div class="stat-card-sub">Differenz Parkausweise minus Stellplätze · Rot = mehr Lizenzen als Plätze · Blau = Überschuss an Plätzen</div></div>
+          <div class="stat-card-sub">Differenz Parkausweise minus Stellplätze (Stand 2022) · Rot = mehr Lizenzen als Plätze · Blau = Überschuss an Plätzen · Grau = keine Daten</div></div>
           <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
@@ -3954,28 +3954,60 @@ async function initStatistiken() {
   // ── Öffentlicher Raum ──────────────────────────────────────────────────
 
   // 1. Parklizenzgebiete – Diverging Bar: Parkausweise minus Stellplätze
-  const lgRows = await loadCsv('data/parklizenzgebiete.csv');
-  const lgFiltered = lgRows
-    .filter(r => r['Lizenzgebiet'] && r['Lizenzgebiet'] !== 'Gesamt'
-                 && typeof r['Anzahl Parkausweise'] === 'number')
-    .sort((a,b) => (b['Anzahl Parkausweise'] - b['Anzahl Stellplätze'])
-                 - (a['Anzahl Parkausweise'] - a['Anzahl Stellplätze']));
-  const lgDiff   = lgFiltered.map(r => r['Anzahl Parkausweise'] - r['Anzahl Stellplätze']);
-  const lgColors = lgDiff.map(v => v > 0 ? COLORS.rot : COLORS.blau);
+  // Zeigt alle Gebiete aus der (laufend aktuellen) Geodaten-Liste, auch die,
+  // für die es in der 2022er-Stellplätze/Parkausweise-Liste keine Zahlen gibt
+  // (z.B. neu eröffnete Gebiete) - diese werden explizit als "keine Daten"
+  // markiert statt sie stillschweigend weguzulassen.
+  const LG_NAME_MAP = {
+    'Domagpark':       'Domagpark *',
+    'Messestadt':      'Messestadt *',
+    'Mittleres Lehel': 'Lehel Mitte',
+    'Südliches Lehel': 'Lehel Süd',
+  };
+  const [lgPolyRows, lgRows] = await Promise.all([
+    loadCsv('data/ruhver_prm_gebiete_poly.csv'),
+    loadCsv('data/parklizenzgebiete.csv'),
+  ]);
+  const lgByName = {};
+  lgRows.forEach(r => { if (r['Lizenzgebiet']) lgByName[r['Lizenzgebiet']] = r; });
+
+  const lgAll = lgPolyRows
+    .map(r => (r['name'] || '').trim())
+    .filter(Boolean)
+    .map(name => {
+      const lizenz = lgByName[LG_NAME_MAP[name] || name];
+      const hasData = lizenz && typeof lizenz['Anzahl Parkausweise'] === 'number';
+      return {
+        name,
+        hasData,
+        // Platzhalterhöhe für "keine Daten", sonst bei 0 optisch unsichtbar
+        // (verschwindet auf der Nulllinie) - Tooltip stellt unabhängig davon klar,
+        // dass hier kein echter Wert vorliegt.
+        diff: hasData ? lizenz['Anzahl Parkausweise'] - lizenz['Anzahl Stellplätze'] : 40,
+      };
+    })
+    .sort((a, b) => {
+      if (a.hasData !== b.hasData) return a.hasData ? -1 : 1; // Gebiete ohne Daten ans Ende
+      return b.diff - a.diff;
+    });
+
+  const lgDiff   = lgAll.map(r => r.diff);
+  const lgColors = lgAll.map(r => !r.hasData ? COLORS.grau : r.diff > 0 ? COLORS.rot : COLORS.blau);
   new Chart(document.getElementById('chart-lizenzgebiete'), {
     type: 'bar',
     data: {
-      labels: lgFiltered.map(r => r['Lizenzgebiet']),
+      labels: lgAll.map(r => r.name),
       datasets: [{
         label: 'Parkausweise minus Stellplätze',
         data: lgDiff,
         backgroundColor: lgColors,
-        barThickness: 10,
+        maxBarThickness: 10,
       }],
     },
     options: { ...CHART_DEFAULTS, maintainAspectRatio: false,
       plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false },
         tooltip: { callbacks: { label: ctx => {
+          if (!lgAll[ctx.dataIndex].hasData) return ' Keine Daten vorhanden';
           const v = ctx.parsed.y;
           return v > 0 ? ` ${v} Lizenzen ohne Stellplatz` : ` ${Math.abs(v)} Stellplätze ungenutzt`;
         }}} },

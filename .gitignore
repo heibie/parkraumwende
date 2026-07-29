@@ -3,3 +3,4 @@ cron/_cfg.php
 data/innenstadt_data*.sql
 data/imported-issues.json
 "data/parkraummap Kopie.csv"
+scripts/node_modules/

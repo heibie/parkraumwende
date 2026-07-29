@@ -1,0 +1,9 @@
+{
+  "name": "parkraumwende-scripts",
+  "private": true,
+  "description": "Einmalige/gelegentliche Datenaufbereitungs-Skripte, nicht Teil des Deploys.",
+  "dependencies": {
+    "@turf/turf": "^7.1.0",
+    "proj4": "^2.11.0"
+  }
+}

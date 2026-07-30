@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-07-30 02:02:01",
-    "frei_gesamt": 2438,
-    "belegt_gesamt": 1408,
-    "kap_gesamt": 3846,
+    "timestamp": "2026-07-30 03:02:01",
+    "frei_gesamt": 1881,
+    "belegt_gesamt": 1256,
+    "kap_gesamt": 3137,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -82,7 +82,7 @@
             "parkhaus": "Parkhaus Oberanger",
             "frei": 365,
             "kap": 393,
-            "aktiv": true
+            "aktiv": false
         },
         {
             "sn": "301220",
@@ -138,7 +138,7 @@
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
             "frei": 193,
             "kap": 316,
-            "aktiv": true
+            "aktiv": false
         },
         {
             "sn": "301277",
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 121,
+            "frei": 122,
             "kap": 147,
             "aktiv": true
         },

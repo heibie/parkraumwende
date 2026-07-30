@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-07-30 05:02:02",
+    "timestamp": "2026-07-30 06:02:01",
     "frei_gesamt": 1884,
     "belegt_gesamt": 1253,
     "kap_gesamt": 3137,
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 128,
+            "frei": 126,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 327,
+            "frei": 328,
             "kap": 391,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 213,
+            "frei": 214,
             "kap": 237,
             "aktiv": true
         },

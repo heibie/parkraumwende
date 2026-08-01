@@ -1,0 +1,310 @@
+{
+  "_comment": "Registry aller Datenquellen für quellen.html. 'used_in' verlinkt auf Karten/Diagramme, 'check' definiert wie scripts/check_sources.py Live-Änderungen der Originalquelle prüft. Status-Ergebnisse landen in data/source-status.json (von check_sources.py generiert, nicht manuell pflegen).",
+  "categories": [
+    {
+      "title": "Karte & eigene Datenerfassung",
+      "sources": [
+        {
+          "id": "parkraumkarte",
+          "title": "Parkraumkarte München",
+          "files": ["data/parkraummap.csv"],
+          "used_in": [
+            { "label": "Karte: Übersicht", "href": "index.html#sec-karte" },
+            { "label": "Diagramm: Wachstum der Parkraumkarte", "href": "embed.html?chart=karte-wachstum" },
+            { "label": "Diagramm: Woher kommen die Karteneinträge?", "href": "embed.html?chart=karte-quelle" },
+            { "label": "Diagramm: Immobilientyp der Karteneinträge", "href": "embed.html?chart=karte-immobilientyp" }
+          ],
+          "original_source": { "label": "OpenData LHM – Parkhäuser und Tiefgaragen", "href": "https://opendata.muenchen.de/dataset/parkhaeuser-munchen" },
+          "license": "CC BY 4.0",
+          "turnus": "laufend (eigene Erfassung + OpenData-Basis)",
+          "check": { "method": "ckan", "dataset": "parkhaeuser-munchen" }
+        }
+      ]
+    },
+    {
+      "title": "Live-Daten",
+      "sources": [
+        {
+          "id": "parkhaeuser-live",
+          "title": "Parkhäuser Innenstadt – Live-Auslastung",
+          "files": ["data/latest.json", "data/details/YYYY-MM.csv", "data/summary/YYYY-MM.csv"],
+          "used_in": [
+            { "label": "Karte: Innenstadt-Parkhäuser", "href": "index.html#sec-innenstadt" }
+          ],
+          "original_source": { "label": "Parkleitsystem München Zentrum (pls-muc-z.com)", "href": "https://pls-muc-z.com/pls/info/parkhaus.html" },
+          "turnus": "alle 2 Stunden (Server-Cron)",
+          "check": { "method": "cron", "note": "Wird bereits alle 2h automatisch aktualisiert (siehe cron/), kein separater Änderungscheck nötig." }
+        }
+      ]
+    },
+    {
+      "title": "Öffentlicher Raum",
+      "sources": [
+        {
+          "id": "parkseiten",
+          "title": "Parkseiten München – regulierte Parkstreifen",
+          "files": ["data/ruhver_parkseiten_line.csv"],
+          "used_in": [
+            { "label": "Karte: Parkseiten", "href": "index.html#sec-parkseiten" }
+          ],
+          "original_source": { "label": "OpenData Portal LHM", "href": "https://opendata.muenchen.de/dataset/opendata_ruhver_parkseiten_line" },
+          "turnus": "laufend (OpenData-Portal, WFS)",
+          "check": { "method": "ckan", "dataset": "opendata_ruhver_parkseiten_line" }
+        },
+        {
+          "id": "parklizenzgebiete-geo",
+          "title": "Parklizenzgebiete München – Geodaten (Polygone)",
+          "files": ["data/ruhver_prm_gebiete_poly.csv"],
+          "used_in": [
+            { "label": "Karte: Parklizenzgebiete", "href": "index.html#sec-parklizenz" }
+          ],
+          "original_source": { "label": "OpenData Portal LHM", "href": "https://opendata.muenchen.de/dataset/opendata_ruhver_prm_gebiete_poly" },
+          "turnus": "laufend (OpenData-Portal, WFS)",
+          "check": { "method": "ckan", "dataset": "opendata_ruhver_prm_gebiete_poly" }
+        },
+        {
+          "id": "parklizenzgebiete-stellplaetze",
+          "title": "Parklizenzgebiete München – Stellplätze und Parkausweise",
+          "files": ["data/parklizenzgebiete.csv", "data/parkplaetze_parklizenzen.csv"],
+          "used_in": [
+            { "label": "Diagramm: Überbuchung nach Lizenzgebiet", "href": "embed.html?chart=lizenzgebiete" },
+            { "label": "Diagramm: Überbuchter Parkraum gesamt", "href": "embed.html?chart=parkplaetze-lizenzen" }
+          ],
+          "original_source": { "label": "RISI LHM – Dokument 7144556", "href": "https://risi.muenchen.de/risi/dokument/v/7144556" },
+          "turnus": "bei Änderung (RISI-Beschluss)",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "motelone",
+          "title": "Parkhausauslastung Tiefgarage IHK / MotelOne Haidhausen",
+          "files": ["data/ihk_motelone.csv"],
+          "used_in": [
+            { "label": "Diagramm: Parkplätze Tiefgarage IHK / MotelOne", "href": "embed.html?chart=motelone" }
+          ],
+          "original_source": { "label": "Eigene Erhebung (manuelle Zählung)", "href": null },
+          "turnus": "bei Bedarf",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "innenstadt-samstage",
+          "title": "Auslastung Innenstadt Parkhäuser an ausgewählten Samstagen",
+          "files": ["data/innenstadt_parkhaus_auslastung_exemplarisch.csv"],
+          "used_in": [
+            { "label": "Diagramm: Auslastung Innenstadt Parkhäuser Samstage", "href": "embed.html?chart=innenstadt-auslastung" }
+          ],
+          "original_source": { "label": "Parkleitsystem München Zentrum (pls-muc-z.com)", "href": "https://pls-muc-z.com/pls/info/parkhaus.html" },
+          "turnus": "bei Bedarf (exemplarische Stichtage)",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "lizenzen-europa",
+          "title": "Parkausweis-Jahresgebühren im europäischen Städtevergleich",
+          "files": ["data/parklizenzen_europa.csv"],
+          "used_in": [
+            { "label": "Diagramm: Parkausweis-Jahresgebühr Städtevergleich", "href": "embed.html?chart=lizenzen-europa" }
+          ],
+          "original_source": { "label": "Eigene Recherche aus Stadtverwaltungen", "href": null },
+          "turnus": "bei Änderung",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "parkscheibe-kalkulation",
+          "title": "Einnahmepotenzial Parkscheiben-Stellplätze München",
+          "files": ["data/kalkulation_parkscheibe_parkschein.csv"],
+          "used_in": [
+            { "label": "Diagramm: Ein Parkplatz · Tageseinnahme", "href": "embed.html?chart=tbl-parkscheibe-platz" },
+            { "label": "Diagramm: 9.800 Stellplätze · Tageseinnahmen", "href": "embed.html?chart=tbl-parkscheibe-alle" },
+            { "label": "Diagramm: 9.800 Stellplätze · Jahreseinnahmen", "href": "embed.html?chart=parkscheibe-jahreseinnahmen" }
+          ],
+          "original_source": { "label": "Eigene Berechnung (9.800 Plätze × 14 h × 2,60 €/h)", "href": null },
+          "turnus": "bei Änderung (Gebührensatzung)",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "lizenz-einnahmen",
+          "title": "Einnahmepotenzial Parklizenzen München",
+          "files": ["data/kalkulation_parklizenz_preise.csv"],
+          "used_in": [
+            { "label": "Diagramm: Einnahmepotenzial Parklizenzen", "href": "embed.html?chart=lizenz-einnahmen" }
+          ],
+          "original_source": { "label": "Eigene Berechnung (30 €/Jahr vs. 102 €/Jahr × 120.000 Lizenzen)", "href": null },
+          "turnus": "bei Änderung (Gebührensatzung)",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "oeffentlicher-raum",
+          "title": "Kosten für die Nutzung öffentlichen Raums in München",
+          "files": ["data/oeffentlicher_raum.csv"],
+          "used_in": [
+            { "label": "Diagramm: Kosten öffentlicher Raum im Vergleich", "href": "embed.html?chart=oeffentlicher-raum" }
+          ],
+          "original_source": { "label": "LHM / Eigene Recherche", "href": null },
+          "turnus": "bei Änderung",
+          "check": { "method": "heuristic" }
+        }
+      ]
+    },
+    {
+      "title": "KFZ-Bestand, Motorisierung & Neuzulassungen",
+      "sources": [
+        {
+          "id": "pkw-bestand",
+          "title": "PKW-Bestand München 2010–2025",
+          "files": ["data/pkw_bestand.csv"],
+          "used_in": [
+            { "label": "Diagramm: Entwicklung des PKW-Bestands", "href": "embed.html?chart=pkw-gesamt" },
+            { "label": "Diagramm: Privat vs. Gewerblich", "href": "embed.html?chart=pkw-haltung" },
+            { "label": "Diagramm: Antriebsarten im Bestand", "href": "embed.html?chart=pkw-antrieb" },
+            { "label": "Diagramm: Wachstum Bevölkerung vs. PKW-Bestand", "href": "embed.html?chart=wachstum" }
+          ],
+          "original_source": { "label": "OpenData LHM – Monatszahlen KFZ-Bestand", "href": "https://opendata.muenchen.de/dataset/monatszahlen-kfz-bestand" },
+          "turnus": "monatlich (Portal), lokal jährlich aggregiert",
+          "check": { "method": "ckan", "dataset": "monatszahlen-kfz-bestand" }
+        },
+        {
+          "id": "motorisierungsgrad",
+          "title": "Motorisierungsgrad Personenkraftwagen nach Stadtbezirk 2000–2025",
+          "files": ["data/indikat_verkehr_motorisierungsgrad_personenkraftwagen.csv"],
+          "used_in": [
+            { "label": "Karte: Bezirksprofile", "href": "index.html#sec-bezirke" }
+          ],
+          "original_source": { "label": "OpenData München – Indikatorenatlas Verkehr", "href": "https://opendata.muenchen.de/dataset/indikatorenatlas-verkehr-motorisierungsgrad-personenkraftwagen-83r65mct" },
+          "turnus": "jährlich",
+          "check": { "method": "ckan", "dataset": "indikatorenatlas-verkehr-motorisierungsgrad-personenkraftwagen-83r65mct" }
+        },
+        {
+          "id": "neuzulassungen",
+          "title": "Neuzulassungen nach Fahrzeugtyp 2010–2024",
+          "files": ["data/neuzulassungen_fahrzeugtypen.csv"],
+          "used_in": [
+            { "label": "Diagramm: Neuzulassungen große KFZ", "href": "embed.html?chart=neu-gross" }
+          ],
+          "original_source": { "label": "OpenData LHM – Monatszahlen KFZ-Erstzulassungen", "href": "https://opendata.muenchen.de/dataset/monatszahlen-kfz-neuzulassungen" },
+          "turnus": "monatlich (Portal), lokal jährlich aggregiert",
+          "check": { "method": "ckan", "dataset": "monatszahlen-kfz-neuzulassungen" }
+        }
+      ]
+    },
+    {
+      "title": "Mobilitätsverhalten, Bevölkerung & Bezirksprofile",
+      "sources": [
+        {
+          "id": "pkw-haushalt",
+          "title": "Autobesitz je Haushalt – München",
+          "files": ["data/pkw_haushalt.csv"],
+          "used_in": [
+            { "label": "Diagramm: Autobesitz je Haushalt", "href": "embed.html?chart=hh-donut" }
+          ],
+          "original_source": { "label": "Mobilität in Städten – SrV 2023 (TU Dresden)", "href": "https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf" },
+          "turnus": "alle ~5 Jahre (nächste SrV-Erhebung ~2028)",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "pkw-einkommen",
+          "title": "Autobesitz nach Haushaltseinkommen – München",
+          "files": ["data/pkw_einkommen.csv"],
+          "used_in": [
+            { "label": "Diagramm: Autobesitz nach Haushaltseinkommen", "href": "embed.html?chart=einkommen" }
+          ],
+          "original_source": { "label": "Bevölkerungsbefragung 2021 der LHM", "href": "https://stadt.muenchen.de/infos/bevoelkerungsbefragung.html" },
+          "turnus": "alle ~5 Jahre",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "bevoelkerung",
+          "title": "Bevölkerungsentwicklung München 1900–2024",
+          "files": ["data/bevoelkerung_ab_1900_stand_2024.csv"],
+          "used_in": [
+            { "label": "Diagramm: Wachstum Bevölkerung vs. PKW-Bestand", "href": "embed.html?chart=wachstum" }
+          ],
+          "original_source": { "label": "OpenData LHM – Bevölkerung", "href": "https://opendata.muenchen.de/dataset/bevoelkerung" },
+          "turnus": "jährlich",
+          "check": { "method": "ckan", "dataset": "bevoelkerung" }
+        },
+        {
+          "id": "modal-split",
+          "title": "Modal Split München 2002–2023",
+          "files": ["data/modal_split.csv"],
+          "used_in": [
+            { "label": "Diagramm: Modal Split München", "href": "embed.html?chart=modal-split" }
+          ],
+          "original_source": { "label": "Mobilität in Städten – SrV 2023 (TU Dresden)", "href": "https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf" },
+          "turnus": "alle ~5 Jahre (nächste SrV-Erhebung ~2028)",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "bezirksprofile",
+          "title": "SrV 2023 – Stadtbezirksübersicht (Bezirksprofile)",
+          "files": ["data/stadtbezirksprofile.csv"],
+          "used_in": [
+            { "label": "Karte: Bezirksprofile", "href": "index.html#sec-bezirke" }
+          ],
+          "original_source": { "label": "Mobilität in Städten – SrV 2023, Stadtbezirksübersicht", "href": "https://muenchenunterwegs.de/content/3536/download/srv-munchen-stadtbezirksubersicht.pdf" },
+          "turnus": "alle ~5 Jahre (nächste SrV-Erhebung ~2028)",
+          "check": { "method": "heuristic" }
+        },
+        {
+          "id": "preissteigerung",
+          "title": "Preissteigerungen ÖPNV vs. Parkraum-Lizenz",
+          "files": ["data/preissteigerung_oepnv_parken.csv"],
+          "used_in": [
+            { "label": "Diagramm: Preissteigerungen ÖPNV vs. Parklizenz", "href": "embed.html?chart=preis" }
+          ],
+          "original_source": { "label": "MVV Tarifbestimmungen", "href": "https://www.mvv-muenchen.de" },
+          "turnus": "bei Preisänderung",
+          "check": { "method": "heuristic" }
+        }
+      ]
+    },
+    {
+      "title": "Vision Zero",
+      "sources": [
+        {
+          "id": "unfaelle",
+          "title": "Verkehrsunfallstatistik München 2010–2024",
+          "files": ["data/visionzero_unfaelle.csv"],
+          "used_in": [
+            { "label": "Diagramm: Verkehrsunfälle München", "href": "embed.html?chart=vz-unfaelle" }
+          ],
+          "original_source": { "label": "Statistisches Amt München – Monatszahlenmonitoring", "href": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" },
+          "turnus": "jährlich",
+          "check": { "method": "ckan", "dataset": "monatszahlen-verkehrsunfaelle" },
+          "note": "Feldabgleich 2026-08-01: mstatistik.muenchen.de ist eine proprietäre InstantAtlas-JS-Visualisierung ohne API - deshalb als Original-Quelle verlinkt (liefert die tatsächliche Verletzte-/Tote-Aufteilung wie in visionzero_unfaelle.csv), aber nicht live prüfbar. Für den Live-Check wird stattdessen OpenData LHM (monatszahlen-verkehrsunfaelle) genutzt: dort stimmt die Summe 'Verletzte und Getötete' exakt mit Verletzte+Tote überein (z.B. 2010: 4822=4822), aber ohne die granulare Aufteilung - der Check erkennt also Änderungen an der Gesamtzahl zuverlässig, nicht an der internen Aufteilung bei gleichbleibender Summe."
+        },
+        {
+          "id": "schulwegunfaelle",
+          "title": "Schulwegunfälle München 2010–2024",
+          "files": ["data/visionzero_schulwegunfaelle.csv"],
+          "used_in": [
+            { "label": "Diagramm: Schulwegunfälle München", "href": "embed.html?chart=vz-schulweg" }
+          ],
+          "original_source": { "label": "Statistisches Amt München – Monatszahlenmonitoring", "href": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" },
+          "turnus": "jährlich",
+          "check": { "method": "heuristic" }
+        }
+      ]
+    },
+    {
+      "title": "ÖPNV",
+      "sources": [
+        {
+          "id": "mvv",
+          "title": "MVV – Fahrgastzahlen und Netzlänge 2010–2024",
+          "files": ["data/mvv.csv"],
+          "used_in": [
+            { "label": "Diagramm: MVV Fahrgäste", "href": "embed.html?chart=mvv-fahrgaeste" },
+            { "label": "Diagramm: MVV Netzausbau", "href": "embed.html?chart=mvv-netz" }
+          ],
+          "original_source": { "label": "Statistik Verkehr LHM", "href": "https://stadt.muenchen.de/infos/statistik-verkehr.html" },
+          "turnus": "jährlich",
+          "check": { "method": "heuristic" }
+        }
+      ]
+    }
+  ],
+  "attribution": [
+    { "title": "OpenStreetMap – Kartenmaterial & Geocodierung", "href": "https://www.openstreetmap.org/copyright", "note": "© OpenStreetMap contributors" },
+    { "title": "CARTO – Helles Kartenlayout", "href": "https://carto.com/attributions", "note": "Basiskarte für Parkseiten- & Parklizenzkarte" },
+    { "title": "Leaflet.js – Kartenrenderer", "href": "https://leafletjs.com", "note": "Open-Source-Bibliothek" }
+  ]
+}

@@ -136,3 +136,17 @@ function github_commit_multiple(array $files, string $message, string $token, st
         throw new RuntimeException("GitHub PATCH ref fehlgeschlagen (HTTP {$updateRes['code']}): {$updateRes['body']}");
     }
 }
+
+// Legt ein Issue an (z.B. als Hinweis "Quelle X hat sich geändert, bitte prüfen").
+// Braucht auf dem Fine-grained-PAT die Berechtigung "Issues: Read and write".
+function github_create_issue(string $title, string $body, string $token, string $repo): array
+{
+    $res = github_request('POST', "https://api.github.com/repos/{$repo}/issues", github_headers($token), json_encode([
+        'title' => $title,
+        'body'  => $body,
+    ]));
+    if ($res['code'] !== 201) {
+        throw new RuntimeException("GitHub POST issue fehlgeschlagen (HTTP {$res['code']}): {$res['body']}");
+    }
+    return json_decode($res['body'], true);
+}

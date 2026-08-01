@@ -145,17 +145,62 @@ new Chart(el, {
 
 Alle manuell gepflegten Datensätze liegen in `data/*.csv`. Jede Datei ist in `data/datapackage.json` mit Schema beschrieben.
 
+**Quellen-Übersicht:** welche Datei in welchem Chart/welcher Karte verwendet wird, wo die Originalquelle liegt
+und wann sie zuletzt geprüft wurde, steht jetzt strukturiert in `data/source-registry.json` und wird auf
+[`quellen.html`](quellen.html) tabellarisch dargestellt (nicht mehr nur hier als statische Tabelle). Neue
+Datenquelle hinzufügen → Eintrag in `data/source-registry.json` ergänzen (Kategorie, `used_in`, `original_source`,
+`turnus`, `check.method`).
+
+**Änderungscheck:** `python3 scripts/check_sources.py` prüft alle Quellen aus der Registry und schreibt das
+Ergebnis nach `data/source-status.json` (von `quellen.html` per `fetch()` geladen). Zwei Methoden:
+- `ckan` – fragt die CKAN-API von opendata.muenchen.de ab. Nutzt bei Geoportal-Datensätzen (Parkseiten,
+  Parklizenzgebiete-Geodaten) bevorzugt das Extra-Feld `GeoPortal Last Modified Date` (echtes
+  Geodaten-Änderungsdatum), sonst den jüngsten Resource-Zeitstempel. CKANs `metadata_modified` wird bewusst
+  nicht verwendet: Geoportal-Datensätze werden täglich neu geharvestet (neue Resource-IDs je Lauf), auch ohne
+  echte Datenänderung – laut `activity_diff`-Vergleich reines Harvest-Rauschen.
+- `heuristic` – ohne Live-API: vergleicht Git-Datum der letzten lokalen Änderung mit dem bekannten Turnus, markiert überfällige Quellen.
+
+**Automatischer Wochen-Check:** `cron/check_sources.php` ist der serverseitige Port von `scripts/check_sources.py`
+(kein Python auf dem All-Inkl-Hosting verfügbar). Läuft als KAS-Cronjob:
+
+```
+Cronjob-URL: https://data.parkraumwende.de/cron/check_sources.php?token=DEIN_CRON_TOKEN
+Intervall:   wöchentlich
+Debug:       ?token=...&debug=1 (gibt den berechneten Status als JSON aus, schreibt/committet nichts)
+```
+
+Zweistufiges Verhalten:
+1. `data/source-status.json` wird bei jedem Lauf neu berechnet und – falls sich der Inhalt geändert hat – automatisch
+   direkt nach `main` committet. Das ist rein informativ (nur die Ampel auf `quellen.html`), daher unkritisch für
+   einen Auto-Commit ohne Freigabe.
+2. Erkennt eine `ckan`-Quelle eine echte Änderung gegenüber dem letzten bekannten Stand, wird zusätzlich ein
+   **GitHub Issue** angelegt ("Quelle geändert: …", alter/neuer Wert). Es wird bewusst **kein** Pull Request mit
+   automatisch berechneten CSV-Werten erzeugt – die Umrechnung Portal-Rohdaten → lokales Jahresformat ist pro
+   Quelle unterschiedlich (siehe Feldabgleich-Notizen in `data/source-registry.json`, z. B. bei `unfaelle`), und
+   fehlerhaft generierte Zahlen sollen nicht ungeprüft in die Diagramme wandern. Die eigentliche CSV-Aktualisierung
+   bleibt ein manueller Schritt (siehe oben), das Issue ist nur die Erinnerung dazu und wird danach manuell
+   geschlossen.
+
+`heuristic`-Quellen werden ohne Netzwerk-Call geprüft (lokales `local_updated`-Datum aus dem letzten Stand
+übernommen, da der Server keinen Git-Zugriff hat, gegen den bekannten Turnus) – das Datum wird nur aktuell
+gehalten, wenn `scripts/check_sources.py` lokal läuft (hat Git-Zugriff) und committet wird, z. B. im Rahmen eines
+manuellen CSV-Updates.
+
+Der GitHub-Token in `cron/_cfg.php` braucht dafür zusätzlich zu `Contents: Read+Write` auch `Issues: Read+Write`.
+
+Referenztabelle (Datei ↔ Turnus), inhaltlich identisch mit der Registry, hier als schneller Überblick beim CSV-Bearbeiten:
+
 | Datensatz | Datei | Quelle | Turnus |
 |---|---|---|---|
-| PKW-Bestand | `pkw_bestand.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
-| Neuzulassungen | `neuzulassungen_fahrzeugtypen.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
+| PKW-Bestand | `pkw_bestand.csv` | [OpenData LHM – Monatszahlen KFZ-Bestand](https://opendata.muenchen.de/dataset/monatszahlen-kfz-bestand) | monatlich (Portal), lokal jährlich |
+| Neuzulassungen | `neuzulassungen_fahrzeugtypen.csv` | [OpenData LHM – Monatszahlen KFZ-Erstzulassungen](https://opendata.muenchen.de/dataset/monatszahlen-kfz-neuzulassungen) | monatlich (Portal), lokal jährlich |
 | Autobesitz Haushalt | `pkw_haushalt.csv` | [MiD / SrV 2023 – TU Dresden](https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf) | alle ~5 Jahre |
 | Autobesitz Einkommen | `pkw_einkommen.csv` | [Bevölkerungsbefragung LHM](https://stadt.muenchen.de/infos/bevoelkerungsbefragung.html) | alle ~5 Jahre |
 | Bevölkerung | `bevoelkerung_ab_1900_stand_2024.csv` | [OpenData LHM – Bevölkerung](https://opendata.muenchen.de/dataset/bevoelkerung) | jährlich |
 | Modal Split | `modal_split.csv` | [MiD / SrV 2023 – TU Dresden](https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf) | alle ~5 Jahre |
 | ÖPNV-Preise | `preissteigerung_oepnv_parken.csv` | [MVV Tarifbestimmungen](https://www.mvv-muenchen.de) | bei Preisänderung |
 | MVV Fahrgäste | `mvv.csv` | [Statistisches Amt München – Statistik Verkehr](https://stadt.muenchen.de/infos/statistik-verkehr.html) | jährlich |
-| Verkehrsunfälle | `visionzero_unfaelle.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
+| Verkehrsunfälle | `visionzero_unfaelle.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) (Original, keine API) – Live-Check läuft ersatzweise über [OpenData LHM](https://opendata.muenchen.de/dataset/monatszahlen-verkehrsunfaelle) (nur Summe, nicht Verletzte/Tote getrennt) | jährlich |
 | Schulwegunfälle | `visionzero_schulwegunfaelle.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) | jährlich |
 | Parklizenzgebiete | `parklizenzgebiete.csv` | [LHM – RISI Dokument 7144556](https://risi.muenchen.de/risi/dokument/v/7144556) | bei Änderung |
 | Parkplätze/Lizenzen | `parkplaetze_parklizenzen.csv` | [LHM – RISI Dokument 7144556](https://risi.muenchen.de/risi/dokument/v/7144556) | bei Änderung |

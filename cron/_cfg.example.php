@@ -8,7 +8,8 @@ $cfg = [
         'token' => 'DEIN_CRON_TOKEN_HIER',
     ],
     'github' => [
-        // Fine-grained Personal Access Token mit Contents: Read+Write auf dieses Repo
+        // Fine-grained Personal Access Token mit Contents: Read+Write UND Issues: Read+Write
+        // auf dieses Repo (Issues-Berechtigung wird von cron/check_sources.php gebraucht)
         'token' => 'github_pat_DEIN_TOKEN_HIER',
         // GitHub-Repo im Format owner/repo
         'repo'  => 'heibie/parkraumwende',

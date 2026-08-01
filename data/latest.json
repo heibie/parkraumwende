@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-01 02:02:01",
-    "frei_gesamt": 2023,
-    "belegt_gesamt": 1445,
+    "timestamp": "2026-08-01 03:02:01",
+    "frei_gesamt": 2032,
+    "belegt_gesamt": 1436,
     "kap_gesamt": 3468,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 253,
+            "frei": 257,
             "kap": 275,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 66,
+            "frei": 67,
             "kap": 150,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 182,
+            "frei": 183,
             "kap": 316,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 333,
+            "frei": 335,
             "kap": 401,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 74,
+            "frei": 75,
             "kap": 102,
             "aktiv": true
         },

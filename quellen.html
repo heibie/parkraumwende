@@ -99,6 +99,8 @@
     }
     table.sources tr:last-child td { border-bottom: none; }
     table.sources tr:hover td { background: #fafbfc; }
+    table.sources tbody tr { scroll-margin-top: 48px; }
+    table.sources tbody tr:target td { background: #fff6da; }
 
     tr.cat-row td {
       background: #eef0ff;
@@ -111,6 +113,8 @@
 
     .src-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 2px; }
     .src-file  { font-family: ui-monospace, monospace; font-size: 0.68rem; color: var(--text-dim); }
+    .src-file a { color: inherit; text-decoration: none; }
+    .src-file a:hover { color: var(--primary); text-decoration: underline; }
 
     .used-in-list { display: flex; flex-direction: column; gap: 3px; }
     .used-in-list a { font-size: 0.78rem; color: var(--primary); text-decoration: none; }
@@ -281,12 +285,31 @@ const STATUS_META = {
   unknown:   { label: 'Check fehlgeschlagen', order: 4 },
 };
 
+const GITHUB_REPO = 'heibie/parkraumwende';
+
 function fmtDate(iso) {
   if (!iso) return '–';
   // reine Datums-Strings (YYYY-MM-DD) direkt formatieren, volle Timestamps parsen
   const d = iso.length === 10 ? new Date(iso + 'T00:00:00') : new Date(iso);
   if (isNaN(d)) return iso;
   return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function fmtDateTime(iso) {
+  if (!iso) return '–';
+  const d = new Date(iso.includes(' ') ? iso.replace(' ', 'T') : iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    + ', ' + d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr';
+}
+
+function githubFileLink(path) {
+  // Pfade mit Platzhaltern (z.B. data/details/YYYY-MM.csv) sind keine echte Datei -> auf den Ordner verlinken
+  if (path.includes('YYYY-MM')) {
+    const dir = path.slice(0, path.lastIndexOf('/'));
+    return { href: `https://github.com/${GITHUB_REPO}/tree/main/${dir}`, label: path };
+  }
+  return { href: `https://github.com/${GITHUB_REPO}/blob/main/${path}`, label: path };
 }
 
 function statusPill(status, detail) {
@@ -312,6 +335,24 @@ async function init() {
   ]);
 
   const statuses = statusData.sources || {};
+
+  // Quellen mit "live_timestamp_file" (z.B. der 2h-Parkhaus-Cron) haben keinen sinnvollen
+  // Git-Änderungsdatum (latest.json wird ständig überschrieben) - stattdessen den tatsächlichen
+  // Timestamp direkt aus der Live-Datei selbst lesen.
+  const liveTimestampFetches = [];
+  registry.categories.forEach(cat => cat.sources.forEach(src => {
+    const cfg = src.check && src.check.live_timestamp_file;
+    if (cfg) {
+      liveTimestampFetches.push(
+        fetch(cfg).then(r => r.json()).then(data => {
+          statuses[src.id] = statuses[src.id] || {};
+          statuses[src.id].local_updated = data[src.check.live_timestamp_field];
+          statuses[src.id].local_updated_precise = true;
+        }).catch(() => {})
+      );
+    }
+  }));
+  await Promise.all(liveTimestampFetches);
   const tbody = document.getElementById('sources-body');
   tbody.innerHTML = '';
 
@@ -324,9 +365,26 @@ async function init() {
     cat.sources.forEach(src => {
       const st = statuses[src.id] || {};
       const tr = document.createElement('tr');
+      tr.id = src.id;
 
       const tdTitle = document.createElement('td');
-      tdTitle.innerHTML = `<div class="src-title">${src.title}</div><div class="src-file">${(src.files || []).join(' · ')}</div>`;
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'src-title';
+      titleDiv.textContent = src.title;
+      tdTitle.appendChild(titleDiv);
+      const fileDiv = document.createElement('div');
+      fileDiv.className = 'src-file';
+      (src.files || []).forEach((path, i) => {
+        if (i > 0) fileDiv.appendChild(document.createTextNode(' · '));
+        const link = githubFileLink(path);
+        const a = document.createElement('a');
+        a.href = link.href;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = link.label;
+        fileDiv.appendChild(a);
+      });
+      tdTitle.appendChild(fileDiv);
       tr.appendChild(tdTitle);
 
       const tdUsed = document.createElement('td');
@@ -361,7 +419,7 @@ async function init() {
       const tdDate = document.createElement('td');
       const dateSpan = document.createElement('span');
       dateSpan.className = 'updated-date';
-      dateSpan.textContent = fmtDate(st.local_updated);
+      dateSpan.textContent = st.local_updated_precise ? fmtDateTime(st.local_updated) : fmtDate(st.local_updated);
       tdDate.appendChild(dateSpan);
       if (src.turnus) {
         const turnusSpan = document.createElement('span');
@@ -388,7 +446,7 @@ async function init() {
 
   const note = document.getElementById('refresh-note');
   if (statusData.generated_at) {
-    note.textContent = 'Zuletzt geprüft: ' + fmtDate(statusData.generated_at) + ' · Prüfung läuft über scripts/check_sources.py';
+    note.textContent = 'Zuletzt geprüft: ' + fmtDateTime(statusData.generated_at);
   } else {
     note.textContent = 'Prüfstatus konnte nicht geladen werden.';
   }
@@ -404,6 +462,13 @@ async function init() {
     `;
     attrList.appendChild(div);
   });
+
+  // Tabelle wird erst asynchron befüllt - der Browser konnte beim initialen Laden
+  // noch nicht zu einem #anker in einer Zeile springen, das jetzt nachholen.
+  if (location.hash) {
+    const target = document.getElementById(location.hash.slice(1));
+    if (target) target.scrollIntoView();
+  }
 }
 
 init().catch(err => {

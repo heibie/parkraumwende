@@ -2,7 +2,7 @@
   "name": "parkraumwende-muenchen",
   "title": "Parkraumwende München – Offene Daten",
   "description": "Datensätze zu Parkraum, PKW-Bestand, Neuzulassungen und Mobilität in München. Zusammengestellt und veröffentlicht von Parkraumwende München.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://data.parkraumwende.de",
   "contributors": [
     { "title": "Heiko Bielinski", "email": "heiko@bielinski.de", "role": "author", "path": "https://parkraumwende.de" }
@@ -32,22 +32,40 @@
       ],
       "schema": {
         "fields": [
-          { "name": "Name",             "type": "string",  "description": "Bezeichnung des Parkplatzes" },
           { "name": "ID",               "type": "integer", "description": "Interne ID" },
+          { "name": "Name",             "type": "string",  "description": "Bezeichnung des Parkplatzes" },
+          { "name": "Issue",            "type": "string",  "description": "Referenz auf die GitHub-Issue-Nummer, über die der Eintrag eingereicht wurde (Submission-Workflow)" },
           { "name": "Typ",              "type": "string",  "description": "Parkhaus, Tiefgarage, Außenstellplatz, Wohnanlage" },
           { "name": "Bewirtschaftungsart", "type": "string", "description": "Art der Nutzung, z.B. öffentlich, Anwohner, Kunden" },
-          { "name": "Immobilientyp",    "type": "string",  "description": "Gebäudetyp, z.B. Einzelhandel, Büro, Wohngebäude" },
+          { "name": "Immobilientyp",    "type": "string",  "description": "Gebäudetyp, z.B. Einzelhandel, Büro, Wohngebäude (Mehrfachnennungen möglich)" },
+          { "name": "Aktiv",            "type": "string",  "description": "Eintrag aktiv/sichtbar (Ja/Nein)" },
+          { "name": "Verifiziert",      "type": "string",  "description": "Eintrag manuell geprüft (Ja/Nein)" },
           { "name": "Plätze",           "type": "integer", "description": "Gesamtzahl Stellplätze" },
+          { "name": "Freie Plätze",     "type": "integer", "description": "Aktuell freie Stellplätze, sofern bekannt" },
           { "name": "Dauerparken",      "type": "string",  "description": "Dauerparken verfügbar (Ja/Nein)" },
           { "name": "Kurzzeitparken",   "type": "string",  "description": "Kurzzeitparken verfügbar (Ja/Nein)" },
+          { "name": "Preis/Monat",      "type": "number",  "description": "Monatspreis in Euro, sofern bekannt" },
+          { "name": "Preis/Tag",        "type": "number",  "description": "Tagespreis in Euro, sofern bekannt" },
+          { "name": "Preis/Stunde",     "type": "number",  "description": "Stundenpreis in Euro, sofern bekannt" },
+          { "name": "Parkplatz frei",   "type": "string",  "description": "Live-Verfügbarkeitsstatus, sofern der Parkplatz das unterstützt (Ja/Nein)" },
+          { "name": "Status",           "type": "string",  "description": "Redaktioneller Freigabestatus des Eintrags (z.B. freigegeben)" },
+          { "name": "Öffnungszeiten",   "type": "string",  "description": "Öffnungszeiten als Freitext, z.B. eingeschränkt/durchgehend" },
           { "name": "Straße",           "type": "string",  "description": "Straßenname" },
           { "name": "Hausnummer",       "type": "string",  "description": "Hausnummer" },
           { "name": "PLZ",              "type": "string",  "description": "Postleitzahl" },
           { "name": "Ort",              "type": "string",  "description": "Ort (i.d.R. München)" },
+          { "name": "Einfahrtshöhe",    "type": "number",  "description": "Maximale Einfahrtshöhe in Metern, sofern bekannt" },
           { "name": "Latitude",         "type": "number",  "description": "Geographische Breite (WGS84)" },
           { "name": "Longitude",        "type": "number",  "description": "Geographische Länge (WGS84)" },
+          { "name": "URL 1",            "type": "string",  "description": "Weiterführender Link, z.B. Betreiber-Webseite" },
+          { "name": "URL 2",            "type": "string",  "description": "Weiterer Link, z.B. Preisliste" },
+          { "name": "Places ID OpenData LHM", "type": "string", "description": "Verknüpfung zur OpenData-LHM-ID, sofern der Eintrag von dort stammt" },
+          { "name": "Kontakt",          "type": "string",  "description": "Kontaktinformation, sofern bekannt" },
+          { "name": "Bemerkung",        "type": "string",  "description": "Freitext-Anmerkung" },
           { "name": "Quelle",           "type": "string",  "description": "Datenherkunft des Eintrags" },
-          { "name": "Aktiv",            "type": "string",  "description": "Eintrag aktiv/sichtbar (Ja/Nein)" }
+          { "name": "Potential",        "type": "string",  "description": "Redaktionelle Einschätzung, ob Umnutzungspotenzial für Parkraumwende besteht (Ja/Nein)" },
+          { "name": "Erstellt am",      "type": "string",  "description": "Zeitstempel der Ersterfassung" },
+          { "name": "Aktualisiert am",  "type": "string",  "description": "Zeitstempel der letzten Aktualisierung" }
         ]
       }
     },
@@ -91,7 +109,12 @@
           { "name": "Lizenzgebiet",        "type": "string",  "description": "Bezeichnung des Parklizenzgebiets" },
           { "name": "Anzahl Stellplätze",  "type": "integer", "description": "Anzahl der Stellplätze im Gebiet" },
           { "name": "Anzahl Parkausweise", "type": "integer", "description": "Anzahl der verkauften Parkausweise im Gebiet" },
-          { "name": "Differenz",           "type": "integer", "description": "Parkausweise minus Stellplätze (positiv = Überbuchung)" }
+          { "name": "Stellplätze - Parkausweise", "type": "integer", "description": "Stellplätze minus Parkausweise (negativ = Überbuchung)" },
+          { "name": "Parkplatzfläche in m²", "type": "number", "description": "Geschätzte Parkplatzfläche des Gebiets in Quadratmetern" },
+          { "name": "Parkplatzfläche in km²", "type": "number", "description": "Geschätzte Parkplatzfläche des Gebiets in Quadratkilometern" },
+          { "name": "lat",                 "type": "number",  "description": "Geographische Breite des Gebietsmittelpunkts (WGS84)" },
+          { "name": "long",                "type": "number",  "description": "Geographische Länge des Gebietsmittelpunkts (WGS84)" },
+          { "name": "Überbucht",           "type": "string",  "description": "Kennzeichnung, ob das Gebiet überbucht ist (Ja/Nein)" }
         ]
       }
     },
@@ -112,7 +135,8 @@
           { "name": "Titel",  "type": "string",  "description": "Kategorie (Parkplätze / Parklizenzen)" },
           { "name": "Anzahl", "type": "integer", "description": "Absolute Zahl" }
         ]
-      }
+      },
+      "notes": "Die Datei enthält 3 ungenutzte, leere Spalten am Ende (Reste aus dem Tabellen-Export)."
     },
     {
       "name": "ihk-motelone",
@@ -128,11 +152,12 @@
       "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
       "schema": {
         "fields": [
-          { "name": "Zeitraum", "type": "string",  "description": "Werktag oder Wochenende" },
-          { "name": "Frei",     "type": "integer", "description": "Freie Stellplätze (Durchschnitt)" },
-          { "name": "Belegt",   "type": "integer", "description": "Belegte Stellplätze (Durchschnitt)" }
+          { "name": "",     "type": "string",  "description": "Zeitraum (Werktag/Wochenende) - Spalte ist in der Datei unbenannt" },
+          { "name": "frei",   "type": "integer", "description": "Freie Stellplätze (Durchschnitt)" },
+          { "name": "belegt", "type": "integer", "description": "Belegte Stellplätze (Durchschnitt)" }
         ]
-      }
+      },
+      "notes": "Die Datei hat 2 zusätzliche leere Spalten am Ende und die erste Spalte ist in der Kopfzeile unbenannt (enthält den Zeitraum)."
     },
     {
       "name": "innenstadt-auslastung-exemplarisch",
@@ -149,10 +174,11 @@
       "schema": {
         "fields": [
           { "name": "Datum",  "type": "string",  "description": "Datum des ausgewählten Samstags" },
-          { "name": "Frei",   "type": "integer", "description": "Freie Kapazität in Prozent" },
-          { "name": "Belegt", "type": "integer", "description": "Belegte Kapazität in Prozent" }
+          { "name": "",   "type": "integer", "description": "Freie Kapazität in Prozent - Spalte ist in der Datei unbenannt" },
+          { "name": "",   "type": "integer", "description": "Belegte Kapazität in Prozent - Spalte ist in der Datei unbenannt" }
         ]
-      }
+      },
+      "notes": "Spalte 2 (Frei) und 3 (Belegt) sind in der Kopfzeile der Datei unbenannt."
     },
     {
       "name": "parklizenzen-europa",
@@ -188,9 +214,11 @@
           { "name": "Auslastung in %",     "type": "integer", "description": "Angenommene Auslastung der Parkplätze in Prozent" },
           { "name": "Tageseinnahme",       "type": "string",  "description": "Tageseinnahme eines einzelnen Parkplatzes (formatiert)" },
           { "name": "Tageseinnahme alle",  "type": "string",  "description": "Tageseinnahme aller 9.800 Parkplätze (formatiert)" },
-          { "name": "Jahreseinnahmen alle","type": "string",  "description": "Jahreseinnahmen aller 9.800 Parkplätze (formatiert)" }
+          { "name": "Jahreseinnahmen alle","type": "string",  "description": "Jahreseinnahmen aller 9.800 Parkplätze bei 365 Tagen/Jahr (formatiert)" },
+          { "name": "Jahreseinnahmen Werktage (300 Tage)", "type": "string", "description": "Jahreseinnahmen aller 9.800 Parkplätze bei 300 Werktagen/Jahr (formatiert)" }
         ]
-      }
+      },
+      "notes": "Die Datei hat eine zusätzliche leere Spalte am Ende (Rest aus dem Tabellen-Export)."
     },
     {
       "name": "lizenz-einnahmen",
@@ -205,11 +233,12 @@
       "licenses": [{ "name": "CC-BY-4.0", "path": "https://creativecommons.org/licenses/by/4.0/" }],
       "schema": {
         "fields": [
-          { "name": "Preis/Jahr",      "type": "integer", "description": "Jahrespreis Parkausweis in Euro" },
-          { "name": "Lizenzen vergeben","type": "integer", "description": "Anzahl vergebener Parklizenzen in München" },
-          { "name": "Einnahmen/Jahr",  "type": "integer", "description": "Gesamteinnahmen pro Jahr in Euro" }
+          { "name": "Preis/Jahr",       "type": "integer", "description": "Jahrespreis Parkausweis in Euro" },
+          { "name": "Stadt",            "type": "string",  "description": "Bezugsraum des Preises (München stadtweit / Altstadt)" },
+          { "name": "Lizenzen vergeben","type": "integer", "description": "Anzahl vergebener Parklizenzen in München" }
         ]
-      }
+      },
+      "notes": "Einnahmen/Jahr wird nicht in der Datei gespeichert, sondern im Frontend aus Preis/Jahr × Lizenzen vergeben berechnet."
     },
     {
       "name": "oeffentlicher-raum",
@@ -238,7 +267,7 @@
       "encoding": "UTF-8",
       "temporalCoverage": "2010/2025",
       "sources": [
-        { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
+        { "title": "OpenData LHM – Monatszahlen KFZ-Bestand", "path": "https://opendata.muenchen.de/dataset/monatszahlen-kfz-bestand" }
       ],
       "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
       "schema": {
@@ -249,8 +278,11 @@
           { "name": "PKW-Bestand","type": "integer", "description": "PKW-Bestand gesamt" },
           { "name": "Benzin",     "type": "integer", "description": "Fahrzeuge mit Benzinantrieb" },
           { "name": "Diesel",     "type": "integer", "description": "Fahrzeuge mit Dieselantrieb" },
+          { "name": "Flüssiggas", "type": "integer", "description": "Fahrzeuge mit Flüssiggasantrieb (LPG)" },
+          { "name": "Erdgas",     "type": "integer", "description": "Fahrzeuge mit Erdgasantrieb (CNG)" },
           { "name": "Elektro",    "type": "integer", "description": "Reine Elektrofahrzeuge (BEV)" },
           { "name": "Hybrid",     "type": "integer", "description": "Hybrid-Fahrzeuge (inkl. PHEV)" },
+          { "name": "Sonstige",   "type": "integer", "description": "Sonstige Antriebsarten" },
           { "name": "Verbrenner", "type": "integer", "description": "Alle Verbrenner-Antriebe summiert" }
         ]
       }
@@ -264,9 +296,31 @@
       "encoding": "UTF-8",
       "temporalCoverage": "2010/2024",
       "sources": [
-        { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
+        { "title": "OpenData LHM – Monatszahlen KFZ-Erstzulassungen", "path": "https://opendata.muenchen.de/dataset/monatszahlen-kfz-neuzulassungen" }
       ],
-      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }]
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Jahr",                  "type": "integer", "description": "Berichtsjahr" },
+          { "name": "Kleinstwagen",          "type": "integer", "description": "Neuzulassungen Segment Kleinstwagen" },
+          { "name": "Kleinwagen",            "type": "integer", "description": "Neuzulassungen Segment Kleinwagen" },
+          { "name": "Kompaktklasse",         "type": "integer", "description": "Neuzulassungen Segment Kompaktklasse" },
+          { "name": "Mittelklasse",          "type": "integer", "description": "Neuzulassungen Segment Mittelklasse" },
+          { "name": "Obere Mittelklasse",    "type": "integer", "description": "Neuzulassungen Segment Obere Mittelklasse" },
+          { "name": "Oberklasse",            "type": "integer", "description": "Neuzulassungen Segment Oberklasse" },
+          { "name": "Geländewagen",          "type": "integer", "description": "Neuzulassungen Segment Geländewagen" },
+          { "name": "SUVs",                  "type": "integer", "description": "Neuzulassungen Segment SUV" },
+          { "name": "Sportwagen",            "type": "integer", "description": "Neuzulassungen Segment Sportwagen" },
+          { "name": "Mini-Vans",             "type": "integer", "description": "Neuzulassungen Segment Mini-Van" },
+          { "name": "Großraum-Vans",         "type": "integer", "description": "Neuzulassungen Segment Großraum-Van" },
+          { "name": "Utilities/Wohnmobile",  "type": "integer", "description": "Neuzulassungen Segment Utility/Wohnmobil" },
+          { "name": "Sonstige",              "type": "integer", "description": "Neuzulassungen, sonstige Segmente" },
+          { "name": "nicht zuzuordnen",      "type": "integer", "description": "Neuzulassungen ohne zuordenbares Segment" },
+          { "name": "Große Karren",          "type": "integer", "description": "Summe aus Oberklasse + Geländewagen + SUVs + Sportwagen (für Diagramm 'Neuzulassungen große KFZ')" },
+          { "name": "Vanlife",               "type": "integer", "description": "Summe aus Mini-Vans + Großraum-Vans + Utilities/Wohnmobile (für Diagramm 'Neuzulassungen große KFZ')" },
+          { "name": "Gesamt",                "type": "integer", "description": "Neuzulassungen insgesamt" }
+        ]
+      }
     },
     {
       "name": "pkw-haushalt",
@@ -279,12 +333,14 @@
         { "title": "Mobilität in Städten – SrV 2023 (TU Dresden)", "path": "https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf" }
       ],
       "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "dialect": { "header": false },
       "schema": {
         "fields": [
-          { "name": "Kategorie", "type": "string",  "description": "Haushaltstyp (Kein Auto / Ein Auto / Zwei Autos)" },
+          { "name": "Kategorie", "type": "string",  "description": "Haushaltstyp (Kein Auto / Ein Auto / Zwei Autos oder mehr)" },
           { "name": "Anteil",    "type": "integer", "description": "Anteil in Prozent" }
         ]
-      }
+      },
+      "notes": "Die Datei hat keine Kopfzeile - die erste Zeile enthält bereits Daten. Die Schema-Felder oben beschreiben die Spalten positionsbasiert. Zusätzlich 3 ungenutzte, leere Spalten am Ende."
     },
     {
       "name": "pkw-einkommen",
@@ -446,7 +502,7 @@
       "path": "ruhver_prm_gebiete_poly.csv",
       "title": "Parklizenzgebiete München – Geodaten (Polygone)",
       "description": "Umgriffe aller Parklizenzgebiete in München als WKT-Polygone im Koordinatensystem UTM Zone 32N (EPSG:25832). Enthält Name, Status, Eröffnungsdatum, Überwachungsart und Link zur Einzelübersicht.",
-      "temporalCoverage": "2026-05-18",
+      "temporalCoverage": "2026-05-27",
       "mediatype": "text/csv",
       "encoding": "UTF-8",
       "sources": [
@@ -471,7 +527,7 @@
       "path": "ruhver_parkseiten_line.csv",
       "title": "Parkseiten München – regulierte Parkstreifen",
       "description": "Alle regulierten Parkstreifen in München als Liniengeometrien (WKT, UTM Zone 32N / EPSG:25832). 13.244 Segmente in 16 Regelgruppen mit insgesamt 100.432 erfassten Stellplätzen.",
-      "temporalCoverage": "2026-05-18",
+      "temporalCoverage": "2026-05-27",
       "mediatype": "text/csv",
       "encoding": "UTF-8",
       "sources": [
@@ -492,6 +548,93 @@
           { "name": "shape",                   "type": "string",  "description": "Liniengeometrie als WKT, UTM Zone 32N (EPSG:25832)" }
         ]
       }
+    },
+    {
+      "name": "motorisierungsgrad",
+      "path": "indikat_verkehr_motorisierungsgrad_personenkraftwagen.csv",
+      "title": "Motorisierungsgrad Personenkraftwagen nach Stadtbezirk 2000–2025",
+      "description": "PKW je 1.000 Einwohner, gesamtstädtisch und je Stadtbezirk. Aus dem Indikatorenatlas Verkehr der Landeshauptstadt München.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2000/2025",
+      "sources": [
+        { "title": "OpenData München – Indikatorenatlas Verkehr", "path": "https://opendata.muenchen.de/dataset/indikatorenatlas-verkehr-motorisierungsgrad-personenkraftwagen-83r65mct" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "Indikator",         "type": "string",  "description": "Name des Indikators (Motorisierungsgrad Personenkraftwagen)" },
+          { "name": "Ausprägung",        "type": "string",  "description": "Kategorie des Indikators (i.d.R. 'insgesamt')" },
+          { "name": "Jahr",              "type": "integer", "description": "Berichtsjahr" },
+          { "name": "Raumbezug",         "type": "string",  "description": "Gesamtstadt oder einzelner Stadtbezirk" },
+          { "name": "Indikatorwert",     "type": "number",  "description": "PKW je 1.000 Einwohner" },
+          { "name": "Basiswert 1",       "type": "integer", "description": "Absoluter PKW-Bestand (Zähler der Berechnung)" },
+          { "name": "Basiswert 2",       "type": "integer", "description": "Hauptwohnsitzbevölkerung (Nenner der Berechnung)" },
+          { "name": "Name Basiswert 1",  "type": "string",  "description": "Bezeichnung von Basiswert 1" },
+          { "name": "Name Basiswert 2",  "type": "string",  "description": "Bezeichnung von Basiswert 2" }
+        ]
+      }
+    },
+    {
+      "name": "stadtbezirksprofile",
+      "path": "stadtbezirksprofile.csv",
+      "title": "SrV 2023 – Stadtbezirksübersicht (Bezirksprofile)",
+      "description": "Mobilitätskennzahlen je Münchner Stadtbezirk (Modal Split, Wegezwecke, Fahrzeugbesitz, Altersstruktur u.a.) aus der Erhebung 'Mobilität in Städten – SrV 2023'.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "temporalCoverage": "2023/2023",
+      "sources": [
+        { "title": "Mobilität in Städten – SrV 2023, Stadtbezirksübersicht", "path": "https://muenchenunterwegs.de/content/3536/download/srv-munchen-stadtbezirksubersicht.pdf" }
+      ],
+      "licenses": [{ "name": "dl-de-by-2.0", "title": "Datenlizenz Deutschland – Namensnennung – Version 2.0", "path": "https://www.govdata.de/dl-de/by-2-0" }],
+      "schema": {
+        "fields": [
+          { "name": "sb_nummer",             "type": "integer", "description": "Stadtbezirksnummer (0 = Gesamtstadt)" },
+          { "name": "sb_name",               "type": "string",  "description": "Name des Stadtbezirks" },
+          { "name": "bevoelkerung",          "type": "integer", "description": "Einwohnerzahl" },
+          { "name": "befragte",              "type": "integer", "description": "Anzahl Befragte in der SrV-Erhebung" },
+          { "name": "stichprobengroesse_pct","type": "number",  "description": "Stichprobengröße relativ zur Einwohnerzahl in Prozent" },
+          { "name": "modalsplit_kfz_pct",    "type": "number",  "description": "Modal-Split-Anteil KFZ in Prozent" },
+          { "name": "modalsplit_oev_pct",    "type": "number",  "description": "Modal-Split-Anteil ÖPNV in Prozent" },
+          { "name": "modalsplit_rad_pct",    "type": "number",  "description": "Modal-Split-Anteil Fahrrad in Prozent" },
+          { "name": "modalsplit_fuss_pct",   "type": "number",  "description": "Modal-Split-Anteil zu Fuß in Prozent" },
+          { "name": "wegezweck_arbeitsplatz_pct", "type": "number", "description": "Anteil Wege mit Zweck Arbeitsplatz in Prozent" },
+          { "name": "wegezweck_kita_schule_pct",  "type": "number", "description": "Anteil Wege mit Zweck Kita/Schule in Prozent" },
+          { "name": "wegezweck_einkauf_pct",      "type": "number", "description": "Anteil Wege mit Zweck Einkauf in Prozent" },
+          { "name": "wegezweck_freizeit_pct",     "type": "number", "description": "Anteil Wege mit Zweck Freizeit in Prozent" },
+          { "name": "wegezweck_anderer_pct",      "type": "number", "description": "Anteil Wege mit anderem Zweck in Prozent" },
+          { "name": "wege_pro_tag",          "type": "number",  "description": "Durchschnittliche Wege pro Person und Tag" },
+          { "name": "dauer_pro_weg_min",     "type": "number",  "description": "Durchschnittliche Wegedauer in Minuten" },
+          { "name": "entfernung_pro_weg_km", "type": "number",  "description": "Durchschnittliche Wegentfernung in Kilometern" },
+          { "name": "fz_privat_pkw_je_hh",   "type": "number",  "description": "Private PKW je Haushalt" },
+          { "name": "fz_dienst_pkw_je_hh",   "type": "number",  "description": "Dienst-PKW je Haushalt" },
+          { "name": "fz_fahrraeder_je_hh",   "type": "number",  "description": "Fahrräder je Haushalt" },
+          { "name": "fz_efahrraeder_je_hh",  "type": "number",  "description": "E-Fahrräder je Haushalt" },
+          { "name": "taeglich_pkw_pct",      "type": "number",  "description": "Anteil täglicher PKW-Nutzung in Prozent" },
+          { "name": "taeglich_fahrrad_pct",  "type": "number",  "description": "Anteil täglicher Fahrrad-Nutzung in Prozent" },
+          { "name": "taeglich_oepnv_pct",    "type": "number",  "description": "Anteil täglicher ÖPNV-Nutzung in Prozent" },
+          { "name": "taeglich_zufuss_pct",   "type": "number",  "description": "Anteil täglicher Nutzung zu Fuß in Prozent" },
+          { "name": "taeglich_leihrad_pct",  "type": "number",  "description": "Anteil täglicher Leihrad-Nutzung in Prozent" },
+          { "name": "taeglich_escooter_pct", "type": "number",  "description": "Anteil täglicher E-Scooter-Nutzung in Prozent" },
+          { "name": "antrieb_benzin_pct",       "type": "number", "description": "Anteil Benzin-PKW in Prozent" },
+          { "name": "antrieb_diesel_pct",       "type": "number", "description": "Anteil Diesel-PKW in Prozent" },
+          { "name": "antrieb_pluginhybrid_pct", "type": "number", "description": "Anteil Plug-in-Hybrid-PKW in Prozent" },
+          { "name": "antrieb_elektro_pct",      "type": "number", "description": "Anteil Elektro-PKW in Prozent" },
+          { "name": "alter_0_15_pct",   "type": "number", "description": "Bevölkerungsanteil 0-15 Jahre in Prozent" },
+          { "name": "alter_15_25_pct",  "type": "number", "description": "Bevölkerungsanteil 15-25 Jahre in Prozent" },
+          { "name": "alter_25_45_pct",  "type": "number", "description": "Bevölkerungsanteil 25-45 Jahre in Prozent" },
+          { "name": "alter_45_65_pct",  "type": "number", "description": "Bevölkerungsanteil 45-65 Jahre in Prozent" },
+          { "name": "alter_65plus_pct", "type": "number", "description": "Bevölkerungsanteil 65+ Jahre in Prozent" },
+          { "name": "homeoffice_quote_pct", "type": "number", "description": "Homeoffice-Quote in Prozent" },
+          { "name": "hh_groesse",           "type": "number", "description": "Durchschnittliche Haushaltsgröße" },
+          { "name": "pkw_besetzung",        "type": "number", "description": "Durchschnittliche PKW-Besetzung" },
+          { "name": "bevoelkerungsdichte_einw_pro_ha", "type": "number", "description": "Bevölkerungsdichte in Einwohner pro Hektar" },
+          { "name": "abstellort_privater_stellplatz_pct",       "type": "number", "description": "Anteil PKW-Abstellort privater Stellplatz in Prozent" },
+          { "name": "abstellort_oeffentlicher_strassenraum_pct","type": "number", "description": "Anteil PKW-Abstellort öffentlicher Straßenraum in Prozent" },
+          { "name": "abstellort_unterschiedlich_pct",           "type": "number", "description": "Anteil PKW-Abstellort unterschiedlich/wechselnd in Prozent" }
+        ]
+      },
+      "notes": "Viele Felder sind je nach Stadtbezirk unvollständig befüllt (leere Werte bei zu kleiner Stichprobe)."
     }
   ]
 }

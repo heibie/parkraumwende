@@ -9,7 +9,7 @@
           "title": "Parkraumkarte München",
           "files": ["data/parkraummap.csv"],
           "used_in": [
-            { "label": "Karte: Übersicht", "href": "index.html#sec-karte" },
+            { "label": "Karte: Übersicht", "href": "index.html#karte" },
             { "label": "Diagramm: Wachstum der Parkraumkarte", "href": "embed.html?chart=karte-wachstum" },
             { "label": "Diagramm: Woher kommen die Karteneinträge?", "href": "embed.html?chart=karte-quelle" },
             { "label": "Diagramm: Immobilientyp der Karteneinträge", "href": "embed.html?chart=karte-immobilientyp" }
@@ -29,11 +29,16 @@
           "title": "Parkhäuser Innenstadt – Live-Auslastung",
           "files": ["data/latest.json", "data/details/YYYY-MM.csv", "data/summary/YYYY-MM.csv"],
           "used_in": [
-            { "label": "Karte: Innenstadt-Parkhäuser", "href": "index.html#sec-innenstadt" }
+            { "label": "Karte: Innenstadt-Parkhäuser", "href": "index.html#innenstadt" }
           ],
           "original_source": { "label": "Parkleitsystem München Zentrum (pls-muc-z.com)", "href": "https://pls-muc-z.com/pls/info/parkhaus.html" },
           "turnus": "alle 2 Stunden (Server-Cron)",
-          "check": { "method": "cron", "note": "Wird bereits alle 2h automatisch aktualisiert (siehe cron/), kein separater Änderungscheck nötig." }
+          "check": {
+            "method": "cron",
+            "note": "Wird bereits alle 2h automatisch aktualisiert (siehe cron/), kein separater Änderungscheck nötig.",
+            "live_timestamp_file": "data/latest.json",
+            "live_timestamp_field": "timestamp"
+          }
         }
       ]
     },
@@ -45,7 +50,7 @@
           "title": "Parkseiten München – regulierte Parkstreifen",
           "files": ["data/ruhver_parkseiten_line.csv"],
           "used_in": [
-            { "label": "Karte: Parkseiten", "href": "index.html#sec-parkseiten" }
+            { "label": "Karte: Parkseiten", "href": "index.html#parkseiten" }
           ],
           "original_source": { "label": "OpenData Portal LHM", "href": "https://opendata.muenchen.de/dataset/opendata_ruhver_parkseiten_line" },
           "turnus": "laufend (OpenData-Portal, WFS)",
@@ -56,14 +61,14 @@
           "title": "Parklizenzgebiete München – Geodaten (Polygone)",
           "files": ["data/ruhver_prm_gebiete_poly.csv"],
           "used_in": [
-            { "label": "Karte: Parklizenzgebiete", "href": "index.html#sec-parklizenz" }
+            { "label": "Karte: Parklizenzgebiete", "href": "index.html#parklizenz" }
           ],
           "original_source": { "label": "OpenData Portal LHM", "href": "https://opendata.muenchen.de/dataset/opendata_ruhver_prm_gebiete_poly" },
           "turnus": "laufend (OpenData-Portal, WFS)",
           "check": { "method": "ckan", "dataset": "opendata_ruhver_prm_gebiete_poly" }
         },
         {
-          "id": "parklizenzgebiete-stellplaetze",
+          "id": "parklizenzgebiete",
           "title": "Parklizenzgebiete München – Stellplätze und Parkausweise",
           "files": ["data/parklizenzgebiete.csv", "data/parkplaetze_parklizenzen.csv"],
           "used_in": [
@@ -75,7 +80,7 @@
           "check": { "method": "heuristic" }
         },
         {
-          "id": "motelone",
+          "id": "ihk-motelone",
           "title": "Parkhausauslastung Tiefgarage IHK / MotelOne Haidhausen",
           "files": ["data/ihk_motelone.csv"],
           "used_in": [
@@ -97,7 +102,7 @@
           "check": { "method": "heuristic" }
         },
         {
-          "id": "lizenzen-europa",
+          "id": "parklizenzen-europa",
           "title": "Parkausweis-Jahresgebühren im europäischen Städtevergleich",
           "files": ["data/parklizenzen_europa.csv"],
           "used_in": [
@@ -108,7 +113,7 @@
           "check": { "method": "heuristic" }
         },
         {
-          "id": "parkscheibe-kalkulation",
+          "id": "parkscheibe",
           "title": "Einnahmepotenzial Parkscheiben-Stellplätze München",
           "files": ["data/kalkulation_parkscheibe_parkschein.csv"],
           "used_in": [
@@ -166,7 +171,7 @@
           "title": "Motorisierungsgrad Personenkraftwagen nach Stadtbezirk 2000–2025",
           "files": ["data/indikat_verkehr_motorisierungsgrad_personenkraftwagen.csv"],
           "used_in": [
-            { "label": "Karte: Bezirksprofile", "href": "index.html#sec-bezirke" }
+            { "label": "Karte: Bezirksprofile", "href": "index.html#bezirke" }
           ],
           "original_source": { "label": "OpenData München – Indikatorenatlas Verkehr", "href": "https://opendata.muenchen.de/dataset/indikatorenatlas-verkehr-motorisierungsgrad-personenkraftwagen-83r65mct" },
           "turnus": "jährlich",
@@ -233,11 +238,11 @@
           "check": { "method": "heuristic" }
         },
         {
-          "id": "bezirksprofile",
+          "id": "srv-stadtbezirke",
           "title": "SrV 2023 – Stadtbezirksübersicht (Bezirksprofile)",
           "files": ["data/stadtbezirksprofile.csv"],
           "used_in": [
-            { "label": "Karte: Bezirksprofile", "href": "index.html#sec-bezirke" }
+            { "label": "Karte: Bezirksprofile", "href": "index.html#bezirke" }
           ],
           "original_source": { "label": "Mobilität in Städten – SrV 2023, Stadtbezirksübersicht", "href": "https://muenchenunterwegs.de/content/3536/download/srv-munchen-stadtbezirksubersicht.pdf" },
           "turnus": "alle ~5 Jahre (nächste SrV-Erhebung ~2028)",
@@ -260,7 +265,7 @@
       "title": "Vision Zero",
       "sources": [
         {
-          "id": "unfaelle",
+          "id": "visionzero-unfaelle",
           "title": "Verkehrsunfallstatistik München 2010–2024",
           "files": ["data/visionzero_unfaelle.csv"],
           "used_in": [
@@ -272,7 +277,7 @@
           "note": "Feldabgleich 2026-08-01: mstatistik.muenchen.de ist eine proprietäre InstantAtlas-JS-Visualisierung ohne API - deshalb als Original-Quelle verlinkt (liefert die tatsächliche Verletzte-/Tote-Aufteilung wie in visionzero_unfaelle.csv), aber nicht live prüfbar. Für den Live-Check wird stattdessen OpenData LHM (monatszahlen-verkehrsunfaelle) genutzt: dort stimmt die Summe 'Verletzte und Getötete' exakt mit Verletzte+Tote überein (z.B. 2010: 4822=4822), aber ohne die granulare Aufteilung - der Check erkennt also Änderungen an der Gesamtzahl zuverlässig, nicht an der internen Aufteilung bei gleichbleibender Summe."
         },
         {
-          "id": "schulwegunfaelle",
+          "id": "visionzero-schulwegunfaelle",
           "title": "Schulwegunfälle München 2010–2024",
           "files": ["data/visionzero_schulwegunfaelle.csv"],
           "used_in": [

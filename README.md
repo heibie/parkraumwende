@@ -103,10 +103,9 @@ Beide Tabs zeigen Geodaten des OpenData-Portals der LHM. Die Koordinaten liegen 
 - [ ] **`index.html`**: Chart-Initialisierung in `initStatistiken()` implementieren
 - [ ] **`embed.html`**: Eintrag in `CHARTS`-Registry (title, sub, source, init)
 - [ ] **`embed.html`**: `init`-Funktion implementieren — Canvas-ID ist immer `'chart'`
-- [ ] **`quellen.html`**: Quellenkarte in der passenden Sektion ergänzen
-- [ ] **`data/datapackage.json`**: Neue Ressource mit Schema dokumentieren
-- [ ] **CSV deployen**: `scp data/neue.csv jauchetaucher:…`
-- [ ] **Beide HTML-Dateien deployen** und committen
+- [ ] **`data/source-registry.json`**: neue Quelle bzw. neuer `used_in`-Eintrag (verlinkt auf `embed.html?chart=...`) — steuert die Tabelle auf `quellen.html`
+- [ ] **`data/datapackage.json`**: Neue Ressource mit Schema dokumentieren — immer synchron zur echten CSV halten, siehe Abschnitt „CSV-Daten aktualisieren"
+- [ ] **Committen und pushen** (`git add`, `git commit`, `git push`) — löst den GitHub-Actions-Deploy aus, kein `scp` mehr verwenden (wird vom stündlichen Cron-Push wieder überschrieben, siehe Abschnitt „CSV-Daten aktualisieren")
 
 ### embed.html – CHARTS-Registry
 
@@ -192,12 +191,16 @@ Referenztabelle (Datei ↔ Turnus), inhaltlich identisch mit der Registry, hier 
 
 | Datensatz | Datei | Quelle | Turnus |
 |---|---|---|---|
+| Parkraumkarte | `parkraummap.csv` | [OpenData LHM – Parkhäuser und Tiefgaragen](https://opendata.muenchen.de/dataset/parkhaeuser-munchen) + eigene Erfassung/Crowdsourcing | laufend |
+| Parkhäuser Innenstadt Live | `latest.json`, `details/`, `summary/` | [Parkleitsystem München Zentrum](https://pls-muc-z.com/pls/info/parkhaus.html) | alle 2 Stunden (Server-Cron) |
 | PKW-Bestand | `pkw_bestand.csv` | [OpenData LHM – Monatszahlen KFZ-Bestand](https://opendata.muenchen.de/dataset/monatszahlen-kfz-bestand) | monatlich (Portal), lokal jährlich |
 | Neuzulassungen | `neuzulassungen_fahrzeugtypen.csv` | [OpenData LHM – Monatszahlen KFZ-Erstzulassungen](https://opendata.muenchen.de/dataset/monatszahlen-kfz-neuzulassungen) | monatlich (Portal), lokal jährlich |
+| Motorisierungsgrad je Stadtbezirk | `indikat_verkehr_motorisierungsgrad_personenkraftwagen.csv` | [OpenData München – Indikatorenatlas Verkehr](https://opendata.muenchen.de/dataset/indikatorenatlas-verkehr-motorisierungsgrad-personenkraftwagen-83r65mct) | jährlich |
 | Autobesitz Haushalt | `pkw_haushalt.csv` | [MiD / SrV 2023 – TU Dresden](https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf) | alle ~5 Jahre |
 | Autobesitz Einkommen | `pkw_einkommen.csv` | [Bevölkerungsbefragung LHM](https://stadt.muenchen.de/infos/bevoelkerungsbefragung.html) | alle ~5 Jahre |
 | Bevölkerung | `bevoelkerung_ab_1900_stand_2024.csv` | [OpenData LHM – Bevölkerung](https://opendata.muenchen.de/dataset/bevoelkerung) | jährlich |
 | Modal Split | `modal_split.csv` | [MiD / SrV 2023 – TU Dresden](https://muenchenunterwegs.de/content/3099/download/munchen-steckbrief-tu-dresden.pdf) | alle ~5 Jahre |
+| SrV Stadtbezirksübersicht | `stadtbezirksprofile.csv` | [Mobilität in Städten – SrV 2023, Stadtbezirksübersicht](https://muenchenunterwegs.de/content/3536/download/srv-munchen-stadtbezirksubersicht.pdf) | alle ~5 Jahre |
 | ÖPNV-Preise | `preissteigerung_oepnv_parken.csv` | [MVV Tarifbestimmungen](https://www.mvv-muenchen.de) | bei Preisänderung |
 | MVV Fahrgäste | `mvv.csv` | [Statistisches Amt München – Statistik Verkehr](https://stadt.muenchen.de/infos/statistik-verkehr.html) | jährlich |
 | Verkehrsunfälle | `visionzero_unfaelle.csv` | [Statistisches Amt München – Monatszahlenmonitoring](https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html) (Original, keine API) – Live-Check läuft ersatzweise über [OpenData LHM](https://opendata.muenchen.de/dataset/monatszahlen-verkehrsunfaelle) (nur Summe, nicht Verletzte/Tote getrennt) | jährlich |
@@ -217,10 +220,10 @@ Referenztabelle (Datei ↔ Turnus), inhaltlich identisch mit der Registry, hier 
 
 ```bash
 # 1. CSV lokal bearbeiten
-# 2. Auf Server deployen (per scp)
-# 3. Committen
+# 2. Committen und pushen - löst den GitHub-Actions-Deploy aus, kein scp mehr nötig
 git add data/pkw_bestand.csv
 git commit -m "data: PKW-Bestand 2025 aktualisiert"
+git pull --rebase   # automatische Cron-Commits vorher einsammeln
 git push
 ```
 

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-04 02:02:01",
-    "frei_gesamt": 2995,
-    "belegt_gesamt": 851,
+    "timestamp": "2026-08-04 03:02:01",
+    "frei_gesamt": 2996,
+    "belegt_gesamt": 850,
     "kap_gesamt": 3846,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 227,
+            "frei": 226,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 217,
+            "frei": 218,
             "kap": 245,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 61,
+            "frei": 62,
             "kap": 197,
             "aktiv": true
         },

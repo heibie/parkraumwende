@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-08-05 02:02:01",
+    "timestamp": "2026-08-05 03:02:01",
     "frei_gesamt": 2644,
     "belegt_gesamt": 1187,
     "kap_gesamt": 3831,
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 212,
+            "frei": 211,
             "kap": 245,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 205,
+            "frei": 206,
             "kap": 207,
             "aktiv": true
         },

@@ -368,8 +368,7 @@ ID;Name;Issue;Typ;Bewirtschaftungsart;Immobilientyp;Aktiv;Verifiziert;Plätze;Fr
 367;Kreillerstr. 8;51;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Kreillerstraße;8;81673;München;;48.1279313;11.6313136;;;;603254;Tiefgaragenstellplätze zu vermieten;Crowdsourcing;;2026-07-12;2026-07-12
 368;Kreillerstr. 22;52;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Ziegelstadelweg;22;81673;München;;48.1274586;11.6333735;;;;;;Crowdsourcing;;2026-07-12;2026-07-12
 369;Kreillerstr. 38;53;Tiefgarage;Privat;Wohnen;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Kreillerstraße;38;81673;München;;48.1270146;11.6354764;;;;;;Crowdsourcing;;2026-07-12 10:04:00;2026-07-12 10:04:00
-370;Kreillerstr. 40;54;Stellplatz;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Schildensteinstraße;8;81673;München;;48.1267139;11.6357446;;;;;Parkgaragen im Innenhof;Crowdsourcing;;2026-07-12 10:06:00;2026-07-12 10:06:00
-371;Kreillerstr. 40;55;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Kreillerstraße;40;81673;München;;48.1269606;11.6357392;;;;;;Crowdsourcing;;2026-07-12 10:09:00;2026-07-12 10:09:00
+370;Kreillerstr. 40;54;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Schildensteinstraße;8;81673;München;;48.1267139;11.6357446;;;;;Parkgaragen im Innenhof;Crowdsourcing;;2026-07-12 10:06:00;2026-07-12 10:06:00
 372;Kreillerstr. 52;56;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Kreillerstraße;52;81673;München;;48.1265348;11.6378474;;;;;;Crowdsourcing;;2026-07-12 10:11:00;2026-07-12 10:11:00
 373;Kreillerstr. 77;57;Außenstellplatz;Kunden / Besucherparkplatz;Einzelhandel;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Kreillerstraße;75;81673;München;;48.1264704;11.6442311;;;;;;Crowdsourcing;;2026-07-12 10:22:00;2026-07-12 10:22:00
 374;Kreillerstr. 71;58;Tiefgarage;Privat;nur Parken;Ja;Ja;;;Nein;Nein;;;;;aktiv;;Kreillerstraße;71;81673;München;;48.1265133;11.6427612;;;;;;Crowdsourcing;;2026-07-12 10:24:00;2026-07-12 10:24:00

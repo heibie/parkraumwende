@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-07 05:02:02",
-    "frei_gesamt": 2544,
-    "belegt_gesamt": 1298,
+    "timestamp": "2026-08-07 06:02:01",
+    "frei_gesamt": 2537,
+    "belegt_gesamt": 1305,
     "kap_gesamt": 3842,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 186,
+            "frei": 182,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 222,
+            "frei": 221,
             "kap": 245,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 85,
+            "frei": 84,
             "kap": 102,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 185,
+            "frei": 184,
             "kap": 207,
             "aktiv": true
         },

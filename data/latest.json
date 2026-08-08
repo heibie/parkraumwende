@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-08 05:02:01",
-    "frei_gesamt": 2532,
-    "belegt_gesamt": 1389,
+    "timestamp": "2026-08-08 06:02:01",
+    "frei_gesamt": 2537,
+    "belegt_gesamt": 1384,
     "kap_gesamt": 3921,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 199,
+            "frei": 200,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 169,
+            "frei": 170,
             "kap": 316,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 127,
+            "frei": 128,
             "kap": 147,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 74,
+            "frei": 75,
             "kap": 102,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 219,
+            "frei": 220,
             "kap": 242,
             "aktiv": true
         },

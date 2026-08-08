@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-08 02:02:01",
-    "frei_gesamt": 2509,
-    "belegt_gesamt": 1412,
+    "timestamp": "2026-08-08 03:02:01",
+    "frei_gesamt": 2519,
+    "belegt_gesamt": 1402,
     "kap_gesamt": 3921,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 275,
+            "frei": 278,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 116,
+            "frei": 117,
             "kap": 160,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 168,
+            "frei": 169,
             "kap": 316,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 377,
+            "frei": 378,
             "kap": 461,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 72,
+            "frei": 73,
             "kap": 102,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 216,
+            "frei": 219,
             "kap": 242,
             "aktiv": true
         },

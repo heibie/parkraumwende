@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-09 03:02:01",
-    "frei_gesamt": 2854,
-    "belegt_gesamt": 1045,
+    "timestamp": "2026-08-09 04:02:02",
+    "frei_gesamt": 2865,
+    "belegt_gesamt": 1034,
     "kap_gesamt": 3899,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 342,
+            "frei": 343,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 274,
+            "frei": 277,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 190,
+            "frei": 191,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 182,
+            "frei": 183,
             "kap": 316,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 199,
+            "frei": 200,
             "kap": 245,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 390,
+            "frei": 394,
             "kap": 464,
             "aktiv": true
         },

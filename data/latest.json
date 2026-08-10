@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-10 05:02:01",
-    "frei_gesamt": 2921,
-    "belegt_gesamt": 978,
+    "timestamp": "2026-08-10 06:02:01",
+    "frei_gesamt": 2914,
+    "belegt_gesamt": 985,
     "kap_gesamt": 3899,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 362,
+            "frei": 360,
             "kap": 393,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 102,
+            "frei": 99,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 407,
+            "frei": 406,
             "kap": 464,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 201,
+            "frei": 200,
             "kap": 217,
             "aktiv": true
         },

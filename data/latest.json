@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-12 03:02:01",
-    "frei_gesamt": 2576,
-    "belegt_gesamt": 1280,
+    "timestamp": "2026-08-12 04:02:01",
+    "frei_gesamt": 2578,
+    "belegt_gesamt": 1278,
     "kap_gesamt": 3856,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 305,
+            "frei": 306,
             "kap": 357,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 339,
+            "frei": 340,
             "kap": 411,
             "aktiv": true
         },

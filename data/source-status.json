@@ -1,19 +1,19 @@
 {
-    "generated_at": "2026-08-07T00:00:01+02:00",
+    "generated_at": "2026-08-14T00:00:02+02:00",
     "sources": {
         "parkraumkarte": {
             "status": "ok",
             "source_modified": "2026-02-24T13:14:00.845774",
             "detail": "Laut Portal zuletzt geändert am 2026-02-24T13:14:00.845774 (resource last_modified/created), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-08-01"
         },
         "parkhaeuser-live": {
             "status": "ok",
             "detail": "Wird bereits alle 2h automatisch aktualisiert (siehe cron/), kein separater Änderungscheck nötig.",
             "method": "cron",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": null
         },
         "parkseiten": {
@@ -21,7 +21,7 @@
             "source_modified": "2026-05-27T14:38:21",
             "detail": "Laut Portal zuletzt geändert am 2026-05-27T14:38:21 (GeoPortal Last Modified Date), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-07-29"
         },
         "parklizenzgebiete-geo": {
@@ -29,7 +29,7 @@
             "source_modified": "2026-05-27T14:38:47",
             "detail": "Laut Portal zuletzt geändert am 2026-05-27T14:38:47 (GeoPortal Last Modified Date), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-07-29"
         },
         "parklizenzgebiete": {
@@ -37,56 +37,56 @@
             "local_updated": "2026-05-17",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Änderung (RISI-Beschluss)",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "ihk-motelone": {
             "status": "manual",
             "local_updated": "2026-05-17",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Bedarf",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "innenstadt-samstage": {
             "status": "manual",
             "local_updated": "2026-05-17",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Bedarf (exemplarische Stichtage)",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "parklizenzen-europa": {
             "status": "manual",
             "local_updated": "2026-05-17",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Änderung",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "parkscheibe": {
             "status": "manual",
             "local_updated": "2026-05-29",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Änderung (Gebührensatzung)",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "lizenz-einnahmen": {
             "status": "manual",
             "local_updated": "2026-06-04",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Änderung (Gebührensatzung)",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "oeffentlicher-raum": {
             "status": "manual",
             "local_updated": "2026-05-17",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Änderung",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "pkw-bestand": {
             "status": "ok",
             "source_modified": "2026-05-18T15:18:09.351361",
             "detail": "Laut Portal zuletzt geändert am 2026-05-18T15:18:09.351361 (resource last_modified/created), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-05-15"
         },
         "motorisierungsgrad": {
@@ -94,7 +94,7 @@
             "source_modified": "2026-05-22T14:06:12.502404",
             "detail": "Laut Portal zuletzt geändert am 2026-05-22T14:06:12.502404 (resource last_modified/created), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-07-19"
         },
         "neuzulassungen": {
@@ -102,73 +102,73 @@
             "source_modified": "2025-11-12T08:34:26.534188",
             "detail": "Laut Portal zuletzt geändert am 2025-11-12T08:34:26.534188 (resource last_modified/created), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-05-16"
         },
         "pkw-haushalt": {
             "status": "ok",
             "local_updated": "2026-06-08",
-            "detail": "Zuletzt aktualisiert vor 60 Tagen, Turnus 'alle ~5 Jahre (nächste SrV-Erhebung ~2028)' noch nicht erreicht.",
+            "detail": "Zuletzt aktualisiert vor 67 Tagen, Turnus 'alle ~5 Jahre (nächste SrV-Erhebung ~2028)' noch nicht erreicht.",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "pkw-einkommen": {
             "status": "ok",
             "local_updated": "2026-05-15",
-            "detail": "Zuletzt aktualisiert vor 84 Tagen, Turnus 'alle ~5 Jahre' noch nicht erreicht.",
+            "detail": "Zuletzt aktualisiert vor 91 Tagen, Turnus 'alle ~5 Jahre' noch nicht erreicht.",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "bevoelkerung": {
             "status": "ok",
             "source_modified": "2025-03-20T16:46:58.003721",
             "detail": "Laut Portal zuletzt geändert am 2025-03-20T16:46:58.003721 (resource last_modified/created), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-05-15"
         },
         "modal-split": {
             "status": "ok",
             "local_updated": "2026-05-16",
-            "detail": "Zuletzt aktualisiert vor 83 Tagen, Turnus 'alle ~5 Jahre (nächste SrV-Erhebung ~2028)' noch nicht erreicht.",
+            "detail": "Zuletzt aktualisiert vor 90 Tagen, Turnus 'alle ~5 Jahre (nächste SrV-Erhebung ~2028)' noch nicht erreicht.",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "srv-stadtbezirke": {
             "status": "ok",
             "local_updated": "2026-07-19",
-            "detail": "Zuletzt aktualisiert vor 19 Tagen, Turnus 'alle ~5 Jahre (nächste SrV-Erhebung ~2028)' noch nicht erreicht.",
+            "detail": "Zuletzt aktualisiert vor 26 Tagen, Turnus 'alle ~5 Jahre (nächste SrV-Erhebung ~2028)' noch nicht erreicht.",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "preissteigerung": {
             "status": "manual",
             "local_updated": "2026-06-03",
             "detail": "Kein automatischer Änderungscheck möglich (keine Live-API, kein fester Turnus). Turnus: bei Preisänderung",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "visionzero-unfaelle": {
             "status": "ok",
             "source_modified": "2026-05-18T15:27:53.681075",
             "detail": "Laut Portal zuletzt geändert am 2026-05-18T15:27:53.681075 (resource last_modified/created), keine Änderung seit letzter Prüfung.",
             "method": "ckan",
-            "checked_at": "2026-08-07T00:00:01+02:00",
+            "checked_at": "2026-08-14T00:00:02+02:00",
             "local_updated": "2026-05-16"
         },
         "visionzero-schulwegunfaelle": {
             "status": "ok",
             "local_updated": "2026-05-16",
-            "detail": "Zuletzt aktualisiert vor 83 Tagen, Turnus 'jährlich' noch nicht erreicht.",
+            "detail": "Zuletzt aktualisiert vor 90 Tagen, Turnus 'jährlich' noch nicht erreicht.",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         },
         "mvv": {
             "status": "ok",
             "local_updated": "2026-05-16",
-            "detail": "Zuletzt aktualisiert vor 83 Tagen, Turnus 'jährlich' noch nicht erreicht.",
+            "detail": "Zuletzt aktualisiert vor 90 Tagen, Turnus 'jährlich' noch nicht erreicht.",
             "method": "heuristic",
-            "checked_at": "2026-08-07T00:00:01+02:00"
+            "checked_at": "2026-08-14T00:00:02+02:00"
         }
     }
 }

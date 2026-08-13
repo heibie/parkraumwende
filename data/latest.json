@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-08-13 03:02:02",
-    "frei_gesamt": 2392,
-    "belegt_gesamt": 765,
-    "kap_gesamt": 3157,
+    "timestamp": "2026-08-13 04:02:01",
+    "frei_gesamt": 2893,
+    "belegt_gesamt": 973,
+    "kap_gesamt": 3866,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -82,7 +82,7 @@
             "parkhaus": "Parkhaus Oberanger",
             "frei": 366,
             "kap": 393,
-            "aktiv": false
+            "aktiv": true
         },
         {
             "sn": "301220",
@@ -138,13 +138,13 @@
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
             "frei": 135,
             "kap": 316,
-            "aktiv": false
+            "aktiv": true
         },
         {
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 214,
+            "frei": 213,
             "kap": 245,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 79,
+            "frei": 80,
             "kap": 102,
             "aktiv": true
         },

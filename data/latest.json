@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-14 02:02:01",
-    "frei_gesamt": 2667,
-    "belegt_gesamt": 1440,
+    "timestamp": "2026-08-14 03:02:01",
+    "frei_gesamt": 2673,
+    "belegt_gesamt": 1434,
     "kap_gesamt": 4107,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 135,
+            "frei": 138,
             "kap": 160,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 371,
+            "frei": 373,
             "kap": 421,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 84,
+            "frei": 85,
             "kap": 102,
             "aktiv": true
         },

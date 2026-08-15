@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-15 04:02:01",
-    "frei_gesamt": 2716,
-    "belegt_gesamt": 1399,
+    "timestamp": "2026-08-15 05:02:01",
+    "frei_gesamt": 2718,
+    "belegt_gesamt": 1397,
     "kap_gesamt": 4115,
     "parkhaeuser": [
         {
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 84,
+            "frei": 85,
             "kap": 316,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 5,
+            "frei": 6,
             "kap": 197,
             "aktiv": true
         },

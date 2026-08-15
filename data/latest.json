@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-15 03:02:01",
-    "frei_gesamt": 2713,
-    "belegt_gesamt": 1402,
+    "timestamp": "2026-08-15 04:02:01",
+    "frei_gesamt": 2716,
+    "belegt_gesamt": 1399,
     "kap_gesamt": 4115,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 112,
+            "frei": 113,
             "kap": 160,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 85,
+            "frei": 84,
             "kap": 316,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 3,
+            "frei": 5,
             "kap": 197,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 113,
+            "frei": 114,
             "kap": 150,
             "aktiv": true
         },

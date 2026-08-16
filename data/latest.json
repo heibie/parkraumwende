@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-16 03:02:01",
-    "frei_gesamt": 2890,
-    "belegt_gesamt": 1230,
+    "timestamp": "2026-08-16 04:02:01",
+    "frei_gesamt": 2892,
+    "belegt_gesamt": 1228,
     "kap_gesamt": 4120,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 357,
+            "frei": 356,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 295,
+            "frei": 298,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 84,
+            "frei": 83,
             "kap": 316,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 117,
+            "frei": 118,
             "kap": 155,
             "aktiv": true
         },

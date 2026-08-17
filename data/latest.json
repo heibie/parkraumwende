@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-17 02:02:01",
-    "frei_gesamt": 2913,
-    "belegt_gesamt": 1167,
+    "timestamp": "2026-08-17 03:02:00",
+    "frei_gesamt": 2916,
+    "belegt_gesamt": 1164,
     "kap_gesamt": 4080,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 183,
+            "frei": 184,
             "kap": 246,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 132,
+            "frei": 134,
             "kap": 526,
             "aktiv": true
         },

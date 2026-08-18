@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-18 05:02:02",
-    "frei_gesamt": 2501,
-    "belegt_gesamt": 1579,
+    "timestamp": "2026-08-18 06:02:01",
+    "frei_gesamt": 2497,
+    "belegt_gesamt": 1583,
     "kap_gesamt": 4080,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 178,
+            "frei": 177,
             "kap": 246,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 365,
+            "frei": 364,
             "kap": 393,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 75,
+            "frei": 74,
             "kap": 526,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 83,
+            "frei": 84,
             "kap": 102,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 212,
+            "frei": 210,
             "kap": 227,
             "aktiv": true
         },

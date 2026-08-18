@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-18 03:02:01",
-    "frei_gesamt": 2500,
-    "belegt_gesamt": 1580,
+    "timestamp": "2026-08-18 04:02:01",
+    "frei_gesamt": 2501,
+    "belegt_gesamt": 1579,
     "kap_gesamt": 4080,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 76,
+            "frei": 75,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 335,
+            "frei": 336,
             "kap": 419,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 137,
+            "frei": 138,
             "kap": 147,
             "aktiv": true
         },

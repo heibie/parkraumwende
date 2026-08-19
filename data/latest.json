@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-19 03:02:01",
-    "frei_gesamt": 2460,
-    "belegt_gesamt": 1592,
+    "timestamp": "2026-08-19 04:02:01",
+    "frei_gesamt": 2459,
+    "belegt_gesamt": 1593,
     "kap_gesamt": 4052,
     "parkhaeuser": [
         {
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 86,
+            "frei": 85,
             "kap": 102,
             "aktiv": true
         },

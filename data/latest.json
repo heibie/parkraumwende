@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-19 05:02:01",
-    "frei_gesamt": 2463,
-    "belegt_gesamt": 1589,
+    "timestamp": "2026-08-19 06:02:02",
+    "frei_gesamt": 2457,
+    "belegt_gesamt": 1595,
     "kap_gesamt": 4052,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 190,
+            "frei": 191,
             "kap": 246,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 125,
+            "frei": 124,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 119,
+            "frei": 115,
             "kap": 526,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 38,
+            "frei": 36,
             "kap": 197,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 86,
+            "frei": 87,
             "kap": 102,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 205,
+            "frei": 204,
             "kap": 227,
             "aktiv": true
         },

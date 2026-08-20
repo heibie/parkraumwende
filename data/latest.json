@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-20 01:02:01",
-    "frei_gesamt": 2470,
-    "belegt_gesamt": 1522,
+    "timestamp": "2026-08-20 02:02:01",
+    "frei_gesamt": 2474,
+    "belegt_gesamt": 1518,
     "kap_gesamt": 3992,
     "parkhaeuser": [
         {
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 109,
+            "frei": 110,
             "kap": 150,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 164,
+            "frei": 163,
             "kap": 526,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 76,
+            "frei": 80,
             "kap": 102,
             "aktiv": true
         },

@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-08-20 02:02:01",
-    "frei_gesamt": 2474,
-    "belegt_gesamt": 1518,
-    "kap_gesamt": 3992,
+    "timestamp": "2026-08-20 03:02:02",
+    "frei_gesamt": 2336,
+    "belegt_gesamt": 1509,
+    "kap_gesamt": 3845,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 155,
+            "frei": 156,
             "kap": 246,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 33,
+            "frei": 32,
             "kap": 197,
             "aktiv": true
         },
@@ -170,7 +170,7 @@
             "parkhaus": "Parkhaus Schrannenhalle",
             "frei": 138,
             "kap": 147,
-            "aktiv": true
+            "aktiv": false
         },
         {
             "sn": "401060",

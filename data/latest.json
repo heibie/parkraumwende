@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-21 03:02:01",
-    "frei_gesamt": 2406,
-    "belegt_gesamt": 1576,
+    "timestamp": "2026-08-21 04:02:01",
+    "frei_gesamt": 2405,
+    "belegt_gesamt": 1577,
     "kap_gesamt": 3982,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 145,
+            "frei": 144,
             "kap": 246,
             "aktiv": true
         },

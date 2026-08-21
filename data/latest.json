@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-21 01:02:01",
-    "frei_gesamt": 2391,
-    "belegt_gesamt": 1591,
+    "timestamp": "2026-08-21 02:02:01",
+    "frei_gesamt": 2401,
+    "belegt_gesamt": 1581,
     "kap_gesamt": 3982,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 288,
+            "frei": 292,
             "kap": 357,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 137,
+            "frei": 138,
             "kap": 145,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 317,
+            "frei": 320,
             "kap": 391,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 81,
+            "frei": 83,
             "kap": 102,
             "aktiv": true
         },

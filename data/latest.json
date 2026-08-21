@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-21 04:02:01",
-    "frei_gesamt": 2405,
-    "belegt_gesamt": 1577,
+    "timestamp": "2026-08-21 05:02:01",
+    "frei_gesamt": 2408,
+    "belegt_gesamt": 1574,
     "kap_gesamt": 3982,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 144,
+            "frei": 146,
             "kap": 246,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 373,
+            "frei": 372,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 294,
+            "frei": 295,
             "kap": 357,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 39,
+            "frei": 38,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 320,
+            "frei": 321,
             "kap": 391,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 130,
+            "frei": 131,
             "kap": 147,
             "aktiv": true
         },

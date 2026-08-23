@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-23 07:02:01",
-    "frei_gesamt": 2956,
-    "belegt_gesamt": 1139,
+    "timestamp": "2026-08-23 08:02:01",
+    "frei_gesamt": 2976,
+    "belegt_gesamt": 1119,
     "kap_gesamt": 4095,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 183,
+            "frei": 186,
             "kap": 246,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 366,
+            "frei": 365,
             "kap": 393,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 47,
+            "frei": 55,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 313,
+            "frei": 319,
             "kap": 391,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 138,
+            "frei": 141,
             "kap": 155,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 234,
+            "frei": 235,
             "kap": 257,
             "aktiv": true
         },

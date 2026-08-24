@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-25 00:02:01",
-    "frei_gesamt": 2608,
-    "belegt_gesamt": 1429,
+    "timestamp": "2026-08-25 01:02:01",
+    "frei_gesamt": 2615,
+    "belegt_gesamt": 1422,
     "kap_gesamt": 4037,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 210,
+            "frei": 211,
             "kap": 266,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 357,
+            "frei": 359,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 279,
+            "frei": 280,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 186,
+            "frei": 185,
             "kap": 526,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 85,
+            "frei": 84,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 314,
+            "frei": 316,
             "kap": 391,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 81,
+            "frei": 84,
             "kap": 102,
             "aktiv": true
         },

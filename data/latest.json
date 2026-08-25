@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-25 01:02:01",
-    "frei_gesamt": 2615,
-    "belegt_gesamt": 1422,
+    "timestamp": "2026-08-25 02:02:01",
+    "frei_gesamt": 2620,
+    "belegt_gesamt": 1417,
     "kap_gesamt": 4037,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 280,
+            "frei": 281,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 149,
+            "frei": 148,
             "kap": 165,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 21,
+            "frei": 22,
             "kap": 316,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 84,
+            "frei": 88,
             "kap": 102,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-26 03:02:01",
-    "frei_gesamt": 2460,
-    "belegt_gesamt": 1562,
+    "timestamp": "2026-08-26 04:02:01",
+    "frei_gesamt": 2459,
+    "belegt_gesamt": 1563,
     "kap_gesamt": 4022,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 141,
+            "frei": 140,
             "kap": 160,
             "aktiv": true
         },

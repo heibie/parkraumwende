@@ -773,6 +773,9 @@
     .bezirke-body .detail-panel { display: none; }
     .bezirke-body.detail-open .detail-panel { display: flex; }
     #map-bezirke { height: 100%; }
+    /* OSM-Kacheln entsaettigen/aufhellen fuer besseren Kontrast der Bezirksumgriffe
+       (aehnlich CARTO Positron, aber ohne API-Key-Abhaengigkeit) */
+    #map-bezirke .leaflet-tile-pane { filter: grayscale(0.8) brightness(1.15) contrast(0.9); }
     .bez-label {
       background: none; border: none;
       font-size: 0.62rem; font-weight: 700; line-height: 1.15; text-align: center;

@@ -3323,8 +3323,8 @@ async function initParklizenz() {
 
   // Map
   const map = L.map('map-parklizenz', { zoomControl: true });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap contributors © CARTO',
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
     maxZoom: 19,
   }).addTo(map);
 
@@ -3528,8 +3528,8 @@ async function initParkseiten() {
 
   // Map
   _psMap = L.map('map-parkseiten', { center: [48.137, 11.575], zoom: 13 });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap contributors © CARTO', maxZoom: 19,
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap', maxZoom: 19,
   }).addTo(_psMap);
 
   const PsFilterFab = L.Control.extend({
@@ -3684,8 +3684,8 @@ async function initBezirke() {
   document.getElementById('bez-stat-anzahl').textContent = rows.filter(r => r.sb_nummer > 0).length;
 
   bezMap = L.map('map-bezirke', { zoomControl: true }).setView([48.137, 11.575], 11);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap contributors © CARTO',
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
     maxZoom: 19,
   }).addTo(bezMap);
 

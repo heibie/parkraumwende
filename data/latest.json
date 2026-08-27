@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-27 04:02:01",
-    "frei_gesamt": 2757,
-    "belegt_gesamt": 1070,
+    "timestamp": "2026-08-27 05:02:01",
+    "frei_gesamt": 2758,
+    "belegt_gesamt": 1069,
     "kap_gesamt": 3827,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 218,
+            "frei": 219,
             "kap": 266,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 232,
+            "frei": 233,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 195,
+            "frei": 194,
             "kap": 195,
             "aktiv": true
         },

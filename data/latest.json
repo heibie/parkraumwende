@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-29 05:02:01",
-    "frei_gesamt": 2866,
-    "belegt_gesamt": 1223,
+    "timestamp": "2026-08-29 06:02:01",
+    "frei_gesamt": 2912,
+    "belegt_gesamt": 1177,
     "kap_gesamt": 4089,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 228,
+            "frei": 275,
             "kap": 275,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 185,
+            "frei": 183,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 299,
+            "frei": 300,
             "kap": 373,
             "aktiv": true
         },

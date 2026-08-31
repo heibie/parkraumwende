@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-31 03:02:01",
-    "frei_gesamt": 2857,
-    "belegt_gesamt": 1413,
+    "timestamp": "2026-08-31 04:02:01",
+    "frei_gesamt": 2858,
+    "belegt_gesamt": 1412,
     "kap_gesamt": 4270,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 158,
+            "frei": 159,
             "kap": 266,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 192,
+            "frei": 193,
             "kap": 336,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 191,
+            "frei": 190,
             "kap": 195,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 161,
+            "frei": 162,
             "kap": 197,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 244,
+            "frei": 243,
             "kap": 389,
             "aktiv": true
         },

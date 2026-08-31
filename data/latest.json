@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-08-31 01:02:01",
-    "frei_gesamt": 2853,
-    "belegt_gesamt": 1417,
+    "timestamp": "2026-08-31 02:02:07",
+    "frei_gesamt": 2856,
+    "belegt_gesamt": 1414,
     "kap_gesamt": 4270,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 160,
+            "frei": 158,
             "kap": 266,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 266,
+            "frei": 268,
             "kap": 275,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 145,
+            "frei": 144,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 191,
+            "frei": 192,
             "kap": 336,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 129,
+            "frei": 130,
             "kap": 145,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 89,
+            "frei": 91,
             "kap": 102,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-01 04:02:01",
-    "frei_gesamt": 2861,
-    "belegt_gesamt": 1313,
+    "timestamp": "2026-09-01 05:02:01",
+    "frei_gesamt": 2859,
+    "belegt_gesamt": 1315,
     "kap_gesamt": 4174,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 254,
+            "frei": 253,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 196,
+            "frei": 195,
             "kap": 336,
             "aktiv": true
         },

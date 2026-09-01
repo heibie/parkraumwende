@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-09-01 03:02:01",
+    "timestamp": "2026-09-01 04:02:01",
     "frei_gesamt": 2861,
     "belegt_gesamt": 1313,
     "kap_gesamt": 4174,
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 195,
+            "frei": 196,
             "kap": 336,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 340,
+            "frei": 339,
             "kap": 374,
             "aktiv": true
         },

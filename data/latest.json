@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-09-02 03:02:01",
-    "frei_gesamt": 2840,
-    "belegt_gesamt": 1296,
-    "kap_gesamt": 4136,
+    "timestamp": "2026-09-02 04:02:01",
+    "frei_gesamt": 2710,
+    "belegt_gesamt": 900,
+    "kap_gesamt": 3610,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -122,7 +122,7 @@
             "parkhaus": "Parkhaus Marsstr. 11",
             "frei": 129,
             "kap": 526,
-            "aktiv": true
+            "aktiv": false
         },
         {
             "sn": "301271",
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 309,
+            "frei": 308,
             "kap": 339,
             "aktiv": true
         },

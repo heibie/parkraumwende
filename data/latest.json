@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-03 02:02:01",
-    "frei_gesamt": 2657,
-    "belegt_gesamt": 1193,
+    "timestamp": "2026-09-03 03:02:01",
+    "frei_gesamt": 2660,
+    "belegt_gesamt": 1190,
     "kap_gesamt": 3850,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 142,
+            "frei": 143,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 204,
+            "frei": 205,
             "kap": 526,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 306,
+            "frei": 307,
             "kap": 339,
             "aktiv": true
         },

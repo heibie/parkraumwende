@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-03 04:02:01",
-    "frei_gesamt": 2659,
-    "belegt_gesamt": 1191,
+    "timestamp": "2026-09-03 05:02:01",
+    "frei_gesamt": 2658,
+    "belegt_gesamt": 1192,
     "kap_gesamt": 3850,
     "parkhaeuser": [
         {
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 306,
+            "frei": 305,
             "kap": 339,
             "aktiv": true
         },

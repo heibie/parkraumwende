@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-09-03 01:02:01",
+    "timestamp": "2026-09-03 02:02:01",
     "frei_gesamt": 2657,
     "belegt_gesamt": 1193,
     "kap_gesamt": 3850,
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 205,
+            "frei": 204,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 316,
+            "frei": 317,
             "kap": 373,
             "aktiv": true
         },

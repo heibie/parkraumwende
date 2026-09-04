@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-04 04:02:01",
-    "frei_gesamt": 2594,
-    "belegt_gesamt": 1256,
+    "timestamp": "2026-09-04 05:02:01",
+    "frei_gesamt": 2592,
+    "belegt_gesamt": 1258,
     "kap_gesamt": 3850,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 135,
+            "frei": 134,
             "kap": 160,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 162,
+            "frei": 161,
             "kap": 526,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-10 01:02:01",
-    "frei_gesamt": 2833,
-    "belegt_gesamt": 1014,
+    "timestamp": "2026-09-10 02:02:01",
+    "frei_gesamt": 2847,
+    "belegt_gesamt": 1000,
     "kap_gesamt": 3847,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 252,
+            "frei": 263,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 127,
+            "frei": 126,
             "kap": 167,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 174,
+            "frei": 175,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 145,
+            "frei": 146,
             "kap": 165,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 130,
+            "frei": 131,
             "kap": 197,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 275,
+            "frei": 276,
             "kap": 309,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-17 02:02:01",
-    "frei_gesamt": 2346,
-    "belegt_gesamt": 1469,
+    "timestamp": "2026-09-17 03:02:01",
+    "frei_gesamt": 2347,
+    "belegt_gesamt": 1468,
     "kap_gesamt": 3815,
     "parkhaeuser": [
         {
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 318,
+            "frei": 319,
             "kap": 373,
             "aktiv": true
         },

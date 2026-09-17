@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-17 01:02:01",
-    "frei_gesamt": 2338,
-    "belegt_gesamt": 1477,
+    "timestamp": "2026-09-17 02:02:01",
+    "frei_gesamt": 2346,
+    "belegt_gesamt": 1469,
     "kap_gesamt": 3815,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 264,
+            "frei": 266,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 363,
+            "frei": 365,
             "kap": 393,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 132,
+            "frei": 133,
             "kap": 165,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 316,
+            "frei": 318,
             "kap": 373,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 232,
+            "frei": 233,
             "kap": 284,
             "aktiv": true
         },

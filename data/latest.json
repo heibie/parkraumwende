@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-18 01:02:01",
-    "frei_gesamt": 2661,
-    "belegt_gesamt": 1164,
+    "timestamp": "2026-09-18 02:02:01",
+    "frei_gesamt": 2656,
+    "belegt_gesamt": 1169,
     "kap_gesamt": 3825,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 275,
+            "frei": 264,
             "kap": 275,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 141,
+            "frei": 142,
             "kap": 160,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 315,
+            "frei": 319,
             "kap": 373,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 237,
+            "frei": 238,
             "kap": 294,
             "aktiv": true
         },

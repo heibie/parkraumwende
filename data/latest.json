@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-09-19 02:02:01",
-    "frei_gesamt": 2431,
-    "belegt_gesamt": 1379,
-    "kap_gesamt": 3810,
+    "timestamp": "2026-09-19 03:02:01",
+    "frei_gesamt": 2557,
+    "belegt_gesamt": 1589,
+    "kap_gesamt": 4146,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 181,
+            "frei": 182,
             "kap": 266,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 90,
+            "frei": 91,
             "kap": 150,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 240,
+            "frei": 246,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 108,
+            "frei": 109,
             "kap": 160,
             "aktiv": true
         },
@@ -136,15 +136,15 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 116,
+            "frei": 114,
             "kap": 336,
-            "aktiv": false
+            "aktiv": true
         },
         {
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 140,
+            "frei": 142,
             "kap": 165,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 273,
+            "frei": 274,
             "kap": 349,
             "aktiv": true
         },

@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-09-19 06:02:01",
-    "frei_gesamt": 2567,
-    "belegt_gesamt": 1579,
-    "kap_gesamt": 4146,
+    "timestamp": "2026-09-19 07:02:00",
+    "frei_gesamt": 2921,
+    "belegt_gesamt": 1245,
+    "kap_gesamt": 4166,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -16,7 +16,7 @@
             "sn": "106504",
             "ph": "P18",
             "parkhaus": "City-Parkhaus am Färbergraben",
-            "frei": 0,
+            "frei": 337,
             "kap": 350,
             "aktiv": true
         },
@@ -24,8 +24,8 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 183,
-            "kap": 266,
+            "frei": 204,
+            "kap": 286,
             "aktiv": true
         },
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 257,
+            "frei": 255,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 362,
+            "frei": 361,
             "kap": 393,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 110,
+            "frei": 108,
             "kap": 160,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 278,
+            "frei": 279,
             "kap": 349,
             "aktiv": true
         },

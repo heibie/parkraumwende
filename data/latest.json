@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-19 04:02:01",
-    "frei_gesamt": 2565,
-    "belegt_gesamt": 1581,
+    "timestamp": "2026-09-19 05:02:01",
+    "frei_gesamt": 2566,
+    "belegt_gesamt": 1580,
     "kap_gesamt": 4146,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 182,
+            "frei": 183,
             "kap": 266,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 109,
+            "frei": 110,
             "kap": 160,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 143,
+            "frei": 142,
             "kap": 165,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 135,
+            "frei": 136,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 304,
+            "frei": 303,
             "kap": 373,
             "aktiv": true
         },

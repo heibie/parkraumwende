@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-20 06:02:01",
-    "frei_gesamt": 2720,
-    "belegt_gesamt": 1549,
+    "timestamp": "2026-09-20 07:02:02",
+    "frei_gesamt": 2728,
+    "belegt_gesamt": 1541,
     "kap_gesamt": 4269,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 213,
+            "frei": 214,
             "kap": 286,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 142,
+            "frei": 143,
             "kap": 160,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 88,
+            "frei": 92,
             "kap": 336,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 107,
+            "frei": 108,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 310,
+            "frei": 312,
             "kap": 393,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 123,
+            "frei": 122,
             "kap": 160,
             "aktiv": true
         },

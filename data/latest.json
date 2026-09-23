@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-23 04:02:01",
-    "frei_gesamt": 2512,
-    "belegt_gesamt": 1619,
+    "timestamp": "2026-09-23 05:02:01",
+    "frei_gesamt": 2511,
+    "belegt_gesamt": 1620,
     "kap_gesamt": 4131,
     "parkhaeuser": [
         {
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 108,
+            "frei": 107,
             "kap": 197,
             "aktiv": true
         },

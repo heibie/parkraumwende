@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-24 02:02:01",
-    "frei_gesamt": 2790,
-    "belegt_gesamt": 1341,
+    "timestamp": "2026-09-24 03:02:01",
+    "frei_gesamt": 2756,
+    "belegt_gesamt": 1375,
     "kap_gesamt": 4131,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 153,
+            "frei": 117,
             "kap": 357,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 101,
+            "frei": 102,
             "kap": 197,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 333,
+            "frei": 334,
             "kap": 393,
             "aktiv": true
         },

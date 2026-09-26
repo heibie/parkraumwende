@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-26 04:02:01",
-    "frei_gesamt": 2914,
-    "belegt_gesamt": 1302,
+    "timestamp": "2026-09-26 05:02:01",
+    "frei_gesamt": 2913,
+    "belegt_gesamt": 1303,
     "kap_gesamt": 4216,
     "parkhaeuser": [
         {
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 369,
+            "frei": 370,
             "kap": 393,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 216,
+            "frei": 215,
             "kap": 336,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 121,
+            "frei": 122,
             "kap": 185,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 301,
+            "frei": 299,
             "kap": 393,
             "aktiv": true
         },

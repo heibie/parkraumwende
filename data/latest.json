@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-28 02:02:01",
-    "frei_gesamt": 2534,
-    "belegt_gesamt": 1730,
+    "timestamp": "2026-09-28 03:02:01",
+    "frei_gesamt": 2523,
+    "belegt_gesamt": 1741,
     "kap_gesamt": 4264,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 172,
+            "frei": 161,
             "kap": 357,
             "aktiv": true
         },

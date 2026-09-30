@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-09-30 05:02:01",
-    "frei_gesamt": 2538,
-    "belegt_gesamt": 1638,
+    "timestamp": "2026-09-30 06:02:01",
+    "frei_gesamt": 2534,
+    "belegt_gesamt": 1642,
     "kap_gesamt": 4176,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 263,
+            "frei": 261,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 371,
+            "frei": 370,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 168,
+            "frei": 169,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 155,
+            "frei": 154,
             "kap": 336,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 116,
+            "frei": 115,
             "kap": 215,
             "aktiv": true
         },

@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-09-30 03:02:01",
-    "frei_gesamt": 2087,
-    "belegt_gesamt": 1514,
-    "kap_gesamt": 3601,
+    "timestamp": "2026-09-30 04:02:01",
+    "frei_gesamt": 2263,
+    "belegt_gesamt": 1594,
+    "kap_gesamt": 3857,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -24,9 +24,9 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 175,
+            "frei": 174,
             "kap": 256,
-            "aktiv": false
+            "aktiv": true
         },
         {
             "sn": "106506",
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 165,
+            "frei": 168,
             "kap": 357,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 117,
+            "frei": 116,
             "kap": 215,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 275,
+            "frei": 274,
             "kap": 319,
             "aktiv": false
         },

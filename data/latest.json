@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-03 03:02:01",
-    "frei_gesamt": 2649,
-    "belegt_gesamt": 1610,
+    "timestamp": "2026-10-03 04:02:01",
+    "frei_gesamt": 2655,
+    "belegt_gesamt": 1604,
     "kap_gesamt": 4259,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 262,
+            "frei": 263,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 357,
+            "frei": 359,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 316,
+            "frei": 313,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 218,
+            "frei": 219,
             "kap": 336,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 139,
+            "frei": 140,
             "kap": 215,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 130,
+            "frei": 131,
             "kap": 165,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 81,
+            "frei": 83,
             "kap": 102,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 281,
+            "frei": 282,
             "kap": 344,
             "aktiv": true
         },

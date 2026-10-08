@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-08 01:02:01",
-    "frei_gesamt": 3055,
-    "belegt_gesamt": 1116,
+    "timestamp": "2026-10-08 02:02:01",
+    "frei_gesamt": 3065,
+    "belegt_gesamt": 1106,
     "kap_gesamt": 4171,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 256,
+            "frei": 258,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 349,
+            "frei": 350,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 301,
+            "frei": 303,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 128,
+            "frei": 127,
             "kap": 160,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 168,
+            "frei": 169,
             "kap": 215,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 295,
+            "frei": 298,
             "kap": 393,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 241,
+            "frei": 243,
             "kap": 314,
             "aktiv": true
         },

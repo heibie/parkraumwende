@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-08 02:02:01",
-    "frei_gesamt": 3065,
-    "belegt_gesamt": 1106,
+    "timestamp": "2026-10-08 03:02:01",
+    "frei_gesamt": 3067,
+    "belegt_gesamt": 1104,
     "kap_gesamt": 4171,
     "parkhaeuser": [
         {
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 127,
+            "frei": 128,
             "kap": 160,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 243,
+            "frei": 244,
             "kap": 314,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-12 00:02:01",
-    "frei_gesamt": 3511,
-    "belegt_gesamt": 745,
+    "timestamp": "2026-10-12 01:02:01",
+    "frei_gesamt": 3517,
+    "belegt_gesamt": 739,
     "kap_gesamt": 4256,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 266,
+            "frei": 267,
             "kap": 275,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 139,
+            "frei": 140,
             "kap": 140,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 789,
+            "frei": 792,
             "kap": 357,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 358,
+            "frei": 359,
             "kap": 393,
             "aktiv": true
         },

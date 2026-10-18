@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-18 06:02:01",
-    "frei_gesamt": 2314,
-    "belegt_gesamt": 2020,
+    "timestamp": "2026-10-18 07:02:01",
+    "frei_gesamt": 2488,
+    "belegt_gesamt": 1846,
     "kap_gesamt": 4334,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 201,
+            "frei": 202,
             "kap": 316,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 28,
+            "frei": 205,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 120,
+            "frei": 114,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 98,
+            "frei": 96,
             "kap": 336,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 161,
+            "frei": 162,
             "kap": 215,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 297,
+            "frei": 300,
             "kap": 393,
             "aktiv": true
         },

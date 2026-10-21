@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-21 03:02:01",
-    "frei_gesamt": 2604,
-    "belegt_gesamt": 1402,
+    "timestamp": "2026-10-21 04:02:01",
+    "frei_gesamt": 2603,
+    "belegt_gesamt": 1403,
     "kap_gesamt": 4006,
     "parkhaeuser": [
         {
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 131,
+            "frei": 130,
             "kap": 526,
             "aktiv": true
         },

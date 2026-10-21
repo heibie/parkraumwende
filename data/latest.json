@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-21 05:02:01",
-    "frei_gesamt": 2602,
-    "belegt_gesamt": 1404,
+    "timestamp": "2026-10-21 06:02:01",
+    "frei_gesamt": 2593,
+    "belegt_gesamt": 1413,
     "kap_gesamt": 4006,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 131,
+            "frei": 132,
             "kap": 256,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 340,
+            "frei": 339,
             "kap": 393,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 130,
+            "frei": 126,
             "kap": 526,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 63,
+            "frei": 60,
             "kap": 336,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 143,
+            "frei": 141,
             "kap": 215,
             "aktiv": true
         },

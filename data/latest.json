@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-23 01:02:01",
-    "frei_gesamt": 2405,
-    "belegt_gesamt": 1947,
+    "timestamp": "2026-10-23 02:02:01",
+    "frei_gesamt": 2416,
+    "belegt_gesamt": 1936,
     "kap_gesamt": 4352,
     "parkhaeuser": [
         {
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 85,
+            "frei": 87,
             "kap": 150,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 175,
+            "frei": 183,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 136,
+            "frei": 137,
             "kap": 346,
             "aktiv": true
         },

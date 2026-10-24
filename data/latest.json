@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-24 03:02:01",
-    "frei_gesamt": 2297,
-    "belegt_gesamt": 1957,
+    "timestamp": "2026-10-24 04:02:01",
+    "frei_gesamt": 2288,
+    "belegt_gesamt": 1966,
     "kap_gesamt": 4254,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 193,
+            "frei": 192,
             "kap": 296,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 246,
+            "frei": 248,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 137,
+            "frei": 125,
             "kap": 357,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 270,
+            "frei": 272,
             "kap": 334,
             "aktiv": true
         },

@@ -433,11 +433,11 @@
     {
       "name": "visionzero-unfaelle",
       "path": "visionzero_unfaelle.csv",
-      "title": "Verkehrsunfallstatistik München 2010–2024",
+      "title": "Verkehrsunfallstatistik München 2010–2025",
       "description": "Jährliche Anzahl Verletzter und Getöteter im Münchner Stadtgebiet. Grundlage für die Vision-Zero-Auswertung.",
       "mediatype": "text/csv",
       "encoding": "UTF-8",
-      "temporalCoverage": "2010/2024",
+      "temporalCoverage": "2010/2025",
       "sources": [
         { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
       ],
@@ -453,11 +453,11 @@
     {
       "name": "visionzero-schulwegunfaelle",
       "path": "visionzero_schulwegunfaelle.csv",
-      "title": "Schulwegunfälle München 2010–2024",
+      "title": "Schulwegunfälle München 2010–2025",
       "description": "Jährliche Schulwegunfälle im Münchner Stadtgebiet, aufgeschlüsselt nach Verkehrsmittel (zu Fuß, Fahrrad, Schulbus, PKW/Tram).",
       "mediatype": "text/csv",
       "encoding": "UTF-8",
-      "temporalCoverage": "2010/2024",
+      "temporalCoverage": "2010/2025",
       "sources": [
         { "title": "Statistisches Amt München – Monatszahlenmonitoring", "path": "https://mstatistik.muenchen.de/monatszahlenmonitoring/atlas.html" }
       ],

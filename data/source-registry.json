@@ -266,7 +266,7 @@
       "sources": [
         {
           "id": "visionzero-unfaelle",
-          "title": "Verkehrsunfallstatistik München 2010–2024",
+          "title": "Verkehrsunfallstatistik München 2010–2025",
           "files": ["data/visionzero_unfaelle.csv"],
           "used_in": [
             { "label": "Diagramm: Verkehrsunfälle München", "href": "embed.html?chart=vz-unfaelle" }
@@ -278,7 +278,7 @@
         },
         {
           "id": "visionzero-schulwegunfaelle",
-          "title": "Schulwegunfälle München 2010–2024",
+          "title": "Schulwegunfälle München 2010–2025",
           "files": ["data/visionzero_schulwegunfaelle.csv"],
           "used_in": [
             { "label": "Diagramm: Schulwegunfälle München", "href": "embed.html?chart=vz-schulweg" }

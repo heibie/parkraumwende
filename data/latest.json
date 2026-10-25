@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-25 04:02:01",
-    "frei_gesamt": 3044,
-    "belegt_gesamt": 1309,
+    "timestamp": "2026-10-25 05:02:01",
+    "frei_gesamt": 3048,
+    "belegt_gesamt": 1305,
     "kap_gesamt": 4353,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 309,
+            "frei": 310,
             "kap": 357,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 337,
+            "frei": 338,
             "kap": 393,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 124,
+            "frei": 125,
             "kap": 160,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 335,
+            "frei": 336,
             "kap": 399,
             "aktiv": true
         },

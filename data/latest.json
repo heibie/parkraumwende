@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-10-27 02:02:01",
-    "frei_gesamt": 2701,
-    "belegt_gesamt": 1460,
+    "timestamp": "2026-10-27 03:02:01",
+    "frei_gesamt": 2710,
+    "belegt_gesamt": 1451,
     "kap_gesamt": 4161,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 139,
+            "frei": 140,
             "kap": 256,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 331,
+            "frei": 339,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 173,
+            "frei": 174,
             "kap": 526,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 246,
+            "frei": 245,
             "kap": 294,
             "aktiv": true
         },

@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-02 02:02:02",
-    "frei_gesamt": 2864,
-    "belegt_gesamt": 1355,
+    "timestamp": "2026-11-02 03:02:01",
+    "frei_gesamt": 2865,
+    "belegt_gesamt": 1354,
     "kap_gesamt": 4219,
     "parkhaeuser": [
         {
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 113,
+            "frei": 114,
             "kap": 336,
             "aktiv": true
         },

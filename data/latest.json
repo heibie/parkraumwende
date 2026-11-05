@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-05 03:02:01",
-    "frei_gesamt": 2580,
-    "belegt_gesamt": 1589,
+    "timestamp": "2026-11-05 04:02:01",
+    "frei_gesamt": 2582,
+    "belegt_gesamt": 1587,
     "kap_gesamt": 4169,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 51,
+            "frei": 53,
             "kap": 357,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 155,
+            "frei": 156,
             "kap": 336,
             "aktiv": true
         },
@@ -184,7 +184,7 @@
             "sn": "401062",
             "ph": "P3",
             "parkhaus": "Parkhaus am Salvatorplatz",
-            "frei": 266,
+            "frei": 265,
             "kap": 309,
             "aktiv": true
         },

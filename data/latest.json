@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-06 01:02:01",
-    "frei_gesamt": 2670,
-    "belegt_gesamt": 1499,
+    "timestamp": "2026-11-06 02:02:01",
+    "frei_gesamt": 2672,
+    "belegt_gesamt": 1497,
     "kap_gesamt": 4169,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 162,
+            "frei": 163,
             "kap": 256,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 261,
+            "frei": 263,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 362,
+            "frei": 360,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 214,
+            "frei": 213,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 213,
+            "frei": 214,
             "kap": 526,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 361,
+            "frei": 362,
             "kap": 393,
             "aktiv": true
         },

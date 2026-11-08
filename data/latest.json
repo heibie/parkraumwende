@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-08 05:02:01",
-    "frei_gesamt": 2594,
-    "belegt_gesamt": 1770,
+    "timestamp": "2026-11-08 06:02:01",
+    "frei_gesamt": 2574,
+    "belegt_gesamt": 1790,
     "kap_gesamt": 4364,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 275,
+            "frei": 256,
             "kap": 275,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 33,
+            "frei": 31,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 116,
+            "frei": 117,
             "kap": 185,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 225,
+            "frei": 223,
             "kap": 526,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 113,
+            "frei": 115,
             "kap": 197,
             "aktiv": true
         },

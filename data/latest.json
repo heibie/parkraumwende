@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-09 05:02:01",
-    "frei_gesamt": 2855,
-    "belegt_gesamt": 1366,
+    "timestamp": "2026-11-09 06:02:01",
+    "frei_gesamt": 2833,
+    "belegt_gesamt": 1388,
     "kap_gesamt": 4221,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 179,
+            "frei": 178,
             "kap": 256,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 275,
+            "frei": 260,
             "kap": 275,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 365,
+            "frei": 363,
             "kap": 393,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 151,
+            "frei": 149,
             "kap": 526,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 177,
+            "frei": 175,
             "kap": 225,
             "aktiv": true
         },

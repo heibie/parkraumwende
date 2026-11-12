@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-12 01:02:01",
-    "frei_gesamt": 3007,
-    "belegt_gesamt": 1222,
+    "timestamp": "2026-11-12 02:02:01",
+    "frei_gesamt": 2988,
+    "belegt_gesamt": 1241,
     "kap_gesamt": 4229,
     "parkhaeuser": [
         {
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 117,
+            "frei": 95,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 167,
+            "frei": 168,
             "kap": 185,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 129,
+            "frei": 128,
             "kap": 336,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 355,
+            "frei": 357,
             "kap": 393,
             "aktiv": true
         },
@@ -168,7 +168,7 @@
             "sn": "401055",
             "ph": "P6",
             "parkhaus": "Parkhaus Schrannenhalle",
-            "frei": 120,
+            "frei": 121,
             "kap": 147,
             "aktiv": true
         },

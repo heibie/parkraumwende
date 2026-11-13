@@ -769,9 +769,17 @@
       grid-template-columns: 1fr;
       overflow: hidden;
     }
-    .bezirke-body.detail-open { grid-template-columns: 1fr 340px; }
+    .bezirke-body.detail-open { grid-template-columns: 30% 1fr; }
     .bezirke-body .detail-panel { display: none; }
     .bezirke-body.detail-open .detail-panel { display: flex; }
+    /* Breites Detail-Panel: Abschnitte mehrspaltig anordnen */
+    .bezirke-body .detail-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0 24px;
+      align-content: start;
+    }
+    .bezirke-body .detail-quelle { grid-column: 1 / -1; }
     #map-bezirke { height: 100%; }
     /* OSM-Kacheln entsaettigen/aufhellen fuer besseren Kontrast der Bezirksumgriffe
        (aehnlich CARTO Positron, aber ohne API-Key-Abhaengigkeit) */
@@ -3635,9 +3643,15 @@ async function initParkseiten() {
 let GESAMTSTADT_REF = null;
 let bezMap = null;
 let bezDataByNum = {};
-let bezLayerByNum = {};
+let bezLayersByNum = {};   // Bezirke 18/19 bestehen aus mehreren Polygonen
+let bezCityBounds = null;
+let bezSelectedNum = null;
 let bezMotorisierung = {};
 let bezCharts = {};
+
+const BEZ_STYLE          = { weight: 1.3, fillOpacity: 0.08 };
+const BEZ_STYLE_HOVER    = { weight: 2.2, fillOpacity: 0.22 };
+const BEZ_STYLE_SELECTED = { weight: 3.2, fillOpacity: 0.38 };
 
 async function initBezirke() {
   loadEditorial('bezirke');
@@ -3693,13 +3707,13 @@ async function initBezirke() {
   }).addTo(bezMap);
 
   const bezLayer = L.geoJSON(geo, {
-    style: { color: '#2c2fdf', weight: 1.3, fillColor: '#2c2fdf', fillOpacity: 0.08 },
+    style: { color: '#2c2fdf', fillColor: '#2c2fdf', ...BEZ_STYLE },
     onEachFeature: (feature, layer) => {
       const num = parseInt(feature.properties.sb_nummer, 10);
-      if (!bezLayerByNum[num]) bezLayerByNum[num] = layer;
-      layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.22, weight: 2.2 }));
-      layer.on('mouseout',  () => layer.setStyle({ fillOpacity: 0.08, weight: 1.3 }));
-      layer.on('click', () => showBezDetail(num, feature.properties.sb_name, layer));
+      (bezLayersByNum[num] ||= []).push(layer);
+      layer.on('mouseover', () => { if (num !== bezSelectedNum) setBezStyle(num, BEZ_STYLE_HOVER); });
+      layer.on('mouseout',  () => setBezStyle(num, num === bezSelectedNum ? BEZ_STYLE_SELECTED : BEZ_STYLE));
+      layer.on('click', () => showBezDetail(num, feature.properties.sb_name));
 
       const center = layer.getBounds().getCenter();
       L.marker(center, {
@@ -3708,9 +3722,32 @@ async function initBezirke() {
       }).addTo(bezMap);
     },
   }).addTo(bezMap);
-  bezMap.fitBounds(bezLayer.getBounds(), { padding: [16, 16] });
+  bezCityBounds = bezLayer.getBounds();
+  bezMap.fitBounds(bezCityBounds, { padding: [16, 16] });
 
   openDeepLinkedBezirk();
+}
+
+function setBezStyle(num, style) {
+  (bezLayersByNum[num] || []).forEach(l => l.setStyle(style));
+}
+
+function highlightBezirk(num) {
+  if (bezSelectedNum != null) setBezStyle(bezSelectedNum, BEZ_STYLE);
+  bezSelectedNum = num;
+  if (num == null) return;
+  setBezStyle(num, BEZ_STYLE_SELECTED);
+  bezLayersByNum[num].forEach(l => l.bringToFront());
+}
+
+// Oeffnen/Schliessen des Panels aendert auf dem Desktop die Kartenbreite –
+// nur dann die Gesamtstadt neu einpassen; beim Wechsel zwischen Bezirken bleibt der Zoom.
+function setBezDetailOpen(open) {
+  document.getElementById('bezirke-body').classList.toggle('detail-open', open);
+  if (!bezMap) return;
+  const oldSize = bezMap.getSize();
+  bezMap.invalidateSize();
+  if (!oldSize.equals(bezMap.getSize())) bezMap.fitBounds(bezCityBounds, { padding: [16, 16] });
 }
 
 function openDeepLinkedBezirk() {
@@ -3718,18 +3755,17 @@ function openDeepLinkedBezirk() {
   if (!val) return;
   if (val === 'gesamt') { showGesamtstadtDetail(); return; }
   const num = parseInt(val, 10);
-  const layer = bezLayerByNum[num];
   const row = bezDataByNum[String(num)];
-  if (!layer || !row) return;
-  showBezDetail(num, row.sb_name, layer);
+  if (!bezLayersByNum[num] || !row) return;
+  showBezDetail(num, row.sb_name);
 }
 
-function showBezDetail(num, name, layer) {
+function showBezDetail(num, name) {
   const row = bezDataByNum[String(num)];
   if (!row) return;
   renderBezSteckbrief(num, name, row, false);
-  if (layer && bezMap) bezMap.fitBounds(layer.getBounds(), { padding: [24, 24], maxZoom: 14 });
-  document.getElementById('bezirke-body').classList.add('detail-open');
+  highlightBezirk(num);
+  setBezDetailOpen(true);
   if (history.replaceState) {
     const url = new URL(location.href);
     url.searchParams.set('bezirk', num);
@@ -3740,7 +3776,8 @@ function showBezDetail(num, name, layer) {
 
 function showGesamtstadtDetail() {
   renderBezSteckbrief(null, 'Gesamtstadt München', null, true);
-  document.getElementById('bezirke-body').classList.add('detail-open');
+  highlightBezirk(null);
+  setBezDetailOpen(true);
   if (history.replaceState) {
     const url = new URL(location.href);
     url.searchParams.set('bezirk', 'gesamt');
@@ -3750,7 +3787,8 @@ function showGesamtstadtDetail() {
 }
 
 function closeBezDetail() {
-  document.getElementById('bezirke-body').classList.remove('detail-open');
+  highlightBezirk(null);
+  setBezDetailOpen(false);
   if (history.replaceState) {
     const url = new URL(location.href);
     url.searchParams.delete('bezirk');

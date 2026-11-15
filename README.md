@@ -11,7 +11,7 @@ Offene Karten und Daten zum Parkraum in München – Parkhäuser, Tiefgaragen, P
 Statische Single-Page-Application ohne Build-Pipeline. Alles läuft direkt im Browser.
 
 ```
-index.html          — SPA mit fünf Tabs: Karte, Innenstadt, Parklizenzgebiete, Parkseiten, Statistiken
+index.html          — SPA mit sieben Tabs: Karte, Innenstadt, Parklizenzgebiete, Parkseiten, Bezirksprofile, Statistiken, Anträge
 embed.html          — Standalone-iFrame für einzelne Diagramme
 quellen.html        — Quelldokumentation aller Datensätze
 content/            — Redaktionelle Infotexte je Tab (Markdown, im Browser gerendert)
@@ -90,6 +90,30 @@ Beide Tabs zeigen Geodaten des OpenData-Portals der LHM. Die Koordinaten liegen 
 - Quelle: [opendata.muenchen.de](https://opendata.muenchen.de/dataset/opendata_ruhver_parkseiten_line), laufend aktualisiert
 
 **Geodaten aktuell halten:** Neue CSV-Versionen vom OpenData-Portal herunterladen, in `data/` ersetzen, committen und pushen.
+
+---
+
+## Antrags-Tracker (`#antraege`)
+
+Stadtrats-/BA-Anträge, Anfragen und BV-Empfehlungen zur Parkraumwende (Parken vom öffentlichen in den privaten Raum verlagern).
+
+- `data/antraege.csv` – ein Vorgang pro Zeile, `id` stabil (nie neu vergeben). `verifiziert`: `Ja` = geprüft, öffentlich · `Nein` = Vorschlag vom Cron, nur mit `?preview` sichtbar (gestrichelt) · `Ausgeschlossen` = aussortiert, nie sichtbar; bleibt in der CSV, damit der Cron ihn nicht erneut vorschlägt.
+- `data/antraege-stichworte.json` – RSS-Feeds + Stichwortfilter (Regex auf den Betreff) für neue Vorschläge.
+- `data/antraege_verlauf.csv` – Statuswechsel, Sitzungen, Antwortschreiben je Antrag (generiert, nicht von Hand pflegen).
+- `scripts/update_antraege.py` – liest pro `ris_id` die RIS-Detailseite (`/risi/antrag/detail/<id>`) und befüllt nur die RIS-Spalten (Vorgangsnr., Typ, BA, Status, Fristen, Beschlüsse, Antwort-Link). **Redaktionelle Spalten** (`fraktion_norm`, `themen`, `richtung`, `kurzfassung`, `ergebnis`, `antwort_kurz`, `verifiziert`, `quelle_fund`) werden nie überschrieben; `antragsteller` nur, wenn das RIS einen Wert liefert (bei BA-Anträgen fehlt er → von Hand).
+- **RIS-WAF:** blockt IPv6 und Standard-User-Agents („Access Denied“) – das Skript erzwingt IPv4 + Browser-UA, 2 s Pause zwischen Abrufen.
+
+**Laufende Aktualisierung:** `cron/update_antraege.php` (PHP-Port von `scripts/update_antraege.py`, All-Inkl hat kein Python), täglich per KAS-Cronjob:
+
+1. liest die RIS-RSS-Feeds `StR-Antraege`, `BA-Antraege`, `BV-Empfehlungen`, `BV-Anfragen` (StR/BA reichen nur 2–4 Wochen zurück → täglich nötig), filtert per Stichwort und hängt neue Treffer mit `verifiziert=Nein` an,
+2. liest die RIS-Detailseiten offener Anträge (und in den letzten 60 Tagen erledigter) neu ein – verteilt per `id % 7` auf die Wochentage, also jeder offene Antrag einmal pro Woche,
+3. committet bei Änderungen beide CSVs in **einem** Commit über die GitHub-API (→ ein Deploy) und legt bei neuen Vorschlägen bzw. frisch beantworteten Anträgen ein GitHub-Issue an.
+
+Cronjob-URL: https://data.parkraumwende.de/cron/update_antraege.php?token=DEIN_CRON_TOKEN (Parameter: `dry=1`, `all=1`, `ids=<ris_id>,…`). Lokal testen ohne Commit: `php cron/update_antraege.php dry=1 local=1` (Ergebnis landet im Temp-Verzeichnis). Kurzfassung, Antwort und Ergebnis der neuen bzw. frisch beantworteten Anträge ergänzt danach eine Claude-Code-Session („Antrags-Tracker aktualisieren“), dabei `verifiziert` auf `Ja` oder `Ausgeschlossen` setzen.
+
+Neuen Antrag von Hand aufnehmen: Zeile mit nächster freier `id` + `ris_id` anhängen → `python3 scripts/update_antraege.py <ris_id>` → redaktionelle Spalten ausfüllen. Ist `fraktion_norm` bzw. `ergebnis` leer, belegt das Skript sie vor (Fraktion aus „Gestellt von“, Ergebnis `beantwortet`/`Antwort offen` je nach RIS-Erledigt-Datum).
+
+`ergebnis`-Werte (steuern die Pill-Farbe): `Antwort offen` · `beantwortet` (Antwort/Erledigung ohne Gremiumsbeschluss in der Sache) · `beschlossen` (vom Gremium angenommen) · `abgelehnt` (vom Gremium abgestimmt dagegen). Inhaltliche Nuancen stehen in `antwort_kurz`.
 
 ---
 

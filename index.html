@@ -1358,6 +1358,83 @@
         .stats-grid { grid-template-columns: 1fr; }
       .stat-card-wide { grid-column: 1; }
     }
+
+    /* ── Anträge ── */
+    .ant-filters {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      padding: 10px 24px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .ant-filters select, .ant-filters input {
+      font: inherit; font-size: 0.8rem; padding: 5px 8px; border: 1px solid var(--border);
+      border-radius: 6px; background: var(--surface); color: var(--text);
+    }
+    .ant-filters input[type=search] { min-width: 200px; flex: 1 1 200px; max-width: 320px; }
+    .ant-count { font-size: 0.78rem; color: var(--text-dim); margin-left: auto; }
+    .ant-body { flex: 1; overflow-y: auto; padding: 20px 24px 48px; }
+    .ant-list { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+    .ant-empty { text-align: center; color: var(--text-dim); padding: 40px 0; font-size: 0.9rem; }
+    .ant-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+    .ant-card:target, .ant-card.open { border-color: var(--primary); }
+    .ant-head { display: flex; gap: 16px; padding: 12px 16px; cursor: pointer; position: relative; border-radius: 8px; }
+    .ant-head:hover { background: var(--bg); }
+    .ant-card.open .ant-head { border-radius: 8px 8px 0 0; }
+    .ant-chevron { flex-shrink: 0; align-self: center; width: 18px; height: 18px; color: var(--text-dim); transition: transform .2s; }
+    .ant-head:hover .ant-chevron { color: var(--primary); }
+    .ant-card.open .ant-chevron { transform: rotate(180deg); color: var(--primary); }
+    .ant-main { flex: 1; min-width: 0; }
+    .ant-meta { font-size: 0.72rem; color: var(--text-dim); margin-bottom: 3px; }
+    .ant-title { font-weight: 600; font-size: 0.95rem; line-height: 1.35; }
+    .ant-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .ant-tag { font-size: 0.68rem; padding: 1px 7px; border-radius: 10px; background: var(--bg); color: var(--text-dim); border: 1px solid var(--border); }
+    .ant-tag--fraktion { color: var(--text); font-weight: 500; }
+    .ant-tag--contra { color: var(--red); border-color: var(--red); background: none; }
+    .ant-tag--vorschlag { color: var(--orange); border-style: dashed; border-color: var(--orange); background: none; }
+    .ant-card--vorschlag { border-style: dashed; }
+    .ant-admin[hidden], #ant-f-pruef[hidden] { display: none; }
+    .ant-admin { max-width: 980px; margin: 0 auto 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+      padding: 8px 12px; background: #fff7e6; border: 1px solid var(--orange); border-radius: 8px; font-size: 0.8rem; }
+    .ant-admin button, .ant-review button { font: inherit; font-size: 0.75rem; padding: 3px 9px; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+    .ant-review { display: flex; gap: 4px; }
+    .ant-card.rv-keep { border: 1px solid var(--green); border-left-width: 4px; }
+    .ant-card.rv-drop { opacity: .45; }
+    .ant-card.rv-keep .rv-keep-btn { background: var(--green); border-color: var(--green); color: #fff; }
+    .ant-card.rv-drop .rv-drop-btn { background: var(--red); border-color: var(--red); color: #fff; }
+    .ant-side { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; text-align: right; }
+    .ant-pill { font-size: 0.7rem; font-weight: 600; padding: 2px 9px; border-radius: 10px; color: #fff; white-space: nowrap; }
+    .ant-pill--green   { background: var(--green); }
+    .ant-pill--orange  { background: var(--orange); }
+    .ant-pill--red     { background: var(--red); }
+    .ant-pill--primary { background: var(--primary); }
+    .ant-pill--dim     { background: var(--text-dim); }
+    .ant-frist { font-size: 0.7rem; color: var(--text-dim); white-space: nowrap; }
+    .ant-frist.over { color: var(--red); font-weight: 600; }
+    .ant-detail { border-top: 1px solid var(--border); padding: 12px 16px 16px; font-size: 0.84rem; line-height: 1.5; }
+    .ant-detail p { margin: 0 0 8px; }
+    .ant-detail h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-dim); margin: 14px 0 6px; font-weight: 600; }
+    .ant-grid { display: grid; grid-template-columns: max-content 1fr; gap: 3px 16px; font-size: 0.8rem; }
+    .ant-grid dt { color: var(--text-dim); }
+    .ant-grid dd { margin: 0; }
+    .ant-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .ant-links a { font-size: 0.78rem; color: var(--primary); text-decoration: none; border: 1px solid var(--primary); border-radius: 6px; padding: 4px 10px; }
+    .ant-links a:hover { background: var(--primary); color: #fff; }
+    .ant-timeline { list-style: none; margin: 0; padding: 0 0 0 14px; border-left: 2px solid var(--border); font-size: 0.78rem; }
+    .ant-timeline li { position: relative; padding: 2px 0 6px 8px; }
+    .ant-timeline li::before { content: ''; position: absolute; left: -20px; top: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .ant-timeline li.tl-sitzung::before, .ant-timeline li.tl-antwort::before { background: var(--primary); }
+    .ant-timeline li.tl-gestellt::before { background: var(--text); }
+    .ant-timeline .tl-date { color: var(--text-dim); display: inline-block; min-width: 78px; }
+    .ant-timeline a { color: var(--primary); }
+    @media (max-width: 900px) {
+      .ant-filters { padding: 8px 12px; }
+      .ant-filters select { flex: 1 1 40%; }
+      .ant-filters input[type=search] { max-width: none; flex-basis: 100%; }
+      .ant-body { padding: 12px 12px 40px; }
+      .ant-head { flex-direction: column; gap: 8px; }
+      .ant-main { padding-right: 24px; }
+      .ant-chevron { position: absolute; top: 12px; right: 12px; }
+      .ant-side { flex-direction: row; align-items: center; flex-wrap: wrap; }
+    }
   </style>
   <!-- Matomo -->
   <script>
@@ -1390,6 +1467,7 @@
   <button class="nav-tab"        data-tab="parkseiten"    onclick="showTab('parkseiten', this)">Parkseiten</button>
   <button class="nav-tab"        data-tab="bezirke"       onclick="showTab('bezirke', this)">Bezirksprofile</button>
   <button class="nav-tab"        data-tab="statistiken"   onclick="showTab('statistiken', this)">Statistiken</button>
+  <button class="nav-tab"        data-tab="antraege"      onclick="showTab('antraege', this)">Anträge</button>
 </nav>
 
 <!-- ═══════════ ÜBERSICHT ═══════════ -->
@@ -1575,6 +1653,54 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════ ANTRÄGE ═══════════ -->
+<div class="section" id="sec-antraege">
+  <div class="stats-bar">
+    <button class="sb-toggle" onclick="this.closest('.stats-bar').classList.toggle('sb-open')">Mehr Infos<span class="sb-arrow">▾</span></button>
+    <div class="stat"><span class="stat-label">Anträge</span><span class="stat-value" id="ant-stat-anzahl">–</span></div>
+    <div class="stat"><span class="stat-label">Stadtrat / BA / BV</span><span class="stat-value" id="ant-stat-gremien">–</span></div>
+    <div class="stat"><span class="stat-label">Offen</span><span class="stat-value pct" id="ant-stat-offen">–</span></div>
+    <div class="stat"><span class="stat-label">Bearbeitungsdauer (Median)</span><span class="stat-value" id="ant-stat-dauer">–</span></div>
+    <div class="stat"><span class="stat-label">Fristverlängerungen</span><span class="stat-value" id="ant-stat-fristverl">–</span></div>
+    <div class="editorial-box" id="editorial-antraege"></div>
+  </div>
+  <div class="ant-filters">
+    <input type="search" id="ant-q" placeholder="Suche in Titel, Antwort, Antragsteller …">
+    <select id="ant-f-gremium"><option value="">Alle Gremien</option></select>
+    <select id="ant-f-ba"><option value="">Alle Bezirke</option></select>
+    <select id="ant-f-fraktion"><option value="">Alle Fraktionen</option></select>
+    <select id="ant-f-thema"><option value="">Alle Themen</option></select>
+    <select id="ant-f-ergebnis"><option value="">Alle Ergebnisse</option></select>
+    <select id="ant-f-richtung">
+      <option value="">Alle Richtungen</option>
+      <option value="pro">pro Parkraumwende</option>
+      <option value="contra">contra</option>
+      <option value="gemischt">gemischt</option>
+    </select>
+    <select id="ant-f-pruef" hidden>
+      <option value="">Geprüft + Vorschläge</option>
+      <option value="Ja">Nur geprüfte</option>
+      <option value="Nein">Nur Vorschläge</option>
+      <option value="unentschieden" hidden>Vorschläge, noch nicht entschieden</option>
+    </select>
+    <select id="ant-sort">
+      <option value="neu">Neueste zuerst</option>
+      <option value="alt">Älteste zuerst</option>
+      <option value="dauer">Längste Bearbeitung</option>
+    </select>
+    <span class="ant-count" id="ant-count"></span>
+  </div>
+  <div class="ant-body">
+    <div class="ant-admin" id="ant-admin" hidden>
+      <strong>Review-Modus</strong>
+      <span id="ant-admin-count"></span>
+      <button type="button" id="ant-admin-export">Entscheidungen exportieren</button>
+      <button type="button" id="ant-admin-reset">Zurücksetzen</button>
+    </div>
+    <div class="ant-list" id="ant-list"></div>
   </div>
 </div>
 
@@ -2147,6 +2273,7 @@ function showTab(name, btn) {
     if (name === 'parkseiten')   initParkseiten();
     if (name === 'bezirke')      initBezirke();
     if (name === 'statistiken')  initStatistiken();
+    if (name === 'antraege')     initAntraege();
   } else if (name === 'karte') {
     openDeepLinkedEntry();
   } else if (name === 'bezirke') {
@@ -2155,7 +2282,7 @@ function showTab(name, btn) {
 }
 
 window.addEventListener('hashchange', () => {
-  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'bezirke', 'statistiken'];
+  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'bezirke', 'statistiken', 'antraege'];
   const hash = location.hash.replace('#', '');
   if (valid.includes(hash)) showTab(hash);
 });
@@ -3246,7 +3373,7 @@ function showMsg(text, cls) {
 // INIT
 // ══════════════════════════════════════════════
 {
-  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'bezirke', 'statistiken'];
+  const valid = ['karte', 'innenstadt', 'parklizenz', 'parkseiten', 'bezirke', 'statistiken', 'antraege'];
   const hash  = location.hash.replace('#', '');
   const start = valid.includes(hash) ? hash : 'karte';
   // Activate correct tab visually without triggering hashchange
@@ -3261,6 +3388,7 @@ function showMsg(text, cls) {
   if (start === 'parkseiten')   initParkseiten();
   if (start === 'bezirke')      initBezirke();
   if (start === 'statistiken')  initStatistiken();
+  if (start === 'antraege')     initAntraege();
 }
 
 // ══════════════════════════════════════════════
@@ -4789,6 +4917,246 @@ function copyEmbed() {
     }, { root: body, threshold: 0, rootMargin: '0px 0px -85% 0px' });
     document.querySelectorAll('[id^="chapter-"]').forEach(el => obs.observe(el));
   })();
+
+// ══════════════════════════════════════════════
+// ANTRÄGE
+// ══════════════════════════════════════════════
+
+const ANT_ERGEBNIS_FARBE = {
+  'Antwort offen': 'primary', 'beantwortet': 'dim', 'beschlossen': 'green', 'abgelehnt': 'red',
+};
+// Parteifarben wie auf rathausmuc.de (js/config.js), Treffer per Teilstring
+const ANT_PARTEI_FARBEN = {
+  'CSU':           { bg: '#000000', fg: '#fff' },
+  'SPD':           { bg: '#CC0033', fg: '#fff' },
+  'Grüne':         { bg: '#32A45F', fg: '#fff' },
+  'Freie Wähler':  { bg: '#39B4C4', fg: '#fff' },
+  'AfD':           { bg: '#99CCFF', fg: '#111' },
+  'FDP':           { bg: '#FCCC34', fg: '#111' },
+  'Linke':         { bg: '#8F57C7', fg: '#fff' },
+  'Volt':          { bg: '#582C83', fg: '#fff' },
+  'ÖDP':           { bg: '#FB9966', fg: '#111' },
+  'PARTEI':        { bg: '#800808', fg: '#fff' },
+  'Rosa Liste':    { bg: '#E4007E', fg: '#fff' },
+  'München Liste': { bg: '#85AEDC', fg: '#fff' },
+  'BK':            { bg: '#A0A0A0', fg: '#fff' },
+};
+function antParteiFarbe(name) {
+  const lower = String(name).toLowerCase();
+  for (const [key, val] of Object.entries(ANT_PARTEI_FARBEN)) {
+    if (lower.includes(key.toLowerCase())) return val;
+  }
+  return null;
+}
+
+let antraege = [];
+let antVerlauf = {};
+
+// Review-Modus (nur mit ?admin in der URL): Vorschläge per Klick behalten/aussortieren.
+// Entscheidungen liegen nur im localStorage dieses Browsers und werden als JSON exportiert.
+// Vorerst deaktiviert (alle Vorschläge übernommen); zum Reaktivieren wieder auf
+// new URLSearchParams(location.search).has('admin') setzen und #ant-f-pruef einblenden.
+const ANT_ADMIN = false;
+const ANT_REVIEW_KEY = 'antraege-review';
+let antReview = {};
+try { antReview = JSON.parse(localStorage.getItem(ANT_REVIEW_KEY) || '{}'); } catch (e) {}
+
+function antSaveReview() {
+  try { localStorage.setItem(ANT_REVIEW_KEY, JSON.stringify(antReview)); } catch (e) {}
+  const v = Object.values(antReview);
+  const offen = antraege.filter(d => d.verifiziert !== 'Ja' && !antReview[d.ris_id]).length;
+  document.getElementById('ant-admin-count').textContent =
+    `${v.filter(x => x === 'keep').length} behalten · ${v.filter(x => x === 'drop').length} raus · ${offen} offen`;
+}
+
+function antExportReview() {
+  const data = { exportiert: new Date().toISOString(), entscheidungen: antReview };
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+  a.download = 'antraege-review.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+const antSplit = s => String(s ?? '').split('|').map(x => x.trim()).filter(Boolean);
+const antDate  = iso => iso ? String(iso).split('-').reverse().join('.') : '';
+const antDays  = (a, b) => (new Date(b) - new Date(a)) / 86400000;
+
+function antDauer(d) {
+  const end = d.erledigt_am || (d.ergebnis === 'Antwort offen' ? new Date().toISOString().slice(0, 10) : '');
+  return d.datum_gestellt && end ? antDays(d.datum_gestellt, end) : null;
+}
+
+function antFmtDauer(days) {
+  if (days == null) return '–';
+  const m = days / 30.44;
+  return m < 1 ? Math.round(days) + ' Tage' : m < 24 ? Math.round(m) + ' Mon.' : (m / 12).toFixed(1).replace('.', ',') + ' J.';
+}
+
+async function initAntraege() {
+  loadEditorial('antraege');
+  const [rows, verlauf] = await Promise.all([
+    loadCsv('data/antraege.csv'), loadCsv('data/antraege_verlauf.csv'),
+  ]);
+  // verifiziert=Nein = Vorschlag aus dem RSS-Cron, noch ungeprüft → nur mit ?preview sichtbar;
+  // verifiziert=Ausgeschlossen = aussortiert (bleibt in der CSV, damit der Cron ihn nicht erneut vorschlägt)
+  antraege = rows.filter(d => d.verifiziert === 'Ja' || (previewMode && d.verifiziert === 'Nein'));
+  verlauf.forEach(v => (antVerlauf[v.antrag_id] ||= []).push(v));
+
+  // Kennzahlen
+  const cnt = g => antraege.filter(d => d.gremium === g).length;
+  document.getElementById('ant-stat-anzahl').textContent = antraege.length;
+  document.getElementById('ant-stat-gremien').textContent = `${cnt('Stadtrat')} / ${cnt('Bezirksausschuss')} / ${cnt('Bürgerversammlung')}`;
+  document.getElementById('ant-stat-offen').textContent = antraege.filter(d => d.ergebnis === 'Antwort offen').length;
+  const dauern = antraege.filter(d => d.erledigt_am).map(antDauer).sort((a, b) => a - b);
+  document.getElementById('ant-stat-dauer').textContent = dauern.length ? antFmtDauer(dauern[Math.floor(dauern.length / 2)]) : '–';
+  document.getElementById('ant-stat-fristverl').textContent = antraege.reduce((s, d) => s + (+d.anzahl_fristverl || 0), 0);
+
+  // Filter-Optionen
+  const fill = (id, values) => {
+    const sel = document.getElementById(id);
+    [...new Set(values)].filter(Boolean).sort((a, b) => String(a).localeCompare(String(b), 'de', { numeric: true }))
+      .forEach(v => sel.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`));
+  };
+  fill('ant-f-gremium', antraege.map(d => d.gremium));
+  fill('ant-f-ba', antraege.filter(d => d.ba_nr).map(d => `${String(d.ba_nr).padStart(2, '0')} ${d.ba_name}`));
+  fill('ant-f-fraktion', antraege.flatMap(d => antSplit(d.fraktion_norm)));
+  fill('ant-f-thema', antraege.flatMap(d => antSplit(d.themen)));
+  fill('ant-f-ergebnis', antraege.map(d => d.ergebnis));
+
+  ['ant-q', 'ant-f-gremium', 'ant-f-ba', 'ant-f-fraktion', 'ant-f-thema', 'ant-f-ergebnis', 'ant-f-richtung', 'ant-f-pruef', 'ant-sort']
+    .forEach(id => document.getElementById(id).addEventListener('input', renderAntraege));
+  if (ANT_ADMIN) {
+    document.getElementById('ant-admin').hidden = false;
+    document.querySelector('#ant-f-pruef option[value="unentschieden"]').hidden = false;
+    document.getElementById('ant-admin-export').addEventListener('click', antExportReview);
+    document.getElementById('ant-admin-reset').addEventListener('click', () => {
+      antReview = {}; antSaveReview(); renderAntraege();
+    });
+    antSaveReview();
+  }
+  document.getElementById('ant-list').addEventListener('click', e => {
+    const rv = e.target.closest('[data-rv]');
+    if (rv) {
+      const card = rv.closest('.ant-card');
+      const rid = card.dataset.ris;
+      antReview[rid] = antReview[rid] === rv.dataset.rv ? undefined : rv.dataset.rv;
+      if (!antReview[rid]) delete antReview[rid];
+      card.classList.toggle('rv-keep', antReview[rid] === 'keep');
+      card.classList.toggle('rv-drop', antReview[rid] === 'drop');
+      antSaveReview();
+      return;
+    }
+    if (e.target.closest('a')) return;
+    const head = e.target.closest('.ant-head');
+    if (head) toggleAntrag(head.parentElement);
+  });
+  renderAntraege();
+}
+
+function renderAntraege() {
+  const val = id => document.getElementById(id).value;
+  const q = val('ant-q').trim().toLowerCase();
+  const [gremium, ba, fraktion, thema, ergebnis, richtung, pruef, sort] =
+    ['ant-f-gremium', 'ant-f-ba', 'ant-f-fraktion', 'ant-f-thema', 'ant-f-ergebnis', 'ant-f-richtung', 'ant-f-pruef', 'ant-sort'].map(val);
+
+  let list = antraege.filter(d =>
+    (!gremium  || d.gremium === gremium) &&
+    (!ba       || `${String(d.ba_nr).padStart(2, '0')} ${d.ba_name}` === ba) &&
+    (!fraktion || antSplit(d.fraktion_norm).includes(fraktion)) &&
+    (!thema    || antSplit(d.themen).includes(thema)) &&
+    (!ergebnis || d.ergebnis === ergebnis) &&
+    (!richtung || d.richtung === richtung) &&
+    (!pruef    || (pruef === 'unentschieden' ? d.verifiziert !== 'Ja' && !antReview[d.ris_id]
+                                          : (d.verifiziert === 'Ja' ? 'Ja' : 'Nein') === pruef)) &&
+    (!q || [d.titel, d.kurzfassung, d.antwort_kurz, d.antragsteller, d.initiative, d.vorgangsnr, d.fraktion_norm, d.referat]
+      .join(' ').toLowerCase().includes(q))
+  );
+  if (sort === 'dauer') list.sort((a, b) => (antDauer(b) ?? -1) - (antDauer(a) ?? -1));
+  else list.sort((a, b) => String(a.datum_gestellt).localeCompare(String(b.datum_gestellt)) * (sort === 'alt' ? 1 : -1));
+
+  document.getElementById('ant-count').textContent = `${list.length} von ${antraege.length}`;
+  document.getElementById('ant-list').innerHTML = list.length
+    ? list.map(antCard).join('')
+    : '<div class="ant-empty">Keine Anträge für diese Auswahl.</div>';
+}
+
+function antFrist(d) {
+  if (d.ergebnis !== 'Antwort offen' || d.erledigt_am) {
+    return d.erledigt_am ? `<span class="ant-frist">erledigt nach ${antFmtDauer(antDauer(d))}</span>` : '';
+  }
+  const frist = d.fristverlaengert_bis || d.frist;
+  const verl = +d.anzahl_fristverl ? ` · ${d.anzahl_fristverl}× verlängert` : (d.fristverlaengert_bis ? ' · verlängert' : '');
+  if (!frist) return `<span class="ant-frist">offen seit ${antFmtDauer(antDauer(d))}</span>`;
+  const over = frist < new Date().toISOString().slice(0, 10);
+  return `<span class="ant-frist${over ? ' over' : ''}">${over ? 'Frist überschritten' : 'Frist'}: ${antDate(frist)}${verl}</span>`;
+}
+
+function antCard(d) {
+  const ba = d.ba_nr ? ` · BA ${d.ba_nr} ${esc(d.ba_name)}` : '';
+  const tags = antSplit(d.fraktion_norm).map(f => {
+    const c = antParteiFarbe(f);
+    const style = c ? ` style="background:${c.bg};color:${c.fg};border-color:${c.bg}"` : '';
+    return `<span class="ant-tag ant-tag--fraktion"${style}>${esc(f)}</span>`;
+  })
+    .concat(antSplit(d.themen).map(t => `<span class="ant-tag">${esc(t)}</span>`))
+    .concat(d.richtung === 'contra' ? ['<span class="ant-tag ant-tag--contra">contra</span>'] : [])
+    .concat(d.verifiziert !== 'Ja' ? ['<span class="ant-tag ant-tag--vorschlag">Vorschlag, ungeprüft</span>'] : []).join('');
+  const rv = antReview[d.ris_id];
+  const review = ANT_ADMIN && d.verifiziert !== 'Ja' ? `<div class="ant-review">
+          <button type="button" class="rv-keep-btn" data-rv="keep" title="Behalten">✓ behalten</button>
+          <button type="button" class="rv-drop-btn" data-rv="drop" title="Aussortieren">✕ raus</button>
+        </div>` : '';
+  const cls = (d.verifiziert !== 'Ja' ? ' ant-card--vorschlag' : '') + (ANT_ADMIN && rv ? ' rv-' + rv : '');
+  return `<article class="ant-card${cls}" id="antrag-${d.id}" data-ris="${esc(d.ris_id)}">
+    <div class="ant-head">
+      <div class="ant-main">
+        <div class="ant-meta">${esc(d.typ)} ${esc(d.vorgangsnr)}${ba} · ${antDate(d.datum_gestellt)}</div>
+        <div class="ant-title">${esc(d.titel)}</div>
+        <div class="ant-tags">${tags}</div>
+      </div>
+      <div class="ant-side">
+        <span class="ant-pill ant-pill--${ANT_ERGEBNIS_FARBE[d.ergebnis] || 'dim'}">${esc(d.ergebnis || 'Antwort offen')}</span>
+        ${antFrist(d)}
+        ${review}
+      </div>
+      <svg class="ant-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+  </article>`;
+}
+
+const ANT_TL_SKIP = /Status: (Registriert|Zugeleitet) /;
+
+function toggleAntrag(card) {
+  const open = card.classList.toggle('open');
+  const existing = card.querySelector('.ant-detail');
+  if (existing) { existing.hidden = !open; return; }
+  const d = antraege.find(a => 'antrag-' + a.id === card.id);
+  const row = (k, v) => v ? `<dt>${k}</dt><dd>${esc(v)}</dd>` : '';
+  const verl = +d.anzahl_fristverl ? `${d.anzahl_fristverl}×, aktuell bis ${antDate(d.fristverlaengert_bis)}`
+    : d.fristverlaengert_bis ? `bis ${antDate(d.fristverlaengert_bis)}` : '';
+  const tl = (antVerlauf[d.id] || []).filter(v => !ANT_TL_SKIP.test(v.text)).map(v => {
+    const text = esc(String(v.text).replace(/^Neuer Status: (.+?) \(vorher: .*\)$/, 'Status: $1')
+      .replace(/^Neue Bearbeitungsart: (.+?) \(vorher: .*\)$/, 'Bearbeitungsart: $1'));
+    return `<li class="tl-${v.art}"><span class="tl-date">${antDate(v.datum)}</span> ${v.url ? `<a href="${esc(v.url)}" target="_blank" rel="noopener">${text}</a>` : text}</li>`;
+  }).join('');
+  card.insertAdjacentHTML('beforeend', `<div class="ant-detail">
+    ${d.kurzfassung ? `<h4>Worum geht's</h4><p>${esc(d.kurzfassung)}</p>` : ''}
+    ${d.antwort_kurz ? `<h4>Antwort / Ergebnis</h4><p>${esc(d.antwort_kurz)}</p>` : ''}
+    <h4>Details</h4>
+    <dl class="ant-grid">
+      ${row('Antragsteller', d.antragsteller)}${row('Initiative', d.initiative)}${row('Zuständig', d.referat)}
+      ${row('RIS-Status', d.ris_status)}${row('Bearbeitungsfrist', antDate(d.frist))}${row('Fristverlängerung', verl)}
+      ${row('Erledigt am', antDate(d.erledigt_am))}
+      ${row('Letzte Behandlung', d.beschluss_datum ? `${antDate(d.beschluss_datum)} · ${d.beschluss_gremium}` : '')}
+    </dl>
+    ${tl ? `<h4>Verlauf</h4><ul class="ant-timeline">${tl}</ul>` : ''}
+    <div class="ant-links">
+      <a href="${esc(d.ris_url)}" target="_blank" rel="noopener">Im RIS ansehen ↗</a>
+      ${d.antwort_url ? `<a href="${esc(d.antwort_url)}" target="_blank" rel="noopener">Antwort / Beschluss (PDF) ↗</a>` : ''}
+    </div>
+  </div>`);
+}
 </script>
 
 <footer class="site-footer">

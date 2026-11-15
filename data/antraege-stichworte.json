@@ -1,0 +1,14 @@
+{
+  "_info": "Stichwortfilter für neue Anträge aus den RIS-RSS-Feeds (cron/update_antraege.php). Reguläre Ausdrücke, geprüft gegen den kleingeschriebenen Betreff. Ein Treffer in 'themen' macht den Antrag zum Vorschlag; 'ausschluss' verwirft ihn, außer 'ausschluss_ausnahme' trifft ebenfalls.",
+  "feeds": ["StR-Antraege", "BA-Antraege", "BV-Empfehlungen", "BV-Anfragen"],
+  "themen": {
+    "Garagen-Mehrfachnutzung": "tiefgarage|parkgarage|parkhaus|parkhäuser|parkdeck|mehrfachnutzung|shared parking|leerstehende stellpl|stellplätze .*öffnen|garage.*öffnen|öffnen.*garage",
+    "Quartiersgaragen": "quartiersgarage|anwohnergarage|quartiersparkhaus|anwohnerparkhaus|quartiersparken|sammelgarage",
+    "Parklizenzgebiete": "parklizenz|lizenzgebiet|parkraumbewirtschaft|bewohnerpark|anwohnerpark|parkausweis|anwohnerparkausweis|bewohnerparkausweis",
+    "Parkgebühren": "parkgebühr|parkentgelt|parkschein|parkuhr|parkticket|gebühr.*park|park.*gebühr|handyparken",
+    "Stellplatzsatzung": "stellplatzsatzung|stellplatzschlüssel|stellplatzpflicht|stellplatzablöse|garagen- und stellplatz|stellplatznachweis",
+    "Parkraummanagement": "parkraummanagement|parkraumkonzept|parksuchverkehr|parkleitsystem|parkraumerhebung|parkdruck|ruhende[nr]? verkehr|parkraum"
+  },
+  "ausschluss": "fahrradparkhaus|fahrradparken|radparkhaus|fahrradabstell|radabstell|fahrradgarage|fahrradstellpl|radstellpl|bike ?and ?ride|b\\+r|tiefgaragenausfahrt|tiefgaragenzufahrt|behindertenpark|behinderten-park|zufahrt|ausfahrt",
+  "ausschluss_ausnahme": "parklizenz|parkgebühr|stellplatzsatzung|quartiersgarage"
+}

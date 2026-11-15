@@ -305,6 +305,22 @@
           "check": { "method": "heuristic" }
         }
       ]
+    },
+    {
+      "title": "Politik",
+      "sources": [
+        {
+          "id": "antraege",
+          "title": "Antrags-Tracker – Stadtrats- und BA-Anträge zur Parkraumwende",
+          "files": ["data/antraege.csv", "data/antraege_verlauf.csv"],
+          "used_in": [
+            { "label": "Tab: Anträge", "href": "index.html#antraege" }
+          ],
+          "original_source": { "label": "Ratsinformationssystem (RIS) LHM", "href": "https://risi.muenchen.de/risi/" },
+          "turnus": "laufend (eigene Auswahl, Status per scripts/update_antraege.py aus dem RIS)",
+          "check": { "method": "heuristic" }
+        }
+      ]
     }
   ],
   "attribution": [

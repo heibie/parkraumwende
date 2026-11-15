@@ -635,6 +635,74 @@
         ]
       },
       "notes": "Viele Felder sind je nach Stadtbezirk unvollständig befüllt (leere Werte bei zu kleiner Stichprobe)."
+    },
+    {
+      "name": "antraege",
+      "path": "antraege.csv",
+      "title": "Antrags-Tracker – Anträge zur Parkraumwende",
+      "description": "Stadtrats- und Bezirksausschuss-Anträge, Anfragen und Bürgerversammlungs-Empfehlungen, die die Verlagerung des ruhenden Verkehrs vom öffentlichen in den privaten Raum betreffen. Auswahl und Einordnung (Themen, Richtung, Ergebnis, Kurzfassungen) redaktionell; Vorgangsdaten, Status und Fristen per scripts/update_antraege.py aus dem RIS.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Ratsinformationssystem (RIS) der Landeshauptstadt München", "path": "https://risi.muenchen.de/risi/" }
+      ],
+      "schema": {
+        "primaryKey": "id",
+        "fields": [
+          { "name": "id", "type": "integer", "description": "Stabile laufende Nummer (Deep-Link-Anker, wird nie neu vergeben)" },
+          { "name": "ris_id", "type": "integer", "description": "ID des Vorgangs im RIS" },
+          { "name": "vorgangsnr", "type": "string", "description": "Vorgangsnummer, z.B. 20-26/A 05827" },
+          { "name": "ris_url", "type": "string", "description": "Link zur RIS-Detailseite" },
+          { "name": "typ", "type": "string", "description": "Vorgangstyp laut RIS (StR-Antrag, StR-Anfrage, BA-Antrag, BV-Empfehlung …)" },
+          { "name": "gremium", "type": "string", "description": "Stadtrat, Bezirksausschuss oder Bürgerversammlung" },
+          { "name": "ba_nr", "type": "integer", "description": "Nummer des Stadtbezirks (bei BA/BV)" },
+          { "name": "ba_name", "type": "string", "description": "Name des Stadtbezirks" },
+          { "name": "wahlperiode", "type": "string", "description": "Wahlperiode, z.B. 2020-2026" },
+          { "name": "antragsteller", "type": "string", "description": "Antragsteller laut RIS bzw. Fraktion im BA" },
+          { "name": "fraktion_norm", "type": "string", "description": "Normalisierte Fraktion(en), mehrere mit | getrennt (redaktionell)" },
+          { "name": "initiative", "type": "string", "description": "Initiative (einzelne Stadtrats-/BA-Mitglieder) laut RIS" },
+          { "name": "titel", "type": "string", "description": "Betreff laut RIS" },
+          { "name": "themen", "type": "string", "description": "Themen, mehrere mit | getrennt (redaktionell)" },
+          { "name": "richtung", "type": "string", "description": "Wirkung im Sinne der Parkraumwende: pro, contra, gemischt (redaktionell)" },
+          { "name": "kurzfassung", "type": "string", "description": "Kurzfassung des Anliegens (redaktionell)" },
+          { "name": "datum_gestellt", "type": "date", "description": "Datum gestellt/beschlossen/erfasst" },
+          { "name": "referat", "type": "string", "description": "Federführendes Referat" },
+          { "name": "ris_status", "type": "string", "description": "Aktueller Status im RIS" },
+          { "name": "frist", "type": "date", "description": "Ursprüngliche Bearbeitungsfrist" },
+          { "name": "fristverlaengert_bis", "type": "date", "description": "Aktuelle verlängerte Frist" },
+          { "name": "anzahl_fristverl", "type": "integer", "description": "Anzahl bisheriger Fristverlängerungen" },
+          { "name": "erledigt_am", "type": "date", "description": "Erledigt-Datum laut RIS" },
+          { "name": "ergebnis", "type": "string", "description": "Stand: Antwort offen, beantwortet, beschlossen, abgelehnt (redaktionell; Details in antwort_kurz)" },
+          { "name": "beschluss_datum", "type": "date", "description": "Datum der letzten Behandlung in Stadtrat/Ausschuss/BA" },
+          { "name": "beschluss_gremium", "type": "string", "description": "Gremium der letzten Behandlung" },
+          { "name": "antwort_url", "type": "string", "description": "Link zu Antwortschreiben oder Beschluss (PDF)" },
+          { "name": "antwort_kurz", "type": "string", "description": "Kurzfassung der Antwort (redaktionell)" },
+          { "name": "verifiziert", "type": "string", "description": "Ja = geprüft und öffentlich; Nein = automatisch gefundener Vorschlag, noch ungeprüft (nicht öffentlich angezeigt); Ausgeschlossen = aussortiert, bleibt nur zur Duplikatvermeidung in der Datei" },
+          { "name": "quelle_fund", "type": "string", "description": "Wie der Antrag gefunden wurde" },
+          { "name": "zuletzt_geprueft", "type": "date", "description": "Letzter Abgleich mit dem RIS" }
+        ]
+      }
+    },
+    {
+      "name": "antraege_verlauf",
+      "path": "antraege_verlauf.csv",
+      "title": "Antrags-Tracker – Verlauf",
+      "description": "Chronologischer Verlauf je Antrag (Statuswechsel, Sitzungen, Antwortschreiben) aus dem RIS, generiert von scripts/update_antraege.py.",
+      "mediatype": "text/csv",
+      "encoding": "UTF-8",
+      "sources": [
+        { "title": "Ratsinformationssystem (RIS) der Landeshauptstadt München", "path": "https://risi.muenchen.de/risi/" }
+      ],
+      "schema": {
+        "fields": [
+          { "name": "antrag_id", "type": "integer", "description": "Verweis auf antraege.id" },
+          { "name": "datum", "type": "date", "description": "Datum" },
+          { "name": "art", "type": "string", "description": "gestellt, status, sitzung oder antwort" },
+          { "name": "text", "type": "string", "description": "Beschreibung des Ereignisses" },
+          { "name": "url", "type": "string", "description": "Link zu Dokument/Sitzungsvorlage (optional)" }
+        ],
+        "foreignKeys": [{ "fields": "antrag_id", "reference": { "resource": "antraege", "fields": "id" } }]
+      }
     }
   ]
 }

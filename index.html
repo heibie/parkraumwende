@@ -116,6 +116,21 @@
     }
     .nav-tab:hover { color: var(--text); }
     .nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    /* Scroll-Hinweis, wenn die Hauptnavigation breiter als der Bildschirm ist */
+    .nav-wrap { position: relative; }
+    #main-nav { position: relative; }
+    .nav-more {
+      position: absolute; top: 0; bottom: 1px; width: 48px;
+      display: none; align-items: center;
+      border: none; padding: 0 6px; cursor: pointer;
+      color: var(--primary); z-index: 2;
+    }
+    .nav-more svg { width: 18px; height: 18px; }
+    .nav-more-r { right: 0; justify-content: flex-end; background: linear-gradient(to right, transparent, var(--surface) 55%); }
+    .nav-more-l { left: 0; justify-content: flex-start; background: linear-gradient(to left, transparent, var(--surface) 55%); }
+    .nav-wrap.more-r .nav-more-r, .nav-wrap.more-l .nav-more-l { display: flex; }
+    .nav-wrap.hint .nav-more-r svg { animation: nav-nudge 0.9s ease-in-out 3; }
+    @keyframes nav-nudge { 50% { transform: translateX(4px); } }
 
     /* ── Section container ── */
     .section { display: none; }
@@ -1369,8 +1384,9 @@
       border-radius: 6px; background: var(--surface); color: var(--text);
     }
     .ant-filters input[type=search] { min-width: 200px; flex: 1 1 200px; max-width: 320px; }
+    .ant-filter-toggle { display: none; }
     .ant-count { font-size: 0.78rem; color: var(--text-dim); margin-left: auto; }
-    .ant-body { flex: 1; overflow-y: auto; padding: 20px 24px 48px; }
+    .ant-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 20px 24px 48px; }
     .ant-list { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
     .ant-empty { text-align: center; color: var(--text-dim); padding: 40px 0; font-size: 0.9rem; }
     .ant-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
@@ -1409,10 +1425,10 @@
     .ant-pill--dim     { background: var(--text-dim); }
     .ant-frist { font-size: 0.7rem; color: var(--text-dim); white-space: nowrap; }
     .ant-frist.over { color: var(--red); font-weight: 600; }
-    .ant-detail { border-top: 1px solid var(--border); padding: 12px 16px 16px; font-size: 0.84rem; line-height: 1.5; }
+    .ant-detail { border-top: 1px solid var(--border); padding: 12px 16px 16px; font-size: 0.84rem; line-height: 1.5; overflow-wrap: anywhere; }
     .ant-detail p { margin: 0 0 8px; }
     .ant-detail h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-dim); margin: 14px 0 6px; font-weight: 600; }
-    .ant-grid { display: grid; grid-template-columns: max-content 1fr; gap: 3px 16px; font-size: 0.8rem; }
+    .ant-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 16px; font-size: 0.8rem; }
     .ant-grid dt { color: var(--text-dim); }
     .ant-grid dd { margin: 0; }
     .ant-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
@@ -1426,9 +1442,20 @@
     .ant-timeline .tl-date { color: var(--text-dim); display: inline-block; min-width: 78px; }
     .ant-timeline a { color: var(--primary); }
     @media (max-width: 900px) {
-      .ant-filters { padding: 8px 12px; }
-      .ant-filters select { flex: 1 1 40%; }
-      .ant-filters input[type=search] { max-width: none; flex-basis: 100%; }
+      .ant-filters { padding: 8px 12px; gap: 6px; }
+      .ant-filters select { flex: 1 1 40%; min-width: 0; }
+      .ant-filters input[type=search] { min-width: 0; max-width: none; flex: 1 1 0; }
+      .ant-filters:not(.open) select { display: none; }
+      .ant-filter-toggle {
+        display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+        font: inherit; font-size: 0.8rem; padding: 5px 10px; border: 1px solid var(--border);
+        border-radius: 6px; background: var(--surface); color: var(--text); cursor: pointer;
+      }
+      .ant-filter-toggle.active { border-color: var(--primary); color: var(--primary); font-weight: 600; }
+      .ant-filter-toggle .sb-arrow { transition: transform .2s; }
+      .ant-filters.open .ant-filter-toggle .sb-arrow { transform: rotate(180deg); }
+      .ant-count { flex-basis: 100%; margin-left: 0; font-size: 0.72rem; }
+      .ant-filters:not(.open) .ant-count { display: none; }
       .ant-body { padding: 12px 12px 40px; }
       .ant-head { flex-direction: column; gap: 8px; }
       .ant-main { padding-right: 24px; }
@@ -1460,7 +1487,9 @@
   </a>
 </header>
 
-<nav>
+<div class="nav-wrap hint" id="main-nav-wrap">
+<button class="nav-more nav-more-l" type="button" aria-label="Navigation nach links scrollen" onclick="scrollMainNav(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg></button>
+<nav id="main-nav">
   <button class="nav-tab active" data-tab="karte"  onclick="showTab('karte', this)">Karte</button>
   <button class="nav-tab"        data-tab="innenstadt"    onclick="showTab('innenstadt', this)">Innenstadt</button>
   <button class="nav-tab"        data-tab="parklizenz"    onclick="showTab('parklizenz', this)">Parklizenzgebiete</button>
@@ -1469,6 +1498,8 @@
   <button class="nav-tab"        data-tab="statistiken"   onclick="showTab('statistiken', this)">Statistiken</button>
   <button class="nav-tab"        data-tab="antraege"      onclick="showTab('antraege', this)">Anträge</button>
 </nav>
+<button class="nav-more nav-more-r" type="button" aria-label="Navigation nach rechts scrollen" onclick="scrollMainNav(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+</div>
 
 <!-- ═══════════ ÜBERSICHT ═══════════ -->
 <div class="section active" id="sec-karte">
@@ -1669,6 +1700,7 @@
   </div>
   <div class="ant-filters">
     <input type="search" id="ant-q" placeholder="Suche in Titel, Antwort, Antragsteller …">
+    <button type="button" class="ant-filter-toggle" id="ant-filter-toggle" onclick="this.parentNode.classList.toggle('open')">Filter<span id="ant-filter-n"></span><span class="sb-arrow">▾</span></button>
     <select id="ant-f-gremium"><option value="">Alle Gremien</option></select>
     <select id="ant-f-ba"><option value="">Alle Bezirke</option></select>
     <select id="ant-f-fraktion"><option value="">Alle Fraktionen</option></select>
@@ -2259,11 +2291,39 @@
 
 const initialized = {};
 
+// Hauptnavigation: Pfeile/Verlauf zeigen, ob seitlich weitere Tabs folgen
+function updateMainNavMore() {
+  const nav = document.getElementById('main-nav'), wrap = document.getElementById('main-nav-wrap');
+  wrap.classList.toggle('more-l', nav.scrollLeft > 4);
+  wrap.classList.toggle('more-r', nav.scrollLeft + nav.clientWidth < nav.scrollWidth - 4);
+}
+function scrollMainNav(dir) {
+  const nav = document.getElementById('main-nav');
+  nav.scrollBy({ left: dir * nav.clientWidth * 0.6, behavior: 'smooth' });
+}
+function revealNavTab(tab) {
+  const nav = document.getElementById('main-nav');
+  if (!tab || nav.scrollWidth <= nav.clientWidth) return;
+  const l = tab.offsetLeft, pad = 48;
+  if (l - pad < nav.scrollLeft) nav.scrollTo({ left: l - pad, behavior: 'smooth' });
+  else if (l + tab.offsetWidth + pad > nav.scrollLeft + nav.clientWidth)
+    nav.scrollTo({ left: l + tab.offsetWidth + pad - nav.clientWidth, behavior: 'smooth' });
+}
+document.getElementById('main-nav').addEventListener('scroll', () => {
+  updateMainNavMore();
+  document.getElementById('main-nav-wrap').classList.remove('hint');
+}, { passive: true });
+window.addEventListener('resize', updateMainNavMore);
+window.addEventListener('load', updateMainNavMore);
+updateMainNavMore();
+
 function showTab(name, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-' + name).classList.add('active');
-  (btn || document.querySelector(`.nav-tab[data-tab="${name}"]`))?.classList.add('active');
+  const tabBtn = btn || document.querySelector(`.nav-tab[data-tab="${name}"]`);
+  tabBtn?.classList.add('active');
+  revealNavTab(tabBtn);
   if (history.replaceState) history.replaceState(null, '', '#' + name);
   if (!initialized[name]) {
     initialized[name] = true;
@@ -5076,6 +5136,9 @@ function renderAntraege() {
   else list.sort((a, b) => String(a.datum_gestellt).localeCompare(String(b.datum_gestellt)) * (sort === 'alt' ? 1 : -1));
 
   document.getElementById('ant-count').textContent = `${list.length} von ${antraege.length}`;
+  const nAktiv = [gremium, ba, fraktion, thema, ergebnis, richtung].filter(Boolean).length;
+  document.getElementById('ant-filter-n').textContent = nAktiv ? ` (${nAktiv})` : '';
+  document.getElementById('ant-filter-toggle').classList.toggle('active', nAktiv > 0);
   document.getElementById('ant-list').innerHTML = list.length
     ? list.map(antCard).join('')
     : '<div class="ant-empty">Keine Anträge für diese Auswahl.</div>';

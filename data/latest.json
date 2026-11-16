@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-16 05:02:01",
-    "frei_gesamt": 2700,
-    "belegt_gesamt": 1625,
+    "timestamp": "2026-11-16 06:02:01",
+    "frei_gesamt": 2674,
+    "belegt_gesamt": 1651,
     "kap_gesamt": 4325,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 323,
+            "frei": 311,
             "kap": 323,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 363,
+            "frei": 361,
             "kap": 397,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 63,
+            "frei": 53,
             "kap": 357,
             "aktiv": true
         },
@@ -96,7 +96,7 @@
             "sn": "301234",
             "ph": "P8",
             "parkhaus": "Pschorr-Garage",
-            "frei": 164,
+            "frei": 165,
             "kap": 187,
             "aktiv": true
         },
@@ -136,7 +136,7 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 111,
+            "frei": 110,
             "kap": 336,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 172,
+            "frei": 171,
             "kap": 215,
             "aktiv": true
         },
@@ -152,7 +152,7 @@
             "sn": "401004",
             "ph": "P24",
             "parkhaus": "PH Hauptbahnhof Süd",
-            "frei": 105,
+            "frei": 104,
             "kap": 197,
             "aktiv": true
         },

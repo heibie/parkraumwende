@@ -1,8 +1,8 @@
 {
-    "timestamp": "2026-11-17 00:02:01",
-    "frei_gesamt": 3023,
-    "belegt_gesamt": 1192,
-    "kap_gesamt": 4215,
+    "timestamp": "2026-11-17 01:02:02",
+    "frei_gesamt": 2920,
+    "belegt_gesamt": 959,
+    "kap_gesamt": 3879,
     "parkhaeuser": [
         {
             "sn": "106501",
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 301,
+            "frei": 304,
             "kap": 323,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 136,
+            "frei": 147,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 240,
+            "frei": 244,
             "kap": 526,
             "aktiv": true
         },
@@ -136,9 +136,9 @@
             "sn": "301272",
             "ph": "P13",
             "parkhaus": "Tiefgarage Stachus Einkaufszentrum",
-            "frei": 124,
+            "frei": 125,
             "kap": 336,
-            "aktiv": true
+            "aktiv": false
         },
         {
             "sn": "301277",
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 363,
+            "frei": 365,
             "kap": 393,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 93,
+            "frei": 94,
             "kap": 102,
             "aktiv": true
         },

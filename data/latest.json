@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-17 02:02:01",
-    "frei_gesamt": 2950,
-    "belegt_gesamt": 929,
+    "timestamp": "2026-11-17 03:02:02",
+    "frei_gesamt": 2972,
+    "belegt_gesamt": 907,
     "kap_gesamt": 3879,
     "parkhaeuser": [
         {
@@ -24,7 +24,7 @@
             "sn": "106505",
             "ph": "P5",
             "parkhaus": "Parkgarage Rieger-City",
-            "frei": 167,
+            "frei": 168,
             "kap": 256,
             "aktiv": true
         },
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 313,
+            "frei": 314,
             "kap": 323,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 140,
+            "frei": 141,
             "kap": 150,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 169,
+            "frei": 188,
             "kap": 357,
             "aktiv": true
         },

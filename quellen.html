@@ -112,6 +112,7 @@
     }
 
     .src-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 2px; }
+    .src-note  { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; max-width: 42ch; }
     .src-file  { font-family: ui-monospace, monospace; font-size: 0.68rem; color: var(--text-dim); }
     .src-file a { color: inherit; text-decoration: none; }
     .src-file a:hover { color: var(--primary); text-decoration: underline; }
@@ -385,6 +386,12 @@ async function init() {
         fileDiv.appendChild(a);
       });
       tdTitle.appendChild(fileDiv);
+      if (src.hinweis) {
+        const noteDiv = document.createElement('div');
+        noteDiv.className = 'src-note';
+        noteDiv.textContent = src.hinweis; // öffentlich angezeigt; "note" bleibt interne Notiz
+        tdTitle.appendChild(noteDiv);
+      }
       tr.appendChild(tdTitle);
 
       const tdUsed = document.createElement('td');

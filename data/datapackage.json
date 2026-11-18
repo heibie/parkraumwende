@@ -96,7 +96,7 @@
       "name": "parklizenzgebiete",
       "path": "parklizenzgebiete.csv",
       "title": "Parklizenzgebiete München – Stellplätze und Parkausweise",
-      "description": "Anzahl der Stellplätze und verkauften Parkausweise je Lizenzgebiet sowie Gesamtbilanz. Zeigt, in welchen Gebieten mehr Lizenzen vergeben wurden als Stellplätze vorhanden sind (Überbuchung).",
+      "description": "Anzahl der Stellplätze und verkauften Parkausweise je Lizenzgebiet sowie Gesamtbilanz. Zeigt, in welchen Gebieten mehr Lizenzen vergeben wurden als Stellplätze vorhanden sind (Überbuchung). Auf data.parkraumwende.de wird daraus der Überzeichnungsquotient (Anzahl Parkausweise ÷ Anzahl Stellplätze) berechnet – eigene Ableitung, nicht in der CSV enthalten.",
       "mediatype": "text/csv",
       "encoding": "UTF-8",
       "temporalCoverage": "2022/2022",

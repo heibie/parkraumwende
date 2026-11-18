@@ -754,6 +754,10 @@
     .plz-legend-item { display: flex; align-items: center; gap: 5px; }
     .plz-legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
     .plz-legend-dot.rot     { background: rgba(220,53,69,.6);  border: 1px solid rgba(220,53,69,.9); }
+    .plz-legend-scale { display: flex; align-items: center; gap: 6px; }
+    .plz-legend-steps { display: flex; }
+    .plz-legend-step { display: flex; flex-direction: column; align-items: center; font-size: .6rem; color: var(--text-dim); }
+    .plz-legend-step span:first-child { width: 30px; height: 12px; border: 1px solid rgba(0,0,0,.15); }
     .plz-legend-dot.gruen   { background: rgba(40,167,69,.45); border: 1px solid rgba(40,167,69,.8); }
     .plz-legend-dot.grau    { background: rgba(136,136,136,.3); border: 1px solid rgba(136,136,136,.6); }
     .plz-legend-dot.orange  { background: rgba(249,115,22,.35); border: 1.5px dashed rgba(249,115,22,.85); border-radius: 2px; }
@@ -1264,6 +1268,9 @@
     }
     .stat-card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); }
     .stat-card-sub   { font-size: 0.7rem; color: var(--text-dim); margin-top: 3px; }
+    .lg-mode { display: flex; gap: 4px; margin-top: 8px; }
+    .lg-mode .filter-toggle { font-size: 0.7rem; padding: 3px 9px; }
+    .lg-mode .filter-toggle.active { border-color: var(--primary); color: var(--primary); font-weight: 600; }
     .stat-card-body  { padding: 20px 24px; display: flex; justify-content: center; }
     .stat-card-body canvas { max-width: 680px; width: 100%; }
     .stat-card-wide .stat-card-body canvas { max-width: 100%; }
@@ -1618,8 +1625,10 @@
       </div>
     </div>
     <div class="plz-legend">
-      <div class="plz-legend-item"><div class="plz-legend-dot rot"></div>Überbucht (mehr Ausweise als Stellplätze)</div>
-      <div class="plz-legend-item"><div class="plz-legend-dot gruen"></div>Nicht überbucht</div>
+      <div class="plz-legend-scale" title="Überzeichnungsquotient = Parkausweise ÷ Stellplätze (Stand 2022)">
+        <span>Parkausweise je Stellplatz:</span>
+        <div class="plz-legend-steps" id="plz-legend-steps"></div>
+      </div>
       <div class="plz-legend-item"><div class="plz-legend-dot grau"></div>Keine Daten vorhanden</div>
       <div style="width:1px;background:var(--border);align-self:stretch;margin:0 4px"></div>
       <div class="plz-legend-item"><div class="plz-legend-dot orange"></div>Nicht bewirtschaftet (88 % der Stadtfläche · 272 km²)</div>
@@ -1759,7 +1768,11 @@
       <div class="stat-card stat-card-wide">
         <div class="stat-card-head" data-chart="lizenzgebiete">
           <div><div class="stat-card-title">Überbuchung nach Lizenzgebiet</div>
-          <div class="stat-card-sub">Differenz Parkausweise minus Stellplätze (Stand 2022) · Rot = mehr Lizenzen als Plätze · Blau = Überschuss an Plätzen · Grau = keine Daten</div></div>
+          <div class="stat-card-sub" id="lg-sub">Überzeichnungsquotient = Parkausweise ÷ Stellplätze (Stand 2022) · 1,0 = so viele Ausweise wie Plätze, 1,5 = 150 Ausweise auf 100 Plätze · Rechnerischer Anspruch, nicht die tatsächliche Belegung · Grau = keine Daten</div>
+          <div class="lg-mode" role="group" aria-label="Darstellung">
+            <button class="filter-toggle active" data-mode="ratio" onclick="setLgMode('ratio')">Überzeichnungsquotient</button>
+            <button class="filter-toggle" data-mode="diff" onclick="setLgMode('diff')">Differenz absolut</button>
+          </div></div>
           <button class="embed-btn" onclick="showEmbed(this)">⟨/⟩ Einbetten</button>
         </div>
         <div class="stat-card-body">
@@ -3519,6 +3532,24 @@ async function initParklizenz() {
     maxZoom: 19,
   }).addTo(map);
 
+  // Abgestufte Einfärbung nach Überzeichnungsquotient (Parkausweise ÷ Stellplätze).
+  // Grün = mehr Plätze als Ausweise, Rot in 4 Stufen = mehr Ausweise als Plätze.
+  // Kein Orange in der Skala - das ist für "nicht bewirtschaftet" reserviert.
+  // Grenzen so gewählt, dass die 71 Gebiete (Stand 2022) sich auf alle Stufen verteilen.
+  // Gleiche Stufen in embed-parklizenz.html - bei Änderungen beide anpassen.
+  const PLZ_CLASSES = [
+    { max: 0.8,      fill: '#1a7a30', stroke: '#11561f', label: '< 0,8' },
+    { max: 1.0,      fill: '#7bc47f', stroke: '#3f8f45', label: '0,8–1' },
+    { max: 1.2,      fill: '#fcbba1', stroke: '#e58a6c', label: '1–1,2' },
+    { max: 1.4,      fill: '#fb6a4a', stroke: '#d9442a', label: '1,2–1,4' },
+    { max: 1.6,      fill: '#de2d26', stroke: '#a81c17', label: '1,4–1,6' },
+    { max: Infinity, fill: '#99000d', stroke: '#6b0009', label: '≥ 1,6' },
+  ];
+  const plzClass = q => PLZ_CLASSES.find(c => q < c.max);
+  const fmtQ = v => v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.getElementById('plz-legend-steps').innerHTML = PLZ_CLASSES.map(c =>
+    `<div class="plz-legend-step"><span style="background:${c.fill};opacity:.75"></span><span>${c.label}</span></div>`).join('');
+
   // Unbewirtschaftete Fläche (München gesamt minus Lizenzgebiete)
   const unbewLayer = L.geoJSON(unbewirtschaftetGeoJson, {
     style: { color: '#ea580c', weight: 1, fillColor: '#fff3e0', fillOpacity: 0.5, dashArray: null },
@@ -3541,10 +3572,12 @@ async function initParklizenz() {
     const uebPct   = (uebInt !== null && stellplNum > 0) ? Math.round(uebInt / stellplNum * 100) : null;
     const overbook = uebInt !== null && uebInt > 0;
     const hasData  = uebInt !== null;
+    const quot     = hasData && stellplNum > 0 ? (Number(lizenz['Anzahl Parkausweise']) || 0) / stellplNum : null;
+    const cls      = quot !== null ? plzClass(quot) : null;
 
-    const fillColor   = !hasData ? '#888888' : overbook ? '#dc3545' : '#28a745';
-    const fillOpacity = !hasData ? 0.2       : overbook ? 0.45      : 0.3;
-    const color       = !hasData ? '#666666' : overbook ? '#b02030' : '#1a7a30';
+    const fillColor   = cls ? cls.fill   : '#888888';
+    const fillOpacity = cls ? 0.55       : 0.2;
+    const color       = cls ? cls.stroke : '#666666';
 
     const poly = L.polygon(coords, {
       color, weight: 1.2, fillColor, fillOpacity,
@@ -3558,13 +3591,11 @@ async function initParklizenz() {
     if (hasData) {
       const latSum = coords.reduce((s, c) => s + c[0], 0) / coords.length;
       const lngSum = coords.reduce((s, c) => s + c[1], 0) / coords.length;
-      const pctText = uebPct !== null ? ` (${overbook ? '+' : '−'}${Math.abs(uebPct)}%)` : '';
-      const labelText = overbook
-        ? `+${fmtNum(uebInt)}${pctText}`
-        : `−${fmtNum(Math.abs(uebInt))}${pctText}`;
-      const cls = overbook ? 'rot' : 'gruen';
+      // Label = Überzeichnungsquotient (absolute Differenz steht im Detail-Panel)
+      const labelText = quot !== null ? fmtQ(quot) : '';
+      const labelCls  = overbook ? 'rot' : 'gruen';
       L.marker([latSum, lngSum], {
-        icon: L.divIcon({ className: `plz-label ${cls}`, html: labelText, iconSize: null }),
+        icon: L.divIcon({ className: `plz-label ${labelCls}`, html: labelText, iconSize: null }),
         interactive: false,
       }).addTo(map);
     }
@@ -3584,11 +3615,11 @@ async function initParklizenz() {
         status.textContent   = 'Keine Statistikdaten vorhanden';
         status.style.color   = '#888';
       } else if (overbook) {
-        dot.style.background = '#dc3545';
+        dot.style.background = cls ? cls.fill : '#dc3545';
         status.textContent   = `Überbucht um ${fmtNum(uebInt)} Ausweise${uebPct !== null ? ` (+${uebPct}%)` : ''}`;
         status.style.color   = '#dc3545';
       } else {
-        dot.style.background = '#28a745';
+        dot.style.background = cls ? cls.fill : '#28a745';
         status.textContent   = `Nicht überbucht (${fmtNum(Math.abs(uebInt))} Stellplätze Überschuss${uebPct !== null ? `, ${uebPct}%` : ''})`;
         status.style.color   = '#28a745';
       }
@@ -3599,6 +3630,8 @@ async function initParklizenz() {
           <div class="detail-section-title">Parkraum</div>
           <div class="detail-row"><span class="detail-label">Stellplätze</span><span class="detail-value">${stellpl}</span></div>
           <div class="detail-row"><span class="detail-label">Parkausweise</span><span class="detail-value">${ausw}</span></div>
+          ${quot !== null ? `<div class="detail-row" title="Überzeichnungsquotient = Parkausweise ÷ Stellplätze · 1,0 = so viele Ausweise wie Plätze"><span class="detail-label">Quotient</span><span class="detail-value" style="color:${cls.stroke};font-weight:700">${fmtQ(quot)}</span></div>
+          <div class="detail-row" style="font-size:.7rem;color:var(--text-dim)">${fmtNum(Math.round(quot * 100))} Parkausweise auf 100 Stellplätze</div>` : ''}
           ${uebPct !== null ? `<div class="detail-row"><span class="detail-label">Überbuchung</span><span class="detail-value" style="color:${overbook ? '#dc3545' : '#28a745'};font-weight:600">${overbook ? '+' : '−'}${Math.abs(uebPct)}%</span></div>` : ''}
         </div>`;
       }
@@ -4177,6 +4210,10 @@ async function initStatistiken() {
       return {
         name,
         hasData,
+        ausweise: hasData ? lizenz['Anzahl Parkausweise'] : null,
+        plaetze:  hasData ? lizenz['Anzahl Stellplätze'] : null,
+        // Überzeichnungsquotient = Parkausweise / Stellplätze (1,0 = gleich viele)
+        ratio: hasData && lizenz['Anzahl Stellplätze'] > 0 ? lizenz['Anzahl Parkausweise'] / lizenz['Anzahl Stellplätze'] : null,
         // Platzhalterhöhe für "keine Daten", sonst bei 0 optisch unsichtbar
         // (verschwindet auf der Nulllinie) - Tooltip stellt unabhängig davon klar,
         // dass hier kein echter Wert vorliegt.
@@ -4188,33 +4225,89 @@ async function initStatistiken() {
       return b.diff - a.diff;
     });
 
-  const lgDiff   = lgAll.map(r => r.diff);
-  const lgColors = lgAll.map(r => !r.hasData ? COLORS.grau : r.diff > 0 ? COLORS.rot : COLORS.blau);
-  new Chart(document.getElementById('chart-lizenzgebiete'), {
-    type: 'bar',
-    data: {
-      labels: lgAll.map(r => r.name),
-      datasets: [{
-        label: 'Parkausweise minus Stellplätze',
-        data: lgDiff,
-        backgroundColor: lgColors,
-        maxBarThickness: 10,
-      }],
+  // Zwei Darstellungen: absolute Differenz (Ausweise minus Plätze) oder
+  // Überzeichnungsquotient (Ausweise / Plätze). Sortierung jeweils nach dem
+  // angezeigten Wert, Gebiete ohne Daten immer am Ende (grauer Platzhalter).
+  const fmtQ = v => v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const LG_MODES = {
+    diff: {
+      value: r => r.diff, placeholder: 40, threshold: 0,
+      axis: 'Überschuss Parkausweise', ticks: v => v.toLocaleString('de-DE'),
+      sub: 'Differenz Parkausweise minus Stellplätze (Stand 2022) · Rot = mehr Lizenzen als Plätze · Blau = Überschuss an Plätzen · Grau = keine Daten',
     },
+    ratio: {
+      value: r => r.ratio, placeholder: 0.03, threshold: 1,
+      axis: 'Parkausweise je Stellplatz', ticks: v => fmtQ(v),
+      sub: 'Überzeichnungsquotient = Parkausweise ÷ Stellplätze (Stand 2022) · 1,0 = so viele Ausweise wie Plätze, 1,5 = 150 Ausweise auf 100 Plätze · Rechnerischer Anspruch, nicht die tatsächliche Belegung · Grau = keine Daten',
+    },
+  };
+  let lgMode = 'ratio';
+
+  function lgSorted(mode) {
+    const m = LG_MODES[mode];
+    return [...lgAll].sort((a, b) => {
+      if (a.hasData !== b.hasData) return a.hasData ? -1 : 1;
+      return m.value(b) - m.value(a);
+    });
+  }
+
+  // Referenzlinie bei 1,0 im Quotienten-Modus
+  const lgRefLine = {
+    id: 'lgRefLine',
+    afterDatasetsDraw(chart) {
+      if (lgMode !== 'ratio') return;
+      const { ctx, chartArea, scales: { y } } = chart;
+      const yPos = y.getPixelForValue(1);
+      ctx.save();
+      ctx.strokeStyle = '#1f2933'; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(chartArea.left, yPos); ctx.lineTo(chartArea.right, yPos); ctx.stroke();
+      ctx.setLineDash([]); ctx.fillStyle = '#1f2933'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+      ctx.fillText('1,0 = ausgeglichen', chartArea.right - 4, yPos - 4);
+      ctx.restore();
+    },
+  };
+
+  let lgView = lgSorted(lgMode);
+  const lgChart = new Chart(document.getElementById('chart-lizenzgebiete'), {
+    type: 'bar',
+    plugins: [lgRefLine],
+    data: { labels: [], datasets: [{ label: 'Lizenzgebiet', data: [], backgroundColor: [], maxBarThickness: 10 }] },
     options: { ...CHART_DEFAULTS, maintainAspectRatio: false,
       plugins: { ...CHART_DEFAULTS.plugins, legend: { display: false },
         tooltip: { callbacks: { label: ctx => {
-          if (!lgAll[ctx.dataIndex].hasData) return ' Keine Daten vorhanden';
-          const v = ctx.parsed.y;
-          return v > 0 ? ` ${v} Lizenzen ohne Stellplatz` : ` ${Math.abs(v)} Stellplätze ungenutzt`;
+          const r = lgView[ctx.dataIndex];
+          if (!r.hasData) return ' Keine Daten vorhanden';
+          const diffTxt = r.diff > 0 ? `${r.diff.toLocaleString('de-DE')} Lizenzen ohne Stellplatz` : `${Math.abs(r.diff).toLocaleString('de-DE')} Stellplätze ungenutzt`;
+          return [
+            ` ${r.ausweise.toLocaleString('de-DE')} Ausweise / ${r.plaetze.toLocaleString('de-DE')} Stellplätze`,
+            ` Überzeichnungsquotient: ${r.ratio != null ? fmtQ(r.ratio) : '–'}`,
+            ` ${diffTxt}`,
+          ];
         }}} },
       scales: {
         x: { ticks: { font: { size: 9 }, maxRotation: 90, minRotation: 60 }, grid: { display: false } },
         y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' },
-             title: { display: true, text: 'Überschuss Parkausweise', font: { size: 10 }, color: '#62707c' } },
+             title: { display: true, text: '', font: { size: 10 }, color: '#62707c' } },
       },
     },
   });
+
+  function renderLg() {
+    const m = LG_MODES[lgMode];
+    lgView = lgSorted(lgMode);
+    const ds = lgChart.data.datasets[0];
+    lgChart.data.labels = lgView.map(r => r.name);
+    ds.data = lgView.map(r => r.hasData ? m.value(r) : m.placeholder);
+    ds.backgroundColor = lgView.map(r => !r.hasData ? COLORS.grau : m.value(r) > m.threshold ? COLORS.rot : COLORS.blau);
+    lgChart.options.scales.y.title.text = m.axis;
+    lgChart.options.scales.y.ticks.callback = m.ticks;
+    lgChart.options.scales.y.beginAtZero = true;
+    lgChart.update();
+    document.getElementById('lg-sub').textContent = m.sub;
+    document.querySelectorAll('.lg-mode .filter-toggle').forEach(b => b.classList.toggle('active', b.dataset.mode === lgMode));
+  }
+  window.setLgMode = mode => { lgMode = mode; renderLg(); };
+  renderLg();
 
   // 2. Überbuchter Parkraum gesamt – absolute Zahlen
   { const total = 119227, spots = 93064, overbooked = total - spots;

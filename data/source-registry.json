@@ -1,5 +1,5 @@
 {
-  "_comment": "Registry aller Datenquellen für quellen.html. 'used_in' verlinkt auf Karten/Diagramme, 'check' definiert wie scripts/check_sources.py Live-Änderungen der Originalquelle prüft. Status-Ergebnisse landen in data/source-status.json (von check_sources.py generiert, nicht manuell pflegen).",
+  "_comment": "Registry aller Datenquellen für quellen.html. 'used_in' verlinkt auf Karten/Diagramme, 'check' definiert wie scripts/check_sources.py Live-Änderungen der Originalquelle prüft. Status-Ergebnisse landen in data/source-status.json (von check_sources.py generiert, nicht manuell pflegen). 'note' = interne Notiz (nicht angezeigt), 'hinweis' = öffentlicher Hinweis unter dem Quellentitel in quellen.html.",
   "categories": [
     {
       "title": "Karte & eigene Datenerfassung",
@@ -73,10 +73,12 @@
           "files": ["data/parklizenzgebiete.csv", "data/parkplaetze_parklizenzen.csv"],
           "used_in": [
             { "label": "Diagramm: Überbuchung nach Lizenzgebiet", "href": "embed.html?chart=lizenzgebiete" },
-            { "label": "Diagramm: Überbuchter Parkraum gesamt", "href": "embed.html?chart=parkplaetze-lizenzen" }
+            { "label": "Diagramm: Überbuchter Parkraum gesamt", "href": "embed.html?chart=parkplaetze-lizenzen" },
+            { "label": "Karte: Parklizenzgebiete (Einfärbung nach Überzeichnungsquotient)", "href": "index.html#parklizenz" }
           ],
           "original_source": { "label": "RISI LHM – Dokument 7144556", "href": "https://risi.muenchen.de/risi/dokument/v/7144556" },
           "turnus": "bei Änderung (RISI-Beschluss)",
+          "hinweis": "Abgeleitete Kennzahl: Überzeichnungsquotient = Anzahl Parkausweise ÷ Anzahl Stellplätze je Lizenzgebiet (1,0 = so viele Ausweise wie Plätze). Eigene Berechnung, kein amtlicher Wert; zeigt den rechnerischen Anspruch, nicht die tatsächliche Belegung.",
           "check": { "method": "heuristic" }
         },
         {

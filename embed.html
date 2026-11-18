@@ -32,6 +32,9 @@
     .e-foot a { color: #2c2fdf; text-decoration: none; font-weight: 600; }
     .e-foot a:hover { text-decoration: underline; }
 
+    .e-mode { display: flex; gap: 4px; margin-top: 6px; }
+    .e-mode button { font: inherit; font-size: 0.62rem; padding: 2px 8px; border: 1px solid #d5dade; background: none; color: #62707c; cursor: pointer; }
+    .e-mode button.active { border-color: #2c2fdf; color: #2c2fdf; font-weight: 600; }
     .e-err { display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 0.82rem; }
 
     .ps-table { width: 100%; border-collapse: collapse; }
@@ -88,7 +91,7 @@ const COLORS = {
 const CHARTS = {
   'lizenzgebiete': {
     title:  'Überbuchung nach Lizenzgebiet',
-    sub:    'Parkausweise minus verfügbare Stellplätze je Gebiet · Stand 2022',
+    sub:    'Überzeichnungsquotient = Parkausweise ÷ Stellplätze (Stand 2022) · 1,0 = so viele Ausweise wie Plätze · Rechnerischer Anspruch, nicht die tatsächliche Belegung',
     source: 'RISI LHM – Dokument 7144556',
     init:   initLizenzgebiete,
   },
@@ -275,24 +278,78 @@ const xBase = { ticks: { font: { size: 11 } }, grid: { display: false } };
 // ─── Chart definitions ────────────────────────────────────────────────────────
 
 async function initLizenzgebiete() {
+  // Zwei Darstellungen wie in index.html: Überzeichnungsquotient (Standard,
+  // Parkausweise ÷ Stellplätze) oder absolute Differenz. ?mode=diff startet mit der Differenz.
   const rows = await loadCsv('data/parklizenzgebiete.csv');
   const filtered = rows
-    .filter(r => r['Lizenzgebiet'] && r['Lizenzgebiet'] !== 'Gesamt' && typeof r['Anzahl Parkausweise'] === 'number')
-    .sort((a,b) => (b['Anzahl Parkausweise'] - b['Anzahl Stellplätze']) - (a['Anzahl Parkausweise'] - a['Anzahl Stellplätze']));
-  const diff   = filtered.map(r => r['Anzahl Parkausweise'] - r['Anzahl Stellplätze']);
-  const colors = diff.map(v => v > 0 ? COLORS.rot : COLORS.blau);
-  new Chart(document.getElementById('chart'), {
+    .filter(r => r['Lizenzgebiet'] && r['Lizenzgebiet'] !== 'Gesamt' && typeof r['Anzahl Parkausweise'] === 'number' && r['Anzahl Stellplätze'] > 0)
+    .map(r => ({ name: r['Lizenzgebiet'], ausweise: r['Anzahl Parkausweise'], plaetze: r['Anzahl Stellplätze'],
+                 diff: r['Anzahl Parkausweise'] - r['Anzahl Stellplätze'], ratio: r['Anzahl Parkausweise'] / r['Anzahl Stellplätze'] }));
+  const fmt  = v => v.toLocaleString('de-DE');
+  const fmtQ = v => v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const MODES = {
+    ratio: { value: r => r.ratio, threshold: 1, axis: 'Parkausweise je Stellplatz', ticks: v => fmtQ(v), sub: CHARTS['lizenzgebiete'].sub },
+    diff:  { value: r => r.diff,  threshold: 0, axis: 'Überschuss Parkausweise',    ticks: v => fmt(v),
+             sub: 'Parkausweise minus verfügbare Stellplätze je Gebiet · Stand 2022' },
+  };
+  let mode = new URLSearchParams(location.search).get('mode') === 'diff' ? 'diff' : 'ratio';
+  let view = [];
+
+  const head = document.getElementById('e-sub').parentNode;
+  const bar = document.createElement('div');
+  bar.className = 'e-mode';
+  bar.innerHTML = '<button data-mode="ratio">Überzeichnungsquotient</button><button data-mode="diff">Differenz absolut</button>';
+  head.appendChild(bar);
+
+  const refLine = {
+    id: 'refLine',
+    afterDatasetsDraw(chart) {
+      if (mode !== 'ratio') return;
+      const { ctx, chartArea, scales: { y } } = chart;
+      const yPos = y.getPixelForValue(1);
+      ctx.save();
+      ctx.strokeStyle = '#1f2933'; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(chartArea.left, yPos); ctx.lineTo(chartArea.right, yPos); ctx.stroke();
+      ctx.setLineDash([]); ctx.fillStyle = '#1f2933'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+      ctx.fillText('1,0 = ausgeglichen', chartArea.right - 4, yPos - 4);
+      ctx.restore();
+    },
+  };
+
+  const chart = new Chart(document.getElementById('chart'), {
     type: 'bar',
-    data: { labels: filtered.map(r => r['Lizenzgebiet']),
-      datasets: [{ label: 'Parkausweise minus Stellplätze', data: diff, backgroundColor: colors, barThickness: 10 }] },
+    plugins: [refLine],
+    data: { labels: [], datasets: [{ label: 'Lizenzgebiet', data: [], backgroundColor: [], barThickness: 10 }] },
     options: { responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false },
-        tooltip: { callbacks: { label: ctx => { const v = ctx.parsed.y; return v > 0 ? ` ${v} Lizenzen ohne Stellplatz` : ` ${Math.abs(v)} Stellplätze ungenutzt`; } } } },
+        tooltip: { callbacks: { label: ctx => {
+          const r = view[ctx.dataIndex];
+          return [
+            ` ${fmt(r.ausweise)} Ausweise / ${fmt(r.plaetze)} Stellplätze`,
+            ` Überzeichnungsquotient: ${fmtQ(r.ratio)}`,
+            r.diff > 0 ? ` ${fmt(r.diff)} Lizenzen ohne Stellplatz` : ` ${fmt(Math.abs(r.diff))} Stellplätze ungenutzt`,
+          ];
+        } } } },
       scales: {
         x: { ticks: { font: { size: 9 }, maxRotation: 90, minRotation: 60 }, grid: { display: false } },
-        y: { ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' }, title: { display: true, text: 'Überschuss Parkausweise', font: { size: 10 }, color: '#62707c' } },
+        y: { beginAtZero: true, ticks: { font: { size: 11 } }, grid: { color: '#e8ebee' }, title: { display: true, text: '', font: { size: 10 }, color: '#62707c' } },
       } },
   });
+
+  function render() {
+    const m = MODES[mode];
+    view = [...filtered].sort((a, b) => m.value(b) - m.value(a));
+    chart.data.labels = view.map(r => r.name);
+    chart.data.datasets[0].data = view.map(m.value);
+    chart.data.datasets[0].backgroundColor = view.map(r => m.value(r) > m.threshold ? COLORS.rot : COLORS.blau);
+    chart.options.scales.y.title.text = m.axis;
+    chart.options.scales.y.ticks.callback = m.ticks;
+    chart.update();
+    document.getElementById('e-sub').textContent = m.sub;
+    bar.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  }
+  bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { mode = b.dataset.mode; render(); } });
+  render();
 }
 
 async function initParkplaetzeLizenzen() {

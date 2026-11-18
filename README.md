@@ -20,6 +20,8 @@ cron/               — Server-seitige Cron-Scripts (PHP)
 scripts/            — Hilfsskripte (Datenaufbereitung)
 ```
 
+**Hauptnavigation auf schmalen Bildschirmen:** Die Tab-Leiste (`#main-nav` in `.nav-wrap`) scrollt horizontal. Gehen Tabs über den Rand hinaus, blenden `updateMainNavMore()` Verlauf + Pfeil-Buttons (`.nav-more-l/-r`, Klassen `more-l`/`more-r`) ein; der rechte Pfeil wippt beim Laden kurz (`.hint`, verschwindet beim ersten Scrollen). `showTab()` scrollt den aktiven Tab per `revealNavTab()` ins Bild (z.B. bei Direktaufruf `#antraege`). Neuer Tab → nur Button in `#main-nav` ergänzen, der Rest passt sich an.
+
 **Libraries (alle per CDN, kein npm):**
 
 | Library | Version | Zweck | Releases |
@@ -36,13 +38,12 @@ scripts/            — Hilfsskripte (Datenaufbereitung)
 
 ## Lokale Entwicklung
 
-Kein Build-Step nötig – einfach einen lokalen HTTP-Server starten (direkt als `file://` funktioniert wegen PapaParse-Requests nicht):
+Kein Build-Step nötig. Lokal läuft das Projekt über **MAMP Pro** (Apache + PHP, damit auch die `cron/*.php`-Skripte lokal laufen):
 
-```bash
-cd data.parkraumwende.de
-python3 -m http.server 8080
-# → http://localhost:8080
-```
+- **https://data.parkraumwende.test:444/** – Host `data.parkraumwende.test`, DocumentRoot `~/Sites/data.parkraumwende.de` (http auf Port 81 leitet dorthin um)
+- Änderungen sind nach Neuladen sofort sichtbar, kein Server-Start nötig (MAMP Pro muss laufen)
+
+Direkt als `file://` funktioniert es wegen der PapaParse-Requests nicht. Notfalls ohne MAMP: `python3 -m http.server 8080` im Repo → http://localhost:8080 (ohne PHP).
 
 ---
 
@@ -74,8 +75,10 @@ Beide Tabs zeigen Geodaten des OpenData-Portals der LHM. Die Koordinaten liegen 
 
 - **Polygone** aus `data/ruhver_prm_gebiete_poly.csv`
 - Angereichert mit Statistikdaten aus `data/parklizenzgebiete.csv` (Stellplätze, Parkausweise)
-- **Rot** = überbucht, **Grün** = nicht überbucht, **Grau** = keine Statistikdaten
-- Zahl im Polygon = Differenz Ausweise minus Stellplätze
+- **Einfärbung nach Überzeichnungsquotient** (= Parkausweise ÷ Stellplätze, seit 2026-11-18) in 6 Stufen: < 0,8 / 0,8–1 (grün) · 1–1,2 / 1,2–1,4 / 1,4–1,6 / ≥ 1,6 (hell- bis dunkelrot), **Grau** = keine Statistikdaten. Kein Orange in der Skala (reserviert für „nicht bewirtschaftet“). Stufen in `PLZ_CLASSES` – identisch in `index.html` (`initParklizenz`) und `embed-parklizenz.html` pflegen.
+- Zahl im Polygon = Quotient (z. B. „1,76“); Detail-Panel zeigt „Quotient“ + „x Parkausweise auf 100 Stellplätze“ sowie die absolute Überbuchung
+- Der Quotient ist eine eigene Ableitung (kein amtlicher Wert) und zeigt den rechnerischen Anspruch, nicht die tatsächliche Belegung (nicht alle Ausweisinhaber parken gleichzeitig, bis zu 3 Kfz pro Ausweis).
+- Diagramm „Überbuchung nach Lizenzgebiet“ (Statistiken + `embed.html?chart=lizenzgebiete`): Umschalter Quotient (Standard) / Differenz absolut, Referenzlinie bei 1,0. Embed startet mit `&mode=diff` in der Differenz-Ansicht.
 - **Unbewirtschaftete Fläche**: `data/muenchen_unbewirtschaftet.geojson` — vorberechnete Differenzfläche (München gesamt minus Lizenzgebiete, 88 % der Stadtfläche / 273 km²). Neu generieren mit `node scripts/berechne_unbewirtschaftet.js` nach Aktualisierung der Polygon-CSV.
 - Klick auf Polygon → Detail-Panel (rechts)
 - Infoleiste: `content/parklizenz.md`
@@ -101,6 +104,8 @@ Stadtrats-/BA-Anträge, Anfragen und BV-Empfehlungen zur Parkraumwende (Parken v
 - `data/antraege-stichworte.json` – RSS-Feeds + Stichwortfilter (Regex auf den Betreff) für neue Vorschläge.
 - `data/antraege_verlauf.csv` – Statuswechsel, Sitzungen, Antwortschreiben je Antrag (generiert, nicht von Hand pflegen).
 - `scripts/update_antraege.py` – liest pro `ris_id` die RIS-Detailseite (`/risi/antrag/detail/<id>`) und befüllt nur die RIS-Spalten (Vorgangsnr., Typ, BA, Status, Fristen, Beschlüsse, Antwort-Link). **Redaktionelle Spalten** (`fraktion_norm`, `themen`, `richtung`, `kurzfassung`, `ergebnis`, `antwort_kurz`, `verifiziert`, `quelle_fund`) werden nie überschrieben; `antragsteller` nur, wenn das RIS einen Wert liefert (bei BA-Anträgen fehlt er → von Hand).
+- `content/antraege.md` – Intro (Beta-Hinweis, KI-Erfassung mit redaktioneller Prüfung, Empfehlung, genutzte Einträge selbst anhand der Originaldokumente zu prüfen, Fehler an kontakt@parkraumwende.de).
+- **Frontend** (`initAntraege()`/`renderAntraege()` in `index.html`): Karten per Klick aufklappbar (Chevron), Deep-Link `#antrag-<id>`. Auf Mobil (≤ 900 px) sind die Filter-Selects hinter dem Button „Filter (n)“ eingeklappt (`.ant-filters.open`); n = Zahl aktiver Filter, Button dann farbig. Gegen horizontales Scrollen: Selects `min-width: 0`, `.ant-detail` mit `overflow-wrap: anywhere`, `.ant-body` mit `overflow-x: hidden`. Review-Modus (Keep/Drop-Buttons + Export) ist abgeschaltet: `ANT_ADMIN = false` – zum Reaktivieren auf `new URLSearchParams(location.search).has('admin')` setzen und `#ant-f-pruef` einblenden.
 - **RIS-WAF:** blockt IPv6 und Standard-User-Agents („Access Denied“) – das Skript erzwingt IPv4 + Browser-UA, 2 s Pause zwischen Abrufen.
 
 **Laufende Aktualisierung:** `cron/update_antraege.php` (PHP-Port von `scripts/update_antraege.py`, All-Inkl hat kein Python), täglich per KAS-Cronjob:

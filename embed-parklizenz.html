@@ -40,6 +40,9 @@
     }
     .e-legend-dot.rot     { background: rgba(220,53,69,.6);  border: 1px solid rgba(220,53,69,.9); }
     .e-legend-dot.gruen   { background: rgba(40,167,69,.45); border: 1px solid rgba(40,167,69,.8); }
+    .e-legend-steps { display: flex; }
+    .e-legend-step { display: flex; flex-direction: column; align-items: center; font-size: .55rem; }
+    .e-legend-step span:first-child { width: 24px; height: 9px; opacity: .75; }
     .e-legend-dot.orange  { background: rgba(255,243,224,.9); border: 1px solid rgba(234,88,12,.7); }
   </style>
   <!-- Matomo -->
@@ -61,15 +64,14 @@
 
 <div class="e-head">
   <div class="e-title">Parklizenzgebiete München – Überbuchung und Flächendeckung</div>
-  <div class="e-sub">Rot = mehr Parkausweise als Stellplätze · Grün = nicht überbucht · 88 % der Stadtfläche noch ohne Bewirtschaftung</div>
+  <div class="e-sub">Farbe = Parkausweise je Stellplatz (Überzeichnungsquotient, Stand 2022) · Rot = mehr Ausweise als Plätze · Grün = weniger · 88 % der Stadtfläche noch ohne Bewirtschaftung</div>
 </div>
 <div class="e-body">
   <div id="map"></div>
 </div>
 <div class="e-foot">
   <div class="e-legend">
-    <div class="e-legend-item"><div class="e-legend-dot rot"></div>Überbucht</div>
-    <div class="e-legend-item"><div class="e-legend-dot gruen"></div>Nicht überbucht</div>
+    <div class="e-legend-item">Ausweise je Platz: <div class="e-legend-steps" id="legend-steps"></div></div>
     <div class="e-legend-item"><div class="e-legend-dot orange"></div>Nicht bewirtschaftet (88 %)</div>
   </div>
   <span>Quelle: Landeshauptstadt München &nbsp;·&nbsp; <a href="https://data.parkraumwende.de/#parklizenz" target="_blank">data.parkraumwende.de ↗</a></span>
@@ -127,6 +129,20 @@ async function init() {
   map.fitBounds(unbewLayer.getBounds(), { padding: [16, 16] });
 
   // Lizenzgebiet-Polygone
+  // Gleiche Stufen wie in index.html (initParklizenz) - bei Änderungen beide anpassen.
+  const PLZ_CLASSES = [
+    { max: 0.8,      fill: '#1a7a30', stroke: '#11561f', label: '< 0,8' },
+    { max: 1.0,      fill: '#7bc47f', stroke: '#3f8f45', label: '0,8–1' },
+    { max: 1.2,      fill: '#fcbba1', stroke: '#e58a6c', label: '1–1,2' },
+    { max: 1.4,      fill: '#fb6a4a', stroke: '#d9442a', label: '1,2–1,4' },
+    { max: 1.6,      fill: '#de2d26', stroke: '#a81c17', label: '1,4–1,6' },
+    { max: Infinity, fill: '#99000d', stroke: '#6b0009', label: '≥ 1,6' },
+  ];
+  const plzClass = q => PLZ_CLASSES.find(c => q < c.max);
+  const fmtQ = v => v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.getElementById('legend-steps').innerHTML = PLZ_CLASSES.map(c =>
+    `<div class="e-legend-step"><span style="background:${c.fill}"></span><span>${c.label}</span></div>`).join('');
+
   polyRows.forEach(row => {
     const polyName  = (row['name'] || '').trim();
     const lizenzKey = NAME_MAP[polyName] || polyName;
@@ -137,10 +153,13 @@ async function init() {
     const uebInt   = lizenz ? (Number(lizenz['Überbucht']) || 0) : null;
     const overbook = uebInt !== null && uebInt > 0;
     const hasData  = uebInt !== null;
+    const stellplN = lizenz ? (Number(lizenz['Anzahl Stellplätze']) || 0) : 0;
+    const quot     = hasData && stellplN > 0 ? (Number(lizenz['Anzahl Parkausweise']) || 0) / stellplN : null;
+    const cls      = quot !== null ? plzClass(quot) : null;
 
-    const fillColor   = !hasData ? '#888' : overbook ? '#dc3545' : '#28a745';
-    const fillOpacity = !hasData ? 0.2    : overbook ? 0.45      : 0.3;
-    const color       = !hasData ? '#666' : overbook ? '#b02030' : '#1a7a30';
+    const fillColor   = cls ? cls.fill   : '#888';
+    const fillOpacity = cls ? 0.55       : 0.2;
+    const color       = cls ? cls.stroke : '#666';
 
     const poly = L.polygon(coords, { color, weight: 1.2, fillColor, fillOpacity }).addTo(map);
     poly.on('mouseover', () => poly.setStyle({ weight: 2.5 }));
@@ -152,7 +171,8 @@ async function init() {
       const status  = overbook
         ? `Überbucht um ${fmtNum(uebInt)} Ausweise`
         : `Nicht überbucht (${fmtNum(Math.abs(uebInt))} Stellplätze Überschuss)`;
-      poly.bindPopup(`<strong>${polyName}</strong><br>${status}<br>Stellplätze: ${stellpl} · Ausweise: ${ausw}`);
+      const quotTxt = quot !== null ? `<br>Quotient: <strong>${fmtQ(quot)}</strong> (${fmtNum(Math.round(quot * 100))} Ausweise auf 100 Plätze)` : '';
+      poly.bindPopup(`<strong>${polyName}</strong><br>${status}${quotTxt}<br>Stellplätze: ${stellpl} · Ausweise: ${ausw}`);
     }
   });
 }

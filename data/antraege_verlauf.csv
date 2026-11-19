@@ -1205,6 +1205,7 @@ antrag_id,datum,art,text,url
 130,2026-09-16,status,Neuer Status: Erledigt (vorher: Antwortschreiben),
 130,2026-10-20,status,Neuer Status: Antwortschreiben (vorher: Erledigt),
 130,2026-11-17,sitzung,BA 13 - Vollgremium,
+130,2026-11-18,status,Neuer Status: Erledigt (vorher: Antwortschreiben),
 131,2026-07-07,gestellt,BA-Antrag,
 131,2026-07-10,status,Neuer Status: Registriert (vorher: Gestellt),
 131,2026-07-10,status,Neuer Status: Zugeleitet (vorher: Registriert),

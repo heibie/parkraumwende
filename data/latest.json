@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-19 01:02:02",
-    "frei_gesamt": 2444,
-    "belegt_gesamt": 1181,
+    "timestamp": "2026-11-19 02:02:01",
+    "frei_gesamt": 2456,
+    "belegt_gesamt": 1169,
     "kap_gesamt": 3625,
     "parkhaeuser": [
         {
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 101,
+            "frei": 100,
             "kap": 150,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 363,
+            "frei": 364,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 235,
+            "frei": 246,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 213,
+            "frei": 214,
             "kap": 526,
             "aktiv": true
         },

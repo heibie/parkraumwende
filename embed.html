@@ -91,7 +91,7 @@ const COLORS = {
 const CHARTS = {
   'lizenzgebiete': {
     title:  'Überbuchung nach Lizenzgebiet',
-    sub:    'Überzeichnungsquotient = Parkausweise ÷ Stellplätze (Stand 2022) · 1,0 = so viele Ausweise wie Plätze · Rechnerischer Anspruch, nicht die tatsächliche Belegung',
+    sub:    'Überzeichnungsquotient = Parkausweise ÷ Stellplätze (Stand 2022) · 1,0 = so viele Ausweise wie Plätze · ab 1,35 = Gebiet überlastet (kräftiges Rot) · Rechnerischer Anspruch, nicht die tatsächliche Belegung',
     source: 'RISI LHM – Dokument 7144556',
     init:   initLizenzgebiete,
   },
@@ -290,7 +290,7 @@ async function initLizenzgebiete() {
   const MODES = {
     ratio: { value: r => r.ratio, threshold: 1, axis: 'Parkausweise je Stellplatz', ticks: v => fmtQ(v), sub: CHARTS['lizenzgebiete'].sub },
     diff:  { value: r => r.diff,  threshold: 0, axis: 'Überschuss Parkausweise',    ticks: v => fmt(v),
-             sub: 'Parkausweise minus verfügbare Stellplätze je Gebiet · Stand 2022' },
+             sub: 'Parkausweise minus verfügbare Stellplätze je Gebiet · Stand 2022 · Kräftiges Rot = überlastet (Quotient ab 1,35)' },
   };
   let mode = new URLSearchParams(location.search).get('mode') === 'diff' ? 'diff' : 'ratio';
   let view = [];
@@ -301,17 +301,33 @@ async function initLizenzgebiete() {
   bar.innerHTML = '<button data-mode="ratio">Überzeichnungsquotient</button><button data-mode="diff">Differenz absolut</button>';
   head.appendChild(bar);
 
+  // Referenzlinien im Quotienten-Modus: 1,0 = ausgeglichen, 1,35 = Gebiet überlastet
+  const REF_LINES = [
+    { value: 1,    label: '1,0 = ausgeglichen',        color: '#1f2933', width: 1, dash: [4, 3] },
+    { value: 1.35, label: '1,35 = Gebiet überlastet',  color: '#111111', width: 2, dash: [8, 4], bold: true },
+  ];
+  // Balkenfarben nach Quotient (in beiden Ansichten gleich, da Quotient > 1 ⇔ Differenz > 0)
+  const LG_OVERLOAD = 1.35;
+  const lgBarColor = r => r.ratio >= LG_OVERLOAD ? COLORS.rot : r.ratio > 1 ? '#ef8a7c' : COLORS.blau;
   const refLine = {
     id: 'refLine',
     afterDatasetsDraw(chart) {
       if (mode !== 'ratio') return;
       const { ctx, chartArea, scales: { y } } = chart;
-      const yPos = y.getPixelForValue(1);
       ctx.save();
-      ctx.strokeStyle = '#1f2933'; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
-      ctx.beginPath(); ctx.moveTo(chartArea.left, yPos); ctx.lineTo(chartArea.right, yPos); ctx.stroke();
-      ctx.setLineDash([]); ctx.fillStyle = '#1f2933'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
-      ctx.fillText('1,0 = ausgeglichen', chartArea.right - 4, yPos - 4);
+      ctx.lineWidth = 1; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+      for (const l of REF_LINES) {
+        const yPos = y.getPixelForValue(l.value);
+        if (yPos < chartArea.top || yPos > chartArea.bottom) continue;
+        ctx.strokeStyle = l.color; ctx.lineWidth = l.width; ctx.setLineDash(l.dash);
+        ctx.beginPath(); ctx.moveTo(chartArea.left, yPos); ctx.lineTo(chartArea.right, yPos); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = (l.bold ? 'bold ' : '') + '10px sans-serif';
+        // Beschriftung mit weißem Hintergrund, damit sie über den Balken lesbar bleibt
+        const tw = ctx.measureText(l.label).width, tx = chartArea.right - 4, ty = yPos - 5;
+        ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillRect(tx - tw - 3, ty - 10, tw + 6, 13);
+        ctx.fillStyle = l.color; ctx.fillText(l.label, tx, ty);
+      }
       ctx.restore();
     },
   };
@@ -341,7 +357,7 @@ async function initLizenzgebiete() {
     view = [...filtered].sort((a, b) => m.value(b) - m.value(a));
     chart.data.labels = view.map(r => r.name);
     chart.data.datasets[0].data = view.map(m.value);
-    chart.data.datasets[0].backgroundColor = view.map(r => m.value(r) > m.threshold ? COLORS.rot : COLORS.blau);
+    chart.data.datasets[0].backgroundColor = view.map(lgBarColor);
     chart.options.scales.y.title.text = m.axis;
     chart.options.scales.y.ticks.callback = m.ticks;
     chart.update();

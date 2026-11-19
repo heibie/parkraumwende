@@ -40,7 +40,7 @@
     }
     .e-legend-dot.rot     { background: rgba(220,53,69,.6);  border: 1px solid rgba(220,53,69,.9); }
     .e-legend-dot.gruen   { background: rgba(40,167,69,.45); border: 1px solid rgba(40,167,69,.8); }
-    .e-legend-steps { display: flex; }
+    .e-legend-steps { display: flex; gap: 6px; }
     .e-legend-step { display: flex; flex-direction: column; align-items: center; font-size: .55rem; }
     .e-legend-step span:first-child { width: 24px; height: 9px; opacity: .75; }
     .e-legend-dot.orange  { background: rgba(255,243,224,.9); border: 1px solid rgba(234,88,12,.7); }
@@ -131,14 +131,12 @@ async function init() {
   // Lizenzgebiet-Polygone
   // Gleiche Stufen wie in index.html (initParklizenz) - bei Änderungen beide anpassen.
   const PLZ_CLASSES = [
-    { max: 0.8,      fill: '#1a7a30', stroke: '#11561f', label: '< 0,8' },
-    { max: 1.0,      fill: '#7bc47f', stroke: '#3f8f45', label: '0,8–1' },
-    { max: 1.2,      fill: '#fcbba1', stroke: '#e58a6c', label: '1–1,2' },
-    { max: 1.4,      fill: '#fb6a4a', stroke: '#d9442a', label: '1,2–1,4' },
-    { max: 1.6,      fill: '#de2d26', stroke: '#a81c17', label: '1,4–1,6' },
-    { max: Infinity, fill: '#99000d', stroke: '#6b0009', label: '≥ 1,6' },
+    { fill: '#2e9e44', stroke: '#1d6b2d', label: 'bis 1 · unterbucht' },
+    { fill: '#ef8a7c', stroke: '#d0604f', label: '1–1,35 · überbucht' },
+    { fill: '#99000d', stroke: '#6b0009', label: 'ab 1,35 · überlastet' },
   ];
-  const plzClass = q => PLZ_CLASSES.find(c => q < c.max);
+  // Drei Stufen wie im Diagramm: ≤ 1 unterbucht, > 1 überbucht, ≥ 1,35 überlastet
+  const plzClass = q => q >= 1.35 ? PLZ_CLASSES[2] : q > 1 ? PLZ_CLASSES[1] : PLZ_CLASSES[0];
   const fmtQ = v => v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   document.getElementById('legend-steps').innerHTML = PLZ_CLASSES.map(c =>
     `<div class="e-legend-step"><span style="background:${c.fill}"></span><span>${c.label}</span></div>`).join('');

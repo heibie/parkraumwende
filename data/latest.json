@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-20 02:02:05",
-    "frei_gesamt": 2263,
-    "belegt_gesamt": 1344,
+    "timestamp": "2026-11-20 03:02:01",
+    "frei_gesamt": 2245,
+    "belegt_gesamt": 1362,
     "kap_gesamt": 3607,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 311,
+            "frei": 312,
             "kap": 323,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 100,
+            "frei": 102,
             "kap": 150,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 147,
+            "frei": 127,
             "kap": 357,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 157,
+            "frei": 156,
             "kap": 195,
             "aktiv": true
         },

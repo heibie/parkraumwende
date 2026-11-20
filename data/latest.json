@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-20 01:02:02",
-    "frei_gesamt": 2292,
-    "belegt_gesamt": 1315,
+    "timestamp": "2026-11-20 02:02:05",
+    "frei_gesamt": 2263,
+    "belegt_gesamt": 1344,
     "kap_gesamt": 3607,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 308,
+            "frei": 311,
             "kap": 323,
             "aktiv": true
         },
@@ -56,7 +56,7 @@
             "sn": "106509",
             "ph": "P22",
             "parkhaus": "Parkgarage Böhringer",
-            "frei": 98,
+            "frei": 100,
             "kap": 150,
             "aktiv": true
         },
@@ -80,7 +80,7 @@
             "sn": "106524",
             "ph": "P14",
             "parkhaus": "Parkhaus Oberanger",
-            "frei": 329,
+            "frei": 330,
             "kap": 393,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 183,
+            "frei": 147,
             "kap": 357,
             "aktiv": true
         },
@@ -144,7 +144,7 @@
             "sn": "301277",
             "ph": "P2",
             "parkhaus": "Parkhaus Elisenhof",
-            "frei": 158,
+            "frei": 157,
             "kap": 195,
             "aktiv": true
         },
@@ -160,7 +160,7 @@
             "sn": "401010",
             "ph": "P15",
             "parkhaus": "Parkhaus am Hofbräuhaus",
-            "frei": 350,
+            "frei": 351,
             "kap": 383,
             "aktiv": true
         },
@@ -176,7 +176,7 @@
             "sn": "401060",
             "ph": "P16",
             "parkhaus": "Königshof-Parking",
-            "frei": 82,
+            "frei": 83,
             "kap": 102,
             "aktiv": true
         },

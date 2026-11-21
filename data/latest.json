@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-11-21 05:02:01",
-    "frei_gesamt": 2215,
-    "belegt_gesamt": 1555,
+    "timestamp": "2026-11-21 06:02:01",
+    "frei_gesamt": 2202,
+    "belegt_gesamt": 1568,
     "kap_gesamt": 3770,
     "parkhaeuser": [
         {
@@ -40,7 +40,7 @@
             "sn": "106507",
             "ph": "P17",
             "parkhaus": "Tiefgarage vor der Oper",
-            "frei": 323,
+            "frei": 304,
             "kap": 323,
             "aktiv": true
         },
@@ -88,7 +88,7 @@
             "sn": "301220",
             "ph": "P9",
             "parkhaus": "Tiefgarage Karstadt Oberpollinger",
-            "frei": 127,
+            "frei": 134,
             "kap": 357,
             "aktiv": true
         },
@@ -120,7 +120,7 @@
             "sn": "301270",
             "ph": "P1",
             "parkhaus": "Parkhaus Marsstr. 11",
-            "frei": 130,
+            "frei": 129,
             "kap": 526,
             "aktiv": true
         },

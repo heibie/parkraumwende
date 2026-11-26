@@ -1317,6 +1317,7 @@ antrag_id,datum,art,text,url
 151,2026-11-05,status,Neue Bearbeitungsart: laufende Verwaltung (vorher: keine),
 151,2026-11-05,status,Neuer Status: Antwortschreiben (vorher: In Bearbeitung),
 151,2026-11-05,antwort,Antwortschreiben: Q 00090 Parkraummanagement AS.pdf,https://risi.muenchen.de/risi/dokument/v/10102884
+151,2026-12-08,sitzung,BA 13 - Vollgremium,
 152,2026-10-27,gestellt,BV-Empfehlung,
 152,2026-10-28,status,Neuer Status: Registriert (vorher: Gestellt),
 152,2026-10-28,status,Neuer Status: Zugeleitet (vorher: Registriert),
@@ -1368,6 +1369,7 @@ antrag_id,datum,art,text,url
 165,2026-11-19,gestellt,BV-Empfehlung,
 165,2026-11-20,status,Neuer Status: Registriert (vorher: Gestellt),
 165,2026-11-20,status,Neuer Status: Zugeleitet (vorher: Registriert),
+165,2026-11-23,status,Neuer Status: In Bearbeitung (vorher: Zugeleitet),
 166,2026-11-19,gestellt,BV-Empfehlung,
 166,2026-11-20,status,Neuer Status: Registriert (vorher: Gestellt),
 166,2026-11-20,status,Neuer Status: Zugeleitet (vorher: Registriert),

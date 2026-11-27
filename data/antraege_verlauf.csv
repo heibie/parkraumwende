@@ -1213,6 +1213,7 @@ antrag_id,datum,art,text,url
 131,2026-11-04,status,Neue Bearbeitungsart: laufende Verwaltung (vorher: keine),
 131,2026-11-04,status,Neuer Status: Antwortschreiben (vorher: In Bearbeitung),
 131,2026-11-04,antwort,Antwortschreiben: B 00111 Antrag auf Parklizenzgebiet Normannenplatz/Effnerstrasse AS.pdf,https://risi.muenchen.de/risi/dokument/v/10098519
+131,2026-12-08,sitzung,BA 13 - Vollgremium,
 132,2026-07-07,gestellt,BA-Antrag,
 132,2026-07-15,status,Neuer Status: Registriert (vorher: Gestellt),
 132,2026-07-15,status,Neuer Status: Zugeleitet (vorher: Registriert),
@@ -1377,3 +1378,7 @@ antrag_id,datum,art,text,url
 167,2026-11-19,gestellt,BV-Empfehlung,
 167,2026-11-20,status,Neuer Status: Registriert (vorher: Gestellt),
 167,2026-11-20,status,Neuer Status: Zugeleitet (vorher: Registriert),
+168,2026-11-10,gestellt,BV-Empfehlung,
+168,2026-11-26,status,Neuer Status: Registriert (vorher: Gestellt),
+168,2026-11-26,status,Neuer Status: Zugeleitet (vorher: Registriert),
+168,2026-11-26,status,Neuer Status: In Bearbeitung (vorher: Zugeleitet),
